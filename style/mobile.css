@@ -1,5 +1,20 @@
 @media only screen and (max-width: 820px) {
 
+    .login-container{
+        width: 100svw !important;
+        height: 100svh !important;
+    }
     
+    .toggle-container{
+        display: none;
+    }
 
+    .sign-in,
+    .sign-up{
+        width: 100% !important;
+    }
+
+    .sign-up{
+        display: none;
+    }
 }
