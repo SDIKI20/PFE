@@ -21,7 +21,7 @@
 
     /*       dementions        */
     --input-height-mid: 45px;
-    --input-height-sml: 35px;
+    --input-height-sml: 40px;
     /*-------------------------*/
 }
 
@@ -169,5 +169,28 @@ textarea:focus{
     padding-left: 5px;
     color: var(--text);
 }
+
+.label-important{
+    position: relative;
+}
+
+.label-important::after{
+    content: "*";
+    color: rgb(168, 68, 64);
+    top: 0;
+    left: calc(100% + 5px);
+    position: absolute;
+    font-size: 0.8rem;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator{
+    filter: invert(1) contrast(20%);
+    opacity: 0.7;
+    cursor: pointer;
+    font-size: var(--font-sml);
+    padding: 0 5px;
+}
+
 
 /*---------------------------------*/

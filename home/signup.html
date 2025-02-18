@@ -1,9 +1,9 @@
-<?php
+<!--?php
     session_start();
     if(isset($_SESSION['login'])||isset($_SESSION['signup'])){
         header('Location: ../index.php');
     }
-?>
+?-->
 
 
 <!DOCTYPE html>
@@ -11,18 +11,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style/main.css?<?php echo time(); ?>">
-    <link rel="stylesheet" href="../style/mobile.css?<?php echo time(); ?>">
-    <link rel="stylesheet" href="../style/checkbox.css?<?php echo time(); ?>">
-    <link rel="stylesheet" href="../js/lib/node_modules/intl-tel-input/build/css/intlTelInput.min.css?<?php echo time(); ?>">
-    <link rel="stylesheet" href="../style/lib/fontawesome/all.min.css?<?php echo time(); ?>"">
-    <link rel="stylesheet" href="../style/signup.css?<?php echo time(); ?>">
+    <link rel="stylesheet" href="../style/main.css">
+    <link rel="stylesheet" href="../js/lib/node_modules/intl-tel-input/build/css/intlTelInput.min.css">
+    <link rel="stylesheet" href="../style/checkbox.css">
+    <link rel="stylesheet" href="../style/lib/fontawesome/all.min.css"">
+    <link rel="stylesheet" href="../style/signup.css">
+    <link rel="stylesheet" href="../style/mobile.css">
     <title>Create</title>
 </head>
 <body>
     <section class="doc">
         <form action="signup.php" class="signupForm" id="signupForm" method="post" autocomplete="off" enctype="multipart/form-data">
-            <?php
+            <!--?php
                 if(isset($_POST['Registre'])){
                     $username = $_POST['username'];
                     $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
@@ -91,88 +91,20 @@
                         echo"<p class='errorMsg'>".$repImg[1]."<span class='btin' onclick='remove()''>X</span></p>";
                     }
                 }
-            ?>
-            <div class="sidel">
-                <div class="sidelHead" id="sidleHead">
-                    <div class="pictureConainer" id="pictureConainer">
-                        <img src="../assets/images/user.jpg" alt="" class="pictChange" id="pictChange">
-                        <input type="file" name="profileImage" id="profileImage" accept=".jpg, .jpeg, .png" hidden>
-                    </div>
-                </div>
-                <div class="sidleBody" id="sidleBody">
-                    <div class="inputHolderTwo">
-                        <div class="hold">
-                            <div class="input-container hold1">
-                                <label for="Fname">First Name</label>
-                                <input type="text" name="Fname" id="Fname" class="input-info" placeholder="First Name" required>
-                            </div>
-                        </div>
-                        <div class="hold">
-                            <div class="input-container hold1">
-                                <label for="Lname">Last Name</label>
-                                <input type="text" name="Lname" id="Lname" class="input-info" placeholder="Last Name" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-container inpth">
-                        <label for="addr">Addres</label>
-                        <input type="text" name="addr" id="addr" class="input-info" placeholder="Adress" required>
-                    </div>
-                    <div class="inputHolderTwo">
-                        <div class="hold">
-                            <div class="input-container hold1">
-                                <label for="country">Country</label>
-                                <input type="text" name="country" id="country" class="input-info" placeholder="Country" required>
-                            </div>
-                        </div>
-                        <div class="hold">
-                            <div class="input-container hold1">
-                                <label for="state">State</label>
-                                <input type="text" name="state" id="state" class="input-info" placeholder="State" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="inputHolderTwo">
-                        <div class="hold">
-                            <div class="input-container hold1">
-                                <label for="city">City</label>
-                                <input type="text" name="city" id="city" class="input-info" placeholder="City" required>
-                            </div>
-                        </div>
-                        <div class="hold">
-                            <div class="input-container hold1">
-                                <label for="zcode">Zipcode</label>
-                                <input type="number" name="zcode" id="zcode" class="input-info" placeholder="Zipcode" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-container inpth">
-                        <label for="dateN">Birth Day</label>
-                        <input type="date" name="dateN" id="dateN" class="input-info" style="width: 40%;" required>
-                    </div>
-                    <div class="input-container inpth">
-                        <label for="phone">Phone</label>
-                        <div class="phone-number-selector">
-                            <input type="tel" class="input-info" placeholder="Enter phone number" id="phone-number-input" name="phone" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form">
-                <div class="formHead">
-                    <h1 class="formTitle">Create Account</h1>
-                </div>
-                <div class="formBody">
+            ?-->
+            <div class="form flex-col">
+                <h1 class="formTitle">Create Account</h1>
+                <div class="formBody flex-col flex-center">
                     <div class="input-container">
-                        <label for="username">Username</label>
+                        <label class="label-important" for="username">Username</label>
                         <input type="text" name="username" id="username" class="input-info" placeholder="Username" required>
                     </div>
                     <div class="input-container">
-                        <label for="password">Password</label>
+                        <label class="label-important" for="password">Password</label>
                         <input type="password" name="password" id="password" class="input-info" placeholder="password" required>
                     </div>
                     <div class="input-container">
-                        <label for="rePassword">Repeat Password</label>
+                        <label class="label-important" for="rePassword">Repeat Password</label>
                         <input type="password" name="rePassword" id="rePassword" class="input-info" placeholder="Repeat Password" required>
                     </div>
                     <div class="input-container-row2 agree">
@@ -182,10 +114,72 @@
                         <label for="agreeTerms">Agree Terms</label>
                     </div>
                 </div>
-                <div class="formFoot">
-                    <button type="submit" class="bt bt-hover bt-Primary" name="Registre" id="Registre">Submit <i class="fa-regular fa-paper-plane" style="color:white;"></i></button>
-                </div>
+                <button type="submit" class="bt bt-hover bt-Primary" name="Registre" id="Registre">Submit <i class="fa-regular fa-paper-plane" style="color:white;"></i></button>
             </div>
+            <div class="sidel flex-col">
+                <div class="pictureConainer" id="pictureConainer">
+                    <img src="../assets/images/user.jpg" alt="" class="pictChange" id="pictChange">
+                    <input type="file" name="profileImage" id="profileImage" accept=".jpg, .jpeg, .png" hidden>
+                </div>
+                <div class="sidleBody flex-col" id="sidleBody">
+                    <div class="inputHolderTwo">
+                        <div class="hold">
+                            <div class="input-container hold1">
+                                <label class="label-important" for="Fname">First Name</label>
+                                <input type="text" name="Fname" id="Fname" class="input-info" placeholder="First Name" required>
+                            </div>
+                        </div>
+                        <div class="hold">
+                            <div class="input-container hold1">
+                                <label class="label-important" for="Lname">Last Name</label>
+                                <input type="text" name="Lname" id="Lname" class="input-info" placeholder="Last Name" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-container inpth">
+                        <label for="addr">Addres</label>
+                        <input type="text" name="addr" id="addr" class="input-info" placeholder="Adress">
+                    </div>
+                    <div class="inputHolderTwo">
+                        <div class="hold">
+                            <div class="input-container hold1">
+                                <label class="label-important" for="country">Country</label>
+                                <input type="text" name="country" id="country" class="input-info" placeholder="Country" required>
+                            </div>
+                        </div>
+                        <div class="hold">
+                            <div class="input-container hold1">
+                                <label for="state">State</label>
+                                <input type="text" name="state" id="state" class="input-info" placeholder="State">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inputHolderTwo">
+                        <div class="hold">
+                            <div class="input-container hold1">
+                                <label for="city">City</label>
+                                <input type="text" name="city" id="city" class="input-info" placeholder="City">
+                            </div>
+                        </div>
+                        <div class="hold">
+                            <div class="input-container hold1">
+                                <label class="label-important" for="zcode">Zipcode</label>
+                                <input type="number" name="zcode" id="zcode" class="input-info" placeholder="Zipcode" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-container inpth">
+                        <label for="dateN">Birth Day</label>
+                        <input type="date" name="dateN" id="dateN" class="input-info" style="width: 45%;" required>
+                    </div>
+                    <div class="input-container inpth">
+                        <label class="label-important" for="phone">Phone</label>
+                        <div class="phone-number-selector">
+                            <input type="tel" class="input-info" placeholder="Enter phone number" id="phone-number-input" name="phone" />
+                        </div>
+                    </div>
+                </div>
+            </div>   
         </form>
     </section>
 
