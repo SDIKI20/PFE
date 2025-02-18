@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "chart.js": "^4.4.7",
-    "gsap": "^3.12.7"
+    "gsap": "^3.12.7",
+    "intl-tel-input": "^18.1.1"
   }
 }
