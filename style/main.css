@@ -1,13 +1,16 @@
 :root{
     /*colors*/
-    --dark-text: #333;
-    --light-text: white;
     --dark-bg: #0E1621;
-    --dark-bg-low: #17212B;
-    --dark-bg-lower: #242F3D;
-    --light-bg: #f0eded;
+    --bg: #f0eded;
+    --bg-low: #17212B;
+    --bg-lower: #242F3D;
+    --container: white;
+    --text: #333;
+    --text-low: #3333334b;
+    --border: rgba(129, 129, 129, 0.418);
+    --input: rgb(235, 235, 235);
     --color-main: #2d60c6; 
-    --color-second: #000;
+    --color-second: #3cb8a7;
     /*-----*/
 
     /*fonts*/
@@ -15,6 +18,11 @@
     --font-sml: 0.8rem;
     --font-lrg: 1.3rem;
     /*----*/
+
+    /*       dementions        */
+    --input-height-mid: 45px;
+    --input-height-sml: 35px;
+    /*-------------------------*/
 }
 
 @font-face {
@@ -40,16 +48,12 @@ body{
     height: 100vh;
     overflow-x: hidden;
     overflow-y: auto;
+    background-color: var(--bg);
 }
 
 ::-webkit-scrollbar{
     width: 0px;
     z-index: -1;
-}
-
-input:focus,
-textarea:focus{
-    outline: none;
 }
 
 /*display*/
@@ -79,7 +83,7 @@ textarea:focus{
 /*      Text         */
 
 .drk-txt{
-    color: var(--dark-text);
+    color: var(--text);
 }
 
 .blg-txt{
@@ -128,3 +132,42 @@ textarea:focus{
 }
 
 /*----------------------------*/
+
+/*              Inputs             */
+
+input:focus,
+textarea:focus{
+    outline: none;
+}
+
+.input-holder{
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+    height: var(--input-height-mid);
+    width: fit-content;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding-left: 10px;
+    margin: 5px 0;
+}
+
+.input-holder > input{
+    border: none;
+    height: 100%;
+    padding: 5px 15px;
+    font-size: var(--font-med);
+    width: calc(100% - 15px);
+    margin-left: 5px;
+    outline: none;
+    color: var(--text);
+}
+
+.input-holder > i{
+    font-size: var(--font-med);
+    opacity: 70%;
+    padding-left: 5px;
+    color: var(--text);
+}
+
+/*---------------------------------*/

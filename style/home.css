@@ -29,7 +29,7 @@
 }
 
 .nav-element a{
-  color: var(--dark-text);
+  color: var(--text);
   text-decoration: none;
   font-size: var(--font-sml);
   font-weight: 600;

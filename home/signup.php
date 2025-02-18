@@ -1,8 +1,8 @@
 <?php
-session_start();
-if(isset($_SESSION['login'])||isset($_SESSION['signup'])){
-    header('Location: ../index.php');
-}
+    session_start();
+    if(isset($_SESSION['login'])||isset($_SESSION['signup'])){
+        header('Location: ../index.php');
+    }
 ?>
 
 
@@ -11,16 +11,16 @@ if(isset($_SESSION['login'])||isset($_SESSION['signup'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../js/lib/node_modules/intl-tel-input/build/css/intlTelInput.min.css">
+    <link rel="stylesheet" href="../style/main.css?<?php echo time(); ?>">
+    <link rel="stylesheet" href="../style/mobile.css?<?php echo time(); ?>">
+    <link rel="stylesheet" href="../style/checkbox.css?<?php echo time(); ?>">
+    <link rel="stylesheet" href="../js/lib/node_modules/intl-tel-input/build/css/intlTelInput.min.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="../style/lib/fontawesome/all.min.css?<?php echo time(); ?>"">
     <link rel="stylesheet" href="../style/signup.css?<?php echo time(); ?>">
-    <link rel="stylesheet" href="../style/main.css?<?php echo time(); ?>">
-    <link rel="stylesheet" href="../style/checkbox.css?<?php echo time(); ?>">
     <title>Create</title>
 </head>
 <body>
-    <section class="doc" style="background-image: url(../assets/images/background.jpg);">
-        <div class="blr gg"></div>
+    <section class="doc">
         <form action="signup.php" class="signupForm" id="signupForm" method="post" autocomplete="off" enctype="multipart/form-data">
             <?php
                 if(isset($_POST['Registre'])){
