@@ -6,7 +6,7 @@
     --dark-bg-low: #17212B;
     --dark-bg-lower: #242F3D;
     --light-bg: #f0eded;
-    --color-main: #000; 
+    --color-main: #2d60c6; 
     --color-second: #000;
     /*-----*/
 
@@ -120,6 +120,11 @@ textarea:focus{
     opacity: 0.8;
     transform: scale(1.02);
     transition: ease 0.3s;
+}
+
+.bt-Primary{
+    color: white;
+    background-color: var(--color-main);
 }
 
 /*----------------------------*/

@@ -14,12 +14,12 @@ if(isset($_SESSION['login'])||isset($_SESSION['signup'])){
     <link rel="stylesheet" href="../js/lib/node_modules/intl-tel-input/build/css/intlTelInput.min.css">
     <link rel="stylesheet" href="../style/lib/fontawesome/all.min.css?<?php echo time(); ?>"">
     <link rel="stylesheet" href="../style/signup.css?<?php echo time(); ?>">
-    <link rel="stylesheet" href="../style/styles.css?<?php echo time(); ?>">
+    <link rel="stylesheet" href="../style/main.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="../style/checkbox.css?<?php echo time(); ?>">
     <title>Create</title>
 </head>
 <body>
-    <section class="doc" style="background-image: url(../assets/images/background.png);">
+    <section class="doc" style="background-image: url(../assets/images/background.jpg);">
         <div class="blr gg"></div>
         <form action="signup.php" class="signupForm" id="signupForm" method="post" autocomplete="off" enctype="multipart/form-data">
             <?php
@@ -59,7 +59,6 @@ if(isset($_SESSION['login'])||isset($_SESSION['signup'])){
 
                     if($repImg[0]){
                         require_once "database.php";
-
                         $sql = "SELECT * FROM clients WHERE username = '$username'";
                         $result = mysqli_query($conn, $sql);
                         $user = mysqli_fetch_array($result,MYSQLI_ASSOC);
@@ -71,13 +70,11 @@ if(isset($_SESSION['login'])||isset($_SESSION['signup'])){
                             mysqli_stmt_bind_param($stmt, "sssss",$country ,$state ,$city ,$zcode ,$addr);
                             mysqli_stmt_execute($stmt); 
                             $id_address = mysqli_insert_id($conn);
-    
                             $sql = "INSERT INTO infos (nom, prenom, dateN, tel, email, profile_image, personal_address) VALUES (?, ?, ?, ?, ?, ?, ?)";
                             $stmt = mysqli_prepare($conn, $sql);
                             mysqli_stmt_bind_param($stmt, "sssssss",$fname ,$lname ,$dateN ,$phone ,$email ,$repImg[1] ,$id_address);
                             mysqli_stmt_execute($stmt); 
                             $id_infos = mysqli_insert_id($conn);
-    
                             $sql = "INSERT INTO clients (username, passkey, id_informations) VALUES (?, ?, ?)";
                             $stmt = mysqli_prepare($conn, $sql);
                             mysqli_stmt_bind_param($stmt, "sss", $username, $password, $id_infos);
@@ -91,7 +88,7 @@ if(isset($_SESSION['login'])||isset($_SESSION['signup'])){
                             echo'<script> window.location = "../index.php" </script>';
                         }
                     }else{
-                        echo"<p class='errorMsg'>".$repImg[1]."<span class='btin' onclick='remove()'' >X</span></p>";
+                        echo"<p class='errorMsg'>".$repImg[1]."<span class='btin' onclick='remove()''>X</span></p>";
                     }
                 }
             ?>
@@ -186,7 +183,7 @@ if(isset($_SESSION['login'])||isset($_SESSION['signup'])){
                     </div>
                 </div>
                 <div class="formFoot">
-                    <button type="submit" class="bt-Primary" name="Registre" id="Registre">Submit <i class="fa-regular fa-paper-plane" style="color:white;"></i></button>
+                    <button type="submit" class="bt bt-hover bt-Primary" name="Registre" id="Registre">Submit <i class="fa-regular fa-paper-plane" style="color:white;"></i></button>
                 </div>
             </div>
         </form>
