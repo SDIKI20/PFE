@@ -1,0 +1,101 @@
+:root{
+  --nav-height: 8vh;
+  --doc-padding: 15vh;
+}
+
+.main-navigator{
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--nav-height);
+  padding: 0 var(--doc-padding);
+  position: fixed;
+}
+
+.nav-links{
+  height: 100%;
+  align-items: center;
+}
+
+.nav-elements{
+  list-style: none;
+  height: 100%;
+  align-items: center;
+}
+
+.nav-element{
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.nav-element a{
+  color: var(--dark-text);
+  text-decoration: none;
+  font-size: var(--font-sml);
+  font-weight: 600;
+}
+
+.account{
+  margin: 0 10px;
+  border-radius: 15px;
+  padding: 5px 15px;
+  background-color: black;
+  color: white;
+}
+
+.main-doc{
+  width: 100%;
+  height: fit-content;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.doc-section{
+  width: 100%;
+  height: 100vh;
+  padding: var(--doc-padding);
+  padding-top: calc(var(--doc-padding) + var(--nav-height));
+  border: 2px solid blue;
+}
+
+.doc-section > .flex-col{
+  height: 100%;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.car-image{
+  width: 70%;
+  height: 100%;
+  overflow: visible;
+  position: relative;
+}
+
+.map-img{
+  position: absolute;
+  width: 40%;
+  height: auto;
+  top: 40%;
+  left: 60%;
+  transform: translate(-50%, -50%) ;
+}
+
+.cars-logo{
+  width: 100%;
+  margin-top: auto;
+  height: 80px;
+}
+
+.car-svg{
+  position: absolute;
+  top: 100%;
+  left: 60%;
+  transform: translateY(-75%);
+  height: auto;
+  width: 50vw;
+}
+
+#wheel{
+  transform-origin: 50% 50%;
+  transform-box: fill-box;
+}

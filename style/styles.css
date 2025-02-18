@@ -1,0 +1,125 @@
+:root{
+    /*colors*/
+    --dark-text: #333;
+    --light-text: white;
+    --dark-bg: #0E1621;
+    --dark-bg-low: #17212B;
+    --dark-bg-lower: #242F3D;
+    --light-bg: #f0eded;
+    --color-main: #000; 
+    --color-second: #000;
+    /*-----*/
+
+    /*fonts*/
+    --font-med: 0.9rem;
+    --font-sml: 0.8rem;
+    --font-lrg: 1.3rem;
+    /*----*/
+}
+
+@font-face {
+    font-family: poppins;
+    src: url(../fonts/poppins.ttf);
+}
+@font-face {
+    font-family: poppinsB;
+    src: url(../fonts/Poppins-Black.ttf);
+}
+
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    padding: 0;
+    margin: 0;
+    font-family: poppins;
+}
+
+body{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar{
+    width: 0px;
+    z-index: -1;
+}
+
+input:focus,
+textarea:focus{
+    outline: none;
+}
+
+/*display*/
+
+.flex-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-col{
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-center{
+    align-items: center;
+    justify-content: center;
+}
+
+/*-------------------------*/
+
+.hover-scale:hover{
+    transform: scale(1.03);
+}
+
+
+/*      Text         */
+
+.drk-txt{
+    color: var(--dark-text);
+}
+
+.blg-txt{
+    color: black;
+}
+
+.title-min,
+.title-min span{
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.title-xlarge,
+.title-xlarge span{
+    font-family: poppinsB; 
+    font-size: 3.5rem;
+    font-weight: bolder;
+}
+
+.para-mid,
+.para-mid span{
+    font-size: 0.9rem;
+}
+
+
+/*--------------------*/
+
+/*          buttons           */
+
+.bt{
+    border: none;
+    background-color: transparent;
+    font-size: var(--font-med);
+    cursor: pointer;
+}
+
+.bt-hover:hover{
+    opacity: 0.8;
+    transform: scale(1.02);
+    transition: ease 0.3s;
+}
+
+/*----------------------------*/
