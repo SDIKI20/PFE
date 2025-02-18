@@ -185,3 +185,27 @@ img{
 .container.active .toggle-right{
     transform: translateX(200%);
 }
+
+.icon{
+    transition: all ease-in-out .5s;
+}
+
+.icon:hover{
+    border: none;
+    color: white;
+}
+
+#sicnG:hover,
+#lIcnG:hover{
+    background-color: rgb(206, 57, 57);
+}
+
+#sicnF:hover,
+#lIcnF:hover{
+    background-color: rgb(41, 115, 199);
+}
+
+#sicnL:hover,
+#lIcnL:hover{
+    background-color: rgb(27, 134, 148);
+}
