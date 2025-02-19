@@ -10,6 +10,7 @@
   height: var(--nav-height);
   padding: 0 var(--doc-padding);
   position: fixed;
+  z-index: 5;
 }
 
 .nav-links{
@@ -45,9 +46,9 @@
 
 .main-doc{
   width: 100%;
-  height: fit-content;
   align-items: center;
   justify-content: flex-start;
+  overflow-x: hidden;
 }
 
 .doc-section{
