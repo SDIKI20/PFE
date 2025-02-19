@@ -5,90 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" /></head>
-    <link rel="stylesheet" href="Dashboard1.css">
-    <link rel="stylesheet" href="style/main.css">
-    <link rel="stylesheet" href="style/mobile.css">
+    <link rel="stylesheet" href="../style/Dashboard1.css">
+    <link rel="stylesheet" href="../style/main.css">
+    <link rel="stylesheet" href="../style/mobile.css">
 </head>
-<body>
-    <div class="menu">
+<body class="flex-row">
+    <nav class="menu">
         <ul>
             <li class="profile">
-            <div class="img-box">
-                <img src="user.jpg" alt="profile">
-            </div>
-            <h2>User</h2>
-        </li>
-        <li>
-            <a href="#">
-                <i class="fa-solid fa-grip"></i>
-                <p>Dashboard</p>
-            </a>
-        </li>
-<li>
-    <a href="#">
-        <i class="fa-solid fa-file-lines"></i>
-        <p>Orders</p>
-    </a>
-</li>
-<li>
-    <a href="#">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <p>Product</p>
-    </a>
-</li>
-<li>
-    <a href="#">
-        <i class="fa-solid fa-credit-card"></i>
-        <p>Billing</p>
-    </a>
-</li>
-<li>
-    <a href="#">
-        <i class="fa-solid fa-users"></i>
-        <p>Costumers</p>
-    </a>
-</li>
-<li>
-    <a href="#">
-        <i class="fa-solid fa-user"></i>
-        <p>My Account</p>
-    </a>
-</li>
-<li>
-    <a href="#">
-        <i class="fa-solid fa-circle-question"></i>
-        <p>Get Help</p>
-    </a>
-</li>
-<li>
-    <a href="#">
-        <i class="fa-solid fa-file-excel"></i>
-        <p>Report</p>
-    </a>
-</li>
-<li>
-    <a href="#">
-        <i class="fa-solid fa-gear"></i>
-        <p>Settings</p>
-    </a>
-</li>
-<li class="log-out">
-    <a href="#">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        <p>Log Out</p>
-    </a>
-</li>
+                <div class="img-box">
+                    <img src="../assets/images/user.jpg" alt="profile">
+                </div>
+                <h2>User</h2>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-grip"></i>
+                    <p>Dashboard</p>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <p>Orders</p>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <p>Product</p>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <p>Billing</p>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Costumers</p>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-user"></i>
+                    <p>My Account</p>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <p>Get Help</p>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-file-excel"></i>
+                    <p>Report</p>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-gear"></i>
+                    <p>Settings</p>
+                </a>
+            </li>
+            <li class="log-out">
+                <a href="#">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <p>Log Out</p>
+                </a>
+            </li>
         </ul>
-    </div>
+    </nav>
 
-    <div class="content">
-        <div class="head">
-        <div class="title-info">
-            <p>Dashboard</p>
-            <p class="moniteur">Moniteur your sales Revenue</p>
+    <main class="content">
+          <div class="title">
+            <div class="title-info">
+                <p>Dashboard</p>
+                <p class="moniteur">Moniteur your sales Revenue</p>
             
-        </div>
-        <button>Add width</button>
+            </div>
+            <button style="color: black;"><i class="fa-solid fa-plus fa-cm" style="color: #63E6BE;" ></i> Add widget</button> 
         </div>
 
         <div class="data-info">
@@ -159,9 +159,10 @@
             </tbody>
         </table>
 
-    </div>
+    </main>
    
 
 
+    <script src="../js/main.js"></script>
 </body>
 </html>

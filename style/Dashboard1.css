@@ -1,12 +1,10 @@
 *{
     padding: 0;
     margin: 0;
-    color: white;
     font-family: cairo;
 }
 body{
     background-color: white;
-    display: flex;
 }
 .img-box{
     width: 50px;
@@ -19,17 +17,18 @@ body{
 }
 
 .menu{
-    background-color: #123;
+    background-color: white;
     width:260px;
     height: 100vh;
     padding: 20px;
-    ;
-    
+    overflow: hidden;
 }
 ul{
     list-style: none;
     position: relative;
     height: 95%;
+    
+    
 }
 .profile{
     display: flex;
@@ -50,9 +49,12 @@ ul li a{
     align-items: center;
     gap: 40px;
     transition: .5s;
+    color: black;
+    opacity: 60%; 
 }
+
 ul li a:hover{
-    background-color: #ffffff55;
+    background-color:aqua;
 }
 .log-out{
     position: absolute;
@@ -63,8 +65,8 @@ ul li a:hover{
     background-color: #a00;
 }
 ul li a i{
-    font-size: 30px;
-    
+    font-size: 20px;
+
 }
 .content{
     width: 100%;
@@ -79,9 +81,11 @@ ul li a i{
 }
 .title-info p{
     color: black;
-    height: 90px;
+    height: 40px;
     font-size: 30px;
-    padding-bottom: 0px;
+    padding-bottom: none;
+    padding-left: 10px;
+
 }
 .data-info{
     display: flex;
@@ -93,7 +97,8 @@ ul li a i{
     
 }
 .data-info .box{
-    background-color: #123;
+    background-color: white;
+    border-style: solid;
     height: 150px;
     flex-basis: 150px;
     flex-grow: 1;
@@ -102,11 +107,13 @@ ul li a i{
     align-items: center;
     justify-content: space-around;
     margin: 5px;
+    color: black;
 }
 
 .content .boxe{
     display: flex;
-    background-color: #123;
+    background-color: white;
+    border: solid;
     height: 200px;
     border-radius: 8px;
     height: 290px;
@@ -114,9 +121,11 @@ ul li a i{
     justify-content:top;
     margin: 5px;
     padding-left: 20px;
+    color: black;
 }
 .content{
     background-color: white;
+    overflow-y: scroll;
 }
 table{
     color: black;
@@ -133,13 +142,22 @@ th{
   
     background-color: aqua;
 }
-.content .head{
-    display: flex;
-    justify-content: space-between;
-    height: 90px;
-}
 .content .title-info .moniteur{
-    font-size: 20px;
+    font-size: 15px;
     margin-top: 0;
     opacity: 60%;
+    
 }
+.content .title {
+    display: flex;
+    justify-content: space-between;
+}
+button{
+    width: 100px;
+    height: 40px;
+    margin-top:20px ;
+    margin-right: 20px;
+}
+
+
+
