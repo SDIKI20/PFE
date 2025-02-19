@@ -216,8 +216,14 @@ body{
     height: var(--input-height-sml);
     border-radius: 6px;
     font-size: var(--font-sml);
+}   
+
+#iti-0__country-listbox{
+    background-color: var(--container);
 }
 
-#dateN::-moz-{
-    color: var(--text-low);
+#iti-0__country-listbox > li,
+.iti__dial-code,
+.iti__country-name{
+    color: var(--text);
 }

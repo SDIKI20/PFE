@@ -7,6 +7,7 @@
     --container: white;
     --text: #333;
     --text-low: #3333334b;
+    --txt-black: black;
     --border: rgba(129, 129, 129, 0.418);
     --input: rgb(235, 235, 235);
     --color-main: #2d60c6; 
@@ -40,6 +41,7 @@
     padding: 0;
     margin: 0;
     font-family: poppins;
+    line-height: auto;
 }
 
 body{
@@ -99,7 +101,7 @@ body{
 .title-xlarge,
 .title-xlarge span{
     font-family: poppinsB; 
-    font-size: 3.5rem;
+    font-size: 4rem;
     font-weight: bolder;
 }
 

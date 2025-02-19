@@ -1,6 +1,6 @@
 :root{
-  --nav-height: 8vh;
-  --doc-padding: 15vh;
+  --nav-height: 10vh;
+  --doc-padding: 20vh;
 }
 
 .main-navigator{
@@ -53,27 +53,31 @@
 .doc-section{
   width: 100%;
   height: 100vh;
-  padding: var(--doc-padding);
-  padding-top: calc(var(--doc-padding) + var(--nav-height));
+  padding-top: var(--nav-height);
   border: 2px solid blue;
 }
 
+.about-content{
+  width: 80%;
+  height: calc(100% - 100px);
+}
+
 .doc-section > .flex-col{
-  height: 100%;
+  height: fit-content;
   align-items: center;
   justify-content: flex-start;
+  height: 100%;
 }
 
 .car-image{
-  width: 70%;
-  height: 100%;
+  width: 50%;
   overflow: visible;
   position: relative;
 }
 
 .map-img{
   position: absolute;
-  width: 40%;
+  width: 80%;
   height: auto;
   top: 40%;
   left: 60%;
@@ -81,21 +85,93 @@
 }
 
 .cars-logo{
+  margin-top: var(--nav-height);
   width: 100%;
-  margin-top: auto;
-  height: 80px;
+  height: 120px;
+  overflow: hidden;
+  overflow-x: auto;
+  align-items: center;
+  z-index: 2;
+}
+
+.cl-container{
+  width: fit-content;
+  list-style: none;
+}
+
+.car-logo{
+  width: 100px;
+  height: 100px;
+  margin: 0 10px;
+  overflow: hidden;
+  border-radius: 10px;
+  padding: 15px;
+  filter: grayscale(1);
+  cursor: pointer;
+}
+
+.car-logo-selected,
+.car-logo:hover{
+  border: 1px solid var(--border);
+  filter: none;
+}
+
+.car-logo img{
+  width: 100%;
 }
 
 .car-svg{
   position: absolute;
   top: 100%;
-  left: 60%;
-  transform: translateY(-75%);
+  left: 20%;
+  transform: translateY(-65%);
   height: auto;
-  width: 50vw;
+  width: 70vw;
+  animation: car 2s ease-out;
 }
 
 #wheel{
   transform-origin: 50% 50%;
   transform-box: fill-box;
+  animation: wheel 2s ease-out;
+}
+
+@keyframes wheel {
+  0%{
+    transform: rotateZ(0deg);
+  }
+
+  50%{
+    transform: rotateZ(-360deg);
+  }
+
+  100%{
+    transform: rotateZ(-360deg);
+  }
+}
+
+@keyframes car {
+  0%{
+    left: 100%;
+  }
+
+  50%{
+    left: 20%;
+  }
+
+  100%{
+    left: 20%;
+  }
+}
+
+.blk-txt span{
+ line-height: 1.2;
+}
+
+.about-desc{
+  font-size: var(--font-sml);
+  color: var(--text);
+  margin-top: 20px;
+  line-height: 1.5;
+  max-width: 50%;
 }
