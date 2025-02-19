@@ -1,0 +1,145 @@
+*{
+    padding: 0;
+    margin: 0;
+    color: white;
+    font-family: cairo;
+}
+body{
+    background-color: white;
+    display: flex;
+}
+.img-box{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.img-box img{
+    width: 100%;
+}
+
+.menu{
+    background-color: #123;
+    width:260px;
+    height: 100vh;
+    padding: 20px;
+    ;
+    
+}
+ul{
+    list-style: none;
+    position: relative;
+    height: 95%;
+}
+.profile{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+.profile h2{
+    font-size: 20px;
+    
+}
+ul li a{
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    transition: .5s;
+}
+ul li a:hover{
+    background-color: #ffffff55;
+}
+.log-out{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.log-out a{
+    background-color: #a00;
+}
+ul li a i{
+    font-size: 30px;
+    
+}
+.content{
+    width: 100%;
+    border: #a00 solid 1px;
+    border-radius: 8px;
+    margin: 10px;
+    
+}
+.title-info{
+    background-color:white;
+    
+}
+.title-info p{
+    color: black;
+    height: 90px;
+    font-size: 30px;
+    padding-bottom: 0px;
+}
+.data-info{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+    
+}
+.data-info .box{
+    background-color: #123;
+    height: 150px;
+    flex-basis: 150px;
+    flex-grow: 1;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 5px;
+}
+
+.content .boxe{
+    display: flex;
+    background-color: #123;
+    height: 200px;
+    border-radius: 8px;
+    height: 290px;
+    align-items: start;
+    justify-content:top;
+    margin: 5px;
+    padding-left: 20px;
+}
+.content{
+    background-color: white;
+}
+table{
+    color: black;
+    width: 100%;
+    text-align: center;
+    border-spacing: 8px;
+}
+td,th{
+    background-color: #123;
+    height: 50px;
+    border-radius: 8px;
+}
+th{
+  
+    background-color: aqua;
+}
+.content .head{
+    display: flex;
+    justify-content: space-between;
+    height: 90px;
+}
+.content .title-info .moniteur{
+    font-size: 20px;
+    margin-top: 0;
+    opacity: 60%;
+}
