@@ -96,7 +96,8 @@
     /*    dashboard    */
 
     .menu{
-        display: none;
+        display: flex;
+        
     }
 
     /*-------------------------*/
