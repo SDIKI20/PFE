@@ -1,0 +1,26 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent default scrolling */
+  }
+  
+  .section {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: white;
+    position: relative;
+  }
+  
+  #section1 { background: #ff6f61; }
+  #section2 { background: #6b5b95; }
+  #section3 { background: #88b04b; }
+  #section4 { background: #ffa500; }
+  
+  .content {
+    opacity: 0; /* Start with content invisible */
+    transform: translateY(100px); /* Start with content below */
+  }
