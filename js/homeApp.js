@@ -1,4 +1,5 @@
-/*document.addEventListener("DOMContentLoaded", () => {
+/*
+document.addEventListener("DOMContentLoaded", () => {
     const sections = document.querySelectorAll(".doc-section");
     let isAnimating = false; // Flag to track animation state
 
@@ -32,9 +33,9 @@
 
         // Animate to the target section
         gsap.to(window, {
-        duration: 1,
+        duration: 0.5,
         scrollTo: { y: sections[targetSection], autoKill: false },
-        ease: "power2.inOut",
+        ease: "in",
         onComplete: () => {
             // Unlock scrolling after animation completes
             isAnimating = false;
@@ -66,9 +67,9 @@
 
         // Animate to the target section
         gsap.to(window, {
-        duration: 1,
+        duration: 0.5,
         scrollTo: { y: sections[targetSection], autoKill: false },
-        ease: "power2.inOut",
+        ease: "in",
         onComplete: () => {
             // Unlock scrolling after animation completes
             isAnimating = false;
@@ -77,38 +78,118 @@
     });
 });*/
 
-gsap.from(".about-title", {
+gsap.to(".about-title", {
     y: -100,
     opacity: 0,
     duration: 1,
     scrollTrigger:{
+        scrub: 2,
+        start: "top top",
         trigger:"#aboutSection",
         scroller: "body",
-        markers: true,
         repeatRefresh: true
     }
 })
     
-var tl = gsap.timeline()
-
-gsap.from(".cars-logo", {
+gsap.to(".cars-logo", {
     y: 100,
     opacity: 0,
     duration: 0.5,
     scrollTrigger:{
+        scrub: 2,
+        start: "top top",
         trigger:"#aboutSection",
         scroller: "body",
-        markers: true,
         repeatRefresh: true
     }
 })
 
-gsap.from(".cars-logo .car-logo", {
+gsap.to(".cars-logo .car-logo", {
     y: 50,
     opacity: 0,
     stagger: 0.1,
     scrollTrigger:{
+        scrub: 2,
+        start: "top top",
         trigger:"#aboutSection",
-        scroller: "body"
+        scroller: "body",
+        repeatRefresh: true
+    }
+})
+
+gsap.to(".car-svg", {
+    x: "100%",
+    scrollTrigger:{
+        scrub: 2,
+        start: "top top",
+        trigger:"#aboutSection",
+        scroller: "body",
+        repeatRefresh: true
+    }
+})
+
+gsap.to("#wheel", {
+    rotate: 360,
+    svgOrigin: "266 602",
+    scrollTrigger:{
+        scrub: 2,
+        start: "top top",
+        trigger:"#aboutSection",
+        scroller: "body",
+        repeatRefresh: true
+    }
+})
+
+gsap.from(".phone-frame", {
+    y: -100,
+    opacity: 0,
+    delay: 0.1,
+    stagger: 0.1,
+    scrollTrigger: {
+        scrub: 2,
+        start: "top top",
+        trigger: "#aboutSection",
+        scroller: "body",
+        repeatRefresh: true
+    }
+})
+
+gsap.from(".app-desc h1", {
+    y: 100,
+    opacity: 0,
+    delay:0.2,
+    scrollTrigger: {
+        scrub: 2,
+        start: "top top",
+        trigger: "#aboutSection",
+        scroller: "body",
+        repeatRefresh: true
+    }
+})
+
+gsap.from(".app-desc p", {
+    y: 100,
+    opacity: 0,
+    delay:0.3,
+    scrollTrigger: {
+        scrub: 2,
+        start: "top top",
+        trigger: "#aboutSection",
+        scroller: "body",
+        repeatRefresh: true
+    }
+})
+
+gsap.from(".app-but", {
+    y: 50,
+    opacity: 0,
+    delay: 0.5,
+    stagger: 0.1,
+    scrollTrigger:{
+        scrub: 2,
+        start: "top top",
+        trigger: "#aboutSection",
+        scroller: "body",
+        repeatRefresh: true
     }
 })

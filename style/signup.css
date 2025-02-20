@@ -23,7 +23,6 @@ body{
     min-width: 500px;
     height: 80%;
     min-height: 400px;
-    overflow:hidden;
     display: grid;
     border-radius: 15px;
     grid-template-columns: 0.8fr 1.2fr;
