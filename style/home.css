@@ -60,7 +60,7 @@
 
 .about-content{
   width: 80%;
-  height: calc(100% - 100px);
+  height: 75%;
 }
 
 #aboutSection > .flex-col{
@@ -86,9 +86,9 @@
 }
 
 .cars-logo{
-  margin-top: var(--nav-height);
+  margin-top: auto;
   width: 100%;
-  height: 120px;
+  height: 25%;
   overflow-x: auto;
   overflow-y: visible;
   align-items: center;
@@ -209,3 +209,38 @@
   left: 50%;
   top: 45%;
 }
+
+@media (max-width: 900px) {
+  :root{
+    --doc-padding: 5vh;
+    --font-sml: 1rem;
+  }
+  .about-title span{
+    font-size: 3rem;
+  }
+
+  .car-svg{
+    top: 50vh;
+  }
+
+  .about-desc{
+    max-width: 80%;
+  }
+
+  .car-logo{
+    border: none;
+  }
+
+  .phone-frame{
+    width: 300px;
+  }
+
+  .desc{
+    padding: 0;
+  }
+
+  .desc p{
+    padding: 0;
+    max-width: 100% !important;
+  }
+} 
