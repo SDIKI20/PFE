@@ -87,7 +87,6 @@ gsap.to(".about-title", {
         start: "top top",
         trigger:"#aboutSection",
         scroller: "body",
-        repeatRefresh: true
     }
 })
     
@@ -100,7 +99,6 @@ gsap.to(".cars-logo", {
         start: "top top",
         trigger:"#aboutSection",
         scroller: "body",
-        repeatRefresh: true
     }
 })
 
@@ -113,7 +111,6 @@ gsap.to(".cars-logo .car-logo", {
         start: "top top",
         trigger:"#aboutSection",
         scroller: "body",
-        repeatRefresh: true
     }
 })
 
@@ -124,7 +121,6 @@ gsap.to(".car-svg", {
         start: "top top",
         trigger:"#aboutSection",
         scroller: "body",
-        repeatRefresh: true
     }
 })
 
@@ -136,21 +132,18 @@ gsap.to("#wheel", {
         start: "top top",
         trigger:"#aboutSection",
         scroller: "body",
-        repeatRefresh: true
     }
 })
 
 gsap.from(".phone-frame", {
-    y: -100,
+    y: -50,
     opacity: 0,
-    delay: 0.1,
     stagger: 0.1,
     scrollTrigger: {
         scrub: 2,
         start: "top top",
         trigger: "#aboutSection",
         scroller: "body",
-        repeatRefresh: true
     }
 })
 
@@ -163,7 +156,6 @@ gsap.from(".app-desc h1", {
         start: "top top",
         trigger: "#aboutSection",
         scroller: "body",
-        repeatRefresh: true
     }
 })
 
@@ -176,7 +168,6 @@ gsap.from(".app-desc p", {
         start: "top top",
         trigger: "#aboutSection",
         scroller: "body",
-        repeatRefresh: true
     }
 })
 
@@ -190,6 +181,5 @@ gsap.from(".app-but", {
         start: "top top",
         trigger: "#aboutSection",
         scroller: "body",
-        repeatRefresh: true
     }
 })

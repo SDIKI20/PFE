@@ -130,6 +130,10 @@
   width: 70vw;
 }
 
+#wheel{
+  filter: brightness(0.8);
+}
+
 @keyframes wheel {
   0%{
     transform: rotateZ(0deg);
