@@ -44,7 +44,7 @@ ul li a{
     opacity: 60%; 
 }
 
-ul li a:hover{
+ul li a:hover, .active{
     background-color:aqua;
 }
 .log-out{
