@@ -1,6 +1,6 @@
 :root{
     /*colors*/
-    --dark-bg: #0E1621;
+    --dark-bg: #1a1a1a;
     --bg: #f0eded;
     --bg-darker: #eae4e4;
     --bg-low: #17212B;
@@ -9,6 +9,8 @@
     --text: #333;
     --text-low: #3333334b;
     --txt-black: black;
+    --txt-white: white;
+    --txt-white-low: rgba(172, 172, 172, 0.621);
     --border: rgba(129, 129, 129, 0.418);
     --border-low: rgba(129, 129, 129, 0.171);
     --input: rgb(235, 235, 235);
@@ -152,7 +154,7 @@ p,span{
 .social-icon,
 .social-icon i{
     font-size: 1rem;
-    margin: 0 1vw;
+    margin: 0 0.5vw;
     cursor: pointer;
 }
 

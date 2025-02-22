@@ -12,7 +12,9 @@ gsap.set(".type-image", { scale: 1, opacity: 1});
 gsap.set(".type-image-s", { scale: 1, opacity: 1});
 gsap.set(".feature-container", { scale: 1, y: 0, opacity: 1});
 gsap.set(".features-desc", { scale: 1, y: 0, opacity: 1});
+gsap.set(".banner", {y: 0, rotate:0});
 gsap.set(".feature-icon i", { scale: 1});
+gsap.set("footer", { opacity: 1});
 
 gsap.to(".about-title span", {
     y: -200,
@@ -180,7 +182,7 @@ gsap.from(".features-desc", {
     scrollTrigger: {
         scrub: 2,
         start: "center center",
-        trigger: "#carsSection",
+        trigger: "#carsSection"
     }
 });
 
@@ -189,12 +191,30 @@ gsap.from(".feature-icon i", {
     stagger: 0.1,
     scrollTrigger: {
         scrub: 2,
-        trigger: ".feature-icon",
+        trigger: ".feature-icon"
     }
 });
 
+gsap.from(".banner", {
+    y: 100,
+    rotate: 20,
+    stagger: 0.1,
+    scrollTrigger: {
+        scrub: 2,
+        start: "center center",
+        trigger: "#featuresSection"
+    }
+});
 
-
+gsap.from("footer", {
+    opacity: 0,
+    stagger: 0.1,
+    scrollTrigger: {
+        scrub: 2,
+        start: "top center",
+        trigger: "#getApp"
+    }
+});
 
 window.addEventListener("load", () => {
     ScrollTrigger.refresh();
