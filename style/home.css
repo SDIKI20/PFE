@@ -7,6 +7,12 @@
   z-index: 1;
 }
 
+body,
+.doc-section{
+  min-width: 800px;
+  min-height: 600px;
+}
+
 .main-navigator{
   width: 100%;
   justify-content: space-between;
@@ -81,11 +87,12 @@
 }
 
 .map-img{
-  position: fixed;
+  position: absolute;
   width: 20vw;
   height: auto;
-  top: 40%;
-  left: 90%;
+  top: 50%;
+  left: 40%;
+  rotate: 45deg;
   z-index: 0;
   transform: translate(-50%, -50%) ;
 }
@@ -511,7 +518,7 @@
 
 .banner p {
   margin: 10px 0 20px;
-  font-size: var(--font-mid);
+  font-size: var(--font-med);
   color: var(--txt-white-low);
 }
 

@@ -1,4 +1,4 @@
-@media (min-height: 1920px) {
+@media (min-height: 1600px) {
     :root{
         --doc-padding: 5vh;
         --font-med: 0.9vw;
@@ -51,5 +51,18 @@
         width: 8vw;
         height: auto;
         aspect-ratio: 1;
+    }
+
+    .phones-container img{
+        width: 40vw;
+    }
+
+    .frame1{
+        left: 15%;
+    }
+      
+    .frame2{
+        left: 45%;
+        top: 40%;
     }
 }

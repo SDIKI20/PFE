@@ -2,7 +2,7 @@
     /*colors*/
     --dark-bg: #1a1a1a;
     --bg: #f0eded;
-    --bg-darker: #eae4e4;
+    --bg-darker: #d3d0d0;
     --bg-low: #17212B;
     --bg-lower: #242F3D;
     --container: white;
@@ -19,9 +19,9 @@
     /*-----*/
 
     /*fonts*/
-    --font-med: 0.9rem;
-    --font-sml: 0.8rem;
-    --font-lrg: 1.4rem;
+    --font-med: calc(0.5vh + 0.5vw + 0.2rem);
+    --font-sml: calc(0.4vh + 0.4vw + 0.2rem);
+    --font-lrg: calc(0.8vh + 0.8vw + 0.2rem);
     /*----*/
 
     /*       dementions        */
@@ -52,7 +52,7 @@ body{
     position: relative;
     width: 100vw;
     height: 100vh;
-    overflow-x: hidden;
+    overflow: hidden;
     background-color: var(--bg);
 }
 

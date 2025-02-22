@@ -223,6 +223,7 @@ window.addEventListener("load", () => {
         window.scrollTo(0, 0);
     }, 100);
 });
+
 document.addEventListener("DOMContentLoaded", function () {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -236,3 +237,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.querySelectorAll(".scroll-animation").forEach(el => observer.observe(el));
 });
+
+window.addEventListener("reset", ()=>{
+    ScrollTrigger.refresh();
+    window.scrollTo(document.body.clientHeight*4, document.body.clientHeight*4);
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+    }, 100);
+})
