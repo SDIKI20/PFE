@@ -2,6 +2,7 @@
     /*colors*/
     --dark-bg: #0E1621;
     --bg: #f0eded;
+    --bg-darker: #eae4e4;
     --bg-low: #17212B;
     --bg-lower: #242F3D;
     --container: white;
@@ -9,6 +10,7 @@
     --text-low: #3333334b;
     --txt-black: black;
     --border: rgba(129, 129, 129, 0.418);
+    --border-low: rgba(129, 129, 129, 0.171);
     --input: rgb(235, 235, 235);
     --color-main: #2d60c6; 
     --color-second: #3cb8a7;
@@ -17,7 +19,7 @@
     /*fonts*/
     --font-med: 0.9rem;
     --font-sml: 0.8rem;
-    --font-lrg: 1.3rem;
+    --font-lrg: 1.4rem;
     /*----*/
 
     /*       dementions        */
@@ -50,6 +52,17 @@ body{
     height: 100vh;
     overflow-x: hidden;
     background-color: var(--bg);
+}
+
+ul{
+    list-style: none;
+}
+
+h1,h2,
+h3,h4,
+h5,h6,
+p,span{
+    cursor: default;
 }
 
 ::-webkit-scrollbar{
@@ -88,13 +101,19 @@ body{
 }
 
 .blg-txt{
-    color: black;
+    color: var(--txt-black);
 }
 
 .title-min,
 .title-min span{
     font-size: 0.9rem;
     font-weight: 600;
+}
+
+.low-text-sml,
+.low-text-sml span{
+    font-size: var(--font-mid);
+    color: var(--text-low);
 }
 
 .title-xlarge,
@@ -114,6 +133,7 @@ body{
 .para-mid,
 .para-mid span{
     font-size: 0.9rem;
+    color: var(--text);
 }
 
 
