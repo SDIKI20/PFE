@@ -215,3 +215,7 @@ img{
 #dhai{
     display: none;
 }
+
+.input-holder{
+    height: var(--input-height-mid);
+}

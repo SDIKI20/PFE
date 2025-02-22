@@ -87,6 +87,12 @@ p,span{
     justify-content: center;
 }
 
+.break-line{
+    height: 1px;
+    background-color: var(--border-low);
+    margin: 2vh 0;
+}
+
 /*-------------------------*/
 
 .hover-scale:hover{
@@ -136,6 +142,19 @@ p,span{
     color: var(--text);
 }
 
+.para-lrg,
+.para-lrg span{
+    font-size: 1.2rem;
+    color: var(--txt-black);
+    font-weight: 600;
+}
+
+.social-icon,
+.social-icon i{
+    font-size: 1rem;
+    margin: 0 1vw;
+    cursor: pointer;
+}
 
 /*--------------------*/
 
@@ -146,12 +165,14 @@ p,span{
     background-color: transparent;
     font-size: var(--font-med);
     cursor: pointer;
+    height: fit-content;
 }
 
 .bt-hover:hover{
     opacity: 0.8;
     transform: scale(1.02);
     transition: ease 0.3s;
+    cursor: pointer;
 }
 
 .bt-Primary{
@@ -172,7 +193,6 @@ textarea:focus{
     align-items: center;
     justify-content: flex-start;
     overflow: hidden;
-    height: var(--input-height-mid);
     width: fit-content;
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -189,6 +209,7 @@ textarea:focus{
     margin-left: 5px;
     outline: none;
     color: var(--text);
+    background-color: transparent;
 }
 
 .input-holder > i{

@@ -92,6 +92,7 @@
     left: 200px;
     top: 302px;
   }
+  
 .scroll-animation {
   opacity: 0;
   transform: translateY(50px);

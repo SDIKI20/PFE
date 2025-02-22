@@ -12,6 +12,7 @@ gsap.set(".type-image", { scale: 1, opacity: 1});
 gsap.set(".type-image-s", { scale: 1, opacity: 1});
 gsap.set(".feature-container", { scale: 1, y: 0, opacity: 1});
 gsap.set(".features-desc", { scale: 1, y: 0, opacity: 1});
+gsap.set(".feature-icon i", { scale: 1});
 
 gsap.to(".about-title span", {
     y: -200,
@@ -180,6 +181,15 @@ gsap.from(".features-desc", {
         scrub: 2,
         start: "center center",
         trigger: "#carsSection",
+    }
+});
+
+gsap.from(".feature-icon i", {
+    scale: 0.5,
+    stagger: 0.1,
+    scrollTrigger: {
+        scrub: 2,
+        trigger: ".feature-icon",
     }
 });
 
