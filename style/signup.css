@@ -22,7 +22,7 @@ body{
     width: 65%;
     min-width: 500px;
     height: 80%;
-    min-height: 400px;
+    min-height: 550px;
     display: grid;
     border-radius: 15px;
     grid-template-columns: 0.8fr 1.2fr;
@@ -118,6 +118,8 @@ body{
 
 .formTitle{
     color: var(--text);
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .inpth{
@@ -225,4 +227,21 @@ body{
 .iti__dial-code,
 .iti__country-name{
     color: var(--text);
+}
+
+.bg-img{
+    position: absolute;
+    width: 70vw;
+    top: 75%;
+    right: -75%;
+    transform: translate(-50%, -50%);
+}
+.maps-img{
+    position: absolute;
+    top: 50%;
+    left:  0;
+    width: 300px;
+    rotate: 50deg;
+    transform: translate(-50%, -50%);
+    z-index: 0;
 }

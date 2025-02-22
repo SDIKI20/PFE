@@ -18,8 +18,7 @@
     <link rel="stylesheet" href="style/keyfeatures.css">
     <title>Home</title>
 </head>
-<body style="overflow-y: auto;">
-    <button class="bt bt-hover gotop flex-row flex-center" id="goTop" title="Up"><i class="fa-solid fa-caret-up"></i></button>
+<body>
     <img class="map-img" src="assets/images/map.png" alt="Maps">
     <nav class="main-navigator flex-row" id="mainNavigator">
         <div class="flex-row flex-center logo">
@@ -170,99 +169,43 @@
             </div>
             <a href="" class="explore-linl bt-hover">Explore more →</a>
         </section>
-        <section class="doc-section features-section flex-col" id="featuresSection">
-            <div class="features-desc flex-col">
-                <h4 class="low-text-sml">Rent. Drive. Explore.</h4>
-                <h1 class="blg-txt title-large">Our Features</h1>
-                <p class="para-mid" style="width: 50%;">We prioritize your comfort with seamless bookings, reliable support, and top-quality vehicles—ensuring a hassle-free rental experience every time. Your satisfaction drives us to deliver excellence.</p>
-            </div>
-            <div class="features flex-row">
-                <div class="feature-container flex-col">
-                    <p class="feature-icon"><i class="fa-solid fa-calendar-check" style="color: rgb(147, 34, 34);"></i></p>
-                    <p class="para-mid"><b>Easy Booking</b> – Reserve your car in just a few clicks with a hassle-free online process.</p>
-                </div>
-                <div class="feature-container flex-col">
-                    <p class="feature-icon"><i class="fa-solid fa-car" style="color: rgb(50, 102, 185);"></i></p>
-                    <p class="para-mid"><b>Wide Selection</b> – Choose from a variety of vehicles to match your needs and style.</p>
-                </div>
-                <div class="feature-container flex-col">
-                    <p class="feature-icon"><i class="fa-brands fa-searchengin" style="color: rgb(226, 176, 84);"></i></p>
-                    <p class="para-mid"><b>Flexible Rentals</b> – Enjoy daily, weekly, or monthly rental options tailored to you.</p>
-                </div>
-                <div class="feature-container flex-col">
-                    <p class="feature-icon"><i class="fa-brands fa-teamspeak" style="color: rgb(126, 55, 146);"></i></p>
-                    <p class="para-mid"><b>24/7 Support</b> – Get assistance anytime, anywhere for a smooth rental experience.</p>
-                </div>
-            </div>
-        </section>
-        <section class="doc-section flex-col flex-center" id="getApp">
-            <div class="banner flex-col flex-center">
-                <div class="abs-circle"></div>
-                <div class="abs-circle-l"></div>
-                <h2 class="blk-text title-large">Drive with DzRentCar Today</h2>
-                <p>Get the app to explore the world of premium cars - that’s exciting</p>
-                <a href="#" class="bt bt-hover download-btn">
-                    Download App
-                </a>
-            </div>
-        </section>
-        <footer class="doc-footer flex-col flex-center" id="homeFooter">
-            <div class="subscribe flex-row" style="height: 30%; justify-content: space-between;">
-                <p class="para-lrg">Join our newsletter to <br> Keep to date with us!</p>
-                <div class="mailer flex-row flex-center">
-                    <div class="input-holder flex-row" style="width: 20vw;">
-                        <i class="fa-regular fa-envelope"></i>
-                        <input type="email" id="subscribeMail" placeholder="Enter your email" >
+        <section class="doc-section" id="FuturesSection">
+            <main class="keyfeatures-container">
+                <section class="text-center">
+                    <h2 class="subtitle header-text">Taking care of every client</h2>
+                    <h1 class="keyfeatures-title header-text">Key Features</h1>
+                    <p class="description">
+                        We are all about our client's comfort and safety. That's why we provide the best service you can imagine.
+                    </p>
+                </section>
+                <section class="features-grid">
+                    <div class="feature-card">
+                        <div class="icon-container green">
+                            <i class="fa-solid fa-rotate "></i> 
+                        </div>
+                        <h3>24-hour car delivery</h3>
                     </div>
-                    <button class="bt bt-hover account">Subscribe</button>
-                </div>
-            </div>
-            <div class="break-line" style="width: 80%;"></div>
-            <div class="about-company flex-row" style="height: 40%; justify-content: space-between;">
-                <div class="company flex-col">
-                    <div class="flex-col logo">
-                        <img src="assets/logo.png" width="60px" alt="Logo" class="logo" id="navLogo">
-                        <h1 class="title-min">DZ RentCars</h1>
+                    <div class="feature-card">
+                        <div class="icon-container gray">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3>24/7 technical support</h3>
                     </div>
-                    <p class="para-mid">We make sure you drive your dreams</p>
-                </div>
-                <div class="company-docs flex-row flex-center">
-                    <ul class="c-doc flex-col platform">
-                        <legend class="list-title">Platform</legend>
-                        <li class="bt-hover">Plans & Prices</li>
-                        <li class="bt-hover">Cars Collection</li>
-                        <li class="bt-hover">Our Offices</li>
-                    </ul>
-                    <ul class="c-doc flex-col comp">
-                        <legend class="list-title">Company</legend>
-                        <li class="bt-hover">Blog</li>
-                        <li class="bt-hover">Careers</li>
-                        <li class="bt-hover">News</li>
-                    </ul>
-                    <ul class="c-doc flex-col resources">
-                        <legend class="list-title">Resources</legend>
-                        <li class="bt-hover">Documentation</li>
-                        <li class="bt-hover">Papers</li>
-                        <li class="bt-hover">Press Conferences</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="break-line" style="width: 80%;"></div>
-            <div class="copyrights flex-row" style="justify-content: space-between;">
-                <p class="para-mid copyright">© 2025 DzCarRental Inc.</p>
-                <div class="social-media flex-row flex-center">
-                    <i class="social-icon fa-brands fa-facebook-f" style="color: rgb(76, 114, 179);"></i>
-                    <i class="social-icon fa-brands fa-twitter" style="color: rgb(79, 191, 191);"></i>
-                    <i class="social-icon fa-brands fa-instagram" style="color: rgb(247, 59, 106);"></i>
-                    <i class="social-icon fa-brands fa-linkedin-in" style="color: rgb(54, 126, 126);"></i>
-                </div>
-                <ul class="flex-row policy">
-                    <li class="bt-hover">Terms of service</li>
-                    <li class="bt-hover">Privacy Policy</li>
-                    <li class="bt-hover">Cookies</li>
-                </ul>
-            </div>
-        </footer>
+                    <div class="feature-card">
+                        <div class="icon-container blue">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>All models have a premium package</h3>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-container yellow">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Absolute confidentiality</h3>
+                    </div>
+                </section>
+            </main>
+        <section class="doc-section" id="HelpSection"></section>
     </main>
 
 

@@ -1,23 +1,27 @@
 :root{
     /*colors*/
-    --dark-bg: #0E1621;
+    --dark-bg: #1a1a1a;
     --bg: #f0eded;
+    --bg-darker: #d3d0d0;
     --bg-low: #17212B;
     --bg-lower: #242F3D;
     --container: white;
     --text: #333;
     --text-low: #3333334b;
     --txt-black: black;
+    --txt-white: white;
+    --txt-white-low: rgba(172, 172, 172, 0.621);
     --border: rgba(129, 129, 129, 0.418);
+    --border-low: rgba(129, 129, 129, 0.171);
     --input: rgb(235, 235, 235);
     --color-main: #2d60c6; 
     --color-second: #3cb8a7;
     /*-----*/
 
     /*fonts*/
-    --font-med: 0.9rem;
-    --font-sml: 0.8rem;
-    --font-lrg: 1.3rem;
+    --font-med: calc(0.5vh + 0.5vw + 0.2rem);
+    --font-sml: calc(0.4vh + 0.4vw + 0.2rem);
+    --font-lrg: calc(0.8vh + 0.8vw + 0.2rem);
     /*----*/
 
     /*       dementions        */
@@ -48,8 +52,19 @@ body{
     position: relative;
     width: 100vw;
     height: 100vh;
-    overflow-x: hidden;
+    overflow: hidden;
     background-color: var(--bg);
+}
+
+ul{
+    list-style: none;
+}
+
+h1,h2,
+h3,h4,
+h5,h6,
+p,span{
+    cursor: default;
 }
 
 ::-webkit-scrollbar{
@@ -74,6 +89,12 @@ body{
     justify-content: center;
 }
 
+.break-line{
+    height: 1px;
+    background-color: var(--border-low);
+    margin: 2vh 0;
+}
+
 /*-------------------------*/
 
 .hover-scale:hover{
@@ -88,13 +109,19 @@ body{
 }
 
 .blg-txt{
-    color: black;
+    color: var(--txt-black);
 }
 
 .title-min,
 .title-min span{
     font-size: 0.9rem;
     font-weight: 600;
+}
+
+.low-text-sml,
+.low-text-sml span{
+    font-size: var(--font-mid);
+    color: var(--text-low);
 }
 
 .title-xlarge,
@@ -114,8 +141,22 @@ body{
 .para-mid,
 .para-mid span{
     font-size: 0.9rem;
+    color: var(--text);
 }
 
+.para-lrg,
+.para-lrg span{
+    font-size: 1.2rem;
+    color: var(--txt-black);
+    font-weight: 600;
+}
+
+.social-icon,
+.social-icon i{
+    font-size: 1rem;
+    margin: 0 0.5vw;
+    cursor: pointer;
+}
 
 /*--------------------*/
 
@@ -126,17 +167,33 @@ body{
     background-color: transparent;
     font-size: var(--font-med);
     cursor: pointer;
+    height: fit-content;
 }
 
 .bt-hover:hover{
     opacity: 0.8;
     transform: scale(1.02);
     transition: ease 0.3s;
+    cursor: pointer;
 }
 
 .bt-Primary{
     color: white;
     background-color: var(--color-main);
+}
+
+.gotop{
+    position: fixed;
+    color: var(--txt-black);
+    background-color: var(--border-low);
+    border-radius: 50%;
+    bottom: 15px;
+    right: 15px;
+    width: 25px;
+    height: 25px;
+    font-weight: bolder;
+    font-size: var(--font-med);
+    z-index: 10;
 }
 
 /*----------------------------*/
@@ -152,7 +209,6 @@ textarea:focus{
     align-items: center;
     justify-content: flex-start;
     overflow: hidden;
-    height: var(--input-height-mid);
     width: fit-content;
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -169,6 +225,7 @@ textarea:focus{
     margin-left: 5px;
     outline: none;
     color: var(--text);
+    background-color: transparent;
 }
 
 .input-holder > i{
