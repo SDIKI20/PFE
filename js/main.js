@@ -5,3 +5,8 @@ document.querySelectorAll('.selectImage').forEach(img=>{
     })
 })
 
+try{
+    document.getElementById("goTop").addEventListener("click", () =>{
+        window.scrollTo(0, 0);
+    })
+}catch(error){}
