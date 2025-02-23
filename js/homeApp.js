@@ -247,3 +247,4 @@ const closeNav = () => {
 
 document.getElementById("homeNavIcon").addEventListener('click', openNav)
 document.getElementById("homeNavClose").addEventListener('click', closeNav)
+
