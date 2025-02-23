@@ -228,20 +228,3 @@ body{
 .iti__country-name{
     color: var(--text);
 }
-
-.bg-img{
-    position: absolute;
-    width: 70vw;
-    top: 75%;
-    right: -75%;
-    transform: translate(-50%, -50%);
-}
-.maps-img{
-    position: absolute;
-    top: 50%;
-    left:  0;
-    width: 300px;
-    rotate: 50deg;
-    transform: translate(-50%, -50%);
-    z-index: 0;
-}

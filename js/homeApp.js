@@ -206,16 +206,6 @@ gsap.from(".banner", {
     }
 });
 
-gsap.from("footer", {
-    opacity: 0,
-    stagger: 0.1,
-    scrollTrigger: {
-        scrub: 2,
-        start: "top center",
-        trigger: "#getApp"
-    }
-});
-
 window.addEventListener("load", () => {
     ScrollTrigger.refresh();
     window.scrollTo(document.body.clientHeight*4, document.body.clientHeight*4);
@@ -245,3 +235,15 @@ window.addEventListener("reset", ()=>{
         window.scrollTo(0, 0);
     }, 100);
 })
+
+
+const openNav = () => {
+    document.getElementById("mainNavigator").style.left = 0;
+}
+
+const closeNav = () => {
+    document.getElementById("mainNavigator").style.left = "-130px";
+}
+
+document.getElementById("homeNavIcon").addEventListener('click', openNav)
+document.getElementById("homeNavClose").addEventListener('click', closeNav)

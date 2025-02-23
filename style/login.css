@@ -214,25 +214,7 @@
     height: var(--input-height-mid);
 }
 
-.bg-img{
-    position: absolute;
-    width: 70vw;
-    top: 75%;
-    right: -75%;
-    transform: translate(-50%, -50%);
-}
-
 .login-main{
     width: 100vw;
     height: 100vh;
-}
-
-.maps-img{
-    position: absolute;
-    top: 50%;
-    left:  0;
-    width: 300px;
-    rotate: 50deg;
-    transform: translate(-50%, -50%);
-    z-index: 0;
 }

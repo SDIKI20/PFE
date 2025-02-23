@@ -15,13 +15,14 @@
     <link rel="stylesheet" href="style/home.css">
     <link rel="stylesheet" href="style/mobile.css">
     <link rel="stylesheet" href="style/lagreScreen.css">
-    <link rel="stylesheet" href="style/keyfeatures.css">
     <title>Home</title>
 </head>
 <body style="overflow-y: auto;">
+    <i class="fa-solid fa-bars menu-icon" id="homeNavIcon"></i>
     <button class="bt bt-hover gotop flex-row flex-center" id="goTop" title="Up"><i class="fa-solid fa-caret-up"></i></button>
     <img class="map-img" src="assets/images/map.png" alt="Maps">
     <nav class="main-navigator flex-row" id="mainNavigator">
+        <i class="fa-solid fa-xmark close-x" id="homeNavClose"></i>
         <div class="flex-row flex-center logo">
             <img src="assets/logo.png" width="60px" alt="Logo" class="logo" id="navLogo">
             <h1 class="title-min">DZ RentCars</h1>
@@ -39,56 +40,52 @@
 
     <main class="main-doc flex-col" id="mainDoc">
         <section class="doc-section flex-col flex-center" id="aboutSection">
-            <div class="flex-col flex-center about-content">
+            <div class="flex-col about-content">
                 <div class="flex-row about-cont" style="margin-top: var(--nav-height);">
-                    <div class="flex-col" style="width: 50%;">
+                    <div class="flex-col">
                         <h1 class="blk-txt title-xlarge flex-col about-title">
                             <span>Premium</span>
                             <span>Car Rental</span>
                             <span>in Algeria <span>
                         <h1>
-                        <p class="about-desc para-mid content">Do not deprive yourself of the pleasure of driving the most luxurious cars, as you do not need to buy them at exorbitant prices. Move freely and fulfill your needs in the shortest time.</p>
+                        <p class="about-desc para-mid" style="max-width: 60%;">Do not deprive yourself of the pleasure of driving the most luxurious cars, as you do not need to buy them at exorbitant prices. Move freely and fulfill your needs in the shortest time.</p>
                     </div>
-                    <div class="car-image">
-                        <svg class="car-svg content" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="960" viewBox="0 0 1280 960" fill="none">
-                            <rect width="1280" height="960"/>
-                            <g id="Group 1">
-                            <rect id="wheel" x="173" y="509" width="186" height="186" fill="url(#pattern0_0_1)"/>
-                            <rect id="car" width="1280" height="960" fill="url(#pattern1_0_1)"/>
-                            </g>
-                            <defs>
-                            <pattern id="pattern0_0_1" patternContentUnits="objectBoundingBox" width="1" height="1">
-                            <use xlink:href="#image0_0_1" transform="scale(0.00543478)"/>
-                            </pattern>
-                            <pattern id="pattern1_0_1" patternContentUnits="objectBoundingBox" width="1" height="1">
-                            <use xlink:href="#image1_0_1" transform="scale(0.00078125 0.00104167)"/>
-                            </pattern>
-                            <image id="image0_0_1" data-name="image.png" width="184" height="184" href="assets/images/hyundai_wheel.png"/>
-                            <image id="image1_0_1" data-name="carnowheel.png" width="1280" height="960" href="assets/images/hyundai_no_wheel.png"/>
-                            </defs>
-                        </svg>
-                    </div>
+                    <svg class="car-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="960" viewBox="0 0 1280 960" fill="none">
+                        <rect width="1280" height="960"/>
+                        <g id="Group 1">
+                        <rect id="wheel" x="173" y="509" width="186" height="186" fill="url(#pattern0_0_1)"/>
+                        <rect id="car" width="1280" height="960" fill="url(#pattern1_0_1)"/>
+                        </g>
+                        <defs>
+                        <pattern id="pattern0_0_1" patternContentUnits="objectBoundingBox" width="1" height="1">
+                        <use xlink:href="#image0_0_1" transform="scale(0.00543478)"/>
+                        </pattern>
+                        <pattern id="pattern1_0_1" patternContentUnits="objectBoundingBox" width="1" height="1">
+                        <use xlink:href="#image1_0_1" transform="scale(0.00078125 0.00104167)"/>
+                        </pattern>
+                        <image id="image0_0_1" data-name="image.png" width="184" height="184" href="assets/images/hyundai_wheel.png"/>
+                        <image id="image1_0_1" data-name="carnowheel.png" width="1280" height="960" href="assets/images/hyundai_no_wheel.png"/>
+                        </defs>
+                    </svg>
                 </div>
-                <div class="flex-row cars-logo">
-                    <ul class="cl-container flex-row flex-center">
-                        <li class="car-logo"><img src="assets/cars/audi.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo"><img src="assets/cars/bmw.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo"><img src="assets/cars/chevrolet.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo"><img src="assets/cars/citroen.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo"><img src="assets/cars/ford.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo car-logo-selected"><img src="assets/cars/hyundai.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo"><img src="assets/cars/kia.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo"><img src="assets/cars/mazda.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo"><img src="assets/cars/mitsubishi.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo"><img src="assets/cars/nissan.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo"><img src="assets/cars/opel.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo"><img src="assets/cars/peugeot.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo"><img src="assets/cars/renault.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo"><img src="assets/cars/seat.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo"><img src="assets/cars/skoda.png" alt="Logo" class="car-logo-image"></li>
-                        <li class="car-logo"><img src="assets/cars/volkswagen.png" alt="Logo" class="car-logo-image"></li>
-                    </ul>
-                </div>
+                <ul class="cars-logo flex-row">
+                    <li class="car-logo"><img src="assets/cars/audi.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo"><img src="assets/cars/bmw.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo"><img src="assets/cars/chevrolet.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo"><img src="assets/cars/citroen.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo"><img src="assets/cars/ford.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo car-logo-selected"><img src="assets/cars/hyundai.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo"><img src="assets/cars/kia.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo"><img src="assets/cars/mazda.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo"><img src="assets/cars/mitsubishi.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo"><img src="assets/cars/nissan.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo"><img src="assets/cars/opel.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo"><img src="assets/cars/peugeot.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo"><img src="assets/cars/renault.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo"><img src="assets/cars/seat.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo"><img src="assets/cars/skoda.png" alt="Logo" class="car-logo-image"></li>
+                    <li class="car-logo"><img src="assets/cars/volkswagen.png" alt="Logo" class="car-logo-image"></li>
+                </ul>
             </div>
         </section>
         <section class="doc-section flex-row" id="appSection">
@@ -119,7 +116,7 @@
                 <h1 class="blg-txt title-large">Collection of vehicles</h1>
                 <p class="para-mid" style="width: 60%;">Explore our Collection of Vehicles—a wide range of cars, SUVs, trucks, and vans for every need. From compact rides to spacious family vehicles, we’ve got you covered. Find the perfect rental for any trip or task with ease and reliability. With DzRentCars your ideal ride is just a click away!</p>
             </div>
-            <ul class="flex-row flex-center cars-types">
+            <ul class="cars-types flex-row flex-center">
                 <li class="car-type car-type-sel bt-hover">Premium</li>
                 <li class="car-type bt-hover">Off-Road</li>
                 <li class="car-type bt-hover">Hybrid</li>

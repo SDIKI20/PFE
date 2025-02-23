@@ -7,8 +7,8 @@
   z-index: 1;
 }
 
-body,
 .doc-section{
+  position: relative;
   min-width: 800px;
   min-height: 600px;
 }
@@ -66,11 +66,19 @@ body,
   width: 100%;
   height: 100vh;
   padding-top: var(--nav-height);
+  padding-left: 10vw;
+  padding-right: 10vw;
 }
 
 .about-content{
-  width: 80%;
+  width: 100%;
   height: 75%;
+}
+
+.about-cont{
+  width: 100%;
+  align-items: center;
+  height: calc(100% - 15vh - (var(--nav-height)*2));
 }
 
 #aboutSection > .flex-col{
@@ -99,28 +107,25 @@ body,
 
 .cars-logo{
   margin-top: auto;
-  width: 100%;
-  height: 25%;
-  overflow-x: auto;
-  overflow-y: visible;
-  align-items: center;
+  max-width: 100%;
+  overflow-x: scroll;
   z-index: 2;
-}
-
-.cl-container{
-  width: fit-content;
-  list-style: none;
+  height: 15vh;
+  flex-wrap: nowrap;
+  align-items: center;
 }
 
 .car-logo{
-  width: 100px;
-  height: 100px;
-  margin: 0 10px;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 10px;
-  padding: 15px;
+  overflow: hidden;
   filter: grayscale(1);
   cursor: pointer;
+  min-width: calc(3vh + 3vw);
+  height: calc(3vh + 3vw);
+  margin: 0 1vw;
 }
 
 .car-logo-selected,
@@ -135,11 +140,11 @@ body,
 
 .car-svg{
   position: absolute;
-  top: 100%;
-  left: 20%;
-  transform: translateY(-65%);
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
   height: auto;
-  width: 70vw;
+  width: 1080px;
 }
 
 #wheel{
@@ -408,13 +413,13 @@ body,
 }
 
 .feature-container{
-  width: 20%;
+  width: 24%;
   height: 30vh;
   background-color: var(--bg-darker);
   border-radius: 15px;
   align-items: center;
   justify-content: flex-end;
-  padding: 2vw;
+  padding: 10px;
   position: relative;
 }
 
@@ -552,6 +557,11 @@ body,
 
 .abs-circle-l{
   width: 50vw;
+}
+
+#homeNavClose,
+#homeNavIcon{
+  display: none;
 }
 
 @media (max-width: 900px) {

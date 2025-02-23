@@ -140,4 +140,241 @@
         }
     }
     /*---------------------*/
+
+    /*----------------------Home-----------------------------*/
+
+    .doc-section{
+        width: 100%;
+        padding: 20px;
+        min-width: unset;
+        min-height: 100%;
+    }
+
+    .main-navigator{
+        position: fixed;
+        height: 100svh;
+        flex-direction: column;
+        width: 130px;
+        align-items: center;
+        justify-content: flex-start;
+        background-color: var(--container);
+        padding: 10vh 0;
+        border-radius: 0 10px 10px 0;
+        transition: all ease 0.6s;
+        left: -130px;
+    }
+
+    .nav-elements,
+    .nav-links,
+    .logo{
+        flex-direction: column;
+        justify-content: flex-start;
+        height: fit-content;
+        padding: 0;
+    }
+
+    #account{
+        margin-top: 20px;
+        width: 100%;
+        border-radius: 5px;
+    }
+
+    .nav-elements{
+        width: 100%;
+        margin-top: 10vh;
+    }
+
+    .nav-element{
+        padding: 10px 0;
+        margin: 5px 0;
+        width: 100%;
+        border-bottom: 2px solid  var(--border-low);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #homeNavClose,
+    #homeNavIcon{
+        display: inline;
+    }
+
+    .cars-logo{
+        width: 100%;
+        padding: 0;
+        overflow-y: hidden;
+    }
+    .car-logo{
+        border-radius: 10px;
+        min-width: 60px;
+        height: 60px;
+        margin: 0 1.5vw;
+    }
+
+    .car-svg{
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    #appSection{
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .phones-container,
+    .app-desc,
+    .desc,
+    .cars-desc{
+        width: 100%;
+    }
+
+    .desc .para-mid{
+        margin: 10px 0 !important;
+    }
+
+    .desc .flex-row{
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .frame1{
+        left: 70%;
+        top: 70%;
+    }
+
+    .frame2{
+        left: 80%;
+        top: 100%;
+    }
+
+    #carsSection{
+        align-items: center;
+        justify-content: center;
+    }
+
+    .cars-desc p{
+        width: 100% !important;
+        max-width: unset;
+        text-align: left;
+    }
+
+    .cars-types{
+        overflow-x: scroll;
+        padding: 0;
+        width: 100%;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .cars-line{
+        margin: 10px 0;
+    }
+
+    .car-type{
+        padding: 5px 10px;
+        width: fit-content;
+        text-wrap: nowrap;
+        margin: 0 5px;
+    }
+
+    .car-images-container{
+        width: 100%;
+        height: fit-content;
+    }
+    .type-image{
+        width: 30%;
+        height: auto;
+        margin: 5px;
+    }
+    
+    .type-image-s{
+        width: 23%;
+        height: auto;
+        margin: 2px 10px;
+    }
+
+    .type-image img,
+    .type-image-s img{
+        border-radius: 5px;
+    }
+
+    .car-name,
+    .car-price{
+        display: none;
+    }
+
+    #featuresSection{
+        align-items: center;
+        justify-content: space-around;
+        height: fit-content;
+    }
+
+    .features-desc,
+    .features{
+        width: 100%;
+    }
+
+    .features-desc p{
+        width: 100% !important;
+        padding: 0;
+        margin: 5px 0;
+    }
+
+    .features{
+        flex-direction: column;
+    }
+
+    .feature-container{
+        width: 200px;
+        height: 150px;
+        margin: 10px 0;
+        justify-content: center;
+        padding: 10px 20px;
+    }
+
+    .feature-icon{
+        border: none;
+        font-size: calc(var(--font-lrg) + 8px);
+        background-color: transparent;
+    }
+
+    .feature-icon::after,
+    .feature-icon::before,
+    .company,
+    .policy,
+    #getApp{
+        display: none;
+    }
+
+    #homeFooter{
+        position: sticky;
+        height: fit-content;
+        background-color: var(--container);
+        z-index: 4;
+        padding: 20px 0;
+    }
+
+    .subscribe,
+    .mailer,
+    .about-company{
+        flex-direction: column;
+        height: fit-content !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mailer > .input-holder{
+        width: 100% !important;
+        margin: 10px 0;
+    }
+
+    .company-docs{
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    /*-------------------------------------------------------*/
 }

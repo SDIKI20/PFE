@@ -19,9 +19,9 @@
     /*-----*/
 
     /*fonts*/
-    --font-med: calc(0.5vh + 0.5vw + 0.2rem);
-    --font-sml: calc(0.4vh + 0.4vw + 0.2rem);
-    --font-lrg: calc(0.8vh + 0.8vw + 0.2rem);
+    --font-med: 0.9rem;
+    --font-sml: 0.8rem;
+    --font-lrg: 1.4rem;
     /*----*/
 
     /*       dementions        */
@@ -72,6 +72,34 @@ p,span{
     z-index: -1;
 }
 
+.close-x{
+    color: var(--text-low);
+    font-size: var(--font-sml);
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 5;
+    cursor: pointer;
+    transition: all ease 0.5s;
+}
+
+.menu-icon{
+    position: fixed;
+    color: var(--text);
+    font-size: var(--font-lrg);
+    top: 10px;
+    left: 10px;
+    z-index: 5;
+    cursor: pointer;
+    transition: all ease 0.5s;
+}
+
+.close-x:hover,
+.menu-icon:hover{
+    color: var(--txt-black);
+    transform: scale(1.02);
+}
+
 /*display*/
 
 .flex-row{
@@ -103,6 +131,12 @@ p,span{
 
 
 /*      Text         */
+
+.text-eclip{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
 
 .drk-txt{
     color: var(--text);
