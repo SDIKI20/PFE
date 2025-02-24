@@ -5,7 +5,7 @@ loadingBar.innerHTML = `<span class="loader"></span>`
 document.body.appendChild(loadingBar)
 
 function openLoader(){
-    loadingBar.style.zIndex = "90"
+    loadingBar.style.display = "flex"
     setTimeout(() => {
         loadingBar.style.opacity = "1"
     }, 100);
@@ -14,9 +14,24 @@ function openLoader(){
 function closeLoader(){
     loadingBar.style.opacity = "0"
     setTimeout(() => {
-        loadingBar.style.zIndex = "-1"
-    }, 100);
+        loadingBar.style.display = "none"
+    }, 300);
 }
+
+function fakeLoading(t){
+    openLoader()
+    setTimeout(() => {
+        closeLoader()
+    }, t*1000);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    openLoader()
+    window.addEventListener("load", function () {
+        closeLoader()
+    });
+});
+  
 
 document.querySelectorAll('.selectImage').forEach(img=>{
     img.addEventListener('click',function(e){

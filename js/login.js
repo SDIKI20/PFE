@@ -32,7 +32,7 @@ function generateCaptcha() {
 
     captchaText = Math.random().toString(36).substring(2, 8);
     ctx.font = "30px Arial";
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "#D9D9D9";
     ctx.fillText(captchaText, 20, 35);
 }
 

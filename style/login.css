@@ -1,5 +1,4 @@
 .login-container{
-    opacity: 0.95;
     background-color: var(--container);
     border-radius: 15px;
     position: fixed;
@@ -8,6 +7,7 @@
     min-width: 500px;
     height: 80%;
     min-height: 400px;
+    opacity: 0.8;
 }
 
 .login-container p{
@@ -104,7 +104,7 @@
 }
 
 .social-icons a{
-    border: 1px solid #ccc;
+    border: 1px solid var(--border);
     border-radius: 20%;
     display: inline-flex;
     justify-content: center;
@@ -180,11 +180,23 @@
     transform: translateX(200%);
 }
 
+.fa-google-plus-g{
+    color: rgb(192, 59, 59);
+}
+
+.fa-facebook-f{
+    color: rgb(49, 85, 202);
+}
+
+.fa-linkedin-in{
+    color: rgb(55, 158, 158);
+}
+
 .icon{
     transition: all ease-in-out .5s;
 }
 
-.icon:hover{
+.icon:hover i{
     border: none;
     color: white;
 }
@@ -217,4 +229,12 @@
 .login-main{
     width: 100vw;
     height: 100vh;
+}
+
+.map-img{
+    position: fixed;
+    width: 150%;
+    height: auto;
+    z-index: 0;
+    opacity: 0.2;
 }

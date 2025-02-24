@@ -195,6 +195,16 @@ gsap.from(".feature-icon i", {
     }
 });
 
+gsap.to(".map-img", {
+    opacity: 0,
+    stagger: 0.1,
+    scrollTrigger: {
+        scrub: 2,
+        start: "top top",
+        trigger: "#appSection",
+    }
+});
+
 gsap.from(".banner", {
     y: 100,
     rotate: 20,

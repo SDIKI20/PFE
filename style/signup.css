@@ -15,6 +15,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0.95;
 }
 
 .signupForm{
@@ -227,4 +228,12 @@ body{
 .iti__dial-code,
 .iti__country-name{
     color: var(--text);
+}
+
+.map-img{
+    position: fixed;
+    width: 150%;
+    height: auto;
+    z-index: 0;
+    opacity: 0.2;
 }

@@ -51,8 +51,8 @@
   margin: 0 10px;
   border-radius: 15px;
   padding: 5px 15px;
-  background-color: black;
-  color: white;
+  background-color: var(--dark-bg);
+  color: var(--txt-white);
 }
 
 .main-doc{
@@ -95,14 +95,14 @@
 }
 
 .map-img{
-  position: absolute;
-  width: 20vw;
+  position: fixed;
+  width: 70%;
   height: auto;
-  top: 50%;
-  left: 40%;
-  rotate: 45deg;
+  top: 0;
+  right: 50%;
+  transform: translateX(50%);
   z-index: 0;
-  transform: translate(-50%, -50%) ;
+  opacity: 0.5;
 }
 
 .cars-logo{
@@ -181,6 +181,7 @@
 
 .blk-txt span{
  line-height: 1.2;
+ color: var(--txt-black);
 }
 
 .about-desc{
@@ -269,7 +270,7 @@
 }
 
 .car-images-container{
-  width: 80%;
+  width: 100%;
 }
 
 .cars-line{
@@ -417,6 +418,7 @@
   min-width: 150px;
   background-color: var(--bg-darker);
   border-radius: 15px;
+  border: 5px solid var(--bg);
   align-items: center;
   justify-content: flex-end;
   padding: 10px;
@@ -465,6 +467,11 @@
 .doc-footer{
   width: 100%;
   height: 50vh;
+  background: linear-gradient(
+    0deg,
+    var(--txt-white) 0%,
+    var(--bg) 100%
+  );
 }
 
 .input-holder{
@@ -510,8 +517,12 @@
 }
 
 .banner {
-  background-color: var(--dark-bg);
-  color: var(--txt-white);
+  background: linear-gradient(
+    45deg,
+    #1F2936 0%,
+    #0E1621 80%
+  );
+  color: white;
   text-align: center;
   padding: 40px;
   border-radius: 15px;
@@ -563,6 +574,11 @@
 #homeNavClose,
 #homeNavIcon{
   display: none;
+}
+
+#navLogo{
+  width: auto;
+  height: calc(var(--nav-height) * 0.6);
 }
 
 @media (max-width: 900px) {
