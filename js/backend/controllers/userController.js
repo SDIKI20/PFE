@@ -1,5 +1,5 @@
 const pool = require("../models/userModel");
-const bcrypt = require("../../../lib/node_modules/bcryptjs");
+const bcrypt = require("bcryptjs");
 
 // Get All Users
 const getUsers = async (req, res) => {
@@ -15,14 +15,20 @@ const getUsers = async (req, res) => {
 // Add New User
 const addUser = async (req, res) => {
     try {
-        const { fname, lname, email, address, country, wilaya, city, zipcode, phone, role } = req.body;
-        //const salt = await bcrypt.genSalt(10);
-        //const hashedPassword = await bcrypt.hash(password, salt);
-        //const hashedUsername = await bcrypt.hash(username, salt);
+        const { fname, lname, email, address, country, wilaya, city, zipcode, phone, birthdate, username, password, role } = req.body;
+
+        // Hash Password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        
+        // Store Data in Database
         const newUser = await pool.query(
-            "INSERT INTO users (fname, lname, email, address, country, wilaya, city, zipcode, phone, role) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *",
-            [fname, lname, email, address, country, wilaya, city, zipcode, phone, role]
+            `INSERT INTO users (fname, lname, email, address, country, wilaya, city, zipcode, phone, birthdate, username, password, role) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
+             RETURNING *`,
+            [fname, lname, email, address, country, wilaya, city, zipcode, phone, birthdate, username, hashedPassword, role]
         );
+
         res.json(newUser.rows[0]);
     } catch (err) {
         console.error(err.message);
