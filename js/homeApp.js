@@ -259,32 +259,44 @@ document.getElementById("homeNavIcon").addEventListener('click', openNav)
 document.getElementById("homeNavClose").addEventListener('click', closeNav)
 
 
-const carSvg = document.querySelector('.car-svg')
+const carSvg = document.querySelector('.car-svg');
+let timeout1, timeout2, timeout3; // Store timeouts
 
-document.querySelectorAll('.car-logo').forEach(logo=>{
-    logo.addEventListener('click', ()=>{
-        document.querySelectorAll('.car-logo').forEach(logo1=>{
-            logo1.classList.remove("car-logo-selected")
-        })
-        logo.classList.add("car-logo-selected")
-        let carNam = logo.children[0].getAttribute("alt")
-        const carImg = `/assets/images/${carNam}_no_wheel.png`
-        const wheelImg = `/assets/images/${carNam}_wheel.png`
-        carSvg.style.transition="all ease-out 0.6s"
-        carSvg.style.left = "-110%"
-        setTimeout(() => {
-            carSvg.style.display = "none"
-            carSvg.style.left = "100vw"
+document.querySelectorAll('.car-logo').forEach(logo => {
+    logo.addEventListener('click', () => {
+        // Clear any pending timeouts
+        clearTimeout(timeout1);
+        clearTimeout(timeout2);
+        clearTimeout(timeout3);
+
+        document.querySelectorAll('.car-logo').forEach(logo1 => {
+            logo1.classList.remove("car-logo-selected");
+        });
+        logo.classList.add("car-logo-selected");
+
+        let carNam = logo.children[0].getAttribute("alt");
+        const carImg = `/assets/images/${carNam}_no_wheel.png`;
+        const wheelImg = `/assets/images/${carNam}_wheel.png`;
+
+        // Animate car out
+        gsap.to(".car-svg", { ease: "power2.in", x: "-200%" });
+        gsap.from("#wheel", { rotate: 360, svgOrigin: "266 602" });
+        gsap.set("#wheel", { rotate: 0 });
+
+        timeout1 = setTimeout(() => {
+            carSvg.style.display = "none";
+            gsap.set(".car-svg", { x: "100%" });
         }, 600);
-        setTimeout(() => {
-            document.getElementById('imageWheel').setAttribute("href", wheelImg)
-            document.getElementById('imageCar').setAttribute("href", carImg)
-            carSvg.style.display = "flex"
-            setTimeout(() => {
-                carSvg.style.left = "60%"
-                gsap.set("#wheel", {rotate:0})
-                gsap.to("#wheel", { rotate: -380, svgOrigin: "266 602",});
-            }, 100);
+
+        timeout2 = setTimeout(() => {
+            document.getElementById('imageWheel').setAttribute("href", wheelImg);
+            document.getElementById('imageCar').setAttribute("href", carImg);
+            carSvg.style.display = "flex";
+
+            timeout3 = setTimeout(() => {
+                gsap.to(".car-svg", { ease: "power4.inout", x: "0%" });
+                gsap.from("#wheel", { ease: "power4.inout", rotate: 360, svgOrigin: "266 602" });
+            }, 500);
         }, 700);
-    })
-})
+    });
+});
