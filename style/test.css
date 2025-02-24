@@ -1,22 +1,27 @@
-html, body {
-  width:100%;
-  height:100%;
-  overflow-x:hidden;
-  background:#f2efe9;
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 20px;
 }
-
-div, svg, img {
-  position:absolute;
+ul {
+  list-style: none;
+  padding: 0;
 }
-
-#container {
-  opacity:0;
-  position:fixed;
-  width:7900px;
-  height:5600px;
+li {
+  background: #f4f4f4;
+  margin: 5px;
+  padding: 10px;
 }
-
-#scrollDist {
-  width:100%;
-  height:500%;
+form {
+  margin-top: 20px;
+}
+input {
+  padding: 5px;
+  margin: 5px;
+}
+button {
+  padding: 5px;
+  background: blue;
+  color: white;
+  border: none;
 }

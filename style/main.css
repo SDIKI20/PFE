@@ -20,13 +20,13 @@
 
     /*fonts*/
     --font-med: 0.9rem;
-    --font-sml: 0.8rem;
+    --font-sml: .8rem;
     --font-lrg: 1.4rem;
     /*----*/
 
     /*       dementions        */
-    --input-height-mid: 45px;
-    --input-height-sml: 40px;
+    --input-height-mid: 2.8125rem;
+    --input-height-sml: 2.5rem;
     /*-------------------------*/
 }
 
