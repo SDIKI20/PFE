@@ -24,7 +24,7 @@ const createUserTable = async () => {
             zipcode VARCHAR(10) NOT NULL,
             image VARCHAR(255) NOT NULL DEFAULT '../assets/images/user.jpg' ,
             phone VARCHAR(15) NOT NULL,
-            birthday DATE NOT NULL,
+            birthdate DATE NOT NULL,
             role VARCHAR(50) NOT NULL CHECK (role IN ('admin', 'employee', 'client'))
         );
     `);
