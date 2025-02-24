@@ -7,10 +7,25 @@ const pool = new Pool({
 
 const createUserTable = async () => {
     await pool.query(`
-        CREATE TABLE IF NOT EXISTS users (
+        DROP TABLE users;
+    `);
+    await pool.query(`
+        CREATE TABLE users (
             id SERIAL PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
-            email VARCHAR(100) UNIQUE NOT NULL
+            email VARCHAR(255) UNIQUE NOT NULL,
+            username VARCHAR(255) NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            fname VARCHAR(20) NOT NULL,
+            lname VARCHAR(20) NOT NULL,
+            address VARCHAR(255) NOT NULL,
+            country VARCHAR(255) NOT NULL,
+            wilaya VARCHAR(255) NOT NULL,
+            city VARCHAR(255) NOT NULL,
+            zipcode VARCHAR(10) NOT NULL,
+            image VARCHAR(255) NOT NULL DEFAULT '../assets/images/user.jpg' ,
+            phone VARCHAR(15) NOT NULL,
+            birthday DATE NOT NULL,
+            role VARCHAR(50) NOT NULL CHECK (role IN ('admin', 'employee', 'client'))
         );
     `);
 };
