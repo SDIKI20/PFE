@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const wilaya = document.getElementById("state").value;
         const city = document.getElementById("city").value;
         const zipcode = document.getElementById("zcode").value;
-        const birthdate = document.getElementById("birthdate").value;
+        const birthday = document.getElementById("birthdate").value;
         const phone = document.getElementById("phone-number-input").value;
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const response = await fetch("http://localhost:5000/api/users", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ fname, lname, email, password, username, address, country, wilaya, city, zipcode, phone, birthdate, role })
+                body: JSON.stringify({ fname, lname, email, password, username, address, country, wilaya, city, zipcode, phone, birthday, role })
             });
 
             if (!response.ok) throw new Error("Failed to add user");

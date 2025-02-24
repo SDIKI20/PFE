@@ -7,6 +7,9 @@ const pool = new Pool({
 
 const createUserTable = async () => {
     await pool.query(`
+        DROP TABLE users;
+    `);
+    await pool.query(`
         CREATE TABLE users (
             id SERIAL PRIMARY KEY,
             email VARCHAR(255) UNIQUE NOT NULL,
@@ -14,7 +17,7 @@ const createUserTable = async () => {
             password VARCHAR(255) NOT NULL,
             fname VARCHAR(20) NOT NULL,
             lname VARCHAR(20) NOT NULL,
-            adress VARCHAR(255) NOT NULL,
+            address VARCHAR(255) NOT NULL,
             country VARCHAR(255) NOT NULL,
             wilaya VARCHAR(255) NOT NULL,
             city VARCHAR(255) NOT NULL,
