@@ -126,6 +126,7 @@
   min-width: calc(3vh + 3vw);
   height: calc(3vh + 3vw);
   margin: 0 1vw;
+  transition: all ease 0.6s;
 }
 
 .car-logo-selected,

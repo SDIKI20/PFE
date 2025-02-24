@@ -258,3 +258,33 @@ const closeNav = () => {
 document.getElementById("homeNavIcon").addEventListener('click', openNav)
 document.getElementById("homeNavClose").addEventListener('click', closeNav)
 
+
+const carSvg = document.querySelector('.car-svg')
+
+document.querySelectorAll('.car-logo').forEach(logo=>{
+    logo.addEventListener('click', ()=>{
+        document.querySelectorAll('.car-logo').forEach(logo1=>{
+            logo1.classList.remove("car-logo-selected")
+        })
+        logo.classList.add("car-logo-selected")
+        let carNam = logo.children[0].getAttribute("alt")
+        const carImg = `/assets/images/${carNam}_no_wheel.png`
+        const wheelImg = `/assets/images/${carNam}_wheel.png`
+        carSvg.style.transition="all ease-out 0.6s"
+        carSvg.style.left = "-110%"
+        setTimeout(() => {
+            carSvg.style.display = "none"
+            carSvg.style.left = "100vw"
+        }, 600);
+        setTimeout(() => {
+            document.getElementById('imageWheel').setAttribute("href", wheelImg)
+            document.getElementById('imageCar').setAttribute("href", carImg)
+            carSvg.style.display = "flex"
+            setTimeout(() => {
+                carSvg.style.left = "60%"
+                gsap.set("#wheel", {rotate:0})
+                gsap.to("#wheel", { rotate: -380, svgOrigin: "266 602",});
+            }, 100);
+        }, 700);
+    })
+})

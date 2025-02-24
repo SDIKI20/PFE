@@ -73,7 +73,7 @@ p,span{
 }
 
 .close-x{
-    color: var(--text-low);
+    color: var(--txt-black);
     font-size: var(--font-sml);
     position: absolute;
     top: 5px;

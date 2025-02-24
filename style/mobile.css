@@ -171,6 +171,13 @@
         left: -130px;
     }
 
+    .map-img{
+        width: 70vh;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        left: 50%;
+    }
+
     .nav-elements,
     .nav-links,
     .logo{
