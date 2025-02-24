@@ -1,11 +1,3 @@
-<!--?php
-    session_start();
-    if(isset($_SESSION['login'])||isset($_SESSION['signup'])){
-        header('Location: ../index.php');
-    }
-?-->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,77 +20,7 @@
 <body class="flex-col flex-center">
     <img class="map-img" src="../assets/images/map.png" alt="Maps">
     <main class="doc">
-        <form action="signup.php" class="signupForm" id="signupForm" method="post" autocomplete="off" enctype="multipart/form-data">
-            <!--?php
-                if(isset($_POST['Registre'])){
-                    $username = $_POST['username'];
-                    $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
-                    $email = $_SESSION['email'];
-                    $fname = $_POST['Fname'];
-                    $lname = $_POST['Lname'];
-                    $addr = $_POST['addr'];
-                    $country = $_POST['country'];
-                    $state = $_POST['state'];
-                    $city = $_POST['city'];
-                    $zcode = $_POST['zcode'];
-                    $dateN = $_POST['dateN'];
-                    $phone = $_POST['phone'];
-                    $fileName = $_FILES["profileImage"]["name"];
-                    if($fileName == ""){
-                        $repImg = [true, "../img/users/temp.png"];
-                    }else{
-                        $fileSize = $_FILES["profileImage"]["size"];
-                        $tmpName = $_FILES["profileImage"]["tmp_name"];
-                        $validImageExtension = ['jpg', 'jpeg', 'png'];
-                        $imageExtension = explode('.', $fileName);
-                        $imageExtension = strtolower(end($imageExtension));
-                        if (!in_array($imageExtension, $validImageExtension)) {
-                            $repImg =  [false,"Not valid Image"];
-                        } else if ($fileSize > 1000000) {
-                            $repImg =  [false,"Image Size Is Too Large"];
-                        } else {
-                            $regImg = uniqid();
-                            $regImg .= '.' . $imageExtension;
-                            move_uploaded_file($tmpName, '../img/users/' . $regImg);
-                            $repImg = [true,'../img/users/' . $regImg];
-                        }
-                    }
-
-                    if($repImg[0]){
-                        require_once "database.php";
-                        $sql = "SELECT * FROM clients WHERE username = '$username'";
-                        $result = mysqli_query($conn, $sql);
-                        $user = mysqli_fetch_array($result,MYSQLI_ASSOC);
-                        if($user){
-                            echo"<p class='errorMsg'>Username already exist<span class='btin' onclick='remove()'' >X</span></p>";
-                        }else{
-                            $sql = "INSERT INTO address (country, state, city, zipcode, address) VALUES (?, ?, ?, ?, ?)";
-                            $stmt = mysqli_prepare($conn, $sql);
-                            mysqli_stmt_bind_param($stmt, "sssss",$country ,$state ,$city ,$zcode ,$addr);
-                            mysqli_stmt_execute($stmt); 
-                            $id_address = mysqli_insert_id($conn);
-                            $sql = "INSERT INTO infos (nom, prenom, dateN, tel, email, profile_image, personal_address) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                            $stmt = mysqli_prepare($conn, $sql);
-                            mysqli_stmt_bind_param($stmt, "sssssss",$fname ,$lname ,$dateN ,$phone ,$email ,$repImg[1] ,$id_address);
-                            mysqli_stmt_execute($stmt); 
-                            $id_infos = mysqli_insert_id($conn);
-                            $sql = "INSERT INTO clients (username, passkey, id_informations) VALUES (?, ?, ?)";
-                            $stmt = mysqli_prepare($conn, $sql);
-                            mysqli_stmt_bind_param($stmt, "sss", $username, $password, $id_infos);
-                            mysqli_stmt_execute($stmt); 
-                            $id_client = mysqli_insert_id($conn);
-    
-                            $_SESSION['username'] = $username;
-                            $_SESSION['login'] = "true";
-                            $_SESSION['signup'] = "true";
-                            $_SESSION['type'] = "client";
-                            echo'<script> window.location = "../index.php" </script>';
-                        }
-                    }else{
-                        echo"<p class='errorMsg'>".$repImg[1]."<span class='btin' onclick='remove()''>X</span></p>";
-                    }
-                }
-            ?-->
+        <form class="signupForm" id="signupForm" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="form flex-col">
                 <h1 class="formTitle">Create Account</h1>
                 <div class="formBody flex-col flex-center">
@@ -177,7 +99,7 @@
                     </div>
                     <div class="input-container inpth">
                         <label for="dateN">Birth Day</label>
-                        <input type="date" name="dateN" id="dateN" class="input-info" style="width: 45%;" required>
+                        <input type="date" name="dateN" id="birthdate" class="input-info" style="width: 45%;" required>
                     </div>
                     <div class="input-container inpth">
                         <label class="label-important" for="phone">Phone</label>
@@ -192,6 +114,6 @@
     <script src="../lib/node_modules/intl-tel-input/build/js/intlTelInput.min.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/darkmode.js"></script>
-    <script src="../js/signup.js"></script>
+    <script src="../js/signup1.js"></script>
 </body>
 </html>
