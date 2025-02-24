@@ -25,7 +25,8 @@
     <link rel="stylesheet" href="../style/mobile.css">
     <title>Create</title>
 </head>
-<body>
+<body class="flex-col flex-center">
+    <img class="map-img" src="../assets/images/map.png" alt="Maps">
     <main class="doc">
         <form action="signup.php" class="signupForm" id="signupForm" method="post" autocomplete="off" enctype="multipart/form-data">
             <!--?php
@@ -115,7 +116,7 @@
                     </div>
                     <div class="input-container-row2 agree">
                         <div class="checkbox-wrapper-13">
-                            <input type="checkbox" require name="agreeTerms" id="agreeTerms" class="agreeTerms">
+                            <input type="checkbox" required name="agreeTerms" id="agreeTerms" class="agreeTerms">
                         </div>
                         <label for="agreeTerms">Agree Terms</label>
                     </div>
@@ -190,6 +191,7 @@
     </main>
     <script src="../lib/node_modules/intl-tel-input/build/js/intlTelInput.min.js"></script>
     <script src="../js/main.js"></script>
+    <script src="../js/darkmode.js"></script>
     <script src="../js/signup.js"></script>
 </body>
 </html>

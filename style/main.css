@@ -73,7 +73,7 @@ p,span{
 }
 
 .close-x{
-    color: var(--text-low);
+    color: var(--txt-black);
     font-size: var(--font-sml);
     position: absolute;
     top: 5px;
@@ -150,12 +150,20 @@ p,span{
 .title-min span{
     font-size: 0.9rem;
     font-weight: 600;
+    color: var(--text);
+}
+
+.title-med,
+.title-med span{
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text);
 }
 
 .low-text-sml,
 .low-text-sml span{
-    font-size: var(--font-mid);
-    color: var(--text-low);
+    font-size: var(--font-med);
+    color: var(--border-low);
 }
 
 .title-xlarge,
@@ -339,6 +347,8 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     backdrop-filter: blur(2px);
     transition: all ease 0.8s;
     opacity: 0;
+    display: none;
+    z-index: 90;
 }
 
 /*---------------------------------*/
