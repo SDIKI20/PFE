@@ -7,6 +7,10 @@
   z-index: 1;
 }
 
+body{
+  transition: ease 0.6s;
+}
+
 .doc-section{
   position: relative;
   min-width: 800px;
