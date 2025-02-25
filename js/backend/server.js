@@ -19,6 +19,10 @@ app.use(express.json());
 // API Routes
 app.use("/api/users", userRoutes);
 
+// Load email routes
+const emailRoutes = require('./routes/emailRoutes');
+app.use('/api/email', emailRoutes);
+
 // Start Server
 app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`);

@@ -21,7 +21,7 @@
     <main class="login-main flex-col flex-center">
       <div class="login-container" id="loginContainer">
         <div class="form-container sign-up">
-          <form action="#" method="get">
+          <form  method="POST" id="signUpForm">
             <h1 class="title-med" style="color: var(--txt-black);">Create Account</h1>
             <div class="social-icons">
               <a href="#" id="sicnG" class="icon bt-hover"><i class="fa-brands fa-google-plus-g"></i></a>
@@ -29,9 +29,10 @@
               <a href="#" id="sicnL" class="icon bt-hover"><i class="fa-brands fa-linkedin-in"></i></a>
             </div>
             <span class="para-mid">Use email for registeration</span>
+            <span class="para-mid" id="message"></span>
             <div class="flex-row input-holder" style="width: 70%;">
               <i class="fa-regular fa-envelope"></i>
-              <input type="email" placeholder="Email" />
+              <input type="email" placeholder="Email" id="email"/>
             </div>
             <canvas id="captchaCanvas" width="150" height="50"></canvas>
             <div class="flex-row input-holder" style="width: 50%;">

@@ -47,3 +47,36 @@ function validateCaptcha() {
 }
 
 generateCaptcha();
+
+document.getElementById("signUpForm").addEventListener("submit", async function (event) {
+  event.preventDefault(); // Prevent form from reloading the page
+  const userInput = document.getElementById("captchaInput").value;
+  if (userInput === captchaText) {
+    const email = document.getElementById("email").value;
+    const messageElement = document.getElementById("message");
+    try {
+        const response = await fetch("http://localhost:5000/api/email/send-login-link", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+            messageElement.style.color = "green";
+            messageElement.textContent = "Verification link sent! Check your email.";
+        } else {
+            throw new Error(data.error || "Failed to send email");
+        }
+    } catch (error) {
+        messageElement.style.color = "red";
+        messageElement.textContent = error.message;
+    }
+  } else {
+      document.getElementById("result").innerText = "Wrong CAPTCHA. Try again!";
+      generateCaptcha();
+  }
+});

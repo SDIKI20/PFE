@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", async () => {
+/*document.addEventListener("DOMContentLoaded", async () => {
     const userForm = document.getElementById("signupForm");
 
     // Add User Event
@@ -34,4 +34,41 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
+});
+*/
+
+document.addEventListener("DOMContentLoaded", async () => {
+    // Get token from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+
+    if (!token) {
+        // No token found, redirect to login
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+        // Send token to the backend for verification
+        const response = await fetch("http://localhost:5000/api/email/verify-token?token=" + token);
+        const data = await response.json();
+
+        if (response.ok) {
+            // Token is valid, extract email
+            const email = data.email;
+            console.log("User Email:", email);
+
+            // Store email in localStorage (optional)
+            localStorage.setItem("userEmail", email);
+
+            // Use email in signup form if needed
+            document.getElementById("email").innerText = `Email: ${email}`;
+        } else {
+            // Token invalid/expired, redirect to login
+            throw new Error(data.error || "Invalid token");
+        }
+    } catch (error) {
+        console.error("Token verification failed:", error);
+        window.location.href = "login.html"; // Redirect to login if token is invalid
+    }
 });
