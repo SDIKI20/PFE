@@ -15,8 +15,8 @@ const getUsers = async (req, res) => {
 // Add New User
 const addUser = async (req, res) => {
     try {
-        const { fname, lname, email, address, country, wilaya, city, zipcode, phone, birthdate, username, password, role } = req.body;
-
+        const { fname, lname, image, email, address, country, wilaya, city, zipcode, phone, birthdate, username, password } = req.body;
+        const role = "client"
         // Hash Password & Username
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -24,8 +24,8 @@ const addUser = async (req, res) => {
 
         // Store Data in Database
         const newUser = await pool.query(
-            `INSERT INTO users (fname, lname, email, address, country, wilaya, city, zipcode, phone, birthdate, username, password, role) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
+            `INSERT INTO users (fname, lname, image, email, address, country, wilaya, city, zipcode, phone, birthdate, username, password, role) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
              RETURNING *`,
             [fname, lname, email, address, country, wilaya, city, zipcode, phone, birthdate, hashedUsername, hashedPassword, role]
         );
