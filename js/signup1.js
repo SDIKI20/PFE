@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             localStorage.setItem("userEmail", email);
 
             // Use email in signup form if needed
-            document.getElementById("email").innerText = `Email: ${email}`;
+            document.getElementById("email").value = email;
         } else {
             // Token invalid/expired, redirect to login
             throw new Error(data.error || "Invalid token");

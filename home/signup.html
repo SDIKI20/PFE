@@ -19,12 +19,15 @@
 </head>
 <body class="flex-col flex-center">
     <img class="map-img" src="../assets/images/map.png" alt="Maps">
-    <span class="form-message" id="email"></span>
     <main class="doc">
         <form class="signupForm" id="signupForm" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="form flex-col">
                 <h1 class="formTitle">Create Account</h1>
                 <div class="formBody flex-col flex-center">
+                    <div class="input-container">
+                        <label for="username">Email</label>
+                        <input type="text" name="email" id="email" disabled class="input-info">
+                    </div>
                     <div class="input-container">
                         <label class="label-important" for="username">Username</label>
                         <input type="text" name="username" id="username" class="input-info" placeholder="Username" required>
@@ -67,8 +70,8 @@
                         </div>
                     </div>
                     <div class="input-container inpth">
-                        <label for="addr">Addres</label>
-                        <input type="text" name="addr" id="addr" class="input-info" placeholder="Adress">
+                        <label for="addr" class="label-important">Addres</label>
+                        <input type="text" name="addr" id="addr" class="input-info" placeholder="Adress" required>
                     </div>
                     <div class="inputHolderTwo">
                         <div class="hold">
@@ -79,16 +82,16 @@
                         </div>
                         <div class="hold">
                             <div class="input-container hold1">
-                                <label for="state">State</label>
-                                <input type="text" name="state" id="state" class="input-info" placeholder="State">
+                                <label for="state" class="label-important">State</label>
+                                <input type="text" name="state" id="state" class="input-info" placeholder="State" required>
                             </div>
                         </div>
                     </div>
                     <div class="inputHolderTwo">
                         <div class="hold">
                             <div class="input-container hold1">
-                                <label for="city">City</label>
-                                <input type="text" name="city" id="city" class="input-info" placeholder="City">
+                                <label for="city" class="label-important">City</label>
+                                <input type="text" name="city" id="city" class="input-info" placeholder="City" required>
                             </div>
                         </div>
                         <div class="hold">
@@ -99,7 +102,7 @@
                         </div>
                     </div>
                     <div class="input-container inpth">
-                        <label for="dateN">Birth Day</label>
+                        <label for="dateN" class="label-important">Birth Day</label>
                         <input type="date" name="dateN" id="birthdate" class="input-info" style="width: 45%;" required>
                     </div>
                     <div class="input-container inpth">

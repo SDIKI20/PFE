@@ -205,6 +205,10 @@ body{
     font-size: var(--font-sml);
 }
 
+input:disabled{
+    opacity: 0.6;
+}
+
 .input-info:focus{
     outline: none;
 }
