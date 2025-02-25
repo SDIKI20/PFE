@@ -3,6 +3,40 @@ const jwt = require('../../../lib/node_modules/jsonwebtoken');
 
 const users = new Map(); // Temporary token store (use a database in production)
 
+// Email message send
+exports.sendMessage = async (req, res) => {
+    const { email} = req.body;
+    var { subject, message } = req.body;
+
+    if (!email) return res.status(400).json({ error: 'Email is required' });
+    subject = !subject?"":subject
+    message = !message?"Empty":message
+
+    // Configure Nodemailer
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+        }
+    });
+
+    try {
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: subject,
+            html: message,
+        };
+
+        await transporter.sendMail(mailOptions);
+        res.json({ message: "✅ Email sent:"});
+    } catch (error) {
+        console.error("❌ Error sending email:", error.message);
+    }
+
+}
+
 // Email sending function
 exports.sendLoginLink = async (req, res) => {
     const { email } = req.body;

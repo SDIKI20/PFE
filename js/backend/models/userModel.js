@@ -7,9 +7,6 @@ const pool = new Pool({
 
 const createUserTable = async () => {
     await pool.query(`
-        DROP TABLE users;
-    `);
-    await pool.query(`
         CREATE TABLE users (
             id SERIAL PRIMARY KEY,
             email VARCHAR(255) UNIQUE NOT NULL,
@@ -30,6 +27,6 @@ const createUserTable = async () => {
     `);
 };
 
-createUserTable();
+//createUserTable();
 
 module.exports = pool;
