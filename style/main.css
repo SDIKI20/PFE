@@ -100,6 +100,124 @@ p,span{
     transform: scale(1.02);
 }
 
+/*notifications*/
+
+.notifications-container{
+    position: absolute;
+    top: 0;
+    padding: 10vh 0;
+    left: 10vh;
+    max-height: 100vh;
+    width: fit-content;
+    overflow-y: auto;
+    z-index: 0;
+    z-index: 90;
+}
+
+.notification-container{
+    padding: .625rem;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 0.625rem;
+    z-index: 10;
+    border: 0.125rem solid;
+    margin: 1vh 0;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(calc(-100% - 10vh));
+    transition: all ease-out 0.8s;
+}
+
+.notif-type{
+    color: var(--container);
+    padding: .625rem;
+    border-radius: .3125rem;
+}
+
+.notif-msg{
+    font-size: var(--font-med);
+    letter-spacing: .0625rem;
+    margin-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.notif-close{
+    cursor: pointer;
+    margin-left: auto;
+    padding-left: 1.25rem;
+    border-left: 0.125rem solid rgba(180, 61, 61, 0.247);
+    font-size: 1rem;
+}
+
+.notif-error{
+    background-color: rgba(206, 95, 95, 0.2);
+    border-color: rgba(194, 66, 66, 0.075);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.144);
+
+}
+
+.notif-error .notif-type{
+    background-color: rgb(223, 71, 71);
+}
+
+.notif-error .notif-close,
+.notif-error .notif-msg{
+    color: rgb(218, 65, 65);
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.144));
+}
+
+.notif-warning{
+    background-color: rgba(206, 149, 95, 0.2);
+    border-color: rgba(194, 107, 66, 0.075);
+    box-shadow: 0 0 20px rgba(255, 123, 0, 0.144);
+}
+
+.notif-warning .notif-type{
+    background-color: rgb(223, 127, 71);
+}
+
+.notif-warning .notif-close,
+.notif-warning .notif-msg{
+    color: rgb(218, 126, 65);
+    filter: drop-shadow(0 0 10px rgba(255, 115, 0, 0.144));
+}
+
+.notif-success{
+    background-color: rgba(95, 206, 104, 0.2);
+    border-color: rgba(66, 194, 115, 0.075);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.144);
+}
+
+.notif-success .notif-type{
+    background-color: rgb(52, 168, 81);
+}
+
+.notif-success .notif-close,
+.notif-success .notif-msg{
+    color: rgb(58, 172, 68);
+    filter: drop-shadow(0 0 10px rgba(136, 255, 0, 0.144));
+}
+
+.notif-info{
+    background-color: rgba(95, 152, 206, 0.2);
+    border-color: rgba(66, 153, 194, 0.075);
+    box-shadow: 0 0 20px rgba(0, 238, 255, 0.144);
+}
+
+.notif-info .notif-type{
+    background-color: rgb(52, 116, 168);
+}
+
+.notif-info .notif-close,
+.notif-info .notif-msg{
+    color: rgb(58, 98, 172);
+    filter: drop-shadow(0 0 10px rgba(0, 89, 255, 0.144));
+}
+
+/*--------------------------*/
+
 /*display*/
 
 .flex-row{
