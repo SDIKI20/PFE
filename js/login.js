@@ -38,11 +38,8 @@ function generateCaptcha() {
 
 function validateCaptcha() {
     const userInput = document.getElementById("captchaInput").value;
-    if (userInput === captchaText) {
-        document.getElementById("result").innerText = "CAPTCHA correct!";
-    } else {
-        document.getElementById("result").innerText = "Wrong CAPTCHA. Try again!";
-        generateCaptcha();
+    if (!(userInput === captchaText)) {
+      generateCaptcha();
     }
 }
 
@@ -52,9 +49,11 @@ document.getElementById("signUpForm").addEventListener("submit", async function 
   event.preventDefault(); // Prevent form from reloading the page
   const userInput = document.getElementById("captchaInput").value;
   if (userInput === captchaText) {
+    generateCaptcha();
     const email = document.getElementById("email").value;
-    const messageElement = document.getElementById("message");
+    if(!validateEmail(email)){pushNotif("e", "invalid email")}else
     try {
+        openLoader()
         const response = await fetch("http://localhost:5000/api/email/send-login-link", {
             method: "POST",
             headers: {
@@ -66,17 +65,18 @@ document.getElementById("signUpForm").addEventListener("submit", async function 
         const data = await response.json();
   
         if (response.ok) {
-            messageElement.style.color = "green";
-            messageElement.textContent = "Verification link sent! Check your email.";
+            pushNotif("s", "Verification link sent! Check your email.")
+            closeLoader()
         } else {
+            closeLoader()
             throw new Error(data.error || "Failed to send email");
         }
     } catch (error) {
-        messageElement.style.color = "red";
-        messageElement.textContent = error.message;
+        pushNotif("e", error.message)
+        closeLoader()
     }
   } else {
-      document.getElementById("result").innerText = "Wrong CAPTCHA. Try again!";
+      pushNotif("e", "Wrong CAPTCHA. Try again!")
       generateCaptcha();
   }
 });

@@ -6,6 +6,12 @@
         overflow: hidden;
     }
 
+    .notifications-container{
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+    }
+
     /*            login               */
     .login-container{
         width: 100%;

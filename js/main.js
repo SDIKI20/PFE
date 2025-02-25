@@ -80,7 +80,10 @@ function pushNotif(type, message){
     closeBut = document.createElement('i')
     closeBut.classList.add("fa-solid", "fa-xmark", "notif-close", "bt-hover")
     closeBut.addEventListener('click', ()=>{
-        closeBut.parentElement.parentElement.removeChild(notif)
+        notif.style.opacity = "0"
+        setTimeout(() => {
+            notif.parentElement.removeChild(notif)
+        }, 500);
     })
     notif.appendChild(closeBut)
     try{
@@ -89,5 +92,15 @@ function pushNotif(type, message){
             notif.style.opacity = "1"
             notif.style.transform = "translateY(0)"
         }, 100);
+        setTimeout(() => {
+            notif.style.opacity = "0"
+            setTimeout(() => {
+                try{notif.parentElement.removeChild(notif)}catch(error){}
+            }, 500);
+        }, 15000);
     }catch(error){}
+}
+
+function validateEmail(email) {
+    return !!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/);
 }

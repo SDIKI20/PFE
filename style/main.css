@@ -103,15 +103,15 @@ p,span{
 /*notifications*/
 
 .notifications-container{
-    position: absolute;
+    position: fixed;
     top: 0;
-    padding: 10vh 0;
-    left: 10vh;
+    right: 20px;
     max-height: 100vh;
     width: fit-content;
     overflow-y: auto;
     z-index: 0;
     z-index: 90;
+    backdrop-filter: blur(2px);
 }
 
 .notification-container{
@@ -126,12 +126,12 @@ p,span{
     justify-content: flex-start;
     width: 100%;
     opacity: 0;
-    transform: translateY(calc(-100% - 10vh));
+    transform: translateY(calc(-100% - 20px));
     transition: all ease-out 0.8s;
 }
 
 .notif-type{
-    color: var(--container);
+    color: white;
     padding: .625rem;
     border-radius: .3125rem;
 }
@@ -152,9 +152,9 @@ p,span{
 }
 
 .notif-error{
-    background-color: rgba(206, 95, 95, 0.2);
+    background-color: rgba(255, 167, 167, 0.2);
     border-color: rgba(194, 66, 66, 0.075);
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.144);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.05);
 
 }
 
@@ -169,9 +169,9 @@ p,span{
 }
 
 .notif-warning{
-    background-color: rgba(206, 149, 95, 0.2);
+    background-color: rgba(250, 202, 157, 0.2);
     border-color: rgba(194, 107, 66, 0.075);
-    box-shadow: 0 0 20px rgba(255, 123, 0, 0.144);
+    box-shadow: 0 0 10px rgba(255, 123, 0, 0.05);
 }
 
 .notif-warning .notif-type{
@@ -186,8 +186,8 @@ p,span{
 
 .notif-success{
     background-color: rgba(95, 206, 104, 0.2);
-    border-color: rgba(66, 194, 115, 0.075);
-    box-shadow: 0 0 20px rgba(0, 255, 136, 0.144);
+    border-color: rgba(151, 255, 191, 0.075);
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.05);
 }
 
 .notif-success .notif-type{
@@ -201,9 +201,9 @@ p,span{
 }
 
 .notif-info{
-    background-color: rgba(95, 152, 206, 0.2);
+    background-color: rgba(165, 212, 255, 0.2);
     border-color: rgba(66, 153, 194, 0.075);
-    box-shadow: 0 0 20px rgba(0, 238, 255, 0.144);
+    box-shadow: 0 0 10px rgba(0, 238, 255, 0.05);
 }
 
 .notif-info .notif-type{
