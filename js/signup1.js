@@ -40,7 +40,6 @@ document.getElementById("image").addEventListener('change', function() {
     reader.readAsDataURL(file);
 });
 
-
 document.addEventListener("DOMContentLoaded", async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
