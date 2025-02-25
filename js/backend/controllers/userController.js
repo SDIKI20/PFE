@@ -27,7 +27,7 @@ const addUser = async (req, res) => {
             `INSERT INTO users (fname, lname, image, email, address, country, wilaya, city, zipcode, phone, birthdate, username, password, role) 
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
              RETURNING *`,
-            [fname, lname, email, address, country, wilaya, city, zipcode, phone, birthdate, hashedUsername, hashedPassword, role]
+            [fname, lname, image, email, address, country, wilaya, city, zipcode, phone, birthdate, hashedUsername, hashedPassword, role]
         );
 
         res.json(newUser.rows[0]);

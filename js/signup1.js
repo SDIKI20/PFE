@@ -30,44 +30,16 @@ document.querySelector('.pictChange').addEventListener('click',function(){
 var file
 
 document.getElementById("image").addEventListener('change', function() {
+    openLoader()
     file = this.files[0];
     const reader = new FileReader();
     reader.onload = function(e) {
         document.getElementById("pictChange").setAttribute('src',e.target.result);
+        closeLoader()
     };
     reader.readAsDataURL(file);
 });
 
-async function uploadImage(file, category) {
-    const formData = new FormData();
-    formData.append("image", file);
-
-    try {
-        const response = await fetch(`http://localhost:5000/api/upload/${category}`, {
-            method: "POST",
-            body: formData
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-            document.getElementById("pictChange").setAttribute("src", result.src);
-            alert("Image uploaded successfully:", result.src);
-        } else {
-            alert(result.message);
-        }
-    } catch (error) {
-        console.error("Error uploading file:", error);
-        alert("File upload failed.");
-    }
-}
-
-userForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    uploadImage(file, "users");
-})
-
-/*
 
 document.addEventListener("DOMContentLoaded", async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -90,7 +62,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             // Add User Event
             userForm.addEventListener("submit", async (e) => {
                 e.preventDefault();
-
+                openLoader()
                 const fname = document.getElementById("Fname").value;
                 const lname = document.getElementById("Lname").value;
                 const address = document.getElementById("addr").value;
@@ -103,26 +75,64 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const username = document.getElementById("username").value;
                 const password = document.getElementById("password").value;
 
-                try {
-                    const response = await fetch("http://localhost:5000/api/users/adduser", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ fname, lname, email, password, username, address, country, wilaya, city, zipcode, phone, birthdate })
-                    });
+                if (file){
+                    const formDataImg = new FormData();
+                    formDataImg.append("image", file);
 
-                    if (!response.ok) throw new Error("Failed to add user");
+                    try {
+                        const response = await fetch(`http://localhost:5000/api/upload/users`, {
+                            method: "POST",
+                            body: formDataImg
+                        });
 
-                    userForm.reset();
-                } catch (error) {
-                    console.error("Error adding user:", error.message);
+                        const result = await response.json();
+
+                        if (response.ok) {
+                            image = result.src
+                            try {
+                                const response = await fetch("http://localhost:5000/api/users/adduser", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({ fname, lname, image, email, password, username, address, country, wilaya, city, zipcode, phone, birthdate })
+                                });
+                                if (!response.ok) throw new Error("Failed to add user");
+                                closeLoader()
+                            } catch (error) {
+                                console.error("Error adding user:", error.message);
+                                closeLoader()
+                            }
+                        } else {
+                            console.error(result.message);
+                            closeLoader()
+                        }
+                    } catch (error) {
+                        console.error("Error uploading file:", error);
+                        alert("File upload failed.");
+                        closeLoader()
+                    }
+                }else{
+                    try {
+                        image = "../assets/images/user.jpg"
+                        const response = await fetch("http://localhost:5000/api/users/adduser", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ fname, lname, image, email, password, username, address, country, wilaya, city, zipcode, phone, birthdate })
+                        });
+                        if (!response.ok) throw new Error("Failed to add user");
+                        closeLoader()
+                    } catch (error) {
+                        console.error("Error adding user:", error.message);
+                        closeLoader()
+                    }
                 }
             });
         } else {
             throw new Error(data.error || "Invalid token");
+            closeLoader()
         }
     } catch (error) {
         console.error("Token verification failed:", error);
         window.location.href = "login.html";
+        closeLoader()
     }
 });
-*/
