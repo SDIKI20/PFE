@@ -4,8 +4,8 @@ const nodemailer = require('../../lib/node_modules/nodemailer');
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'noreply.dzrentalcar@gmail.com',
-        pass: 'ubgq jjuk alux wbha'
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
 });
 
@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 const sendEmail = async (to, subject, message) => {
     try {
         const mailOptions = {
-            from: 'yourEmail@gmail.com',
+            from: 'noreply.dzrentalcar@gmail.com',
             to: to,
             subject: subject,
             html: message // Use HTML for formatted emails
