@@ -7,17 +7,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e)
 });
 
 //if (dark) {toggleDark()} else {toggleLight()}
-
-pushNotif("e", "test notification error")
-pushNotif("s", "test notification success")
-pushNotif("i", "test notification info")
-pushNotif("w", "test notification warning")
-
 function toggleDark(){
-    try{
-        document.getElementById("navLogo").style.filter = "invert(1)"
-        document.getElementById("navLogoFoot").style.filter = "invert(1)"
-    }catch(error){}
     root.style.setProperty('--bg', '#0E1621');
     root.style.setProperty('--dark-bg', '#f0eded');
     root.style.setProperty('--container', '#242F3D');

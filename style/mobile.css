@@ -397,4 +397,102 @@
     }
 
     /*-------------------------------------------------------*/
+
+    /*---------------------Platform---------------------------*/
+
+    .plat-main-doc{
+        width: 100vw;
+        height: 100svh;
+        overflow: hidden;
+    }
+
+    .plat-logo,
+    .plat-logout,
+    .plat-user-info{
+        display: none;
+    }
+
+    .plat-main-navigator{
+        position: fixed;
+        z-index: 90;
+        flex-direction: row;
+        padding: 0;
+        width: 100vw;
+        height: 5em;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        border: none;
+        border-top: 3px solid var(--border-low);
+        min-width: 300px;
+        background-color: var(--bg);
+    }
+
+    .plat-navigator{
+        flex-direction: row;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 0.625rem;
+    }
+
+    .plat-nav-element{
+        border: none;
+    }
+
+    .plat-nav-element::after,
+    #navRecent{
+        display: none;
+    }
+
+    .plat-nav-element{
+        font-size: 1.6em;
+        color: var(--text);
+        width: 3em;
+        margin: 0;
+    }
+
+    .plat-nav-selected{
+        color: var(--color-main);
+    }
+
+    .plat-nav-selected::before{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        content:"";
+        border-radius: 50%;
+        width: 70%;
+        aspect-ratio: 1;
+        height: auto;
+        background-color: var(--color-main);
+        opacity: 0.1;
+        border: 5px solid var(--border);
+    }
+
+    .plat-profile{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 1.5em;
+        width: 1.5em;
+        height: 1.5em;
+        min-height: 1.5em;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .plat-profile img{
+        width: 1.5em;
+        height: 1.5em;
+        object-fit: cover;
+    }
+
+
+
+    /*-------------------------------------------------------*/
+
 }
