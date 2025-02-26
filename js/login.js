@@ -65,7 +65,7 @@ document.getElementById("signUpForm").addEventListener("submit", async function 
         const data = await response.json();
   
         if (response.ok) {
-            pushNotif("s", "Verification link sent! Check your email.")
+            pushNotif("i", "Verification link sent! Check your email.")
             closeLoader()
         } else {
             closeLoader()

@@ -15,7 +15,7 @@ const createUserTable = async () => {
             fname VARCHAR(20) NOT NULL,
             lname VARCHAR(20) NOT NULL,
             address VARCHAR(255) NOT NULL,
-            country VARCHAR(255) NOT NULL,
+            country VARCHAR(20) NOT NULL,
             wilaya VARCHAR(255) NOT NULL,
             city VARCHAR(255) NOT NULL,
             zipcode VARCHAR(10) NOT NULL,

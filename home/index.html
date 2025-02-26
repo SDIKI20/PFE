@@ -3,37 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg" />
+    <link rel="shortcut icon" href="../favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+    <link rel="manifest" href="../favicon/site.webmanifest" />
+    <link rel="stylesheet" href="../style/lib/fontawesome/all.min.css">
     <link rel="stylesheet" href="../style/main.css">
+    <link rel="stylesheet" href="../style/checkbox.css">
+    <link rel="stylesheet" href="../style/platform.css">
     <link rel="stylesheet" href="../style/mobile.css">
     <link rel="stylesheet" href="../style/lagreScreen.css">
-    <link rel="stylesheet" href="../style/checkbox.css">
-    <link rel="stylesheet" href="../style/lib/fontawesome/all.min.css">
-    <link rel="stylesheet" href="../style/platform.css">
     <title>Platform</title>
 </head>
 <body class="flex-row">
 
-    <nav class="main-navigator flex-col center-start">
-        <div class="logo">
-            <img src="../assets/logo.png" alt="LOGO" width="50px">
+    <nav class="plat-main-navigator flex-col center-start">
+        <div class="plat-logo flex-row flex-center">
+            <img src="../assets/logo.png" alt="LOGO" width="60%">
         </div>
-        <ul class="navigator">
-            <li class="nav-element"><i class="fa-solid fa-house"></i></li>
-            <li class="nav-element nav-selected"><i class="fa-solid fa-car"></i></li>
-            <li class="nav-element"><i class="fa-solid fa-calendar"></i></li>
-            <li class="nav-element"><i class="fa-solid fa-heart"></i></li>
-            <li class="nav-element"><i class="fa-solid fa-clock-rotate-left"></i></li>
+        <ul class="plat-navigator flex-col center-start">
+            <li class="plat-nav-element" title="Home"><i class="fa-solid fa-house"></i></li>
+            <li class="plat-nav-element plat-nav-selected" title="Cars"><i class="fa-solid fa-car"></i></li>
+            <li class="plat-nav-element" title="Orders"><i class="fa-regular fa-clipboard"></i></li>
+            <li class="plat-nav-element" title="Favorite"><i class="fa-regular fa-heart"></i></li>
+            <li class="plat-nav-element" id="navRecent" title="Recent"><i class="fa-solid fa-clock-rotate-left"></i></li>
+            <li class="plat-nav-element flex-row flex-center">
+                <div class="plat-profile">
+                    <img src="../assets/images/user.jpg" alt="Profile" style="width: 100%;">
+                </div>
+            </li>
         </ul>
-        <ul class="user-info">
-            <li class="nav-element"><i class="fa-solid fa-address-card"></i></li>
-            <li class="nav-element"><i class="fa-solid fa-handshake-angle"></i></li>
+        <ul class="plat-user-info flex-col center-start">
+            <li class="plat-nav-element" title="My Documents"><i class="fa-regular fa-id-card"></i></li>
+            <li class="plat-nav-element" title="Help"><i class="fa-regular fa-handshake"></i></li>
         </ul>
-        <span class="nav-element logout"><i class="fa-solid fa-right-from-bracket"></i></span>
+        <span class="plat-nav-element plat-logout" title="Logout"><i class="fa-solid fa-person-walking-arrow-right"></i>></span>
     </nav>
-    <main class="main-doc flex-row" id="mainDoc">
-        <section class="filter-sec flex-col center-start" id="filterSec">
-            <header class="filter-head flex-col center-start">
-                <div class="flex-row">
+    <main class="plat-main-doc flex-row" id="mainDoc">
+        <section class="plat-filter-sec flex-col center-start" id="filterSec">
+            <header class="plat-filter-head flex-col center-start">
+                <div class="flex-row center-spacebet" style="width: 100%; padding: 0.625rem 1rem;">
                     <h1 class="title-sml">Filter by</h1>
                     <button class="bt bt-hover reset-but" id="filterReset">Reset All <i class="fa-solid fa-xmark"></i></button>
                 </div>
@@ -42,7 +53,7 @@
                     <input type="search" id="filterSearch" placeholder="Search...">
                 </div>
             </header>
-            <section class="filter-body flex-col">
+            <section class="plat-filter-body flex-col">
                 <details class="rental-type">
                     <summary class="title-sml">RENTAL TYPE</summary>
                     <div class="flex-row rental-types">
@@ -172,7 +183,7 @@
                 </details>                
             </section>
         </section>
-        <section class="cars-sec" id="carsSec">
+        <section class="plat-cars-sec" id="carsSec">
             <header class="carsec-head">
                 <h1 class="title-sml"><span id="rentalResult">99</span> Vehicles to rent</h1>
             </header>
