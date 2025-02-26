@@ -1,29 +1,32 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  const userList = document.getElementById("userList");
-  const userForm = document.getElementById("userForm");
+const sliderElement = document.getElementById("slider");
+const minInput = document.getElementById("priceMin");
+const maxInput = document.getElementById("priceMax");
 
-  // Fetch Users
-  async function fetchUsers() {
-      const response = await fetch("http://localhost:5000/api/users");
-      const users = await response.json();
-      userList.innerHTML = users.map(user => `<li>${user.name} - ${user.email}</li>`).join("");
+// Initialize the range slider
+let slider = new RangeSliderPips({
+  target: sliderElement,
+  props: {
+    min: 0,
+    max: 70,
+    values: [20, 50],
+    pips: true,
+    pipstep: 1,
+    float: true,
+    range: true,
+    prefix: "$ ",
+    pushy: true,
+    handleFormatter: (v) => v,
   }
+});
 
-  // Add User
-  userForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
-
-      await fetch("http://localhost:5000/api/users", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email })
-      });
-
-      userForm.reset();
-      fetchUsers();
+// Event listener for slider value change
+sliderElement.addEventListener("change", (e) => {
+  minInput.value = e.detail.values[0];
+  maxInput.value = e.detail.values[1];
+});
+// Update slider values when input fields change
+[minInput, maxInput].forEach((input) => {
+  input.addEventListener("change", () => {
+    slider.$set({ values: [minInput.value, maxInput.value] });
   });
-
-  fetchUsers();
 });

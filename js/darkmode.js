@@ -8,10 +8,10 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e)
 
 //if (dark) {toggleDark()} else {toggleLight()}
 
-pushNotif("e", "test notification")
-pushNotif("s", "test notification")
-pushNotif("i", "test notification")
-pushNotif("w", "test notification")
+pushNotif("e", "test notification error")
+pushNotif("s", "test notification success")
+pushNotif("i", "test notification info")
+pushNotif("w", "test notification warning")
 
 function toggleDark(){
     try{

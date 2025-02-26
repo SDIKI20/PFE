@@ -1,5 +1,5 @@
-const nodemailer = require('../../../lib/node_modules/nodemailer');
-const jwt = require('../../../lib/node_modules/jsonwebtoken');
+const nodemailer = require('../node_modules/nodemailer');
+const jwt = require('../node_modules/jsonwebtoken');
 
 const users = new Map(); // Temporary token store (use a database in production)
 

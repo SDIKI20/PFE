@@ -235,6 +235,20 @@ p,span{
     justify-content: center;
 }
 
+.flex-wrap{
+    flex-wrap: wrap;
+}
+
+.center-spacebet{
+    align-items: center;
+    justify-content: space-between;
+}
+
+.center-start{
+    align-items: center;
+    justify-content: flex-start;
+}
+
 .break-line{
     height: 1px;
     background-color: var(--border-low);
@@ -296,6 +310,13 @@ p,span{
     font-family: poppinsB; 
     font-size: 2.5rem;
     font-weight: bolder;
+}
+
+.title-sml,
+.title-sml span{
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--txt-black);
 }
 
 .para-mid,
@@ -417,6 +438,63 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     padding: 0 5px;
 }
 
+/* The switch - the box around the slider */
+.switch {
+    --button-width: 2.8em;
+    --button-height: 1.5em;
+    --toggle-diameter: 1em;
+    --button-toggle-offset: calc((var(--button-height) - var(--toggle-diameter)) / 2);
+    --toggle-shadow-offset: 10px;
+    --toggle-wider: 2.5em;
+    --color-grey: var(--bg-darker);
+    --color-green: var(--color-main);
+}
+   
+.slider {
+    display: inline-block;
+    width: var(--button-width);
+    height: var(--button-height);
+    background-color: var(--color-grey);
+    border-radius: calc(var(--button-height) / 2);
+    position: relative;
+    transition: 0.3s all ease-in-out;
+}
+
+.slider::after {
+    content: "";
+    display: inline-block;
+    width: var(--toggle-diameter);
+    height: var(--toggle-diameter);
+    background-color: #fff;
+    border-radius: calc(var(--toggle-diameter) / 2);
+    position: absolute;
+    top: var(--button-toggle-offset);
+    transform: translateX(var(--button-toggle-offset));
+    box-shadow: var(--toggle-shadow-offset) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
+    transition: 0.3s all ease-in-out;
+}
+
+.switch input[type="checkbox"]:checked + .slider {
+    background-color: var(--color-green);
+}
+
+.switch input[type="checkbox"]:checked + .slider::after {
+    transform: translateX(calc(var(--button-width) - var(--toggle-diameter) - var(--button-toggle-offset)));
+    box-shadow: calc(var(--toggle-shadow-offset) * -1) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
+}
+
+.switch input[type="checkbox"] {
+    display: none;
+}
+
+.switch input[type="checkbox"]:active + .slider::after {
+    width: var(--toggle-wider);
+}
+
+.switch input[type="checkbox"]:checked:active + .slider::after {
+    transform: translateX(calc(var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)));
+}
+   
 
 /*---------------------------------*/
 

@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users List</title>
-    <link rel="stylesheet" href="style/test.css">
+    <title>Price Range Slider</title>
+    <link rel="stylesheet" href="/style/test.css">
 </head>
 <body>
-    <h1>Users</h1>
-    <ul id="userList"></ul>
-
-    <form id="userForm">
-        <input type="text" id="name" placeholder="Name" required>
-        <input type="email" id="email" placeholder="Email" required>
-        <button type="submit">Add User</button>
-    </form>
-
-    <script src="js/test.js"></script>
+  <main id=app>
+        <div id="slider">
+        </div>
+        <div class="field">
+          <label for="name">Min Price</label>
+          <input type="number" id="min" name="min" placeholder="0" value=20>
+        </div>
+        <hr>
+        <div class="field">
+          <label for="name">Max Price</label>
+          <input type="number" id="max" name="max" placeholder="0" value=50>
+        </div>
+  </main>
+  <script src="lib/node_modules/svelte-range-slider-pips/dist/range-slider-pips.js"></script>
+  <script src="js/test.js"></script>
 </body>
 </html>

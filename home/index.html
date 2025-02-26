@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/main.css">
+    <link rel="stylesheet" href="../style/mobile.css">
+    <link rel="stylesheet" href="../style/lagreScreen.css">
+    <link rel="stylesheet" href="../style/checkbox.css">
+    <link rel="stylesheet" href="../style/lib/fontawesome/all.min.css">
+    <link rel="stylesheet" href="../style/platform.css">
+    <title>Platform</title>
+</head>
+<body class="flex-row">
+
+    <nav class="main-navigator flex-col center-start">
+        <div class="logo">
+            <img src="../assets/logo.png" alt="LOGO" width="50px">
+        </div>
+        <ul class="navigator">
+            <li class="nav-element"><i class="fa-solid fa-house"></i></li>
+            <li class="nav-element nav-selected"><i class="fa-solid fa-car"></i></li>
+            <li class="nav-element"><i class="fa-solid fa-calendar"></i></li>
+            <li class="nav-element"><i class="fa-solid fa-heart"></i></li>
+            <li class="nav-element"><i class="fa-solid fa-clock-rotate-left"></i></li>
+        </ul>
+        <ul class="user-info">
+            <li class="nav-element"><i class="fa-solid fa-address-card"></i></li>
+            <li class="nav-element"><i class="fa-solid fa-handshake-angle"></i></li>
+        </ul>
+        <span class="nav-element logout"><i class="fa-solid fa-right-from-bracket"></i></span>
+    </nav>
+    <main class="main-doc flex-row" id="mainDoc">
+        <section class="filter-sec flex-col center-start" id="filterSec">
+            <header class="filter-head flex-col center-start">
+                <div class="flex-row">
+                    <h1 class="title-sml">Filter by</h1>
+                    <button class="bt bt-hover reset-but" id="filterReset">Reset All <i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="input-holder flex-row" style="width: 90%;">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" id="filterSearch" placeholder="Search...">
+                </div>
+            </header>
+            <section class="filter-body flex-col">
+                <details class="rental-type">
+                    <summary class="title-sml">RENTAL TYPE</summary>
+                    <div class="flex-row rental-types">
+                        <label for="rentalA" class="rnt">Any</label>
+                        <input type="radio" name="rnt" id="rentalA" class="r-type" hidden>
+                        <label for="rentalD" class="rnt">Per day</label>
+                        <input type="radio" name="rnt" id="rentalD" class="r-type" hidden>
+                        <label for="rentalH" class="rnt">Per hour</label>
+                        <input type="radio" name="rnt" id="rentalH" class="r-type" hidden>
+                    </div>
+                </details>
+                <div class="break-line"></div>
+                <div class="flex-row center-spacebet available">
+                    <p class="title-sml">AVAILABLE NOW ONLY</p>
+                    <label class="switch">
+                        <input type="checkbox" hidden>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="break-line"></div>
+                <details class="filter-price">
+                    <summary class="title-sml">PRICE RANGE/HOUR</summary>
+                    <div class="flex-col price-range">
+                        <div id="slider">
+                        </div>
+                        <div class="flex-row price-inputs">      
+                            <div class="flex-row price-from">
+                                <label for="priceMin">FROM</label>
+                                <input type="number" id="priceMin">       
+                            </div>
+                            <div class="flex-row price-to">
+                                <label for="priceMax">TO</label>
+                                <input type="number" id="priceMax">
+                            </div>
+                        </div>
+                    </div>
+                </details>
+                <div class="break-line"></div>
+                <details class="filter-brand">
+                    <summary class="title-sml">CAR BRAND</summary>
+                </details>
+                <div class="break-line"></div>
+                <details class="filter-modal">
+                    <summary class="title-sml">CAR MODEL & YEAR</summary>
+                </details>
+                <div class="break-line"></div>
+                <details class="filter-style">
+                    <summary class="title-sml">BODY STYLE</summary>
+                    <div class="flex-row flex-wrap">
+                        <div class="flex-row check-holder checkbox-wrapper-13">
+                            <label for="sport">Sport</label>
+                            <input type="checkbox" id="sport">
+                        </div>
+                        <div class="flex-row check-holder checkbox-wrapper-13">
+                            <label for="sedan">Sedan</label>
+                            <input type="checkbox" id="sedan">
+                        </div>
+                        <div class="flex-row check-holder checkbox-wrapper-13">
+                            <label for="van">Van</label>
+                            <input type="checkbox" id="van">
+                        </div>
+                        <div class="flex-row check-holder checkbox-wrapper-13">
+                            <label for="coup">Coup</label>
+                            <input type="checkbox" id="coup">
+                        </div>
+                        <div class="flex-row check-holder checkbox-wrapper-13">
+                            <label for="couple">Couple</label>
+                            <input type="checkbox" id="couple">
+                        </div>
+                        <div class="flex-row check-holder checkbox-wrapper-13">
+                            <label for="offroad">Off-Road</label>
+                            <input type="checkbox" id="offroad">
+                        </div>
+                    </div>
+                </details>
+                <div class="break-line"></div>
+                <details class="filter-transmission">
+                    <summary class="title-sml">TRANSMISSION</summary>
+                    <div class="flex-col transms">
+                        <div class="flex-row radio-holder">
+                            <label for="transAny">Any</label>
+                            <input type="radio" name="transms" id="transAny">
+                        </div>
+                        <div class="flex-row radio-holder">
+                            <label for="transAuto">Automatic</label>
+                            <input type="radio" name="transms" id="transAuto">
+                        </div>
+                        <div class="flex-row radio-holder">
+                            <label for="transMan">Manual</label>
+                            <input type="radio" name="transms" id="transMan">
+                        </div>
+                    </div>
+                </details>
+                <div class="break-line"></div>
+                <details class="filter-fuel">
+                    <summary class="title-sml">FUEL TYPE</summary>
+                    <div class="flex-row flex-wrap">
+                        <div class="flex-row check-holder checkbox-wrapper-13">
+                            <label for="deisel">Deisel</label>
+                            <input type="checkbox" id="deisel">
+                        </div>
+                        <div class="flex-row check-holder checkbox-wrapper-13">
+                            <label for="electr">Electric</label>
+                            <input type="checkbox" id="electr">
+                        </div>
+                        <div class="flex-row check-holder checkbox-wrapper-13">
+                            <label for="gasoline">Gasoline</label>
+                            <input type="checkbox" id="gasoline">
+                        </div>
+                        <div class="flex-row check-holder checkbox-wrapper-13">
+                            <label for="ngas">Natural gas</label>
+                            <input type="checkbox" id="ngas">
+                        </div>
+                        <div class="flex-row check-holder checkbox-wrapper-13">
+                            <label for="hybrid">Hybrid</label>
+                            <input type="checkbox" id="hybrid">
+                        </div>
+                        <div class="flex-row check-holder checkbox-wrapper-13">
+                            <label for="lgp">LGP</label>
+                            <input type="checkbox" id="lgp">
+                        </div>
+                        <div class="flex-row check-holder checkbox-wrapper-13">
+                            <label for="e85">E85</label>
+                            <input type="checkbox" id="e85">
+                        </div>
+                    </div>
+                </details>                
+            </section>
+        </section>
+        <section class="cars-sec" id="carsSec">
+            <header class="carsec-head">
+                <h1 class="title-sml"><span id="rentalResult">99</span> Vehicles to rent</h1>
+            </header>
+            <div class="flex-row flex-wrap cars-contain">
+                <div class="car-container">
+                    <header class="flex-row">
+                        <div class="car-rate">
+                            <i class="fa-solid fa-star"></i>
+                            <p class="para-detail">4.7 <span style="color: var(--text-low);">(109)</span></p>
+                        </div>
+                        <div class="car-available av">
+                            Available now
+                        </div>
+                        <i class="fa-solid fa-heart fav-but"></i>
+                    </header>
+                    <div class="car-image">
+                        <img src="../assets/cars/hyundai_.png" alt="Car">
+                    </div>
+                    <div class="car-info">
+                        <div class="flex-col">
+                            <span class="para-med" style="color: var(--text-low);">HYUNDAI FOCUS</span>
+                            <div class="flex-row center-spacebet">
+                                <p class="para-med">1.5 EcoGrey MT Titanium X</p>
+                                <p class="para-med">550DZD <span style="color: var(--text-low);font-size:var(--font-sml);">/hour</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-foot flex-row center-spacebet">
+                        <div class="flex-row">
+                            <i class="fa-solid fa-car-rear icn"></i>
+                            <p class="para-med" style="color: var(--text-low);">Hatchback</p>
+                        </div>
+                        <div class="flex-row">
+                            <i class="fa-solid fa-gears icn"></i>
+                            <p class="para-med" style="color: var(--text-low);">Manual</p>
+                        </div>
+                        <div class="flex-row">
+                            <i class="fa-solid fa-gas-pump icn"></i>
+                            <p class="para-med" style="color: var(--text-low);">Diesel</p>
+                        </div>
+                        <div class="flex-row">
+                            <i class="fa-solid fa-chair icn"></i>
+                            <p class="para-med" style="color: var(--text-low);">6</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="car-detail flex-col" id="carDetail">
+            <div class="car-images-container flex-row">
+
+            </div>
+            <div class="car-det-info">
+                
+            </div>
+        </section>
+    </main>
+    <script src="../js/main.js"></script>
+    <script src="../js/darkmode.js"></script>
+    <script src="../lib/node_modules/svelte-range-slider-pips/dist/range-slider-pips.js"></script>
+    <script src="../js/platform.js"></script>
+</body>
+</html>
