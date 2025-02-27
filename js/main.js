@@ -25,6 +25,7 @@ function fakeLoading(t){
     }, t*1000);
 }
 
+
 document.addEventListener("DOMContentLoaded", function () {
     openLoader()
     window.addEventListener("load", function () {

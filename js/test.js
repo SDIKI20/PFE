@@ -1,32 +1,39 @@
-const sliderElement = document.getElementById("slider");
-const minInput = document.getElementById("priceMin");
-const maxInput = document.getElementById("priceMax");
+const minPriceInput = document.getElementById('minPrice');
+const maxPriceInput = document.getElementById('maxPrice');
+const minRangeInput = document.getElementById('minRange');
+const maxRangeInput = document.getElementById('maxRange');
+const minTooltip = document.getElementById('minTooltip');
+const maxTooltip = document.getElementById('maxTooltip');
 
-// Initialize the range slider
-let slider = new RangeSliderPips({
-  target: sliderElement,
-  props: {
-    min: 0,
-    max: 70,
-    values: [20, 50],
-    pips: true,
-    pipstep: 1,
-    float: true,
-    range: true,
-    prefix: "$ ",
-    pushy: true,
-    handleFormatter: (v) => v,
-  }
+// Update tooltip and input values
+function updateValues() {
+  minTooltip.textContent = minRangeInput.value;
+  maxTooltip.textContent = maxRangeInput.value;
+  minPriceInput.value = minRangeInput.value;
+  maxPriceInput.value = maxRangeInput.value;
+}
+
+// Sync range inputs with number inputs
+minPriceInput.addEventListener('input', () => {
+  minRangeInput.value = minPriceInput.value;
+  updateValues();
 });
 
-// Event listener for slider value change
-sliderElement.addEventListener("change", (e) => {
-  minInput.value = e.detail.values[0];
-  maxInput.value = e.detail.values[1];
+maxPriceInput.addEventListener('input', () => {
+  maxRangeInput.value = maxPriceInput.value;
+  updateValues();
 });
-// Update slider values when input fields change
-[minInput, maxInput].forEach((input) => {
-  input.addEventListener("change", () => {
-    slider.$set({ values: [minInput.value, maxInput.value] });
-  });
+
+// Sync number inputs with range inputs
+minRangeInput.addEventListener('input', () => {
+  minPriceInput.value = minRangeInput.value;
+  updateValues();
 });
+
+maxRangeInput.addEventListener('input', () => {
+  maxPriceInput.value = maxRangeInput.value;
+  updateValues();
+});
+
+// Initialize tooltips
+updateValues();

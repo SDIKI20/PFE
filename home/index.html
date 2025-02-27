@@ -21,7 +21,7 @@
 
     <nav class="plat-main-navigator flex-col center-start">
         <div class="plat-logo flex-row flex-center">
-            <img src="../assets/logo.png" alt="LOGO" width="60%">
+            <img src="../assets/logo.png" alt="LOGO" width="80%">
         </div>
         <ul class="plat-navigator flex-col center-start">
             <li class="plat-nav-element" title="Home"><i class="fa-solid fa-house"></i></li>
@@ -42,6 +42,43 @@
         <span class="plat-nav-element plat-logout" title="Logout"><i class="fa-solid fa-person-walking-arrow-right"></i>></span>
     </nav>
     <main class="plat-main-doc flex-row" id="mainDoc">
+        <div class="plat-user-loc flex-row center-start">
+            <div class="today-date flex-row center-start" id="todayDate">
+                <i class="fa-regular fa-clock tm-icn"></i>
+                <p class="user-locate-date">
+                    <script>
+                        days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+                        mnts = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
+                        today = new Date;
+                        document.write(`
+                        ${days[today.getDay()]}, 
+                        ${today.getDate()} 
+                        ${mnts[today.getMonth()]} 
+                        ${today.getFullYear()}`);
+                    </script>
+                </p>
+            </div>
+            <div class="user-locate flex-row center-start" id="userLocate">
+                <i class="fa-solid fa-location-dot tm-icn"></i>
+                <p class="user-locate-date" id="userIp">
+                    <script>
+                        try {
+                            fetch('https://api64.ipify.org?format=json')
+                            .then(response => response.json())
+                            .then(data => {return fetch(`http://ip-api.com/json/${data.ip}`);})
+                            .then(response => response.json())
+                            .then(data => {
+                                document.getElementById("userIp").innerHTML = `${data.country}, ${data.city}`
+                            })
+                            .catch(error => console.error('Error:', error));
+                        }catch(error){document.getElementById("userLocate").style.display = "none"}
+                    </script>
+                </p>
+            </div>
+            <div class="plat-user-profile">
+                <img src="../assets//images/user.jpg" alt="Use">
+            </div>
+        </div>
         <section class="plat-filter-sec flex-col center-start" id="filterSec">
             <header class="plat-filter-head flex-col center-start">
                 <div class="flex-row center-spacebet" style="width: 100%; padding: 0.625rem 1rem;">
@@ -54,12 +91,16 @@
                 </div>
             </header>
             <section class="plat-filter-body flex-col">
+                <div class="filter-close-mob flex-row center-spacebet">
+                    <p class="title-med">Filter</p>
+                    <i class="fa-solid fa-xmark" id="platCloseFilter"></i>
+                </div>
                 <details class="rental-type" open>
                     <summary class="title-sml bt-hover">RENTAL TYPE</summary>
                     <div class="flex-row rental-types">
-                        <input type="radio" name="rnt" id="rentalA" class="r-type" hidden checked>
+                        <input type="radio" name="rnt" id="rentalA" class="r-type" hidden>
                         <label for="rentalA" class="rnt bt-hover">Any</label>
-                        <input type="radio" name="rnt" id="rentalD" class="r-type" hidden>
+                        <input type="radio" name="rnt" id="rentalD" class="r-type" hidden checked>
                         <label for="rentalD" class="rnt bt-hover">Per day</label>
                         <input type="radio" name="rnt" id="rentalH" class="r-type" hidden>
                         <label for="rentalH" class="rnt bt-hover">Per hour</label>
@@ -74,22 +115,27 @@
                     </label>
                 </div>
                 <div class="break-line"></div>
-                <details class="filter-price bt-hover">
-                    <summary class="title-sml">PRICE RANGE/HOUR</summary>
-                    <div class="flex-col price-range">
-                        <div id="slider">
+                <details class="filter-price">
+                    <summary class="title-sml bt-hover"><span>PRICE RANGE <span id="priceBy">/HOUR</span></span></summary>
+                    <div class="range flex-col">
+                        <div class="range-slider">
+                            <span class="range-selected"></span>
                         </div>
-                        <div class="flex-row price-inputs">      
-                            <div class="flex-row price-from">
-                                <label for="priceMin">FROM</label>
-                                <input type="number" id="priceMin">       
+                        <div class="range-input">
+                            <input type="range" class="min" min="0" max="50000" value="15000" step="10">
+                            <input type="range" class="max" min="0" max="50000" value="36000" step="10">
+                        </div>
+                        <div class="range-price flex-row">
+                            <div class="flex-row center-start range-price-contanier">
+                                <label for="min">From</label>
+                                <input type="number" name="min" value="15000" disabled>      
                             </div>
-                            <div class="flex-row price-to">
-                                <label for="priceMax">TO</label>
-                                <input type="number" id="priceMax">
+                            <div class="flex-row center-start range-price-contanier">
+                                <label for="max">To</label>
+                                <input type="number" name="max" value="36000" disabled>      
                             </div>
                         </div>
-                    </div>
+                        </div>
                 </details>
                 <div class="break-line"></div>
                 <details class="filter-brand">
@@ -97,54 +143,54 @@
                 </details>
                 <div class="break-line"></div>
                 <details class="filter-modal">
-                    <summary class="title-sml bt-hover">CAR MODEL & YEAR</summary>
+                    <summary class="title-sml bt-hover">CAPACITY</summary>
                 </details>
                 <div class="break-line"></div>
                 <details class="filter-style">
                     <summary class="title-sml bt-hover">BODY STYLE</summary>
                     <div class="flex-row flex-wrap">
                         <div class="flex-row check-holder checkbox-wrapper-13">
-                            <label for="sport">Sport</label>
                             <input type="checkbox" id="sport">
+                            <label for="sport">Sport</label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
-                            <label for="sedan">Sedan</label>
                             <input type="checkbox" id="sedan">
+                            <label for="sedan">Sedan</label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
-                            <label for="van">Van</label>
                             <input type="checkbox" id="van">
+                            <label for="van">Van</label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
-                            <label for="coup">Coup</label>
                             <input type="checkbox" id="coup">
+                            <label for="coup">Coup</label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
-                            <label for="couple">Couple</label>
                             <input type="checkbox" id="couple">
+                            <label for="couple">Couple</label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
-                            <label for="offroad">Off-Road</label>
                             <input type="checkbox" id="offroad">
+                            <label for="offroad">Off-Road</label>
                         </div>
                     </div>
                 </details>
                 <div class="break-line"></div>
-                <details class="filter-transmission">
+                <details class="filter-transmission" open>
                     <summary class="title-sml bt-hover">TRANSMISSION</summary>
                     <div class="flex-col transms">
-                        <div class="flex-row radio-holder">
-                            <label for="transAny">Any</label>
-                            <input type="radio" name="transms" id="transAny">
-                        </div>
-                        <div class="flex-row radio-holder">
-                            <label for="transAuto">Automatic</label>
-                            <input type="radio" name="transms" id="transAuto">
-                        </div>
-                        <div class="flex-row radio-holder">
-                            <label for="transMan">Manual</label>
-                            <input type="radio" name="transms" id="transMan">
-                        </div>
+                        <label class="radio-holder bt-hover">
+                            <input type="radio" id="transAny" name="value-radio" value="transAny"/>
+                            <p class="text">Any</p>
+                        </label>
+                        <label class="radio-holder bt-hover">
+                            <input type="radio" id="transAut" name="value-radio" value="transAut"/>
+                            <p class="text">Automatic</p>
+                        </label>
+                        <label class="radio-holder bt-hover">
+                            <input type="radio" id="transMan" name="value-radio" value="transMan" checked/>
+                            <p class="text">Manuel</p>
+                        </label>
                     </div>
                 </details>
                 <div class="break-line"></div>
@@ -152,92 +198,97 @@
                     <summary class="title-sml bt-hover">FUEL TYPE</summary>
                     <div class="flex-row flex-wrap">
                         <div class="flex-row check-holder checkbox-wrapper-13">
-                            <label for="deisel">Deisel</label>
                             <input type="checkbox" id="deisel">
+                            <label for="deisel">Deisel</label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
-                            <label for="electr">Electric</label>
                             <input type="checkbox" id="electr">
+                            <label for="electr">Electric</label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
-                            <label for="gasoline">Gasoline</label>
                             <input type="checkbox" id="gasoline">
+                            <label for="gasoline">Gasoline</label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
-                            <label for="ngas">Natural gas</label>
                             <input type="checkbox" id="ngas">
+                            <label for="ngas">Natural gas</label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
-                            <label for="hybrid">Hybrid</label>
                             <input type="checkbox" id="hybrid">
+                            <label for="hybrid">Hybrid</label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
-                            <label for="lgp">LGP</label>
                             <input type="checkbox" id="lgp">
+                            <label for="lgp">LGP</label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
-                            <label for="e85">E85</label>
                             <input type="checkbox" id="e85">
+                            <label for="e85">E85</label>
                         </div>
                     </div>
                 </details>                
             </section>
+            <footer class="plat-filter-foot flex-row flex-center">
+                <button class="bt bt-hover apply-filter" id="applyFilter">Apply Filter</button>
+            </footer>
         </section>
-        <section class="plat-cars-sec" id="carsSec">
-            <header class="carsec-head">
-                <h1 class="title-sml"><span id="rentalResult">99</span> Vehicles to rent</h1>
-            </header>
-            <div class="flex-row flex-wrap cars-contain">
-                <div class="car-container">
-                    <header class="flex-row">
-                        <div class="car-rate">
-                            <i class="fa-solid fa-star"></i>
-                            <p class="para-detail">4.7 <span style="color: var(--text-low);">(109)</span></p>
+        <section class="plat-cars-sec flex-row" id="carsSec">
+            <div class="flex-row flex-wrap carsec-body">
+                <header class="carsec-head flex-row">
+                    <h1 class="title-sml"><span id="rentalResult">99</span> Vehicles to rent</h1>
+                </header>
+                <div class="plat-cars-container">
+                    <div class="plat-car-container">
+                        <header class="flex-row">
+                            <div class="car-rate">
+                                <i class="fa-solid fa-star"></i>
+                                <p class="para-detail">4.7 <span style="color: var(--text-low);">(109)</span></p>
+                            </div>
+                            <div class="car-available av">
+                                Available now
+                            </div>
+                            <i class="fa-solid fa-heart fav-but"></i>
+                        </header>
+                        <div class="car-image">
+                            <img src="../assets/cars/hyundai_.png" alt="Car">
                         </div>
-                        <div class="car-available av">
-                            Available now
-                        </div>
-                        <i class="fa-solid fa-heart fav-but"></i>
-                    </header>
-                    <div class="car-image">
-                        <img src="../assets/cars/hyundai_.png" alt="Car">
-                    </div>
-                    <div class="car-info">
-                        <div class="flex-col">
-                            <span class="para-med" style="color: var(--text-low);">HYUNDAI FOCUS</span>
-                            <div class="flex-row center-spacebet">
-                                <p class="para-med">1.5 EcoGrey MT Titanium X</p>
-                                <p class="para-med">550DZD <span style="color: var(--text-low);font-size:var(--font-sml);">/hour</span></p>
+                        <div class="car-info">
+                            <div class="flex-col">
+                                <span class="para-med" style="color: var(--text-low);">HYUNDAI FOCUS</span>
+                                <div class="flex-row center-spacebet">
+                                    <p class="para-med">1.5 EcoGrey MT Titanium X</p>
+                                    <p class="para-med">550DZD <span style="color: var(--text-low);font-size:var(--font-sml);">/hour</span></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="car-foot flex-row center-spacebet">
-                        <div class="flex-row">
-                            <i class="fa-solid fa-car-rear icn"></i>
-                            <p class="para-med" style="color: var(--text-low);">Hatchback</p>
-                        </div>
-                        <div class="flex-row">
-                            <i class="fa-solid fa-gears icn"></i>
-                            <p class="para-med" style="color: var(--text-low);">Manual</p>
-                        </div>
-                        <div class="flex-row">
-                            <i class="fa-solid fa-gas-pump icn"></i>
-                            <p class="para-med" style="color: var(--text-low);">Diesel</p>
-                        </div>
-                        <div class="flex-row">
-                            <i class="fa-solid fa-chair icn"></i>
-                            <p class="para-med" style="color: var(--text-low);">6</p>
+                        <div class="car-foot flex-row center-spacebet">
+                            <div class="flex-row">
+                                <i class="fa-solid fa-car-rear icn"></i>
+                                <p class="para-med" style="color: var(--text-low);">Hatchback</p>
+                            </div>
+                            <div class="flex-row">
+                                <i class="fa-solid fa-gears icn"></i>
+                                <p class="para-med" style="color: var(--text-low);">Manual</p>
+                            </div>
+                            <div class="flex-row">
+                                <i class="fa-solid fa-gas-pump icn"></i>
+                                <p class="para-med" style="color: var(--text-low);">Diesel</p>
+                            </div>
+                            <div class="flex-row">
+                                <i class="fa-solid fa-chair icn"></i>
+                                <p class="para-med" style="color: var(--text-low);">6</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <section class="car-detail flex-col" id="carDetail">
-            <div class="car-images-container flex-row">
-
-            </div>
-            <div class="car-det-info">
-                
+            <div class="plat-car-detail flex-col" id="carDetail">
+                <div class="car-images-container flex-row">
+    
+                </div>
+                <div class="car-det-info">
+                    
+                </div>
             </div>
         </section>
     </main>

@@ -491,8 +491,71 @@
         object-fit: cover;
     }
 
+    .plat-filter-head{
+        display: none;
+    }
 
+    .plat-filter-sec{
+        position: absolute;
+        width: 100vw;
+        height: 100svh;
+        top: 50%;
+        left: 50%;
+        z-index: 91;
+        transform: translate(-50%, -50%);
+        display: none;
+    }
+    
+    .plat-filter-foot{
+        display: flex;
+        height: 6em;
+        border-top: 2px solid var(--border-low);
+        width: 100%;
+    }
 
+    .apply-filter{
+        color: white;
+        background-color: var(--color-second);
+        width: 80%;
+        height: 60%;
+        font-size: var(--font-med);
+        border-radius: 1.25rem;
+    }
+
+    .plat-filter-body > .break-line{
+        background-color: transparent;
+    }
+
+    .filter-close-mob{
+        position: sticky;
+        top: -25px;
+        display: flex;
+        z-index: 10;
+        padding-bottom: 1.25rem;
+        padding-top: 5px;
+        background-color: var(--container);
+    }
+
+    .plat-cars-sec{
+        width: 100%;
+        height: calc(100% - 5em);
+    }
+
+    .carsec-body{
+        width: 100%;
+    }
+
+    .plat-car-detail{
+        position: absolute;
+        width: 100vw;
+        height: 100svh;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 91;
+        background-color: var(--container);
+        display: none;
+    }
     /*-------------------------------------------------------*/
 
 }

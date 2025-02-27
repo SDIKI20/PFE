@@ -95,6 +95,7 @@ body{
     justify-content: center;
     border: 5px solid var(--container);
     cursor: pointer;
+    border: 2px solid var(--color-main);
 }
 
 .pictChange{

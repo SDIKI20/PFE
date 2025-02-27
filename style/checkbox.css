@@ -1,10 +1,10 @@
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
     .checkbox-wrapper-13 input[type=checkbox] {
-      --active: var(--color-main);
+      --active: var(--color-second);
       --active-inner: #fff;
-      --focus: 2px rgba(39, 94, 254, .3);
-      --border: var(--border);
-      --border-hover: var(--color-second);
+      --focus: 2px var(--border);
+      --border: var(--border-low);
+      --border-hover: var(--color-main);
       --background: var(--bg);
       --disabled: #F6F8FF;
       --disabled-inner: #E1E6F9;
@@ -17,8 +17,8 @@
       position: relative;
       margin: 0;
       cursor: pointer;
-      border: 1px solid var(--bc, var(--border));
-      background: var(--b, var(--bg));
+      border: 2px solid var(--bc, var(--text-low));
+      background: var(--b, transparent);
       transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
     }
     .checkbox-wrapper-13 input[type=checkbox]:after {

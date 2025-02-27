@@ -7,20 +7,54 @@
     <link rel="stylesheet" href="/style/test.css">
 </head>
 <body>
-  <main id=app>
-        <div id="slider">
-        </div>
-        <div class="field">
-          <label for="name">Min Price</label>
-          <input type="number" id="min" name="min" placeholder="0" value=20>
-        </div>
-        <hr>
-        <div class="field">
-          <label for="name">Max Price</label>
-          <input type="number" id="max" name="max" placeholder="0" value=50>
-        </div>
-  </main>
-  <script src="lib/node_modules/svelte-range-slider-pips/dist/range-slider-pips.js"></script>
+  <h1>Get User Location</h1>
+  <button id="getLocationBtn">Get My Location</button>
+  <p id="locationResult"></p>
+
+  <script>
+    const locationResult = document.getElementById('locationResult');
+    const getLocationBtn = document.getElementById('getLocationBtn');
+
+    // Function to handle successful location retrieval
+    function showPosition(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      const accuracy = position.coords.accuracy; // Accuracy in meters
+
+      locationResult.innerHTML = `
+        Latitude: ${latitude}<br>
+        Longitude: ${longitude}<br>
+        Accuracy: ${accuracy} meters
+      `;
+    }
+
+    // Function to handle errors
+    function showError(error) {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          locationResult.innerHTML = "User denied the request for Geolocation.";
+          break;
+        case error.POSITION_UNAVAILABLE:
+          locationResult.innerHTML = "Location information is unavailable.";
+          break;
+        case error.TIMEOUT:
+          locationResult.innerHTML = "The request to get user location timed out.";
+          break;
+        case error.UNKNOWN_ERROR:
+          locationResult.innerHTML = "An unknown error occurred.";
+          break;
+      }
+    }
+
+    // Get location when the button is clicked
+    getLocationBtn.addEventListener('click', () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        locationResult.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    });
+  </script>
   <script src="js/test.js"></script>
 </body>
 </html>

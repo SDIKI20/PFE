@@ -7,7 +7,11 @@
 }
 
 .plat-logo{
-    width: 100%;
+    width: 60%;
+    height: auto;
+    aspect-ratio: 1;
+    background-color: white;
+    border-radius: 20px;
 }
 
 .plat-navigator{
@@ -57,6 +61,41 @@
     transform: scale(1.02);
 }
 
+.plat-user-loc{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    padding: 0 .625rem;
+    gap: 6px;
+    height: 3.5em;
+}
+
+.plat-user-profile{
+    width: 2.2em;
+    height: 2.2em;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: .625rem;
+}
+
+.plat-user-profile img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.user-locate-date{
+    color: var(--text-low);
+    font-size: var(--font-sml);
+}
+
+.tm-icn{
+    color: var(--text-low);
+    font-size: 0.8rem;
+    padding: 0 0.3rem;
+}
+
 .plat-nav-selected::after{
     left: 0;
 }
@@ -69,6 +108,7 @@
     width: calc(100vw - 5.5em);
     height: 100vh;
     overflow: hidden;
+    position: relative;
 }
 
 .plat-filter-sec{
@@ -76,12 +116,6 @@
     height: 100%;
     overflow: hidden;
     background-color: var(--container);
-}
-
-.plat-cars-sec{
-    width: calc(100% - 20em);
-    height: 100%;
-    overflow: hidden;
 }
 
 .plat-filter-head{
@@ -101,12 +135,20 @@
     padding: 1.25rem;
 }
 
+.plat-filter-foot,
+.filter-close-mob{
+    display: none;
+}
+
 summary {
     list-style: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: bold;
+}
+
+summary *{
     cursor: pointer;
 }
 
@@ -150,4 +192,213 @@ input[type='radio']:checked + .rnt{
 
 .available *{
     cursor: pointer;
+}
+
+#priceBy{
+    font-size: var(--font-sml);
+    color: var(--text-low);
+}
+
+.range{
+    margin-top: 1.5rem;
+}
+
+.range-slider {
+    height: 5px;
+    position: relative;
+    background-color: var(--border);
+    border-radius: 2px;
+}
+.range-selected {
+    height: 100%;
+    left: 30%;
+    right: 30%;
+    position: absolute;
+    border-radius: 5px;
+    background-color: var(--color-second);
+}
+
+.range-input {
+    position: relative;
+}
+.range-input input {
+    width: 100%;
+    position: absolute;
+    height: 5px;
+    top: -7px;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+.range-input input::-webkit-slider-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    border: 3px solid var(--color-second);
+    background-color: var(--container);
+    pointer-events: auto;
+    -webkit-appearance: none;
+}
+.range-input input::-moz-range-thumb {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    border: 3px solid var(--color-second);
+    background-color: var(--container);
+    pointer-events: auto;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.range-input input::-webkit-slider-thumb:hover,
+.range-input input::-moz-range-thumb:hover{
+    opacity: 0.8;
+    cursor: pointer;
+    transform: scale(0.9);
+}
+
+.range-price{
+    margin: 30px 0;
+    width: 100%;
+    justify-content: space-around;
+}
+.range-price label {
+    margin-right: 5px;
+    color: var(--text-low);
+    font-size: var(--font-sml);
+}
+.range-price input {
+    border: none;
+    background-color: transparent;
+    padding-left: .6rem;
+    color: var(--text);
+    font-size: var(--font-sml);
+}
+.range-price input:first-of-type {
+    margin-right: 15px;
+}
+
+.range-price-contanier{
+    background-color: rgba(126, 126, 126, 0.07);
+    border-radius: .3125rem;
+    width: 45%;
+    padding: 5px 10px;
+    overflow: hidden;
+}
+
+.check-holder{
+    min-width: 50%;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 20px;
+}
+
+.check-holder label{
+    padding-left: .3125rem;
+    color: var(--text);
+    font-size: var(--text-low);
+}
+
+.transms {
+    gap: 4px;
+    width: 100%;
+    margin-top: .625rem;
+}
+  
+.transms * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+  
+.transms label {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0px 20px;
+    cursor: pointer;
+    width: 100%;
+    height: 40px;
+    position: relative;
+}
+
+.transms .radio-holder .text {
+    color: var(--text);
+    font-size: var(--font-sml);
+    cursor: pointer;
+}
+  
+.transms .radio-holder input[type="radio"] {
+    background-color: var(--border-low);
+    appearance: none;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.transms .radio-holder input[type="radio"]:checked {
+    background-color: var(--color-second);
+    -webkit-animation: puls 0.7s forwards;
+    animation: pulse 0.7s forwards;
+}
+  
+.transms .radio-holder input[type="radio"]:before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    transition: all 0.1s cubic-bezier(0.165, 0.84, 0.44, 1);
+    background-color: white;
+    transform: scale(0);
+}
+  
+.transms .radio-holder input[type="radio"]:checked::before {
+    transform: scale(1);
+}
+  
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 var(--border);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+  
+.plat-cars-sec{
+    width: calc(100% - 20em);
+    height: 100%;
+    overflow: hidden;
+}
+
+.carsec-head{
+    width: 100%;
+    height: 3.5em;
+    align-items: center;
+    padding: 0 .625rem;
+    border: 2px solid red;
+}
+
+.plat-cars-container{
+    width: 100%;
+    height: calc(100% - 3.5em);
+    border: 2px solid green;
+}
+
+.carsec-body{
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.plat-car-detail{
+    width: 50%;
+    height: 100%;
+    background-color: var(--container);
 }

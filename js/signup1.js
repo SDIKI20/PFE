@@ -1,17 +1,4 @@
 const userForm = document.getElementById('signupForm')
-document.getElementById("Fname").value = "Oudai"
-document.getElementById("Lname").value = "Oulhadj"
-document.getElementById("addr").value = "110 Log"
-document.getElementById("country").value = "Algeria"
-document.getElementById("state").value = "Ghardaia"
-document.getElementById("city").value = "Ghardaia"
-document.getElementById("zcode").value = "47000"
-document.getElementById("birthdate").value = "2002-04-29"
-document.getElementById("phone-number-input").value = "0553728440"
-document.getElementById("username").value = "odaydid002"
-document.getElementById("password").value = "123"
-document.getElementById("rePassword").value = "123"
-document.getElementById("agreeTerms").checked = true
 
 var input = document.querySelector("#phone-number-input");
 var iti = window.intlTelInput(input, {
@@ -50,6 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
+        openLoader()
         const response = await fetch("http://localhost:5000/api/email/verify-token?token=" + token);
         const data = await response.json();
 
@@ -57,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const email = data.email;
             localStorage.setItem("userEmail", email);
             document.getElementById("email").value = email;
-
+            closeLoader()
             // Add User Event
             userForm.addEventListener("submit", async (e) => {
                 e.preventDefault();
@@ -126,8 +114,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             });
         } else {
-            throw new Error(data.error || "Invalid token");
             closeLoader()
+            throw new Error(data.error || "Invalid token");
         }
     } catch (error) {
         console.error("Token verification failed:", error);
