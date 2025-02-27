@@ -540,6 +540,8 @@
     .plat-cars-sec{
         width: 100%;
         height: calc(100% - 5em);
+        overflow: visible;
+        z-index: 99;
     }
 
     .carsec-body{
@@ -550,12 +552,12 @@
         position: absolute;
         width: 100vw;
         height: 100svh;
-        top: 50%;
+        top: 150%;
         left: 50%;
         transform: translate(-50%, -50%);
-        z-index: 91;
         background-color: var(--container);
         display: none;
+        border: 3px solid red;
     }
 
     .carsec-head > h1{
@@ -633,6 +635,7 @@
 
     .plat-car-container{
         width: 100%;
+        max-width: 500px;
         min-width: 20em;
         height: 380px;
     }

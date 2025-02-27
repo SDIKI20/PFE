@@ -56,3 +56,41 @@ function closeFilter(){
     filterSec.style.display = "none"
   }, 100);
 }
+
+gsap.set(".plat-car-container", {y:0, opacity: 1});
+
+gsap.from(".plat-car-container", {
+    y: -100,
+    duration: 1,
+    opacity: 0,
+    stagger: 0.1
+});
+
+document.querySelectorAll(".plat-car-image").forEach(carContainer=>{
+  carContainer.addEventListener('click', ()=>{
+    targetCar = carContainer.parentElement
+    var carId = null
+    carInfo = getCarInfo(carId)
+    openCarDetail(carInfo)
+  })
+})
+
+function getCarInfo(carId){
+  var info = null
+  return info
+}
+
+const carDetailSec = document.getElementById('carDetail')
+const carsContainerSec = document.getElementById('carSecBody')
+
+function openCarDetail(carInfo){
+  if(screen.width > 820){
+    carsContainerSec.style.width = "40%"
+    carDetailSec.style.width = "60%"
+  }else{
+    carDetailSec.style.display = "flex"
+    setTimeout(() => {
+      carDetailSec.style.top = "50%"
+    }, 100);
+  }
+}
