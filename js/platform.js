@@ -18,3 +18,7 @@ let slider = new RangeSliderPips({
     handleFormatter: (v) => v,
   }
 });
+
+sliderElement.addEventListener("change", (e)=>{
+    console.log(e.detail)
+})

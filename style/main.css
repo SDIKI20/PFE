@@ -354,7 +354,7 @@ p,span{
 .bt-hover:hover{
     opacity: 0.8;
     transform: scale(1.02);
-    transition: ease 0.3s;
+    transition: ease 0.5s;
     cursor: pointer;
 }
 
@@ -440,14 +440,14 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 
 /* The switch - the box around the slider */
 .switch {
-    --button-width: 2.8em;
-    --button-height: 1.5em;
-    --toggle-diameter: 1em;
+    --button-width: 2em;
+    --button-height: 1em;
+    --toggle-diameter: 0.6em;
     --button-toggle-offset: calc((var(--button-height) - var(--toggle-diameter)) / 2);
     --toggle-shadow-offset: 10px;
-    --toggle-wider: 2.5em;
+    --toggle-wider: 1.5em;
     --color-grey: var(--bg-darker);
-    --color-green: var(--color-main);
+    --color-green: var(--color-second);
 }
    
 .slider {

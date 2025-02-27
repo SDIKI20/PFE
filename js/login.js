@@ -72,7 +72,7 @@ document.getElementById("signUpForm").addEventListener("submit", async function 
             throw new Error(data.error || "Failed to send email");
         }
     } catch (error) {
-        pushNotif("e", error.message)
+        pushNotif("e", "Somthing went wrong! Try again later")
         closeLoader()
     }
   } else {

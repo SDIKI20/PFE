@@ -46,7 +46,7 @@
             <header class="plat-filter-head flex-col center-start">
                 <div class="flex-row center-spacebet" style="width: 100%; padding: 0.625rem 1rem;">
                     <h1 class="title-sml">Filter by</h1>
-                    <button class="bt bt-hover reset-but" id="filterReset">Reset All <i class="fa-solid fa-xmark"></i></button>
+                    <button class="bt bt-hover reset-but" id="filterReset" title="Remove filter">Reset All <i class="fa-solid fa-xmark"></i></button>
                 </div>
                 <div class="input-holder flex-row" style="width: 90%;">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -54,27 +54,27 @@
                 </div>
             </header>
             <section class="plat-filter-body flex-col">
-                <details class="rental-type">
-                    <summary class="title-sml">RENTAL TYPE</summary>
+                <details class="rental-type" open>
+                    <summary class="title-sml bt-hover">RENTAL TYPE</summary>
                     <div class="flex-row rental-types">
-                        <label for="rentalA" class="rnt">Any</label>
-                        <input type="radio" name="rnt" id="rentalA" class="r-type" hidden>
-                        <label for="rentalD" class="rnt">Per day</label>
+                        <input type="radio" name="rnt" id="rentalA" class="r-type" hidden checked>
+                        <label for="rentalA" class="rnt bt-hover">Any</label>
                         <input type="radio" name="rnt" id="rentalD" class="r-type" hidden>
-                        <label for="rentalH" class="rnt">Per hour</label>
+                        <label for="rentalD" class="rnt bt-hover">Per day</label>
                         <input type="radio" name="rnt" id="rentalH" class="r-type" hidden>
+                        <label for="rentalH" class="rnt bt-hover">Per hour</label>
                     </div>
                 </details>
                 <div class="break-line"></div>
                 <div class="flex-row center-spacebet available">
-                    <p class="title-sml">AVAILABLE NOW ONLY</p>
+                    <label for="stch" class="title-sml bt-hover">AVAILABLE NOW ONLY</label>
                     <label class="switch">
-                        <input type="checkbox" hidden>
+                        <input id="stch" type="checkbox" hidden>
                         <span class="slider"></span>
                     </label>
                 </div>
                 <div class="break-line"></div>
-                <details class="filter-price">
+                <details class="filter-price bt-hover">
                     <summary class="title-sml">PRICE RANGE/HOUR</summary>
                     <div class="flex-col price-range">
                         <div id="slider">
@@ -93,15 +93,15 @@
                 </details>
                 <div class="break-line"></div>
                 <details class="filter-brand">
-                    <summary class="title-sml">CAR BRAND</summary>
+                    <summary class="title-sml bt-hover">CAR BRAND</summary>
                 </details>
                 <div class="break-line"></div>
                 <details class="filter-modal">
-                    <summary class="title-sml">CAR MODEL & YEAR</summary>
+                    <summary class="title-sml bt-hover">CAR MODEL & YEAR</summary>
                 </details>
                 <div class="break-line"></div>
                 <details class="filter-style">
-                    <summary class="title-sml">BODY STYLE</summary>
+                    <summary class="title-sml bt-hover">BODY STYLE</summary>
                     <div class="flex-row flex-wrap">
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <label for="sport">Sport</label>
@@ -131,7 +131,7 @@
                 </details>
                 <div class="break-line"></div>
                 <details class="filter-transmission">
-                    <summary class="title-sml">TRANSMISSION</summary>
+                    <summary class="title-sml bt-hover">TRANSMISSION</summary>
                     <div class="flex-col transms">
                         <div class="flex-row radio-holder">
                             <label for="transAny">Any</label>
@@ -149,7 +149,7 @@
                 </details>
                 <div class="break-line"></div>
                 <details class="filter-fuel">
-                    <summary class="title-sml">FUEL TYPE</summary>
+                    <summary class="title-sml bt-hover">FUEL TYPE</summary>
                     <div class="flex-row flex-wrap">
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <label for="deisel">Deisel</label>
