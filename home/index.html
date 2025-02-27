@@ -19,7 +19,7 @@
 </head>
 <body class="flex-row">
 
-    <nav class="plat-main-navigator flex-col center-start">
+    <nav class="plat-main-navigator flex-col center-start" id="platMainNavigator">
         <div class="plat-logo flex-row flex-center">
             <img src="../assets/logo.png" alt="LOGO" width="80%">
         </div>
@@ -41,8 +41,12 @@
         </ul>
         <span class="plat-nav-element plat-logout" title="Logout"><i class="fa-solid fa-person-walking-arrow-right"></i>></span>
     </nav>
+    <img class="map-img" src="../assets/images/map.png" alt="Maps">
     <main class="plat-main-doc flex-row" id="mainDoc">
         <div class="plat-user-loc flex-row center-start">
+            <div class="logo4p flex-col flex-center" style="margin-right: auto;">
+                <img src="../assets/logo.png" alt="">
+            </div>
             <div class="today-date flex-row center-start" id="todayDate">
                 <i class="fa-regular fa-clock tm-icn"></i>
                 <p class="user-locate-date">
@@ -96,7 +100,7 @@
                     <i class="fa-solid fa-xmark" id="platCloseFilter"></i>
                 </div>
                 <details class="rental-type" open>
-                    <summary class="title-sml bt-hover">RENTAL TYPE</summary>
+                    <summary class="bt-hover">RENTAL TYPE</summary>
                     <div class="flex-row rental-types">
                         <input type="radio" name="rnt" id="rentalA" class="r-type" hidden>
                         <label for="rentalA" class="rnt bt-hover">Any</label>
@@ -108,7 +112,7 @@
                 </details>
                 <div class="break-line"></div>
                 <div class="flex-row center-spacebet available">
-                    <label for="stch" class="title-sml bt-hover">AVAILABLE NOW ONLY</label>
+                    <label for="stch" class="bt-hover">AVAILABLE NOW ONLY</label>
                     <label class="switch">
                         <input id="stch" type="checkbox" hidden>
                         <span class="slider"></span>
@@ -116,7 +120,7 @@
                 </div>
                 <div class="break-line"></div>
                 <details class="filter-price">
-                    <summary class="title-sml bt-hover"><span>PRICE RANGE <span id="priceBy">/HOUR</span></span></summary>
+                    <summary class="bt-hover"><span>PRICE RANGE <span id="priceBy">/HOUR</span></span></summary>
                     <div class="range flex-col">
                         <div class="range-slider">
                             <span class="range-selected"></span>
@@ -139,7 +143,7 @@
                 </details>
                 <div class="break-line"></div>
                 <details class="filter-brand">
-                    <summary class="title-sml bt-hover">CAR BRAND</summary>
+                    <summary class="bt-hover">CAR BRAND</summary>
                     <div class="flex-row flex-wrap">
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <input type="checkbox" id="bmw">
@@ -185,7 +189,7 @@
                 </details>
                 <div class="break-line"></div>
                 <details class="filter-modal">
-                    <summary class="title-sml bt-hover">CAPACITY</summary>
+                    <summary class="bt-hover">CAPACITY</summary>
                     <div class="flex-col transms">
                         <label class="radio-holder bt-hover">
                             <input type="radio" id="personeA" name="value-radio1" value="personeA" checked/>
@@ -207,7 +211,7 @@
                 </details>
                 <div class="break-line"></div>
                 <details class="filter-style" open>
-                    <summary class="title-sml bt-hover">BODY STYLE</summary>
+                    <summary class="bt-hover">BODY STYLE</summary>
                     <div class="flex-row flex-wrap">
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <input type="checkbox" id="sport">
@@ -237,7 +241,7 @@
                 </details>
                 <div class="break-line"></div>
                 <details class="filter-transmission" open>
-                    <summary class="title-sml bt-hover">TRANSMISSION</summary>
+                    <summary class="bt-hover">TRANSMISSION</summary>
                     <div class="flex-col transms">
                         <label class="radio-holder bt-hover">
                             <input type="radio" id="transAny" name="value-radio" value="transAny"/>
@@ -255,7 +259,7 @@
                 </details>
                 <div class="break-line"></div>
                 <details class="filter-fuel" open>
-                    <summary class="title-sml bt-hover">FUEL TYPE</summary>
+                    <summary class="bt-hover">FUEL TYPE</summary>
                     <div class="flex-row flex-wrap">
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <input type="checkbox" id="deisel">
@@ -295,7 +299,12 @@
         <section class="plat-cars-sec flex-row" id="carsSec">
             <div class="flex-row flex-wrap carsec-body">
                 <header class="carsec-head flex-row">
-                    <h1 class="title-sml"><span id="rentalResult">99</span> Vehicles to rent</h1>
+                    <h1 class="title-sml plat-car-name"><span id="rentalResult" style="color:var(--text-low); font-size:0.7rem;">99</span> Vehicles for rent</h1>
+                    <div class="searchbar-4p flex-row center-start">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" id="search4p" placeholder="Search...">
+                        <i class="fa-solid fa-filter bt-hover" id="filterBut4p"></i>
+                    </div>
                 </header>
                 <div class="plat-cars-container flex-row flex-wrap start-center">
                     <div class="plat-car-container">
@@ -307,45 +316,9 @@
                             <div class="car-available av">
                                 Available now
                             </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/hyundai_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">HYUNDAI FOCUS</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550DZD <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-spacebet">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Available now
+                            <div class="car-locate flex-row center-start">
+                                <i class="fa-solid fa-location-dot tm-icn"></i>
+                                <p>Ghardaia</p>
                             </div>
                             <i class="fa-regular fa-heart fav-but"></i>
                         </header>
@@ -384,248 +357,12 @@
                                 <i class="fa-solid fa-star"></i>
                                 <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
                             </div>
-                            <div class="car-available av">
-                                Available now
+                            <div class="car-available nav">
+                                Booked for next 12h
                             </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/hyundai_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">HYUNDAI FOCUS</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550DZD <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-spacebet">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Available now
-                            </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/hyundai_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">HYUNDAI FOCUS</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550DZD <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-spacebet">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Available now
-                            </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/hyundai_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">HYUNDAI FOCUS</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550DZD <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-spacebet">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Available now
-                            </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/hyundai_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">HYUNDAI FOCUS</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550DZD <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-spacebet">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Available now
-                            </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/hyundai_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">HYUNDAI FOCUS</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550DZD <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-spacebet">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Available now
-                            </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/hyundai_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">HYUNDAI FOCUS</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550DZD <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-spacebet">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Available now
+                            <div class="car-locate flex-row center-start">
+                                <i class="fa-solid fa-location-dot tm-icn"></i>
+                                <p>Metlili</p>
                             </div>
                             <i class="fa-regular fa-heart fav-but"></i>
                         </header>

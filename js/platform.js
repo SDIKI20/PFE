@@ -38,3 +38,21 @@ rangePrice.forEach((input) => {
   });
 });
 
+const filterSec = document.getElementById('filterSec')
+
+document.getElementById('filterBut4p').addEventListener('click', openFilter)
+document.getElementById('platCloseFilter').addEventListener('click', closeFilter)
+
+function openFilter(){
+  filterSec.style.display = "flex"
+  setTimeout(() => {
+    filterSec.style.top = "50%"
+  }, 100);
+}
+
+function closeFilter(){
+    filterSec.style.top = "150%"
+  setTimeout(() => {
+    filterSec.style.display = "none"
+  }, 100);
+}
