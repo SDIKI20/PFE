@@ -12,6 +12,14 @@
         width: 80%;
     }
 
+    .phd{
+        display: none;
+    }
+
+    .phbb{
+        font-weight: bolder;
+    }
+
     /*            login               */
     .login-container{
         width: 100%;
@@ -418,14 +426,14 @@
         flex-direction: row;
         padding: 0;
         width: 100vw;
-        height: 5em;
+        height: 4.5em;
         bottom: 0;
         left: 50%;
         transform: translateX(-50%);
         border: none;
         border-top: 3px solid var(--border-low);
         min-width: 300px;
-        background-color: var(--bg);
+        background-color: var(--container);
     }
 
     .plat-navigator{
@@ -501,7 +509,7 @@
         height: 100svh;
         top: 150%;
         left: 50%;
-        z-index: 91;
+        z-index: 93;
         transform: translate(-50%, -50%);
         display: none;
         transition: ease 0.6s;
@@ -512,6 +520,11 @@
         height: 6em;
         border-top: 2px solid var(--border-low);
         width: 100%;
+    }
+
+    .car-det-info{
+        width: 100%;
+        height: calc(100% - 5em);
     }
 
     .apply-filter{
@@ -532,16 +545,19 @@
         top: -25px;
         display: flex;
         z-index: 10;
-        padding-bottom: 1.25rem;
+        margin-bottom: 20px;
+        padding-bottom: 0.625rem;
         padding-top: 5px;
         background-color: var(--container);
+        border-bottom: 2px dashed var(--border);
+
     }
 
     .plat-cars-sec{
         width: 100%;
-        height: calc(100% - 5em);
+        height: calc(100% - 4.5em);
         overflow: visible;
-        z-index: 99;
+        z-index: 91;
     }
 
     .carsec-body{
@@ -555,9 +571,9 @@
         top: 150%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background-color: var(--container);
+        background-color: var(--bg);
         display: none;
-        border: 3px solid red;
+        padding: 0;
     }
 
     .carsec-head > h1{
@@ -638,6 +654,60 @@
         max-width: 500px;
         min-width: 20em;
         height: 380px;
+    }
+
+    #detailsClose{
+        display: none;
+    }
+
+    .car-detail-head{
+        display: flex;
+        width: 100%;
+        padding: 20px 10px;
+    }
+
+    .car-detail-head p{
+        font-size: var(--font-med);
+        color: var(--txt-black);
+        font-weight: bold;
+    }
+
+    .icn-bt{
+        color: var(--txt-black);
+        background-color: var(--container);
+        border-radius: 50%;
+        font-size: var(--font-lrg);
+        width: 2em;
+        height: 2em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .plat-images-detail::-webkit-scrollbar,
+    .bookbuts{
+        display: none;
+    }
+
+    .detail-image{
+        height: 95%;
+        width: 15em;
+        min-width: 15em;
+    }
+
+    .plat-rdetail-foot{
+        height: 8em;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #rentBut{
+        display: inline-block;
+        background-color: var(--color-second);
+        color: white;
+        height: 75%;
+        width: 90%;
+        border-radius: .9375rem;
     }
 
     /*-------------------------------------------------------*/

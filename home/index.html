@@ -24,11 +24,36 @@
             <img src="../assets/logo.png" alt="LOGO" width="80%">
         </div>
         <ul class="plat-navigator flex-col center-start">
-            <li class="plat-nav-element" title="Home"><i class="fa-solid fa-house"></i></li>
-            <li class="plat-nav-element plat-nav-selected" title="Cars"><i class="fa-solid fa-car"></i></li>
-            <li class="plat-nav-element" title="Orders"><i class="fa-regular fa-clipboard"></i></li>
-            <li class="plat-nav-element" title="Favorite"><i class="fa-regular fa-heart"></i></li>
-            <li class="plat-nav-element" id="navRecent" title="Recent"><i class="fa-solid fa-clock-rotate-left"></i></li>
+            <li class="plat-nav-element" title="Home">
+                <div class="flex-col">
+                    <i class="fa-solid fa-house"></i>
+                    <p class="nav-label">Home</p>
+                </div>
+            </li>
+            <li class="plat-nav-element plat-nav-selected" title="Cars">
+                <div class="flex-col">
+                    <i class="fa-solid fa-car"></i>
+                    <p class="nav-label">Cars</p>
+                </div>
+            </li>
+            <li class="plat-nav-element" title="Orders">
+                <div class="flex-col">
+                    <i class="fa-regular fa-clipboard phbb"></i>
+                    <p class="nav-label">Orders</p>
+                </div>
+            </li>
+            <li class="plat-nav-element" title="Favorite">
+                <div class="flex-col">
+                    <i class="fa-regular fa-heart phbb"></i>
+                    <p class="nav-label">Favorite</p>
+                </div>
+            </li>
+            <li class="plat-nav-element phd" id="navRecent" title="Recent">
+                <div class="flex-col">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <p class="nav-label">Recent</p>
+                </div>
+            </li>
             <li class="plat-nav-element flex-row flex-center">
                 <div class="plat-profile">
                     <img src="../assets/images/user.jpg" alt="Profile" style="width: 100%;">
@@ -36,10 +61,24 @@
             </li>
         </ul>
         <ul class="plat-user-info flex-col center-start">
-            <li class="plat-nav-element" title="My Documents"><i class="fa-regular fa-id-card"></i></li>
-            <li class="plat-nav-element" title="Help"><i class="fa-regular fa-handshake"></i></li>
+            <li class="plat-nav-element" title="My Documents">
+                <div class="flex-col">
+                    <i class="fa-regular fa-id-card"></i>
+                    <p class="nav-label">Documents</p>
+                </div>
+            </li>
+            <li class="plat-nav-element" title="Help">
+                <div class="flex-col">
+                    <i class="fa-regular fa-handshake"></i>
+                    <p class="nav-label">Help</p>
+                </div>
+            </li>
         </ul>
-        <span class="plat-nav-element plat-logout" title="Logout"><i class="fa-solid fa-person-walking-arrow-right"></i>></span>
+        <span class="plat-nav-element plat-logout" title="Logout">
+            <div class="flex-col">
+                <i class="fa-solid fa-person-walking-arrow-right"></i></span>
+                <p class="nav-label" style="color: var(--color-second);">Logout</p>
+            </div>
     </nav>
     <img class="map-img" src="../assets/images/map.png" alt="Maps">
     <main class="plat-main-doc flex-row" id="mainDoc">
@@ -80,7 +119,7 @@
                 </p>
             </div>
             <div class="plat-user-profile">
-                <img src="../assets//images/user.jpg" alt="Use">
+                <img src="../assets/images/user.jpg" alt="Use">
             </div>
         </div>
         <section class="plat-filter-sec flex-col center-start" id="filterSec">
@@ -299,7 +338,7 @@
         <section class="plat-cars-sec flex-row" id="carsSec">
             <div class="flex-row flex-wrap carsec-body" id="carSecBody">
                 <header class="carsec-head flex-row">
-                    <h1 class="title-sml plat-car-name"><span id="rentalResult" style="color:var(--text-low); font-size:0.7rem;">99</span> Vehicles for rent</h1>
+                    <h1 class="title-sml plat-car-name"><span id="rentalResult" style="color:var(--text-low); font-size:0.7rem;">99</span> Vehicles results</h1>
                     <div class="searchbar-4p flex-row center-start">
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <input type="search" id="search4p" placeholder="Search...">
@@ -320,7 +359,10 @@
                                 <i class="fa-solid fa-location-dot tm-icn"></i>
                                 <p>Ghardaia</p>
                             </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
+                            <label class="fav-lab">
+                                <i class="fa-regular fa-heart fav-but"></i>
+                                <input type="checkbox" class="fav-check" hidden>
+                            </label>
                         </header>
                         <div class="plat-car-image flex-col flex-center">
                             <img src="../assets/cars/hyundai_.png" alt="Car">
@@ -346,7 +388,7 @@
                                 <p class="plat-car-model">Diesel</p>
                             </div>
                             <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
+                                <i class="fa-solid fa-couch plat-icn"></i>
                                 <p class="plat-car-model">6</p>
                             </div>
                         </div>
@@ -364,7 +406,10 @@
                                 <i class="fa-solid fa-location-dot tm-icn"></i>
                                 <p>Oran</p>
                             </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
+                            <label class="fav-lab">
+                                <i class="fa-regular fa-heart fav-but"></i>
+                                <input type="checkbox" class="fav-check" hidden checked>
+                            </label>
                         </header>
                         <div class="plat-car-image flex-col flex-center">
                             <img src="../assets/cars/kia_.png" alt="Car">
@@ -390,7 +435,7 @@
                                 <p class="plat-car-model">Diesel</p>
                             </div>
                             <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
+                                <i class="fa-solid fa-couch plat-icn"></i>
                                 <p class="plat-car-model">6</p>
                             </div>
                         </div>
@@ -408,7 +453,10 @@
                                 <i class="fa-solid fa-location-dot tm-icn"></i>
                                 <p>Metlili</p>
                             </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
+                            <label class="fav-lab">
+                                <i class="fa-regular fa-heart fav-but"></i>
+                                <input type="checkbox" class="fav-check" hidden>
+                            </label>
                         </header>
                         <div class="plat-car-image flex-col flex-center">
                             <img src="../assets/cars/ford_.png" alt="Car">
@@ -434,7 +482,7 @@
                                 <p class="plat-car-model">Diesel</p>
                             </div>
                             <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
+                                <i class="fa-solid fa-couch plat-icn"></i>
                                 <p class="plat-car-model">6</p>
                             </div>
                         </div>
@@ -452,7 +500,10 @@
                                 <i class="fa-solid fa-location-dot tm-icn"></i>
                                 <p>Algers</p>
                             </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
+                            <label class="fav-lab">
+                                <i class="fa-regular fa-heart fav-but"></i>
+                                <input type="checkbox" class="fav-check" hidden>
+                            </label>
                         </header>
                         <div class="plat-car-image flex-col flex-center">
                             <img src="../assets/cars/seat_.png" alt="Car">
@@ -478,7 +529,7 @@
                                 <p class="plat-car-model">Diesel</p>
                             </div>
                             <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
+                                <i class="fa-solid fa-couch plat-icn"></i>
                                 <p class="plat-car-model">4</p>
                             </div>
                         </div>
@@ -496,7 +547,10 @@
                                 <i class="fa-solid fa-location-dot tm-icn"></i>
                                 <p>Ghardaia</p>
                             </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
+                            <label class="fav-lab">
+                                <i class="fa-regular fa-heart fav-but"></i>
+                                <input type="checkbox" class="fav-check" hidden>
+                            </label>
                         </header>
                         <div class="plat-car-image flex-col flex-center">
                             <img src="../assets/cars/hyundai_.png" alt="Car">
@@ -522,7 +576,7 @@
                                 <p class="plat-car-model">Diesel</p>
                             </div>
                             <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
+                                <i class="fa-solid fa-couch plat-icn"></i>
                                 <p class="plat-car-model">6</p>
                             </div>
                         </div>
@@ -540,7 +594,10 @@
                                 <i class="fa-solid fa-location-dot tm-icn"></i>
                                 <p>Oran</p>
                             </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
+                            <label class="fav-lab">
+                                <i class="fa-regular fa-heart fav-but"></i>
+                                <input type="checkbox" class="fav-check" hidden>
+                            </label>
                         </header>
                         <div class="plat-car-image flex-col flex-center">
                             <img src="../assets/cars/kia_.png" alt="Car">
@@ -566,7 +623,7 @@
                                 <p class="plat-car-model">Diesel</p>
                             </div>
                             <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
+                                <i class="fa-solid fa-couch plat-icn"></i>
                                 <p class="plat-car-model">6</p>
                             </div>
                         </div>
@@ -584,7 +641,10 @@
                                 <i class="fa-solid fa-location-dot tm-icn"></i>
                                 <p>Metlili</p>
                             </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
+                            <label class="fav-lab">
+                                <i class="fa-regular fa-heart fav-but"></i>
+                                <input type="checkbox" class="fav-check" hidden>
+                            </label>
                         </header>
                         <div class="plat-car-image flex-col flex-center">
                             <img src="../assets/cars/ford_.png" alt="Car">
@@ -610,7 +670,7 @@
                                 <p class="plat-car-model">Diesel</p>
                             </div>
                             <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
+                                <i class="fa-solid fa-couch plat-icn"></i>
                                 <p class="plat-car-model">6</p>
                             </div>
                         </div>
@@ -628,7 +688,10 @@
                                 <i class="fa-solid fa-location-dot tm-icn"></i>
                                 <p>Algers</p>
                             </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
+                            <label class="fav-lab">
+                                <i class="fa-regular fa-heart fav-but"></i>
+                                <input type="checkbox" class="fav-check" hidden>
+                            </label>
                         </header>
                         <div class="plat-car-image flex-col flex-center">
                             <img src="../assets/cars/seat_.png" alt="Car">
@@ -654,7 +717,7 @@
                                 <p class="plat-car-model">Diesel</p>
                             </div>
                             <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
+                                <i class="fa-solid fa-couch plat-icn"></i>
                                 <p class="plat-car-model">4</p>
                             </div>
                         </div>
@@ -672,7 +735,10 @@
                                 <i class="fa-solid fa-location-dot tm-icn"></i>
                                 <p>Ghardaia</p>
                             </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
+                            <label class="fav-lab">
+                                <i class="fa-regular fa-heart fav-but"></i>
+                                <input type="checkbox" class="fav-check" hidden>
+                            </label>
                         </header>
                         <div class="plat-car-image flex-col flex-center">
                             <img src="../assets/cars/hyundai_.png" alt="Car">
@@ -698,7 +764,7 @@
                                 <p class="plat-car-model">Diesel</p>
                             </div>
                             <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
+                                <i class="fa-solid fa-couch plat-icn"></i>
                                 <p class="plat-car-model">6</p>
                             </div>
                         </div>
@@ -716,7 +782,10 @@
                                 <i class="fa-solid fa-location-dot tm-icn"></i>
                                 <p>Oran</p>
                             </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
+                            <label class="fav-lab">
+                                <i class="fa-regular fa-heart fav-but"></i>
+                                <input type="checkbox" class="fav-check" hidden>
+                            </label>
                         </header>
                         <div class="plat-car-image flex-col flex-center">
                             <img src="../assets/cars/kia_.png" alt="Car">
@@ -742,7 +811,7 @@
                                 <p class="plat-car-model">Diesel</p>
                             </div>
                             <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
+                                <i class="fa-solid fa-couch plat-icn"></i>
                                 <p class="plat-car-model">6</p>
                             </div>
                         </div>
@@ -760,7 +829,10 @@
                                 <i class="fa-solid fa-location-dot tm-icn"></i>
                                 <p>Metlili</p>
                             </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
+                            <label class="fav-lab">
+                                <i class="fa-regular fa-heart fav-but"></i>
+                                <input type="checkbox" class="fav-check" hidden>
+                            </label>
                         </header>
                         <div class="plat-car-image flex-col flex-center">
                             <img src="../assets/cars/ford_.png" alt="Car">
@@ -786,7 +858,7 @@
                                 <p class="plat-car-model">Diesel</p>
                             </div>
                             <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
+                                <i class="fa-solid fa-couch plat-icn"></i>
                                 <p class="plat-car-model">6</p>
                             </div>
                         </div>
@@ -804,7 +876,10 @@
                                 <i class="fa-solid fa-location-dot tm-icn"></i>
                                 <p>Algers</p>
                             </div>
-                            <i class="fa-regular fa-heart fav-but"></i>
+                            <label class="fav-lab">
+                                <i class="fa-regular fa-heart fav-but"></i>
+                                <input type="checkbox" class="fav-check" hidden>
+                            </label>
                         </header>
                         <div class="plat-car-image flex-col flex-center">
                             <img src="../assets/cars/seat_.png" alt="Car">
@@ -830,20 +905,50 @@
                                 <p class="plat-car-model">Diesel</p>
                             </div>
                             <div class="flex-row flex-center">
-                                <i class="fa-solid fa-chair plat-icn"></i>
+                                <i class="fa-solid fa-couch plat-icn"></i>
                                 <p class="plat-car-model">4</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="plat-car-detail flex-col" id="carDetail">
-                <div class="car-images-container flex-row">
-    
+            <div class="plat-car-detail flex-col center-start" id="carDetail">
+                <i class="fa-solid fa-xmark bt-hover" id="detailsClose"></i>
+                <header class="car-detail-head flex-row center-spacebet">
+                    <i class="fa-solid fa-chevron-left icn-bt bt-hover"></i>
+                    <p>Car details</p>
+                    <i class="fa-regular fa-heart icn-bt bt-hover"></i>
+                </header>
+                <div class="plat-images-detail flex-row center-start">
+                    <div class="detail-image">
+                        <img src="../assets/images/accent.jpg" alt="Image">
+                    </div>
+                    <div class="detail-image">
+                        <img src="../assets/images/hyundai.jpg" alt="Image">
+                    </div>
+                    <div class="detail-image">
+                        <img src="../assets/images/kia2018.jpg" alt="Image">
+                    </div>
                 </div>
                 <div class="car-det-info">
                     
                 </div>
+                <footer class="plat-rdetail-foot flex-row flex-center">
+                    <button class="bt bt-hover rent-but" id="rentBut">Rent Now</button>
+                    <div class="bookbuts flex-row center-spacebet">
+                        <div class="flex-col">
+                            <p style="font-size: var(--font-sml); color: white">BOOK VEHICLE</p>
+                            <p style="font-size: var(--font-tag); color: white">Hyundai FOCUS</p>
+                        </div>
+                        <div class="flex-col">
+                            <p style="font-size: var(--font-sml); color: white">FREE BOOKING</p>
+                            <p style="font-size: var(--font-tag); color: white">10 minutes</p>
+                        </div>
+                        <button class="bt bt-hover rent-but4p flex-row flex-center" id="rentBut4pc">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </footer>
             </div>
         </section>
     </main>

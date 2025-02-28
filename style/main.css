@@ -541,7 +541,7 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     transition: all ease 0.8s;
     opacity: 0;
     display: none;
-    z-index: 90;
+    z-index: 999;
 }
 
 /*---------------------------------*/

@@ -4,6 +4,7 @@
     padding: 1rem 0;
     overflow: hidden;
     background-color: var(--container);
+    z-index: 91;
 }
 
 .plat-logo{
@@ -75,13 +76,27 @@
     width: 2.2em;
     height: 2.2em;
     border-radius: 50%;
-    overflow: hidden;
-    margin-right: .625rem;
+    margin: 0 .625rem;
+    position: relative;
+}
+
+.plat-user-profile::after{
+    position: absolute;
+    content: "";
+    width: 2.4em;
+    height: 2.4em;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--color-main);
+    opacity: 0.2;
 }
 
 .plat-user-profile img{
     object-fit: cover;
     width: 100%;
+    border-radius: 50%;
     height: 100%;
 }
 
@@ -390,7 +405,7 @@ input[type='radio']:checked + .rnt{
 }
 
 .carsec-body{
-    width: 100%;
+    width: 50%;
     height: 100%;
     transition: ease 0.6s;
     overflow: hidden;
@@ -407,6 +422,11 @@ input[type='radio']:checked + .rnt{
     transition: all ease 0.6s;
 }
 
+.nav-label{
+    font-size: var(--font-tag);
+    font-weight: bolder;
+    cursor: pointer;
+}
 
 .plat-car-container{
     width: calc((100vw - 30.5em)/3);
@@ -422,6 +442,7 @@ input[type='radio']:checked + .rnt{
     grid-template-rows: 0.2fr 1fr 0.5fr 0.2fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.075);
 }
 
 .plat-car-container header{
@@ -545,13 +566,102 @@ input[type='radio']:checked + .rnt{
 }
 
 .plat-car-detail{
-    width: 0%;
+    position: relative;
+    width: 50%;
     height: 100%;
+    overflow: hidden;
     transition: ease 0.6s;
     background-color: var(--container);
+    padding: 0 1.25em;
+    padding-top: 4em;
 }
 
 .logo4p,
 .searchbar-4p{
     display: none;
+}
+
+#detailsClose{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: var(--text);
+    font-size: 1.1rem;
+}
+
+.plat-images-detail{
+    width: 100%;
+    height: 15rem;
+    padding: 0 0.625rem;
+    overflow: hidden;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+.plat-images-detail::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+    background-color: var(--border-low);
+    border-radius: 5px;
+}
+
+.plat-images-detail::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 5px;
+}
+
+.detail-image{
+    height: 95%;
+    width: 20em;
+    min-width: 20em;
+}
+
+.detail-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.car-detail-head{
+    display: none;
+}
+
+.fav-lab:has(input[type="checkbox"]:checked) i{
+    color: rgb(219, 64, 64);
+    font-weight: bolder;
+}
+
+.fav-lab i{
+    transition: all ease 0.8s;
+}
+
+.plat-rdetail-foot{
+    width: 100%;
+    height: 4em;
+    margin-top: auto;
+    margin-bottom: .625rem;
+}
+
+#rentBut{
+    display: none;
+}
+
+.bookbuts{
+    width: 100%;
+    height: 95%;
+    border-radius: 0.5rem;
+    padding: 0.3rem;
+    background-color: var(--color-second);
+    padding-left: 1rem;
+}
+
+#rentBut4pc{
+    color: white;
+    font-size: var(--font-med);
+    background-color: rgba(255, 255, 255, 0.137);
+    width: 50px;
+    height: 100%;
+    border: none;
+    border-radius: 0.625rem;
 }
