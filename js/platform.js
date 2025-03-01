@@ -84,16 +84,36 @@ const carDetailSec = document.getElementById('carDetail')
 const carsContainerSec = document.getElementById('carSecBody')
 
 function openCarDetail(carInfo){
+  carDetailSec.style.display = "flex"
   if(screen.width > 820){
     carsContainerSec.style.width = "40%"
     carDetailSec.style.width = "60%"
+    carDetailSec.style.minWidth = "500px"
   }else{
-    carDetailSec.style.display = "flex"
     setTimeout(() => {
       carDetailSec.style.top = "50%"
     }, 100);
   }
 }
+
+function closeCarDetail(){
+  if(screen.width > 820){
+    carsContainerSec.style.width = "100%"
+    carDetailSec.style.minWidth = "unset"
+    carDetailSec.style.width = "0"
+  }else{
+    carDetailSec.style.top = "150%"
+  }
+  setTimeout(() => {
+    /*Array.from(carDetailSec.children).forEach(ch=>{
+      ch.parentElement.removeChild(ch)
+    })*/
+    carDetailSec.style.display = "none"
+  }, 200);
+}
+
+document.getElementById('detailsClose').addEventListener('click', closeCarDetail)
+document.getElementById('detailsClose4p').addEventListener('click', closeCarDetail)
 
 document.querySelectorAll('.car-det-info-head label').forEach(label => {
   label.addEventListener('click', () => {

@@ -106,7 +106,7 @@ body{
   right: 50%;
   transform: translateX(50%);
   z-index: 0;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .cars-logo{
@@ -524,8 +524,8 @@ body{
 .banner {
   background: linear-gradient(
     45deg,
-    #1F2936 0%,
-    #0E1621 80%
+    var(--bg) 0%,
+    var(--bg-darker) 80%
   );
   color: white;
   text-align: center;

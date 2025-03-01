@@ -80,7 +80,8 @@
     position: relative;
 }
 
-.plat-user-profile::after{
+.plat-user-profile::after,
+.plat-user-profile::before{
     position: absolute;
     content: "";
     width: 2.4em;
@@ -89,8 +90,15 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    border: 2px solid var(--color-second);
+    opacity: 0.4;
+}
+
+.plat-user-profile::before{
+    width: 2.7em;
+    height: 2.7em;
     border: 2px solid var(--color-main);
-    opacity: 0.2;
+    opacity: 0.1;
 }
 
 .plat-user-profile img{
@@ -341,13 +349,15 @@ input[type='radio']:checked + .rnt{
     position: relative;
 }
 
-.transms .radio-holder .text {
+.transms .radio-holder .text{
     color: var(--text);
     font-size: var(--font-sml);
     cursor: pointer;
 }
+
   
-.transms .radio-holder input[type="radio"] {
+.transms .radio-holder input[type="radio"],
+.insur .radio-holder input[type="radio"] {
     border: 2px solid var(--text-low);
     appearance: none;
     width: 17px;
@@ -357,14 +367,16 @@ input[type='radio']:checked + .rnt{
     justify-content: center;
     align-items: center;
 }
-.transms .radio-holder input[type="radio"]:checked {
+.transms .radio-holder input[type="radio"]:checked,
+.insur .radio-holder input[type="radio"]:checked {
     background-color: var(--color-second);
     border: none;
     -webkit-animation: puls 0.7s forwards;
     animation: pulse 0.7s forwards;
 }
   
-.transms .radio-holder input[type="radio"]:before {
+.transms .radio-holder input[type="radio"]:before,
+.insur .radio-holder input[type="radio"]:before {
     content: "";
     width: 6px;
     height: 6px;
@@ -374,7 +386,8 @@ input[type='radio']:checked + .rnt{
     transform: scale(0);
 }
   
-.transms .radio-holder input[type="radio"]:checked::before {
+.transms .radio-holder input[type="radio"]:checked::before,
+.insur .radio-holder input[type="radio"]:checked::before {
     transform: scale(1);
 }
   
@@ -406,9 +419,11 @@ input[type='radio']:checked + .rnt{
 
 .carsec-body{
     width: 50%;
+    min-width: 350px;
     height: 100%;
     transition: ease 0.6s;
     overflow: hidden;
+    position: relative;
 }
 
 
@@ -419,6 +434,7 @@ input[type='radio']:checked + .rnt{
     overflow-y: auto;
     padding: 1.25rem;
     gap: 1.25em;   
+    padding-bottom: 4em;
     transition: all ease 0.6s;
 }
 
@@ -562,12 +578,13 @@ input[type='radio']:checked + .rnt{
     width: 100%;
     height: auto;
     z-index: 0;
-    opacity: 0.2;
+    opacity: 0.1;
 }
 
 .plat-car-detail{
     position: relative;
     width: 50%;
+    min-width: 500px;
     height: 100%;
     overflow: hidden;
     transition: ease 0.6s;
@@ -652,14 +669,14 @@ input[type='radio']:checked + .rnt{
     height: 95%;
     border-radius: 0.5rem;
     padding: 0.3rem;
-    background-color: var(--color-second);
+    background-color: var(--border-low);
     padding-left: 1rem;
 }
 
 #rentBut4pc{
     color: white;
     font-size: var(--font-med);
-    background-color: rgba(255, 255, 255, 0.137);
+    background-color: var(--color-second);
     width: 50px;
     height: 100%;
     border: none;
@@ -726,17 +743,6 @@ input[type='radio']:checked + .rnt{
     grid-area: 2 / 1 / 3 / 2;
 }
 
-.car-det-sec:has(input[type="radio"]:checked){
-    display: flex;
-}
-
-.car-det-sec{
-    display: none;
-    transform: ease 0.6s;
-    width: 100%;
-    height: 100%;
-}
-
 .cord-map{
     width: 95%;
     height: 95%;
@@ -759,4 +765,101 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     font-size: var(--font-sml);
     color: var(--text);
     cursor: pointer;
+}
+
+.rent-detailsec{
+    padding: 1.25rem;
+    padding-bottom: 0.625rem;
+}
+
+.insur label{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0px 5px;
+    cursor: pointer;
+    width: 100%;
+    position: relative;
+    margin: 0.625rem 0;
+}
+
+.insur{
+    width: 100%;
+    margin-top: .5rem;
+}
+
+.insur label p{
+    width: calc(100% - 20px);
+}
+
+.car-det-sec:has(.displayRad:checked){
+    display: flex;
+}
+
+.car-det-sec{
+    display: none;
+    transform: ease 0.6s;
+    width: 100%;
+    height: 100%;
+}
+
+.rent-ins{
+    font-size: var(--font-sml);
+    color: var(--text);
+}
+
+.pagesControl{
+    position: absolute;
+    width: 25em;
+    height: 3em;
+    top: 99%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    background-color: var(--container);
+    border-radius: .8rem;
+    box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.226);
+}
+
+.cars-f-order{
+    padding: 0 0.625rem;
+}
+
+.cars-f-order label,
+.cars-page-ctr label{
+    font-size: var(--font-med);
+    color: var(--text);
+    padding-right: 0.5rem;
+}
+
+#carsOrderBy{
+    border: none;
+    border-radius: .25rem;
+    width: 6em;
+    height: 2em;
+    border: 2px solid var(--border-low);
+    color: var(--text);
+    background-color: transparent;
+}
+
+#carsOrderBy:focus{
+    outline: none;
+    border: none;
+}
+
+.cars-page-ctr{
+    margin-right: 1.25rem;
+}
+
+.cars-page-ctr i{
+    font-size: var(--font-lrg);
+    color: var(--text);
+    margin: 0 5px;
+}
+
+#currentPage{
+    width: 1.5em;
+    border: none;
+    border-radius: .25rem;
+    background-color: var(--border-low);
+    color: var(--text);
 }

@@ -20,6 +20,15 @@
         font-weight: bolder;
     }
 
+    .input-holder{
+        padding-left: 5px;
+    }
+
+    .input-holder > input{
+        padding: 8px 5px;
+        margin-left: 5px;
+    }
+
     /*            login               */
     .login-container{
         width: 100%;
@@ -557,12 +566,14 @@
 
     .carsec-body{
         width: 100%;
+        min-width: unset;
     }
 
     .plat-car-detail{
         position: absolute;
         width: 100vw;
         height: 100svh;
+        min-width: unset;
         top: 150%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -601,6 +612,7 @@
     }
     .plat-cars-container{
         height: calc(100% - 7em);
+        padding-bottom: 5em;
     }
 
     .searchbar-4p{
@@ -719,6 +731,10 @@
         font-size: var(--font-lrg);
         font-weight: bolder;
         color: var(--txt-black);
+    }
+
+    .pagesControl{
+        width: 80%;
     }
 
     /*-------------------------------------------------------*/

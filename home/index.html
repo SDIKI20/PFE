@@ -912,11 +912,30 @@
                         </div>
                     </div>
                 </div>
+                <div class="pagesControl flex-row center-spacebet">
+                    <div class="cars-f-order flex-row center-start">
+                        <label>Order by</label>
+                        <select id="carsOrderBy">
+                            <option value="coRate">Rates</option>
+                            <option value="coDate">Date</option>
+                            <option value="coPrice">Price</option>
+                        </select>
+                    </div>
+                    <div class="cars-page-ctr flex-row flex-center">
+                        <label>Page</label>
+                        <i class="fa-solid fa-caret-left bt-hover" id="prevPage"></i>
+                        <div class="flex-row center-start">
+                            <input class="flex-row flex-center" type="number" disabled id="currentPage" value="1" min="1">
+                            <p class="para-mid">Of <span id="totalPages">1</span></p>
+                        </div>
+                        <i class="fa-solid fa-caret-right bt-hover" id="nextPage"></i>
+                    </div>
+                </div>
             </div>
             <div class="plat-car-detail flex-col center-start" id="carDetail">
                 <i class="fa-solid fa-xmark bt-hover" id="detailsClose"></i>
                 <header class="car-detail-head flex-row center-spacebet">
-                    <i class="fa-solid fa-chevron-left icn-bt bt-hover"></i>
+                    <i class="fa-solid fa-chevron-left icn-bt bt-hover" id="detailsClose4p"></i>
                     <p>Car details</p>
                     <label class="icn-bt fav-lab flex-row flex-center">
                         <i class="fa-regular fa-heart bt-hover"></i>
@@ -948,47 +967,79 @@
                     </ul>
                     
                     <div class="car-det-bod">
-                        <div class="car-det-sec flex-col">
-                            <input type="radio" name="sec-rad" id="rentDetails" hidden checked>
-                            <div class="promo">
-                                <label class="para-sml">PROMO CODE</label>
-                                <div class="input-holder flex-row">
-                                    <i class="fa-solid fa-receipt"></i>                               
-                                    <input type="text" id="promoCode">
-                                 </div>
-                            </div>
-                            <div class="flex-row">
-                                <div class="flex-col">
-                                    <div class="flex-col">
+                        <div class="car-det-sec rent-detailsec flex-col">
+                            <input type="radio" class="displayRad" name="sec-rad" id="rentDetails" hidden checked>
+                            <div class="flex-row" style="width: 100%;">
+                                <div class="flex-col" style="width: 50%;">
+                                    <div class="flex-col" style="width: 100%;">
                                         <label class="para-sml">PICK-UP DATE & TIME</label>
-                                        <div class="input-holder flex-row">
+                                        <div class="input-holder flex-row" style="width: 95%;">
                                             <i class="fa-regular fa-calendar"></i>
                                             <input type="datetime-local" class="dtlocal" id="pickdate">
                                         </div>
                                     </div>
-                                    <div class="flex-col">
+                                    <div class="flex-col" style="width: 100%;">
                                         <label class="para-sml">DROP-OFF DATE & TIME</label>
-                                        <div class="input-holder flex-row">
+                                        <div class="input-holder flex-row" style="width: 95%;">
                                             <i class="fa-regular fa-calendar-check"></i>
                                             <input type="datetime-local" class="dtlocal" id="dropdate">
                                         </div>
                                     </div>
+                                    <div class="flex-row center-spacebet" style="margin: .625rem 0; padding-right: 0.625rem;">
+                                        <label class="para-sml">Extra time</label>
+                                        <label class="switch">
+                                            <input id="stch" type="checkbox" hidden>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
                                 </div>
-                                <div class="flex-col"></div>
+                                <div class="flex-col" style="width: 50%;">
+                                    <div class="flex-row center-spacebet">
+                                        <label class="para-sml">INSURANCE</label>
+                                        <p class="rent-ins">750<span class="currence">DZD</span></p>
+                                    </div>
+                                    <div class="flex-col insur">
+                                        <label class="radio-holder bt-hover">
+                                            <input type="radio" id="personeA" name="radio-ins" value="incNo" checked/>
+                                            <p class="para-sml flex-row center-spacebet">No insurance<span style="color: var(--text-low);">0 DZD</span></p>
+                                        </label>
+                                        <label class="radio-holder bt-hover">
+                                            <input type="radio" id="persone2" name="radio-ins" value="incVip"/>
+                                            <p class="para-sml flex-row center-spacebet">Vehicle protection<span style="color: var(--text-low);">550 DZD</span></p>
+                                        </label>
+                                        <label class="radio-holder bt-hover">
+                                            <input type="radio" id="persone4" name="radio-ins" value="inc3p"/>
+                                            <p class="para-sml flex-row center-spacebet">3rd party liability<span style="color: var(--text-low);">900 DZD</span></p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-row center-end" style="width: 100%; margin-top: auto;">
+                                <div class="promo flex-col" style="width: 50%;">
+                                    <label class="para-sml">PROMO CODE</label>
+                                    <div class="input-holder flex-row" style="width: 90%;">
+                                        <i class="fa-solid fa-receipt"></i>                               
+                                        <input type="text" id="promoCode" id="codePromo" placeholder="Enter your code">
+                                     </div>
+                                </div>
+                                <div class="flex-row center-spacebet" style="width: 50%; padding: 0.625rem;">
+                                    <p class="para-mid">Total Price</p>
+                                    <p class="car-inf-price" style="font-size: var(--font-lrg);" id="totalPrice">750<span class="currence">DZD</span></p>
+                                </div>
                             </div>
                         </div>
                         <div class="car-det-sec flex-col flex-center">
-                            <input type="radio" name="sec-rad" id="vehInfo" hidden>
+                            <input type="radio" class="displayRad" name="sec-rad" id="vehInfo" hidden>
                             <div class="cord-map" id="cordMap"></div>
                         </div>
                         <div class="car-det-sec">
-                            <input type="radio" name="sec-rad" id="specs" hidden>
+                            <input type="radio" class="displayRad" name="sec-rad" id="specs" hidden>
                         </div>
                         <div class="car-det-sec">
-                            <input type="radio" name="sec-rad" id="stats" hidden>
+                            <input type="radio" class="displayRad" name="sec-rad" id="stats" hidden>
                         </div>
                         <div class="car-det-sec">
-                            <input type="radio" name="sec-rad" id="dcds" hidden>
+                            <input type="radio" class="displayRad" name="sec-rad" id="dcds" hidden>
                         </div>
                     </div>
                 </div>
@@ -996,12 +1047,12 @@
                     <button class="bt bt-hover rent-but" id="rentBut">Rent Now</button>
                     <div class="bookbuts flex-row center-spacebet">
                         <div class="flex-col">
-                            <p style="font-size: var(--font-sml); color: white">BOOK VEHICLE</p>
-                            <p style="font-size: var(--font-tag); color: white">Hyundai FOCUS</p>
+                            <p style="font-size: var(--font-sml);color:var(--txt-black);">BOOK VEHICLE</p>
+                            <p style="font-size: var(--font-tag);color:var(--txt-black);">Hyundai FOCUS</p>
                         </div>
                         <div class="flex-col">
-                            <p style="font-size: var(--font-sml); color: white">FREE BOOKING</p>
-                            <p style="font-size: var(--font-tag); color: white">10 minutes</p>
+                            <p style="font-size: var(--font-sml);color:var(--txt-black);">FREE BOOKING</p>
+                            <p style="font-size: var(--font-tag);color:var(--txt-black);">10 minutes</p>
                         </div>
                         <button class="bt bt-hover rent-but4p flex-row flex-center" id="rentBut4pc">
                             <i class="fa-solid fa-chevron-right"></i>

@@ -246,6 +246,11 @@ p,span{
     justify-content: center;
 }
 
+.center-end{
+    align-items: flex-end;
+    justify-content: center;
+}
+
 .break-line{
     min-height: 1px;
     max-height: 1px;
