@@ -97,3 +97,32 @@ function pushNotif(type, message){
 function validateEmail(email) {
     return !!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/);
 }
+
+/*if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            lat = position.coords.latitude
+            lon = position.coords.longitude
+            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.address) {
+                        try{
+                            document.getElementById('userIp').innerText = data.address.state
+                        }catch(error){}
+                    } else {}
+                })
+                .catch(error => console.error("Error fetching city:", error));
+            },
+            (error) => console.error("Error getting location:", error)
+    );
+} else {
+    console.error("Geolocation not supported.");
+}*/
+
+document.querySelectorAll('.dtlocal').forEach(inp=>{
+    inp.addEventListener('click', ()=>{
+        inp.showPicker();
+    })
+})

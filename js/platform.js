@@ -94,3 +94,50 @@ function openCarDetail(carInfo){
     }, 100);
   }
 }
+
+document.querySelectorAll('.car-det-info-head label').forEach(label => {
+  label.addEventListener('click', () => {
+      let targetId = label.getAttribute('data-target');
+      let contentRadio = document.getElementById(targetId);
+      let navRadio = label.querySelector('input[type="radio"]');
+      if (contentRadio && navRadio) {
+          navRadio.checked = true;
+          contentRadio.checked = true;
+      }
+  });
+});
+/*
+mapboxgl.accessToken = 'pk.eyJ1Ijoib2RheWRpZDAwMiIsImEiOiJjbTdjZ3pzOGgwdW5oMmlzOGxubDF5d3ByIn0.zGe8aXHfdUvVGecjXwJ5Ow'; // Replace with your Mapbox token
+
+const coords = [3.685660, 32.483643];
+
+const map = new mapboxgl.Map({
+    container: 'cordMap',
+    style: 'mapbox://styles/mapbox/streets-v12',
+    center: coords,
+    zoom: 13
+});
+
+const customMarkerEl = document.createElement('div');
+customMarkerEl.className = 'logo-map-mark';
+
+new mapboxgl.Marker(customMarkerEl)
+    .setLngLat(coords)
+    .setPopup(new mapboxgl.Popup().setHTML('<h3>DZRentCar</h3><p>The car is available at this office..</p>'))
+    .addTo(map);*/
+
+const today = new Date();
+
+formattedDateTime = today.getFullYear() + '-' +
+String(today.getMonth() + 1).padStart(2, '0') + '-' +
+String(today.getDate()).padStart(2, '0') + 'T' +
+String(today.getHours()).padStart(2, '0') + ':' +
+String(today.getMinutes()).padStart(2, '0');
+document.getElementById("pickdate").value = formattedDateTime;
+
+formattedDateTime = today.getFullYear() + '-' +
+String(today.getMonth() + 1).padStart(2, '0') + '-' +
+String(today.getDate() + 1).padStart(2, '0') + 'T' +
+String(today.getHours()).padStart(2, '0') + ':' +
+String(today.getMinutes()).padStart(2, '0');
+document.getElementById("dropdate").value = formattedDateTime;

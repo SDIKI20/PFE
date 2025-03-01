@@ -522,11 +522,6 @@
         width: 100%;
     }
 
-    .car-det-info{
-        width: 100%;
-        height: calc(100% - 5em);
-    }
-
     .apply-filter{
         color: white;
         background-color: var(--color-second);
@@ -691,12 +686,12 @@
 
     .detail-image{
         height: 95%;
-        width: 15em;
-        min-width: 15em;
+        width: 90vw;
+        min-width: 90vw;
     }
 
     .plat-rdetail-foot{
-        height: 8em;
+        height: 5em;
         align-items: center;
         justify-content: center;
     }
@@ -708,6 +703,22 @@
         height: 75%;
         width: 90%;
         border-radius: .9375rem;
+    }
+
+    .r-car-inf{
+        padding: 0 1.25rem;
+        height: 5em;
+    }
+
+    .r-car-inf .currence{
+        font-size: var(--font-med);
+    }
+    
+    .car-inf-name,
+    .car-inf-price{
+        font-size: var(--font-lrg);
+        font-weight: bolder;
+        color: var(--txt-black);
     }
 
     /*-------------------------------------------------------*/

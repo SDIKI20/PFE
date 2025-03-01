@@ -3,58 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Price Range Slider</title>
-    <link rel="stylesheet" href="/style/test.css">
+    <title>Mapbox GL - Centered Map with Waypoint</title>
+    <link rel="stylesheet" href="/lib/node_modules/mapbox-gl/dist/mapbox-gl.css">
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { width: 100vw; height: 100vh; }
+    </style>
 </head>
 <body>
-  <h1>Get User Location</h1>
-  <button id="getLocationBtn">Get My Location</button>
-  <p id="locationResult"></p>
 
-  <script>
-    const locationResult = document.getElementById('locationResult');
-    const getLocationBtn = document.getElementById('getLocationBtn');
+    <div id="map"></div>
+    <script src="lib/node_modules//mapbox-gl/dist/mapbox-gl.js"></script>
+    <script>
+        mapboxgl.accessToken = ''; // Replace with your Mapbox token
 
-    // Function to handle successful location retrieval
-    function showPosition(position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      const accuracy = position.coords.accuracy; // Accuracy in meters
+        // Set coordinates (Example: El Meniaa, Algeria)
+        const coords = [2.9126, 30.5756]; // [longitude, latitude]
 
-      locationResult.innerHTML = `
-        Latitude: ${latitude}<br>
-        Longitude: ${longitude}<br>
-        Accuracy: ${accuracy} meters
-      `;
-    }
+        // Initialize Mapbox map
+        const map = new mapboxgl.Map({
+            container: 'map', // ID of the div where the map will load
+            style: 'mapbox://styles/mapbox/streets-v12', // Map style
+            center: coords, // Center the map to the given coordinates
+            zoom: 12 // Adjust zoom level
+        });
 
-    // Function to handle errors
-    function showError(error) {
-      switch (error.code) {
-        case error.PERMISSION_DENIED:
-          locationResult.innerHTML = "User denied the request for Geolocation.";
-          break;
-        case error.POSITION_UNAVAILABLE:
-          locationResult.innerHTML = "Location information is unavailable.";
-          break;
-        case error.TIMEOUT:
-          locationResult.innerHTML = "The request to get user location timed out.";
-          break;
-        case error.UNKNOWN_ERROR:
-          locationResult.innerHTML = "An unknown error occurred.";
-          break;
-      }
-    }
+        // Add a marker (waypoint) at the same coordinates
+        new mapboxgl.Marker({ color: 'red' }) // Red marker
+            .setLngLat(coords) // Set marker position
+            .addTo(map);
+    </script>
 
-    // Get location when the button is clicked
-    getLocationBtn.addEventListener('click', () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-      } else {
-        locationResult.innerHTML = "Geolocation is not supported by this browser.";
-      }
-    });
-  </script>
-  <script src="js/test.js"></script>
 </body>
 </html>
