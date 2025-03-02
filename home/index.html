@@ -944,13 +944,13 @@
                 </header>
                 <div class="plat-images-detail flex-row center-start">
                     <div class="detail-image">
-                        <img src="../assets/images/accent.jpg" alt="Image">
+                        <img class="prevable" src="../assets/images/accent.jpg" alt="Image">
                     </div>
                     <div class="detail-image">
-                        <img src="../assets/images/hyundai.jpg" alt="Image">
+                        <img class="prevable" src="../assets/images/hyundai.jpg" alt="Image">
                     </div>
                     <div class="detail-image">
-                        <img src="../assets/images/kia2018.jpg" alt="Image">
+                        <img class="prevable" src="../assets/images/kia2018.jpg" alt="Image">
                     </div>
                 </div>
                 <div class="flex-row center-spacebet r-car-inf">
@@ -959,16 +959,16 @@
                 </div>
                 <div class="car-det-info">
                     <ul class="car-det-info-head flex-row center-spacebet">
-                        <li><label class="bt-hover" data-target="rentDetails">Rent details<input type="radio" name="nav-rad" hidden checked></label></li>
+                        <li><label class="bt-hover" data-target="rentDetails">Rent details<input type="radio" name="nav-rad" hidden></label></li>
                         <li><label class="bt-hover" data-target="vehInfo">Location<input type="radio" name="nav-rad" hidden></label></li>
-                        <li><label class="bt-hover" data-target="specs">Specifications<input type="radio" name="nav-rad" hidden></label></li>
+                        <li><label class="bt-hover" data-target="specs">Specifications<input type="radio" name="nav-rad" hidden checked></label></li>
                         <li><label class="bt-hover" data-target="stats">Statistics <input type="radio" name="nav-rad" hidden></label></li>
                         <li><label class="bt-hover" data-target="dcds">Documents <input type="radio" name="nav-rad" hidden></label></li>
                     </ul>
                     
                     <div class="car-det-bod">
                         <div class="car-det-sec rent-detailsec flex-col">
-                            <input type="radio" class="displayRad" name="sec-rad" id="rentDetails" hidden checked>
+                            <input type="radio" class="displayRad" name="sec-rad" id="rentDetails" hidden>
                             <div class="flex-row" style="width: 100%;">
                                 <div class="flex-col" style="width: 50%;">
                                     <div class="flex-col" style="width: 100%;">
@@ -1033,7 +1033,8 @@
                             <div class="cord-map" id="cordMap"></div>
                         </div>
                         <div class="car-det-sec">
-                            <input type="radio" class="displayRad" name="sec-rad" id="specs" hidden>
+                            <input type="radio" class="displayRad" name="sec-rad" id="specs" hidden checked>
+
                         </div>
                         <div class="car-det-sec">
                             <input type="radio" class="displayRad" name="sec-rad" id="stats" hidden>

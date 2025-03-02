@@ -126,3 +126,26 @@ document.querySelectorAll('.dtlocal').forEach(inp=>{
         inp.showPicker();
     })
 })
+
+document.querySelectorAll(".prevable").forEach(img=>{
+    img.addEventListener('click', ()=>{
+        imageZoom = img.cloneNode(true)
+        imagePrev = document.createElement('div')
+        imagePrev.classList.add("preview-image", "flex-col", "flex-center")
+        closeBut = document.createElement('i')
+        closeBut.classList.add("fa-solid","fa-xmark","bt-hover")
+        imagePrev.addEventListener('click', ()=>{
+            try{
+                document.body.removeChild(imagePrev)
+            }catch(error){}
+        })
+        closeBut.addEventListener('click', ()=>{
+            try{
+                document.body.removeChild(closeBut.parentElement)
+            }catch(error){}
+        })
+        imagePrev.appendChild(closeBut)
+        imagePrev.appendChild(imageZoom)
+        document.body.appendChild(imagePrev)
+    })
+})

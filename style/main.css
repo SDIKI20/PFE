@@ -101,6 +101,48 @@ p,span{
     transform: scale(1.02);
 }
 
+.prevable{
+    cursor: zoom-in;
+    transition: ease 0.5s;
+}
+
+.prevable:hover{
+    transform: scale(1.01);
+}
+
+.preview-image{
+    position: fixed;
+    z-index: 95;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(2px);
+}
+
+.preview-image i{
+    font-size: var(--font-med);
+    color: var(--text);
+    background-color: var(--bg);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-image img:hover{
+    transform: none;
+}
+
+.preview-image img{
+    object-fit: cover;
+    max-width: 800px;
+    cursor: default;
+}
+
 /*notifications*/
 
 .notifications-container{
