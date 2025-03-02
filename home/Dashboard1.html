@@ -89,90 +89,94 @@
     </nav>
 
     <main class="dash-content">
-        <div class="title">
-            <div class="title-info">
-                <p>Dashboard</p>
-                <p class="moniteur">Moniteur your sales Revenue</p>
-
-            </div>
-            <button style="color: black;"><i class="fa-solid fa-plus fa-cm" style="color: #63E6BE;"></i> Add
-                widget</button>
-        </div>
-
-        <div class="data-info">
-            <div class="box">
-                <i class="fa-regular fa-file"></i>
-                <div class="data">
-                    <p style="opacity: 60%;">TotalIncome</p>
-                    <span>$100</span>
+        <section>
+            <div class="title">
+                <div class="title-info">
+                    <p>Dashboard</p>
+                    <p class="moniteur">Moniteur your sales Revenue</p>
+    
                 </div>
+                <button style="color: black;"><i class="fa-solid fa-plus fa-cm" style="color: #63E6BE;"></i> Add
+                    widget</button>
             </div>
-            <div class="box">
-                <i class="fa-solid fa-clock-rotate-left"></i>
-                <div class="data">
-                    <p style="opacity: 60%;">TotalSales</p>
-                    <span>$100</span>
+    
+            <div class="data-info">
+                <div class="box">
+                    <i class="fa-regular fa-file"></i>
+                    <div class="data">
+                        <p style="opacity: 60%;">TotalIncome</p>
+                        <span>$100</span>
+                    </div>
                 </div>
-            </div>
-            <div class="box">
-                <i class="fa-solid fa-check"></i>
-                <div class="data">
-                    <p style="opacity: 60%;">TotalExpences</p>
-                    <span>$100</span>
+                <div class="box">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <div class="data">
+                        <p style="opacity: 60%;">TotalSales</p>
+                        <span>$100</span>
+                    </div>
                 </div>
+                <div class="box">
+                    <i class="fa-solid fa-check"></i>
+                    <div class="data">
+                        <p style="opacity: 60%;">TotalExpences</p>
+                        <span>$100</span>
+                    </div>
+                </div>
+    
             </div>
-
-        </div>
-        <div class="boxe flex-row" style="flex-wrap: wrap;">
-            <i class="fa-solid fa-database"></i>
-            <div class="data">
-                <p> SalesRevenu</p>
-        
+            <div class="boxe flex-row" style="flex-wrap: wrap;">
+                <i class="fa-solid fa-database"></i>
+                <div class="data">
+                    <p> SalesRevenu</p>
+            
+                </div>
+            
+                <div class="chartcontainer" style="width: 100%; height:80%">
+                    <canvas id="myChart"></canvas>
+                </div>
+            
             </div>
-        
-            <div class="chartcontainer" style="width: 100%; height:80%">
-                <canvas id="myChart"></canvas>
+            <div class="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>CostumerName</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>TOYOTA</td>
+                            <td>10/12/2024</td>
+                            <td>completed</td>
+                            <td>$5.234.33</td>
+                        </tr>
+                        <tr>
+                            <td>FORD</td>
+                            <td>02/4/2023</td>
+                            <td>inited</td>
+                            <td>$6.254.88</td>
+                        </tr>
+                        <tr>
+                            <td>SUZUKI</td>
+                            <td>09/8/2025</td>
+                            <td>pending</td>
+                            <td>$7.365.89</td>
+                        </tr>
+                        <tr>
+                            <td>KIA MOTORS</td>
+                            <td>08/6/2019</td>
+                            <td>completed</td>
+                            <td>$3.568.123</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        
-        </div>
-        <div class="table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>CostumerName</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>TOYOTA</td>
-                        <td>10/12/2024</td>
-                        <td>completed</td>
-                        <td>$5.234.33</td>
-                    </tr>
-                    <tr>
-                        <td>FORD</td>
-                        <td>02/4/2023</td>
-                        <td>inited</td>
-                        <td>$6.254.88</td>
-                    </tr>
-                    <tr>
-                        <td>SUZUKI</td>
-                        <td>09/8/2025</td>
-                        <td>pending</td>
-                        <td>$7.365.89</td>
-                    </tr>
-                    <tr>
-                        <td>KIA MOTORS</td>
-                        <td>08/6/2019</td>
-                        <td>completed</td>
-                        <td>$3.568.123</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        </section>
+        <section>
+        </section>
     </main>
 
     <script src="../js/main.js"></script>
