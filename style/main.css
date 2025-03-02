@@ -143,6 +143,18 @@ p,span{
     cursor: default;
 }
 
+.color-box-circle{
+    border-radius: 50%;
+}
+.color-box-circle,
+.color-box{
+    content: "";
+    width: 10px;
+    height: 10px;
+    overflow: hidden;
+    margin: 0 5px;
+}
+
 /*notifications*/
 
 .notifications-container{

@@ -6,7 +6,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e)
     dark = e.matches
 });
 
- if (dark) {toggleDark()} else {toggleLight()}
+//if (dark) {toggleDark()} else {toggleLight()}
 
 function toggleDark(){
     root.style.setProperty('--bg', '#121212');

@@ -86,8 +86,8 @@ const carsContainerSec = document.getElementById('carSecBody')
 function openCarDetail(carInfo){
   carDetailSec.style.display = "flex"
   if(screen.width > 820){
-    carsContainerSec.style.width = "40%"
-    carDetailSec.style.width = "60%"
+    carsContainerSec.style.width = "50%"
+    carDetailSec.style.width = "50%"
     carDetailSec.style.minWidth = "500px"
   }else{
     setTimeout(() => {
