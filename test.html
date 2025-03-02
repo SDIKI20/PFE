@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapbox GL - Centered Map with Waypoint</title>
-    <link rel="stylesheet" href="/lib/node_modules/mapbox-gl/dist/mapbox-gl.css">
+    <link rel="stylesheet" href="style/test.css">
     <style>
         body { margin: 0; padding: 0; }
         #map { width: 100vw; height: 100vh; }
@@ -12,27 +12,38 @@
 </head>
 <body>
 
-    <div id="map"></div>
-    <script src="lib/node_modules//mapbox-gl/dist/mapbox-gl.js"></script>
-    <script>
-        mapboxgl.accessToken = ''; // Replace with your Mapbox token
+  <ul class="nav">
+    <li>
+      <label for="sec1">1</label>
+    </li>
+    <li>
+      <label for="sec2">2</label>
+    </li>
+    <li>
+      <label for="sec3">3</label>
+    </li>
+    <li>
+      <label for="sec4">4</label>
+    </li>
+    <li>
+      <label for="sec5">5</label>
+    </li>
+  </ul>
 
-        // Set coordinates (Example: El Meniaa, Algeria)
-        const coords = [2.9126, 30.5756]; // [longitude, latitude]
-
-        // Initialize Mapbox map
-        const map = new mapboxgl.Map({
-            container: 'map', // ID of the div where the map will load
-            style: 'mapbox://styles/mapbox/streets-v12', // Map style
-            center: coords, // Center the map to the given coordinates
-            zoom: 12 // Adjust zoom level
-        });
-
-        // Add a marker (waypoint) at the same coordinates
-        new mapboxgl.Marker({ color: 'red' }) // Red marker
-            .setLngLat(coords) // Set marker position
-            .addTo(map);
-    </script>
-
+  <section class="seca">
+    <input type="radio" id="sec1" name="rad" checked hidden>
+  </section>
+  <section class="secb">
+    <input type="radio" id="sec2" name="rad" hidden >
+  </section>
+  <section class="secc">
+    <input type="radio" id="sec3" name="rad" hidden >
+  </section>
+  <section class="secd">
+    <input type="radio" id="sec4" name="rad"  hidden>
+  </section>
+  <section class="sece">
+    <input type="radio" id="sec5" name="rad"  hidden>
+  </section>
 </body>
 </html>

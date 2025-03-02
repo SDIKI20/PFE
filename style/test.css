@@ -1,52 +1,30 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-  }
-  
-  .slider-container {
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  
-  .slider {
-    position: relative;
-    height: 50px;
-  }
-  
-  input[type="range"] {
-    width: 100%;
-    position: absolute;
-    top: 0;
-    background: none;
-    pointer-events: none;
-  }
-  
-  input[type="range"]::-webkit-slider-thumb {
-    pointer-events: all;
-    cursor: pointer;
-  }
-  
-  input[type="range"]::-moz-range-thumb {
-    pointer-events: all;
-    cursor: pointer;
-  }
-  
-  .tooltip {
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #333;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 14px;
-    opacity: 0;
-    transition: opacity 0.2s;
-    pointer-events: none;
-  }
-  
-  input[type="range"]:hover + .tooltip,
-  input[type="range"]:active + .tooltip {
-    opacity: 1;
-  }
+ul{
+  position: absolute;
+  z-index: 99;
+}
+
+section{
+  width: 100vw;
+  height: 100vh;
+  display: none;
+}
+
+section:has(input[type="radio"]:checked){
+  display: flex;
+}
+
+.seca{
+  background-color: red;
+}
+.secb{
+  background-color: blue;
+}
+.secc{
+  background-color: green;
+}
+.secd{
+  background-color: pink;
+}
+.sece{
+  background-color: orange;
+}
