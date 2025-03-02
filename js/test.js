@@ -1,9 +1,9 @@
-document.querySelectorAll('li').forEach(li=>{
+document.querySelectorAll('.menu-element').forEach(li=>{
   li.addEventListener('click',()=>{
-    document.querySelectorAll('li').forEach(l=>{
-      l.classList.remove('selected')
+    document.querySelectorAll('.menu-element').forEach(l=>{
+      l.classList.remove('active')
     })
     
-    li.classList.add('selected')
+    li.classList.add('active')
   })
 })

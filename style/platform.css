@@ -144,6 +144,19 @@
     height: 100vh;
     overflow: hidden;
     position: relative;
+    display: none;
+}
+
+.plat-main-doc:has(.sectRad:checked){
+    display: flex;
+}
+
+#homeDoc{
+    background-color: red;
+}
+
+#favoriteDoc{
+    background-color: green;
 }
 
 .plat-filter-sec{
@@ -874,4 +887,12 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     border-radius: .25rem;
     background-color: var(--border-low);
     color: var(--text);
+}
+
+.plat-main-sect{
+    display: none;
+}
+
+.plat-main-sect:has(input[type="radio"]:checked){
+    display: flex;
 }

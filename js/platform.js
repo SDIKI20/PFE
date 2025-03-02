@@ -161,3 +161,12 @@ String(today.getDate() + 1).padStart(2, '0') + 'T' +
 String(today.getHours()).padStart(2, '0') + ':' +
 String(today.getMinutes()).padStart(2, '0');
 document.getElementById("dropdate").value = formattedDateTime;
+
+document.querySelectorAll('.plat-nav-element').forEach(el=>{
+  el.addEventListener("click", ()=>{
+    document.querySelectorAll('.plat-nav-element').forEach(ell=>{
+      ell.classList.remove('plat-nav-selected')
+    })
+    el.classList.add('plat-nav-selected')
+  })
+})

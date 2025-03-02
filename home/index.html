@@ -25,55 +25,55 @@
             <img src="../assets/logo.png" alt="LOGO" width="80%">
         </div>
         <ul class="plat-navigator flex-col center-start">
-            <li class="plat-nav-element" title="Home">
+            <label class="plat-nav-element" title="Home" for="sectHome">
                 <div class="flex-col">
                     <i class="fa-solid fa-house"></i>
                     <p class="nav-label">Home</p>
                 </div>
-            </li>
-            <li class="plat-nav-element plat-nav-selected" title="Cars">
+            </label>
+            <label class="plat-nav-element plat-nav-selected" title="Cars" for="sectMain">
                 <div class="flex-col">
                     <i class="fa-solid fa-car"></i>
                     <p class="nav-label">Cars</p>
                 </div>
-            </li>
-            <li class="plat-nav-element" title="Orders">
+            </label>
+            <label class="plat-nav-element" title="Orders" for="sectOrders">
                 <div class="flex-col">
                     <i class="fa-regular fa-clipboard phbb"></i>
                     <p class="nav-label">Orders</p>
                 </div>
-            </li>
-            <li class="plat-nav-element" title="Favorite">
+            </label>
+            <label class="plat-nav-element" title="Favorite" for="sectFavorite">
                 <div class="flex-col">
                     <i class="fa-regular fa-heart phbb"></i>
                     <p class="nav-label">Favorite</p>
                 </div>
-            </li>
-            <li class="plat-nav-element phd" id="navRecent" title="Recent">
+            </label>
+            <label class="plat-nav-element phd" id="navRecent" title="Recent" for="sectRecent">
                 <div class="flex-col">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <p class="nav-label">Recent</p>
                 </div>
-            </li>
-            <li class="plat-nav-element flex-row flex-center">
+            </label>
+            <label class="plat-nav-element flex-row flex-center" for="sectProfile">
                 <div class="plat-profile">
                     <img src="../assets/images/user.jpg" alt="Profile" style="width: 100%;">
                 </div>
-            </li>
+            </label>
         </ul>
         <ul class="plat-user-info flex-col center-start">
-            <li class="plat-nav-element" title="My Documents">
+            <label class="plat-nav-element" title="My Documents" for="sectDocs">
                 <div class="flex-col">
                     <i class="fa-regular fa-id-card"></i>
                     <p class="nav-label">Documents</p>
                 </div>
-            </li>
-            <li class="plat-nav-element" title="Help">
+            </label>
+            <label class="plat-nav-element" title="Help" for="sectHelp">
                 <div class="flex-col">
                     <i class="fa-regular fa-handshake"></i>
                     <p class="nav-label">Help</p>
                 </div>
-            </li>
+            </label>
         </ul>
         <span class="plat-nav-element plat-logout" title="Logout">
             <div class="flex-col">
@@ -82,7 +82,8 @@
             </div>
     </nav>
     <img class="map-img" src="../assets/images/map.png" alt="Maps">
-    <main class="plat-main-doc flex-row" id="mainDoc">
+    <section class="plat-main-doc" id="mainDoc">
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectMain" checked>
         <div class="plat-user-loc flex-row center-start">
             <div class="logo4p flex-col flex-center" style="margin-right: auto;">
                 <img src="../assets/logo.png" alt="">
@@ -1062,7 +1063,28 @@
                 </footer>
             </div>
         </section>
-    </main>
+    </section>
+    <section class="plat-main-doc" id="homeDoc">
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectHome">
+    </section>
+    <section class="plat-main-doc" id="ordersDoc">
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectOrders">
+    </section>
+    <section class="plat-main-doc" id="favoriteDoc">
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectFavorite">
+    </section>
+    <section class="plat-main-doc" id="recentDoc">
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectRecent">
+    </section>
+    <section class="plat-main-doc" id="helpDoc">
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectHelp">
+    </section>
+    <section class="plat-main-doc" id="docsDoc">
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectDocs">
+    </section>
+    <section class="plat-main-doc" id="profileDoc">
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectProfile">
+    </section>
     <script src="../js/main.js"></script>
     <script src="../js/darkmode.js"></script>
     <script src="../lib/node_modules/gsap/dist/gsap.min.js"></script>
