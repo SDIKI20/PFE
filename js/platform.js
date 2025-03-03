@@ -170,3 +170,8 @@ document.querySelectorAll('.plat-nav-element').forEach(el=>{
     el.classList.add('plat-nav-selected')
   })
 })
+
+flatpickr("#dateRange", {
+  mode: "range",
+  dateFormat: "Y-m-d"
+});

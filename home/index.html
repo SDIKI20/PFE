@@ -10,6 +10,7 @@
     <meta name="apple-mobile-web-app-title" content="MyWebSite" />
     <link rel="manifest" href="../favicon/site.webmanifest" />
     <link rel="stylesheet" href="../style/lib/fontawesome/all.min.css">
+    <link rel="stylesheet" href="../lib/node_modules/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="../style/main.css">
     <link rel="stylesheet" href="../style/checkbox.css">
     <link rel="stylesheet" href="../style/platform.css">
@@ -31,16 +32,16 @@
                     <p class="nav-label">Home</p>
                 </div>
             </label>
-            <label class="plat-nav-element plat-nav-selected" title="Cars" for="sectMain">
+            <label class="plat-nav-element" title="Cars" for="sectMain">
                 <div class="flex-col">
                     <i class="fa-solid fa-car"></i>
                     <p class="nav-label">Cars</p>
                 </div>
             </label>
-            <label class="plat-nav-element" title="Orders" for="sectOrders">
+            <label class="plat-nav-element plat-nav-selected" title="Orders" for="sectOrders">
                 <div class="flex-col">
                     <i class="fa-regular fa-clipboard phbb"></i>
-                    <p class="nav-label">Orders</p>
+                    <p class="nav-label">Rentals</p>
                 </div>
             </label>
             <label class="plat-nav-element" title="Favorite" for="sectFavorite">
@@ -83,7 +84,7 @@
     </nav>
     <img class="map-img" src="../assets/images/map.png" alt="Maps">
     <section class="plat-main-doc" id="mainDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectMain" checked>
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectMain">
         <div class="plat-user-loc flex-row center-start">
             <div class="logo4p flex-col flex-center" style="margin-right: auto;">
                 <img src="../assets/logo.png" alt="">
@@ -348,6 +349,25 @@
                     </div>
                 </header>
                 <div class="plat-cars-container flex-row flex-wrap start-center">
+                    <div class="pagesControl flex-row center-spacebet">
+                        <div class="cars-f-order flex-row center-start">
+                            <label>Order by</label>
+                            <select id="carsOrderBy">
+                                <option value="coRate">Rates</option>
+                                <option value="coDate">Date</option>
+                                <option value="coPrice">Price</option>
+                            </select>
+                        </div>
+                        <div class="cars-page-ctr flex-row flex-center">
+                            <label>Page</label>
+                            <i class="fa-solid fa-caret-left bt-hover" id="prevPage"></i>
+                            <div class="flex-row center-start">
+                                <input class="flex-row flex-center" type="number" disabled id="currentPage" value="1" min="1">
+                                <p class="para-mid">Of <span id="totalPages">1</span></p>
+                            </div>
+                            <i class="fa-solid fa-caret-right bt-hover" id="nextPage"></i>
+                        </div>
+                    </div>
                     <div class="plat-car-container">
                         <header class="flex-row center-spacebet">
                             <div class="car-rate flex-row flex-center">
@@ -913,25 +933,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="pagesControl flex-row center-spacebet">
-                    <div class="cars-f-order flex-row center-start">
-                        <label>Order by</label>
-                        <select id="carsOrderBy">
-                            <option value="coRate">Rates</option>
-                            <option value="coDate">Date</option>
-                            <option value="coPrice">Price</option>
-                        </select>
-                    </div>
-                    <div class="cars-page-ctr flex-row flex-center">
-                        <label>Page</label>
-                        <i class="fa-solid fa-caret-left bt-hover" id="prevPage"></i>
-                        <div class="flex-row center-start">
-                            <input class="flex-row flex-center" type="number" disabled id="currentPage" value="1" min="1">
-                            <p class="para-mid">Of <span id="totalPages">1</span></p>
-                        </div>
-                        <i class="fa-solid fa-caret-right bt-hover" id="nextPage"></i>
-                    </div>
-                </div>
             </div>
             <div class="plat-car-detail flex-col center-start" id="carDetail">
                 <i class="fa-solid fa-xmark bt-hover" id="detailsClose"></i>
@@ -945,13 +946,13 @@
                 </header>
                 <div class="plat-images-detail flex-row center-start">
                     <div class="detail-image">
-                        <img class="prevable" src="../assets/images/accent.jpg" alt="Image">
+                        <img class="prevable" src="../assets/car/ibiza1.jpg" alt="Image">
                     </div>
                     <div class="detail-image">
-                        <img class="prevable" src="../assets/images/hyundai.jpg" alt="Image">
+                        <img class="prevable" src="../assets/car/ibiza2.jpg" alt="Image">
                     </div>
                     <div class="detail-image">
-                        <img class="prevable" src="../assets/images/kia2018.jpg" alt="Image">
+                        <img class="prevable" src="../assets/car/ibiza3.jpg" alt="Image">
                     </div>
                 </div>
                 <div class="flex-row center-spacebet r-car-inf">
@@ -964,7 +965,7 @@
                         <li><label class="bt-hover" data-target="vehInfo">Location<input type="radio" name="nav-rad" hidden></label></li>
                         <li><label class="bt-hover" data-target="specs">Specifications<input type="radio" name="nav-rad" hidden checked></label></li>
                         <li><label class="bt-hover" data-target="stats">Statistics <input type="radio" name="nav-rad" hidden></label></li>
-                        <li><label class="bt-hover" data-target="dcds">Documents <input type="radio" name="nav-rad" hidden></label></li>
+                        <li><label class="bt-hover" data-target="dcds">Essues <input type="radio" name="nav-rad" hidden></label></li>
                     </ul>
                     
                     <div class="car-det-bod">
@@ -1103,7 +1104,7 @@
                                 </div>
                             </div>
                             <div class="specs-more flex-row flex-center">
-                                <button class="exploare-but"><i class="fa-solid fa-circle-info"></i> More About Vhicle</button>
+                                <button class="exploare-but bt bt-hover" title="See more about this vehicle"><i class="fa-solid fa-circle-info"></i> More About Vehicle</button>
                             </div>                  
                          </div>
                         <div class="car-det-sec">
@@ -1136,8 +1137,40 @@
     <section class="plat-main-doc" id="homeDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectHome">
     </section>
-    <section class="plat-main-doc" id="ordersDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectOrders">
+    <section class="plat-main-doc flex-col" id="ordersDoc">
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectOrders" checked>
+        <div class="rentals-filter">
+            <ul class="orders-type-f flex-row">
+                <li>All Rentals</li>
+                <li>Drafts</li>
+                <li>Running</li>
+                <li>Completed</li>
+                <li>Canceled</li>
+            </ul>
+        </div>
+        <div class="rentals-filter">
+            <div class="input-holder flex-row">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" placeholder="Search...">
+            </div>
+            <div class="input-holder flex-row">
+                <i class="fa-solid fa-arrow-up-wide-short"></i>
+                <select>
+                    <option>Filter</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Unpaid">Unpaid</option>
+                </select>
+            </div>
+            <div class="input-holder flex-row">
+                <i class="fa-regular fa-calendar"></i>
+                <input type="text" id="dateRange" placeholder="01 Dec - 16 Dec">
+            </div>
+        </div>
+        <div class="rentals-main">
+            <div class="rentals-head"></div>
+            <div class="rentals-container"></div>
+            <div class="rentals-page-ctr"></div>
+        </div>
     </section>
     <section class="plat-main-doc" id="favoriteDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectFavorite">
@@ -1160,6 +1193,7 @@
     <script src="../lib/node_modules/gsap/dist/ScrollTrigger.min.js"></script>
     <script src="../lib/node_modules/svelte-range-slider-pips/dist/range-slider-pips.js"></script>
     <script src="../lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
+    <script src="../lib/node_modules/flatpickr/dist/flatpickr.min.js"></script>
     <script src="../js/platform.js"></script>
 </body>
 </html>
