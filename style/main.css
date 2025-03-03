@@ -312,6 +312,13 @@ p,span{
     margin: 2vh 0;
 }
 
+.phd{
+    display: flex;
+}
+
+.mhd{
+    display: none;
+}
 /*-------------------------*/
 
 .hover-scale:hover{
@@ -445,8 +452,14 @@ p,span{
 /*              Inputs             */
 
 input:focus,
-textarea:focus{
+textarea:focus,
+select:focus{
     outline: none;
+}
+
+.fa-ellipsis-vertical{
+    color: var(--text);
+    font-size: var(--font-med);
 }
 
 .input-holder{

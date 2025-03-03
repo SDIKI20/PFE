@@ -10,10 +10,10 @@
     <meta name="apple-mobile-web-app-title" content="MyWebSite" />
     <link rel="manifest" href="../favicon/site.webmanifest" />
     <link rel="stylesheet" href="../style/lib/fontawesome/all.min.css">
-    <link rel="stylesheet" href="../lib/node_modules/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="../style/main.css">
     <link rel="stylesheet" href="../style/checkbox.css">
     <link rel="stylesheet" href="../style/platform.css">
+    <link rel="stylesheet" href="../lib/node_modules/flatpickr/dist/flatpickr.css">
     <link rel="stylesheet" href="../lib/node_modules/mapbox-gl/dist/mapbox-gl.css">
     <link rel="stylesheet" href="../style/mobile.css">
     <link rel="stylesheet" href="../style/lagreScreen.css">
@@ -50,7 +50,7 @@
                     <p class="nav-label">Favorite</p>
                 </div>
             </label>
-            <label class="plat-nav-element phd" id="navRecent" title="Recent" for="sectRecent">
+            <label class="plat-nav-element" id="navRecent" title="Recent" for="sectRecent">
                 <div class="flex-col">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <p class="nav-label">Recent</p>
@@ -1137,39 +1137,316 @@
     <section class="plat-main-doc" id="homeDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectHome">
     </section>
-    <section class="plat-main-doc flex-col" id="ordersDoc">
+    <section class="plat-main-doc flex-col center-start" id="ordersDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectOrders" checked>
-        <div class="rentals-filter">
-            <ul class="orders-type-f flex-row">
-                <li>All Rentals</li>
-                <li>Drafts</li>
-                <li>Running</li>
-                <li>Completed</li>
-                <li>Canceled</li>
+        <div class="rentals-filter phd flex-row flex-center" style="margin-top: .625rem;">
+            <ul class="orders-type-f flex-row center-spacebet">
+                <label class="ordTf 0">All Rentals <input type="radio" name="ordTf" checked hidden></label>
+                <label class="ordTf 1">Drafts <input type="radio" name="ordTf" hidden></label>
+                <label class="ordTf 2">Running <input type="radio" name="ordTf" hidden></label>
+                <label class="ordTf 3">Completed <input type="radio" name="ordTf" hidden></label>
+                <label class="ordTf 4">Canceled <input type="radio" name="ordTf" hidden></label>
             </ul>
         </div>
-        <div class="rentals-filter">
-            <div class="input-holder flex-row">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="search" placeholder="Search...">
+        <div class="searchbar-4p flex-row center-start">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="search" id="search4p" placeholder="Search...">
+            <i class="fa-solid fa-filter bt-hover" id="rentsFilterBut4p"></i>
+        </div>
+        <div class="rentals-filter phd flex-row center-spacebet" style="padding: 0 1em;">
+            <div class="flex-row" style="gap: .7em;">
+                <div class="input-holder flex-row" style="height: 50%;">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" placeholder="Search...">
+                </div>
+                <div class="input-holder flex-row">
+                    <i class="fa-solid fa-arrow-up-wide-short"></i>
+                    <select class="bt rental-fltr">
+                        <option>Filter</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Unpaid">Unpaid</option>
+                    </select>
+                </div>
+                <div class="input-holder flex-row">
+                    <i class="fa-regular fa-calendar"></i>
+                    <input type="text" id="dateRange" class="bt" placeholder="01 Dec - 16 Dec">
+                </div>
             </div>
-            <div class="input-holder flex-row">
-                <i class="fa-solid fa-arrow-up-wide-short"></i>
-                <select>
-                    <option>Filter</option>
-                    <option value="Paid">Paid</option>
-                    <option value="Unpaid">Unpaid</option>
-                </select>
-            </div>
-            <div class="input-holder flex-row">
-                <i class="fa-regular fa-calendar"></i>
-                <input type="text" id="dateRange" placeholder="01 Dec - 16 Dec">
-            </div>
+            <button class="data-download bt bt-hover"><i class="fa-solid fa-file-arrow-down" style="margin-right: 5px;"></i> Download as CSV</button>
         </div>
         <div class="rentals-main">
-            <div class="rentals-head"></div>
-            <div class="rentals-container"></div>
-            <div class="rentals-page-ctr"></div>
+            <ul class="rentals-head rental-order">
+                <li class="flex-row flex-center phd">
+                    <div class="checkbox-wrapper-13">
+                        <input type="checkbox" id="rentsSelectAll">
+                    </div>
+                </li>
+                <li class="flex-row center-start">Rentals</li>
+                <li class="flex-row center-start">Date</li>
+                <li class="flex-row center-start phd">Period</li>
+                <li class="flex-row center-start">Payment</li>
+                <li class="flex-row center-start">Status</li>
+                <li class="flex-row center-start">Price</li>
+                <div class="flex-row center-start">
+                    <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                </div>
+            </ul>
+            <ul class="rentals-container flex-col center-start">
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Paid">Paid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state Completed">Completed</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Unpaid">Unpaid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state InProgress">InProgress</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Unpaid">Unpaid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state Canceled">Canceled</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Paid">Paid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state Completed">Completed</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Unpaid">Unpaid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state InProgress">InProgress</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Unpaid">Unpaid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state Canceled">Canceled</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Paid">Paid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state Completed">Completed</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Unpaid">Unpaid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state InProgress">InProgress</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Unpaid">Unpaid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state Canceled">Canceled</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+            </ul>
+            <div class="rentals-page-ctr">
+                <div class="cars-page-ctr flex-row flex-center">
+                    <label>Page</label>
+                    <i class="fa-solid fa-caret-left bt-hover" id="rentsPrevPage"></i>
+                    <div class="flex-row center-start">
+                        <input class="flex-row flex-center" type="number" disabled id="RentsCurrentPage" value="1" min="1">
+                        <p class="para-mid">Of <span id="totalPages">99</span></p>
+                    </div>
+                    <i class="fa-solid fa-caret-right bt-hover" id="rentsNextPage"></i>
+                </div>
+            </div>
         </div>
     </section>
     <section class="plat-main-doc" id="favoriteDoc">
@@ -1193,7 +1470,7 @@
     <script src="../lib/node_modules/gsap/dist/ScrollTrigger.min.js"></script>
     <script src="../lib/node_modules/svelte-range-slider-pips/dist/range-slider-pips.js"></script>
     <script src="../lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
-    <script src="../lib/node_modules/flatpickr/dist/flatpickr.min.js"></script>
+    <script src="../lib/node_modules/flatpickr/dist/flatpickr.js"></script>
     <script src="../js/platform.js"></script>
 </body>
 </html>
