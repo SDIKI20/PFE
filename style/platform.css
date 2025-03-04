@@ -1123,12 +1123,12 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 /*--------------------Documents Section----------------*/
 
 #docsDoc{
-    gap: 1.25rem;
+    gap: 10px;
     padding: 0.625rem;
 }
 
 .docs-doc{
-    width: 40%;
+    width: calc(50% - 10px);
     overflow: hidden;
     padding: 1.25em;
     max-height: 60vh;
@@ -1195,29 +1195,125 @@ time{
 }
 
 .doc-card{
-    width: 430px;
-    height: 260px;
+    width: 80%;
+    height: 280px;
     overflow: hidden;
     display: grid;
-    grid-template-columns: 0.5fr 1fr;
-    grid-template-rows: 0.5fr 1fr;
+    grid-template-columns: 0.4fr 1fr;
+    grid-template-rows: 0.2fr 1fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
-    border: 2px solid red;
-    border-radius: .9375rem;
+    border-radius: 20px;
+    position: relative;
+}
+
+.img-bg{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    object-fit: cover;
+    width: 80%;
+    opacity: 0.2;
 }
 
 .docard-loc{
     grid-area: 1 / 1 / 2 / 2;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.docard-tit{
+    grid-area: 1 / 2 / 2 / 3;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.docard-pict{
+    grid-area: 2 / 1 / 3 / 2;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.docard-info{
+    grid-area: 2 / 2 / 3 / 3;
+    z-index: 1;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 0.3fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    padding: 0.625rem;
 }
 
 .docard-loc p{
     color: white;
     background-color: var(--color-main);
-    border-radius: 15px;
-    width: 70%;
-    height: 60%;
+    border-radius: 10px;
+    font-size: var(--font-med);
+    font-weight: bold;
+    padding: 5px 10px;
+}
+
+.docard-tit p{
+    color: var(--color-main);
+    font-weight: bolder;
     font-size: var(--font-lrg);
+}
+
+.docard-img{
+    width: 80%;
+    height: 60%;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.docard-img img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.docard-sign{
+    position: absolute;
+    z-index: 2;
+    width: 150px;
+    top: 100%;
+    left: 10px;
+    transform: translateY(-120%) rotateZ(20deg);
+}
+
+.docard-sign img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info-lrg h6{
+    font-size: var(--font-med);
+    color: var(--text);
+    font-weight: lighter;
+    letter-spacing: 2.5px;
+}
+
+.info-lrg h1{
+    font-size: var(--font-med);
+    color: var(--text);
+    font-weight: bold;
+}
+
+.info-sml h5{
+    font-size: var(--font-med);
+    color: var(--text);
+    font-weight: bold;
+}
+
+.info-sml h6{
+    font-size: var(--font-sml);
+    color: var(--text);
+    opacity: 0.6;    
 }
 
 

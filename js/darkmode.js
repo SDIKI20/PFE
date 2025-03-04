@@ -9,6 +9,9 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e)
 //if (dark) {toggleDark()} else {toggleLight()}
 
 function toggleDark(){
+    try{
+        document.querySelector('.docard-sign').style.filter = "invert(1)"
+    }catch(error){}
     root.style.setProperty('--bg', '#121212');
     root.style.setProperty('--dark-bg', '#f0eded');
     root.style.setProperty('--bg-lower','#292929');
@@ -22,6 +25,9 @@ function toggleDark(){
 }
 
 function toggleLight(){
+    try{
+        document.querySelector('.docard-sign').style.filter = "invert(0)"
+    }catch(error){}
     root.style.setProperty('--bg', '#f0eded');
     root.style.setProperty('--dark-bg', '#1a1a1a');
     root.style.setProperty('--bg-lower','#f7f7f7');

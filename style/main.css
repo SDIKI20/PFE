@@ -46,7 +46,10 @@
     padding: 0;
     margin: 0;
     font-family: poppins;
-    line-height: auto;
+    text-rendering: optimizeLegibility !important;
+    font-smooth: always !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body{
