@@ -955,6 +955,10 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     padding-bottom: 0.625rem;
 }
 
+.brandCImg{
+    width: .9375rem;
+}
+
 /*----------------------------------------------------*/
 
 /*--------------------Home Section--------------------*/
@@ -1111,7 +1115,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 
 
-
 /*----------------------------------------------------*/
 /*--------------------Favorite Section----------------*/
 /*----------------------------------------------------*/
@@ -1119,20 +1122,105 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 /*----------------------------------------------------*/
 /*--------------------Documents Section----------------*/
 
-.docs-doc{
-    width: 45%;
-    border: 2px solid red;
-    overflow: hidden;
-    max-height: 24vh;
-}
-
 #docsDoc{
-    gap: 20px;
+    gap: 1.25rem;
+    padding: 0.625rem;
 }
 
-.doc-mydocs{
-    height: 40vh;
+.docs-doc{
+    width: 40%;
+    overflow: hidden;
+    padding: 1.25em;
+    max-height: 60vh;
+    border-radius: 10px;
+    background-color: var(--container);
 }
+
+.doc-accounting{
+    margin-top: 20px;
+}
+
+.user-ac-image{
+    width: 130px;
+    height: 150px;
+    overflow: hidden;
+    margin-right: 1.5625rem;
+    border-radius: 5px;
+}
+
+.user-ac-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.account-stat-t{
+    font-size: var(--font-lrg);
+    font-weight: bold;
+    color: var(--text);
+}
+
+.account-stat-p{
+    font-size: var(--font-med);
+    padding: 2.5px 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+.notVer{
+    color: rgb(233, 77, 77);
+    background-color: rgba(224, 80, 80, 0.185);
+    border: 2px solid rgba(255, 0, 0, 0.048);
+}
+
+.fa-check-to-slot{
+    font-size: var(--font-sml);
+    color: var(--text);
+    opacity: 0.3;
+}
+
+.editButInp{
+    opacity: 0.4 !important;
+    cursor: pointer;
+}
+
+.notVerfE{
+    color: rgba(255, 51, 0, 0.295);
+}
+
+time{
+    color: var(--text);
+    font-size: var(--font-sml);
+    opacity: 0.6;
+}
+
+.doc-card{
+    width: 430px;
+    height: 260px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    grid-template-rows: 0.5fr 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    border: 2px solid red;
+    border-radius: .9375rem;
+}
+
+.docard-loc{
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.docard-loc p{
+    color: white;
+    background-color: var(--color-main);
+    border-radius: 15px;
+    width: 70%;
+    height: 60%;
+    font-size: var(--font-lrg);
+}
+
+
 
 /*----------------------------------------------------*/
 /*--------------------Profile Section------------------*/
