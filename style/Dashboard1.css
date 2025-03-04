@@ -4,6 +4,7 @@
     border-radius: 50%;
     overflow: hidden;
 }
+
 .img-box img{
     width: 100%;
 }
@@ -14,22 +15,24 @@
     height: 100vh;
     padding: 20px;
 }
+
 ul{
     list-style: none;
     position: relative;
-    height: 95%;
-    
-    
+    height: 95%;    
 }
+
 .profile{
     display: flex;
     align-items: center;
     gap: 30px;
 }
+
 .profile h2{
     font-size: 20px;
     
 }
+
 ul li a{
     display: block;
     text-decoration: none;
@@ -40,31 +43,38 @@ ul li a{
     align-items: center;
     gap: 40px;
     transition: .5s;
-    color: black;
+    color: var(--txt-black);
     opacity: 60%; 
+    cursor: pointer;
 }
 
 ul li a:hover, .active{
-    background-color:aqua;
+    background-color:var(--border-low);
 }
+
 .log-out{
     position: absolute;
     bottom: 0;
     width: 100%;
     opacity: 100%;    
 }
+
 .log-out a{
-    background-color: #a00;
+    color: #a00;
     border-radius: 8px;
     opacity: 100%;
 }
 .log-out a:hover{
-    background-color: #a00;
+   color: #a00;
 }
 
 ul label a i{
     font-size: 20px;
 
+}
+
+.dashboard-menu ul li{
+    cursor: pointer;
 }
 
 #dash-content{
@@ -74,20 +84,17 @@ ul label a i{
     background-color: var(--container);
     overflow-y: scroll;
     padding: 20px;
-    
 }
-.title-info{
-    background-color:white;
-    
-}
+
 .title-info p{
-    color: black;
+    color: var(--txt-black);
     height: 40px;
     font-size: 30px;
     padding-bottom: none;
     padding-left: 10px;
 
 }
+
 .data-info{
     display: flex;
     align-items: center;
@@ -97,8 +104,9 @@ ul label a i{
     margin-bottom: 10px;
     
 }
+
 .data-info .box{
-    background-color: white;
+    background-color: var(--bg-lower);
     border-style: solid;
     height: 150px;
     flex-basis: 150px;
@@ -108,9 +116,10 @@ ul label a i{
     align-items: center;
     justify-content: space-around;
     margin: 5px;
-    color: black;
-    border: var(--border) solid 1px;
+    color: var(--text);
+    border: 1px solid var(--border-low);
 }
+
 .data-info i{
     display: flex;
     justify-content: center;
@@ -118,13 +127,14 @@ ul label a i{
     width: 40px;
     height: 40px;
     border:solid;
-    background-color: #f5f5f5;
+    background-color: transparent;
     border-radius: 50%;
-    color:#aaa;
+    color:var(--border);
 }
+
 #dash-content .boxe{
     display: flex;
-    background-color: white;
+    background-color: var(--container);
     height: 200px;
     border-radius: 8px;
     height: 290px;
@@ -132,8 +142,8 @@ ul label a i{
     justify-content:top;
     margin: 5px;
     padding-left: 20px;
-    color: black;
-    border: var(--border) solid 1px;
+    color: var(--text);
+    border: 1px solid var(--border-low);
 
 }
 
@@ -141,35 +151,40 @@ ul label a i{
     width: 100%;
     overflow-x: auto;
 }
+
 table{
     border-collapse: collapse;
     min-width: 600px;
-    color: white;
+    color: var(--text);
     width: 100%;
     text-align: center;
     border-spacing: 8px;
 }
-td,th{
+
+td,
+th{
     padding: 10px;
     text-align: left;
-    border: 1px solid var(--border);
-    background-color: #123;
+    border: 1px solid var(--border-low);
+    background-color: var(--bg-lower);
     height: 50px;
 }
+
 th{
-  
-    background-color: aqua;
+    background-color: var(--border);
 }
+
 #dash-content .title-info .moniteur{
     font-size: 15px;
     margin-top: 0;
-    opacity: 60%;
-    
+    opacity: 60%;    
 }
+
 #dash-content .title {
     display: flex;
     justify-content: space-between;
 }
+
 button{
     width: 100px;
     height: 40px;
@@ -178,15 +193,17 @@ button{
 }
 
 .table{
-    border: var(--border) solid 1px;
+    border: var(--border-low) solid 1px;
     border-radius: 8px;
     margin: 10px;
     flex-wrap: wrap;
 }
+
 .data p{
     margin: 10px;
     margin-top: 0;
 }
+
 #chartContainer {
     width: 90vw; 
     height: 80vh; 
@@ -197,12 +214,10 @@ button{
     height: 100% ;
 }
 
-
 .content-section {
     display: none;
 }
 
 .dashboard-menu ul li a.active {
     font-weight: bold;
-
 }

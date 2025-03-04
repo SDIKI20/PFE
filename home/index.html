@@ -20,7 +20,6 @@
     <title>Platform</title>
 </head>
 <body class="flex-row">
-
     <nav class="plat-main-navigator flex-col center-start" id="platMainNavigator">
         <div class="plat-logo flex-row flex-center">
             <img src="../assets/logo.png" alt="LOGO" width="80%">
@@ -38,7 +37,7 @@
                     <p class="nav-label">Cars</p>
                 </div>
             </label>
-            <label class="plat-nav-element plat-nav-selected" title="Orders" for="sectOrders">
+            <label class="plat-nav-element" title="Orders" for="sectOrders">
                 <div class="flex-col">
                     <i class="fa-regular fa-clipboard phbb"></i>
                     <p class="nav-label">Rentals</p>
@@ -63,7 +62,7 @@
             </label>
         </ul>
         <ul class="plat-user-info flex-col center-start">
-            <label class="plat-nav-element" title="My Documents" for="sectDocs">
+            <label class="plat-nav-element plat-nav-selected" title="My Documents" for="sectDocs">
                 <div class="flex-col">
                     <i class="fa-regular fa-id-card"></i>
                     <p class="nav-label">Documents</p>
@@ -1138,7 +1137,7 @@
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectHome">
     </section>
     <section class="plat-main-doc flex-col center-start" id="ordersDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectOrders" checked>
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectOrders">
         <div class="rentals-filter phd flex-row flex-center" style="margin-top: .625rem;">
             <ul class="orders-type-f flex-row center-spacebet">
                 <label class="ordTf 0">All Rentals <input type="radio" name="ordTf" checked hidden></label>
@@ -1458,8 +1457,117 @@
     <section class="plat-main-doc" id="helpDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectHelp">
     </section>
-    <section class="plat-main-doc" id="docsDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectDocs">
+    <section class="plat-main-doc flex-row flex-wrap flex-center" id="docsDoc">
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectDocs" checked>
+        <div class="docs-doc doc-mydocs">
+            <h1 class="title-med">My Documents</h1>
+            <p class="para-sml">Check your account status and informations</p>
+            <div class="doc-accounting">
+                <div class="flex-row">
+                    <div class="user-ac-image">
+                        <img src="../assets/images/user.jpg" alt="PICTURE">
+                    </div>
+                    <div class="flex-col">
+                        <p>Account Statu</p>
+                        <p>Not verified</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="docs-doc doc-userinfos">
+            <div class="flex-row input-holder">
+                <i class="fa-solid fa-signature"></i>
+                <input type="text" disabled value="First name">
+            </div>
+            <div class="flex-row input-holder">
+                <i class="fa-solid fa-signature"></i>
+                <input type="text" disabled value="Last name">
+            </div>
+            <div class="flex-row input-holder">
+                <i class="fa-solid fa-envelope-open-text"></i>
+                <input type="text" disabled value="Email@exemple.com">
+            </div>
+            <div class="flex-row input-holder">
+                <i class="fa-solid fa-phone"></i>
+                <input type="text" disabled value="+213 0666666666">
+            </div>
+        </div>
+        <div class="docs-doc doc-accountstat">
+        </div>
+        <div class="docs-doc doc-drivelice">
+            <div class="doc-card">
+                <div class="flex-col flex-center docard-loc">
+                    Algeria
+                </div>
+                <div class="flex-col flex-center docard-tit">
+                    DRIVER LICENSE
+                </div>
+                <div class="flex-col center-start docard-pict">
+                    <div class="docard-img">
+                        <img src="../assets/images/user.jpg" alt="Picture">
+                    </div>
+                    <div class="docard-sign">
+                        <img src="../assets/signature.png" alt="">
+                    </div>
+                </div>
+                <div class="flex-col center-start docard-info">
+                    <div class="flex-row">
+                        <div class="info-lrg">
+                            <h1 class="title-med">FNAME LNAME</h1>
+                        </div>
+                        <div class="flex-col">
+                            <div class="flex-col">
+                                <p>License Number</p>
+                                <p>AA99999999999</p>
+                            </div>
+                            <div class="flex-col">
+                                <p>DOB</p>
+                                <p>DD/MM/YYYY</p>
+                            </div>
+                            <div class="flex-col">
+                                <p>ENDORSEMENTS</p>
+                                <p>None</p>
+                            </div>
+                        </div>
+                        <div class="flex-col">
+                            <div class="info-lrg">
+                                ADDRESS
+                            </div>
+                            <div class="flex-col">
+                                <p>ISSUED</p>
+                                <p>DD/MM/YYYY</p>
+                            </div>
+                            <div class="flex-col">
+                                <p>EXPIRES</p>
+                                <p>DD/MM/YYYY</p>
+                            </div>
+                            <div class="flex-col">
+                                <p>RESTRICTIONS</p>
+                                <p>None</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-row">
+                        <div class="flex-col">
+                            <p>SEX</p>
+                            <p>MALE</p>
+                        </div>
+                        <div class="flex-col">
+                            <p>EYES</p>
+                            <p>Brown</p>
+                        </div>
+                        <div class="flex-col">
+                            <p>HAIR</p>
+                            <p>BLACK</p>
+                        </div>
+                        <div class="flex-col">
+                            <p>HEIGHT</p>
+                            <p>9.99 M</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     <section class="plat-main-doc" id="profileDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectProfile">
