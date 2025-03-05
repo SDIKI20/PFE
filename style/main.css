@@ -4,7 +4,7 @@
     --bg: #f0eded;
     --bg-darker: #d3d0d0;
     --bg-low: #17212B;
-    --bg-lower: #242F3D;
+    --bg-lower: #f7f7f7;
     --container: white;
     --text: #333;
     --text-low: #3333334b;
@@ -46,7 +46,10 @@
     padding: 0;
     margin: 0;
     font-family: poppins;
-    line-height: auto;
+    text-rendering: optimizeLegibility !important;
+    font-smooth: always !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body{
@@ -312,6 +315,13 @@ p,span{
     margin: 2vh 0;
 }
 
+.phd{
+    display: flex;
+}
+
+.mhd{
+    display: none;
+}
 /*-------------------------*/
 
 .hover-scale:hover{
@@ -445,8 +455,14 @@ p,span{
 /*              Inputs             */
 
 input:focus,
-textarea:focus{
+textarea:focus,
+select:focus{
     outline: none;
+}
+
+.fa-ellipsis-vertical{
+    color: var(--text);
+    font-size: var(--font-med);
 }
 
 .input-holder{

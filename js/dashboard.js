@@ -19,3 +19,43 @@ new Chart(ctx, {
     }
   }
 });
+<<<<<<< HEAD
+=======
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  var sections = document.querySelectorAll('.content-section');
+  var menuItems = document.querySelectorAll('.dashboard-menu ul li a');
+
+  function hideAllSections() {
+      sections.forEach(function(section) {
+          section.style.display = 'none';
+      });
+  }
+
+  function removeActiveClass() {
+      menuItems.forEach(function(item) {
+          item.classList.remove('active');
+      });
+  }
+
+  menuItems.forEach(function(item) {
+      item.addEventListener('click', function(event) {
+          event.preventDefault();
+          hideAllSections();
+          removeActiveClass();
+          item.classList.add('active');
+          var targetId = item.parentElement.id.replace('-menu-item', '-content');
+          var targetSection = document.getElementById(targetId);
+          if (targetSection) {
+              targetSection.style.display = 'block';
+          }
+      });
+  });
+
+  // Show the dashboard content by default
+  hideAllSections();
+  document.getElementById('dash-content').style.display = 'block';
+  document.querySelector('#dashboard-menu-item a').classList.add('active');
+});
+>>>>>>> f862de75b996ef68a958cc691f6df0345af9ab91

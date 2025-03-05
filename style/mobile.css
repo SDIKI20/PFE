@@ -16,6 +16,10 @@
         display: none;
     }
 
+    .mhd{
+        display: flex;
+    }
+
     .phbb{
         font-weight: bolder;
     }
@@ -652,7 +656,8 @@
         font-size: var(--font-med);
     }
 
-    #filterBut4p{
+    #filterBut4p,
+    #rentsFilterBut4p{
         color: white;
         background-color: var(--color-second);
         border-radius: 50%;
@@ -738,7 +743,54 @@
     }
 
     .pagesControl{
-        width: 80%;
+        width: 90%;
+    }
+
+    #ordersDoc{
+        padding: 0.3em;
+        gap: 0.5rem;
+    }
+
+    .orders-type-f{
+        width: 90%;
+    }
+
+    #ordersDoc 
+    .searchbar-4p{
+        margin: .625em 0;
+   }
+
+   .rentals-main{
+        height: calc(100% - 10em);
+        padding-top: 0;
+   }
+
+    .rentals-head li{
+        color: var(--txt-black);
+        font-size: 0.7rem;
+    }
+
+    .rental-pay,
+    .rental-state{
+        font-size: 0.6rem;
+        padding: 2px 5px;
+    }
+
+    .rental-price{
+        color: var(--text);
+        font-weight: bold;
+        font-size: var(--font-sml);
+    }
+
+    .rental-order{
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1.5fr 1fr repeat(2, 0.8fr) 1fr 0.2fr;
+        grid-template-rows: 1fr;
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        min-height: 4em;
+        border-bottom: 1px solid var(--border-low);
     }
 
     /*-------------------------------------------------------*/

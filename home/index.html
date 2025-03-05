@@ -13,13 +13,13 @@
     <link rel="stylesheet" href="../style/main.css">
     <link rel="stylesheet" href="../style/checkbox.css">
     <link rel="stylesheet" href="../style/platform.css">
+    <link rel="stylesheet" href="../lib/node_modules/flatpickr/dist/flatpickr.css">
     <link rel="stylesheet" href="../lib/node_modules/mapbox-gl/dist/mapbox-gl.css">
     <link rel="stylesheet" href="../style/mobile.css">
     <link rel="stylesheet" href="../style/lagreScreen.css">
     <title>Platform</title>
 </head>
 <body class="flex-row">
-
     <nav class="plat-main-navigator flex-col center-start" id="platMainNavigator">
         <div class="plat-logo flex-row flex-center">
             <img src="../assets/logo.png" alt="LOGO" width="80%">
@@ -31,7 +31,7 @@
                     <p class="nav-label">Home</p>
                 </div>
             </label>
-            <label class="plat-nav-element plat-nav-selected" title="Cars" for="sectMain">
+            <label class="plat-nav-element" title="Cars" for="sectMain">
                 <div class="flex-col">
                     <i class="fa-solid fa-car"></i>
                     <p class="nav-label">Cars</p>
@@ -40,7 +40,7 @@
             <label class="plat-nav-element" title="Orders" for="sectOrders">
                 <div class="flex-col">
                     <i class="fa-regular fa-clipboard phbb"></i>
-                    <p class="nav-label">Orders</p>
+                    <p class="nav-label">Rentals</p>
                 </div>
             </label>
             <label class="plat-nav-element" title="Favorite" for="sectFavorite">
@@ -49,7 +49,7 @@
                     <p class="nav-label">Favorite</p>
                 </div>
             </label>
-            <label class="plat-nav-element phd" id="navRecent" title="Recent" for="sectRecent">
+            <label class="plat-nav-element" id="navRecent" title="Recent" for="sectRecent">
                 <div class="flex-col">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <p class="nav-label">Recent</p>
@@ -62,7 +62,7 @@
             </label>
         </ul>
         <ul class="plat-user-info flex-col center-start">
-            <label class="plat-nav-element" title="My Documents" for="sectDocs">
+            <label class="plat-nav-element plat-nav-selected" title="My Documents" for="sectDocs">
                 <div class="flex-col">
                     <i class="fa-regular fa-id-card"></i>
                     <p class="nav-label">Documents</p>
@@ -83,7 +83,7 @@
     </nav>
     <img class="map-img" src="../assets/images/map.png" alt="Maps">
     <section class="plat-main-doc" id="mainDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectMain" checked>
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectMain">
         <div class="plat-user-loc flex-row center-start">
             <div class="logo4p flex-col flex-center" style="margin-right: auto;">
                 <img src="../assets/logo.png" alt="">
@@ -126,7 +126,7 @@
         </div>
         <section class="plat-filter-sec flex-col center-start" id="filterSec">
             <header class="plat-filter-head flex-col center-start">
-                <div class="flex-row center-spacebet" style="width: 100%; padding: 0.625rem 1rem;">
+                <div class="flex-row center-spacebet" style="width: 100%; padding: 10px 16px;">
                     <h1 class="title-sml">Filter by</h1>
                     <button class="bt bt-hover reset-but" id="filterReset" title="Remove filter">Reset All <i class="fa-solid fa-xmark"></i></button>
                 </div>
@@ -188,43 +188,43 @@
                     <div class="flex-row flex-wrap">
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <input type="checkbox" id="bmw">
-                            <label class="flex-row flex-center" for="bmw">BMW <img src="../assets/cars/bmw.png" width="15px" alt=""></label>
+                            <label class="flex-row flex-center" for="bmw">BMW <img src="../assets/cars/bmw.png" class="brandCImg" alt=""></label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <input type="checkbox" id="audi">
-                            <label class="flex-row flex-center" for="audi">AUDI <img src="../assets/cars/audi.png" width="15px" alt=""></label>
+                            <label class="flex-row flex-center" for="audi">AUDI <img src="../assets/cars/audi.png" class="brandCImg" alt=""></label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <input type="checkbox" id="chevrolet">
-                            <label class="flex-row flex-center" for="chevrolet">CHEVROLET <img src="../assets/cars/chevrolet.png" width="15px" alt=""></label>
+                            <label class="flex-row flex-center" for="chevrolet">CHEVROLET <img src="../assets/cars/chevrolet.png" class="brandCImg" alt=""></label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <input type="checkbox" id="hyundai">
-                            <label class="flex-row flex-center" for="hyundai">HYUNDAI <img src="../assets/cars/hyundai.png" width="15px" alt=""></label>
+                            <label class="flex-row flex-center" for="hyundai">HYUNDAI <img src="../assets/cars/hyundai.png" class="brandCImg" alt=""></label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <input type="checkbox" id="ford">
-                            <label class="flex-row flex-center" for="ford">FORD <img src="../assets/cars/ford.png" width="15px" alt=""></label>
+                            <label class="flex-row flex-center" for="ford">FORD <img src="../assets/cars/ford.png" class="brandCImg" alt=""></label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <input type="checkbox" id="seat">
-                            <label class="flex-row flex-center" for="seat">SEAT <img src="../assets/cars/seat.png" width="15px" alt=""></label>
+                            <label class="flex-row flex-center" for="seat">SEAT <img src="../assets/cars/seat.png" class="brandCImg" alt=""></label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <input type="checkbox" id="mazda">
-                            <label class="flex-row flex-center" for="mazda">MAZDA <img src="../assets/cars/mazda.png" width="15px" alt=""></label>
+                            <label class="flex-row flex-center" for="mazda">MAZDA <img src="../assets/cars/mazda.png" class="brandCImg" alt=""></label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <input type="checkbox" id="kia">
-                            <label class="flex-row flex-center" for="kia">KIA <img src="../assets/cars/kia.png" width="15px" alt=""></label>
+                            <label class="flex-row flex-center" for="kia">KIA <img src="../assets/cars/kia.png" class="brandCImg" alt=""></label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <input type="checkbox" id="opel">
-                            <label class="flex-row flex-center" for="opel">OPEL <img src="../assets/cars/opel.png" width="15px" alt=""></label>
+                            <label class="flex-row flex-center" for="opel">OPEL <img src="../assets/cars/opel.png" class="brandCImg" alt=""></label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <input type="checkbox" id="skoda">
-                            <label class="flex-row flex-center" for="skoda">SKODA <img src="../assets/cars/skoda.png" width="15px" alt=""></label>
+                            <label class="flex-row flex-center" for="skoda">SKODA <img src="../assets/cars/skoda.png" class="brandCImg" alt=""></label>
                         </div>
                     </div>
                 </details>
@@ -340,7 +340,7 @@
         <section class="plat-cars-sec flex-row" id="carsSec">
             <div class="flex-row flex-wrap carsec-body" id="carSecBody">
                 <header class="carsec-head flex-row">
-                    <h1 class="title-sml plat-car-name"><span id="rentalResult" style="color:var(--text-low); font-size:0.7rem;">99</span> Vehicles results</h1>
+                    <h1 class="title-sml plat-car-name"><span id="rentalResult" style="color:var(--text-low); font-size:11.2px;">99</span> Vehicles results</h1>
                     <div class="searchbar-4p flex-row center-start">
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <input type="search" id="search4p" placeholder="Search...">
@@ -348,6 +348,25 @@
                     </div>
                 </header>
                 <div class="plat-cars-container flex-row flex-wrap start-center">
+                    <div class="pagesControl flex-row center-spacebet">
+                        <div class="cars-f-order flex-row center-start">
+                            <label>Order by</label>
+                            <select id="carsOrderBy">
+                                <option value="coRate">Rates</option>
+                                <option value="coDate">Date</option>
+                                <option value="coPrice">Price</option>
+                            </select>
+                        </div>
+                        <div class="cars-page-ctr flex-row flex-center">
+                            <label>Page</label>
+                            <i class="fa-solid fa-caret-left bt-hover" id="prevPage"></i>
+                            <div class="flex-row center-start">
+                                <input class="flex-row flex-center" type="number" disabled id="currentPage" value="1" min="1">
+                                <p class="para-mid">Of <span id="totalPages">1</span></p>
+                            </div>
+                            <i class="fa-solid fa-caret-right bt-hover" id="nextPage"></i>
+                        </div>
+                    </div>
                     <div class="plat-car-container">
                         <header class="flex-row center-spacebet">
                             <div class="car-rate flex-row flex-center">
@@ -913,25 +932,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="pagesControl flex-row center-spacebet">
-                    <div class="cars-f-order flex-row center-start">
-                        <label>Order by</label>
-                        <select id="carsOrderBy">
-                            <option value="coRate">Rates</option>
-                            <option value="coDate">Date</option>
-                            <option value="coPrice">Price</option>
-                        </select>
-                    </div>
-                    <div class="cars-page-ctr flex-row flex-center">
-                        <label>Page</label>
-                        <i class="fa-solid fa-caret-left bt-hover" id="prevPage"></i>
-                        <div class="flex-row center-start">
-                            <input class="flex-row flex-center" type="number" disabled id="currentPage" value="1" min="1">
-                            <p class="para-mid">Of <span id="totalPages">1</span></p>
-                        </div>
-                        <i class="fa-solid fa-caret-right bt-hover" id="nextPage"></i>
-                    </div>
-                </div>
             </div>
             <div class="plat-car-detail flex-col center-start" id="carDetail">
                 <i class="fa-solid fa-xmark bt-hover" id="detailsClose"></i>
@@ -945,13 +945,13 @@
                 </header>
                 <div class="plat-images-detail flex-row center-start">
                     <div class="detail-image">
-                        <img class="prevable" src="../assets/images/accent.jpg" alt="Image">
+                        <img class="prevable" src="../assets/car/ibiza1.jpg" alt="Image">
                     </div>
                     <div class="detail-image">
-                        <img class="prevable" src="../assets/images/hyundai.jpg" alt="Image">
+                        <img class="prevable" src="../assets/car/ibiza2.jpg" alt="Image">
                     </div>
                     <div class="detail-image">
-                        <img class="prevable" src="../assets/images/kia2018.jpg" alt="Image">
+                        <img class="prevable" src="../assets/car/ibiza3.jpg" alt="Image">
                     </div>
                 </div>
                 <div class="flex-row center-spacebet r-car-inf">
@@ -964,7 +964,7 @@
                         <li><label class="bt-hover" data-target="vehInfo">Location<input type="radio" name="nav-rad" hidden></label></li>
                         <li><label class="bt-hover" data-target="specs">Specifications<input type="radio" name="nav-rad" hidden checked></label></li>
                         <li><label class="bt-hover" data-target="stats">Statistics <input type="radio" name="nav-rad" hidden></label></li>
-                        <li><label class="bt-hover" data-target="dcds">Documents <input type="radio" name="nav-rad" hidden></label></li>
+                        <li><label class="bt-hover" data-target="dcds">Essues <input type="radio" name="nav-rad" hidden></label></li>
                     </ul>
                     
                     <div class="car-det-bod">
@@ -986,7 +986,7 @@
                                             <input type="datetime-local" class="dtlocal" id="dropdate">
                                         </div>
                                     </div>
-                                    <div class="flex-row center-spacebet" style="margin: .625rem 0; padding-right: 0.625rem;">
+                                    <div class="flex-row center-spacebet" style="margin: 10px 0; padding-right: 10px;">
                                         <label class="para-sml">Extra time</label>
                                         <label class="switch">
                                             <input id="stch" type="checkbox" hidden>
@@ -1023,7 +1023,7 @@
                                         <input type="text" id="promoCode" id="codePromo" placeholder="Enter your code">
                                      </div>
                                 </div>
-                                <div class="flex-row center-spacebet" style="width: 50%; padding: 0.625rem;">
+                                <div class="flex-row center-spacebet" style="width: 50%; padding: 10px;">
                                     <p class="para-mid">Total Price</p>
                                     <p class="car-inf-price" style="font-size: var(--font-lrg);" id="totalPrice">750<span class="currence">DZD</span></p>
                                 </div>
@@ -1103,7 +1103,7 @@
                                 </div>
                             </div>
                             <div class="specs-more flex-row flex-center">
-                                <button class="exploare-but"><i class="fa-solid fa-circle-info"></i> More About Vhicle</button>
+                                <button class="exploare-but bt bt-hover" title="See more about this vehicle"><i class="fa-solid fa-circle-info"></i> More About Vehicle</button>
                             </div>                  
                          </div>
                         <div class="car-det-sec">
@@ -1136,8 +1136,317 @@
     <section class="plat-main-doc" id="homeDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectHome">
     </section>
-    <section class="plat-main-doc" id="ordersDoc">
+    <section class="plat-main-doc flex-col center-start" id="ordersDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectOrders">
+        <div class="rentals-filter phd flex-row flex-center" style="margin-top: 10px;">
+            <ul class="orders-type-f flex-row center-spacebet">
+                <label class="ordTf 0">All Rentals <input type="radio" name="ordTf" checked hidden></label>
+                <label class="ordTf 1">Drafts <input type="radio" name="ordTf" hidden></label>
+                <label class="ordTf 2">Running <input type="radio" name="ordTf" hidden></label>
+                <label class="ordTf 3">Completed <input type="radio" name="ordTf" hidden></label>
+                <label class="ordTf 4">Canceled <input type="radio" name="ordTf" hidden></label>
+            </ul>
+        </div>
+        <div class="searchbar-4p flex-row center-start">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="search" id="search4p" placeholder="Search...">
+            <i class="fa-solid fa-filter bt-hover" id="rentsFilterBut4p"></i>
+        </div>
+        <div class="rentals-filter phd flex-row center-spacebet" style="padding: 0 1em;">
+            <div class="flex-row" style="gap: .7em;">
+                <div class="input-holder flex-row" style="height: 50%;">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" placeholder="Search...">
+                </div>
+                <div class="input-holder flex-row">
+                    <i class="fa-solid fa-arrow-up-wide-short"></i>
+                    <select class="bt rental-fltr">
+                        <option>Filter</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Unpaid">Unpaid</option>
+                    </select>
+                </div>
+                <div class="input-holder flex-row">
+                    <i class="fa-regular fa-calendar"></i>
+                    <input type="text" id="dateRange" class="bt" placeholder="01 Dec - 16 Dec">
+                </div>
+            </div>
+            <button class="data-download bt bt-hover"><i class="fa-solid fa-file-arrow-down" style="margin-right: .3125rem;"></i> Download as CSV</button>
+        </div>
+        <div class="rentals-main">
+            <ul class="rentals-head rental-order">
+                <li class="flex-row flex-center phd">
+                    <div class="checkbox-wrapper-13">
+                        <input type="checkbox" id="rentsSelectAll">
+                    </div>
+                </li>
+                <li class="flex-row center-start">Rentals</li>
+                <li class="flex-row center-start">Date</li>
+                <li class="flex-row center-start phd">Period</li>
+                <li class="flex-row center-start">Payment</li>
+                <li class="flex-row center-start">Status</li>
+                <li class="flex-row center-start">Price</li>
+                <div class="flex-row center-start">
+                    <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                </div>
+            </ul>
+            <ul class="rentals-container flex-col center-start">
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Paid">Paid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state Completed">Completed</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Unpaid">Unpaid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state InProgress">InProgress</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Unpaid">Unpaid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state Canceled">Canceled</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Paid">Paid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state Completed">Completed</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Unpaid">Unpaid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state InProgress">InProgress</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Unpaid">Unpaid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state Canceled">Canceled</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Paid">Paid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state Completed">Completed</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Unpaid">Unpaid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state InProgress">InProgress</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+                <li class="rental-order">
+                    <div class="checkbox-wrapper-13 phd">
+                        <input class="rentCheckB" type="checkbox">
+                    </div>
+                    <div class="flex-col start-center">
+                        <p class="spec-tit">SEAT Ibiza 2018</p>
+                        <p class="price-tag">#ID123456</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="spec-tit">Mar 03, 2025</p>
+                    </div>
+                    <div class="flex-row center-start phd">
+                        <p class="spec-tit">24H</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-pay Unpaid">Unpaid</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-state Canceled">Canceled</p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <p class="rental-price">4500<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-start">
+                        <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
+                    </div>
+                </li>
+            </ul>
+            <div class="rentals-page-ctr">
+                <div class="cars-page-ctr flex-row flex-center">
+                    <label>Page</label>
+                    <i class="fa-solid fa-caret-left bt-hover" id="rentsPrevPage"></i>
+                    <div class="flex-row center-start">
+                        <input class="flex-row flex-center" type="number" disabled id="RentsCurrentPage" value="1" min="1">
+                        <p class="para-mid">Of <span id="totalPages">99</span></p>
+                    </div>
+                    <i class="fa-solid fa-caret-right bt-hover" id="rentsNextPage"></i>
+                </div>
+            </div>
+        </div>
     </section>
     <section class="plat-main-doc" id="favoriteDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectFavorite">
@@ -1148,8 +1457,147 @@
     <section class="plat-main-doc" id="helpDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectHelp">
     </section>
-    <section class="plat-main-doc" id="docsDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectDocs">
+    <section class="plat-main-doc flex-col flex-wrap flex-center" id="docsDoc">
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectDocs" checked>
+        <div class="docs-doc doc-mydocs">
+            <h1 class="title-med" style="color: var(--txt-black);">My Documents</h1>
+            <p class="para-sml">Check your account status and informations</p>
+            <div class="doc-accounting">
+                <div class="flex-row">
+                    <div class="user-ac-image flex-row flex-center">
+                        <img src="../assets/images/user.jpg" alt="PICTURE">
+                    </div>
+                    <div class="flex-col">
+                        <p class="account-stat-p notVer"><i class="fa-solid fa-circle-exclamation" style="margin: 0 5px;" title="Not Verified"></i>                            Not verified</p>
+                        <p class="account-stat-t">Full Name <time>#232153</time></p>
+                        <time>DD/MM/YYY</time>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="docs-doc doc-userinfos">
+            <div class="flex-col">
+                <label class="para-sml">State</label>
+                <div class="flex-row input-holder" style="height: 2.625rem;">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <input type="text" disabled value="Ghardaia">
+                </div>
+            </div>
+            <div class="flex-col">
+                <label class="para-sml">City</label>
+                <div class="flex-row input-holder" style="height: 2.625rem;">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <input type="text" disabled value="El meniaa">
+                </div>
+            </div>
+            <div class="flex-col">
+                <label class="para-sml">Address</label>
+                <div class="flex-row input-holder" style="height: 2.625rem;">
+                    <i class="fa-solid fa-at"></i>
+                    <input type="text" disabled value="Address">
+                </div>
+            </div>
+            <div class="flex-col">
+                <label class="para-sml">Email</label>
+                <div class="flex-row center-start">
+                    <div class="flex-row input-holder" style="height: 2.625rem;">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                        <input type="text" disabled value="Email@exemple.com">
+                        <i class="fa-solid fa-pen-to-square editButInp bt-hover" style="margin: 0 5px;"></i>
+                    </div>
+                    <i class="fa-solid fa-check-to-slot" style="margin: 0 10px;" title="Verified"></i>
+                </div>
+            </div>
+            <div class="flex-col">
+                <label class="para-sml">Phone number</label>
+                <div class="flex-row center-start">
+                    <div class="flex-row input-holder" style="height: 2.625rem;">
+                        <i class="fa-solid fa-phone"></i>
+                        <input type="text" disabled value="+213 0666666666">
+                        <i class="fa-solid fa-pen-to-square editButInp bt-hover" style="margin: 0 5px;"></i>
+                    </div>
+                    <i class="fa-solid fa-circle-exclamation notVerfE" style="margin: 0 10px;" title="Not Verified"></i>
+                </div>
+            </div>
+        </div>
+        <div class="docs-doc doc-accountstat">
+            
+        </div>
+        <div class="docs-doc doc-drivelice flex-row flex-center">
+            <div class="doc-card">
+                <img src="../assets/images/worldmap.png" alt="Image" class="img-bg">
+                <div class="flex-col flex-center docard-loc">
+                    <p>Algeria</p>
+                </div>
+                <div class="flex-col flex-center docard-tit">
+                    <p>DRIVER LICENSE</p>
+                </div>
+                <div class="flex-col center-start docard-pict">
+                    <div class="docard-img">
+                        <img src="../assets/images/user.jpg" alt="Picture">
+                    </div>
+                </div>
+                <div class="docard-info">
+                    <div class="flex-row center-spacebet">
+                        <div class="flex-col">
+                            <div class="info-lrg">
+                                <h1>FNAME LNAME</h1>
+                            </div>
+                            <div class="flex-col info-sml">
+                                <h5>License Number</h5>
+                                <h6>AA99999999999</h6>
+                            </div>
+                            <div class="flex-col info-sml">
+                                <h5>DOB</h5>
+                                <h6>DD/MM/YYYY</h6>
+                            </div>
+                            <div class="flex-col info-sml">
+                                <h5>ENDORSEMENTS</h5>
+                                <h6>None</h6>
+                            </div>
+                        </div>
+                        <div class="flex-col">
+                            <div class="info-lrg">
+                                <h6>ADDRESS</h6>
+                            </div>
+                            <div class="flex-col info-sml">
+                                <h5>ISSUED</h5>
+                                <h6>DD/MM/YYYY</h6>
+                            </div>
+                            <div class="flex-col info-sml">
+                                <h5>EXPIRES</h5>
+                                <h6>DD/MM/YYYY</h6>
+                            </div>
+                            <div class="flex-col info-sml">
+                                <h5>RESTRICTIONS</h5>
+                                <h6>None</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-row center-space-bet" style="gap: 30px;">
+                        <div class="flex-col info-sml">
+                            <h5>SEX</h5>
+                            <h6>MALE</h6>
+                        </div>
+                        <div class="flex-col info-sml">
+                            <h5>EYES</h5>
+                            <h6>Brown</h6>
+                        </div>
+                        <div class="flex-col info-sml">
+                            <h5>HAIR</h5>
+                            <h6>BLACK</h6>
+                        </div>
+                        <div class="flex-col info-sml">
+                            <h5>HEIGHT</h5>
+                            <h6>9.99 M</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="docard-sign">
+                    <img src="../assets/signature.png" alt="">
+                </div>
+            </div>
+        </div>
     </section>
     <section class="plat-main-doc" id="profileDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectProfile">
@@ -1160,6 +1608,7 @@
     <script src="../lib/node_modules/gsap/dist/ScrollTrigger.min.js"></script>
     <script src="../lib/node_modules/svelte-range-slider-pips/dist/range-slider-pips.js"></script>
     <script src="../lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
+    <script src="../lib/node_modules/flatpickr/dist/flatpickr.js"></script>
     <script src="../js/platform.js"></script>
 </body>
 </html>
