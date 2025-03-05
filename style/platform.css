@@ -1123,17 +1123,22 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 /*--------------------Documents Section----------------*/
 
 #docsDoc{
-    gap: 10px;
-    padding: 0.625rem;
+    padding: 1.25rem;
 }
 
-.docs-doc{
-    width: calc(50% - 10px);
-    overflow: hidden;
-    padding: 1.25em;
-    max-height: 60vh;
+.docsDocBody{
+    width: 100%;
+    height: 100%;
     border-radius: 10px;
+    padding: 1.25rem 2rem;
     background-color: var(--container);
+    overflow: hidden;
+}
+
+.myProf,
+.doc-accountstat{
+    width: 40vw;
+    height:100%;
 }
 
 .doc-accounting{
@@ -1185,7 +1190,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 
 .notVerfE{
-    color: rgba(255, 51, 0, 0.295);
+    color: #ff8138b9;
 }
 
 time{
@@ -1194,9 +1199,17 @@ time{
     opacity: 0.6;
 }
 
+.doc-userinfos{
+    margin-top: 2rem;
+}
+
+.doc-drivelice{
+    padding: 0 1.25rem;
+}
+
 .doc-card{
-    width: 80%;
-    height: 280px;
+    width: 65%;
+    height: 90%;
     overflow: hidden;
     display: grid;
     grid-template-columns: 0.4fr 1fr;
@@ -1205,6 +1218,9 @@ time{
     grid-row-gap: 0px;
     border-radius: 20px;
     position: relative;
+    border: 2px solid var(--border-low);
+    padding: 1rem;
+    background-color: var(--border-low);
 }
 
 .img-bg{
@@ -1215,7 +1231,7 @@ time{
     z-index: 0;
     object-fit: cover;
     width: 80%;
-    opacity: 0.2;
+    opacity: 0.1;
 }
 
 .docard-loc{
@@ -1241,20 +1257,17 @@ time{
     z-index: 1;
     overflow: hidden;
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 0.3fr;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
     padding: 0.625rem;
 }
 
 .docard-loc p{
     color: white;
     background-color: var(--color-main);
-    border-radius: 10px;
+    border-radius: 8px;
     font-size: var(--font-med);
     font-weight: bold;
-    padding: 5px 10px;
+    width: 80%;
+    padding: 5px 0;
 }
 
 .docard-tit p{
@@ -1282,7 +1295,7 @@ time{
     width: 150px;
     top: 100%;
     left: 10px;
-    transform: translateY(-120%) rotateZ(20deg);
+    transform: translateY(-100%) rotateZ(20deg);
 }
 
 .docard-sign img{
@@ -1301,7 +1314,7 @@ time{
 .info-lrg h1{
     font-size: var(--font-med);
     color: var(--text);
-    font-weight: bold;
+    font-weight: bolder;
 }
 
 .info-sml h5{
@@ -1316,7 +1329,197 @@ time{
     opacity: 0.6;    
 }
 
+.stepper{
+    width: 80%;
+    padding: 0.625rem;
+}
 
+.step{
+    width: 100%;
+    height: fit-content;
+    min-height: 80px;
+    border-left: 2px solid var(--border-low);
+    padding: 0.625rem 0.625rem 0.625rem 2rem;
+    position: relative;
+}
+
+.step-circle{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--border-low);
+    top: -15px;
+    left: -15px;
+    background-color: var(--container);
+    box-shadow: 0 5px var(--container);
+    font-size: var(--font-sml);
+    color: var(--text); 
+}
+
+.step-title{
+    font-size: var(--font-med);
+    color: var(--text);
+    position: absolute;
+    top: -15px;
+    left: 30px;
+}
+
+.step-details p{
+    color: var(--text);
+    font-size: var(--font-sml);
+    padding: 0.5rem 0;
+}
+
+.step-details{
+    padding-bottom: 1rem;
+}
+
+.step:has(.step-completed){
+    border-left: 2px solid rgba(99, 209, 99, 0.716);
+}
+
+.step:has(.step-canceled){
+    border-left: 2px solid rgba(209, 99, 99, 0.716);
+}
+
+.step-completed{
+    color: white;
+    background-color: rgb(102, 195, 102);
+    border: 2px solid rgba(101, 207, 101, 0.285);
+}
+
+.step-canceled{
+    color: white;
+    background-color: rgb(214, 83, 83);
+    border: 2px solid rgba(207, 117, 101, 0.285);
+}
+
+.step-pending{
+    color: white;
+    background-color: rgb(231, 162, 101);
+    border: 2px solid rgba(239, 159, 39, 0.285);
+}
+
+.step-final{
+    border: none !important;
+}
+
+#verfBut{
+    padding: 5px 15px;
+    color: white;
+    background-color: black;
+    border-radius: 6px;
+    font-size: var(--font-med);
+}
+
+.otp-Form {
+    width: 280px;
+    height: 250px;
+    background-color: var(--container);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 30px;
+    gap: 20px;
+    position: relative;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.082);
+    border-radius: 15px;
+}
+  
+.mainHeading {
+    font-size: var(--font-med);
+    color: var(--txt-black);
+    font-weight: 700;
+}
+  
+.otpSubheading {
+    font-size: var(--font-sml);
+    color: var(--text);
+    line-height: 17px;
+    text-align: center;
+}
+  
+.inputContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+  
+.otp-input {
+    background-color: transparent;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 7px;
+    border: 2px solid var(--border-low);
+    caret-color: var(--txt-black);
+    color: var(--txt-black);
+    outline: none;
+    font-weight: 600;
+}
+  
+.otp-input:focus,
+.otp-input:valid {
+    background-color: var(--border-low);
+    transition-duration: .3s;
+}
+  
+.verifyButton {
+    width: 100%;
+    height: 30px;
+    border: none;
+    background-color: var(--color-second);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 10px;
+    transition-duration: .2s;
+}
+  
+.verifyButton:hover {
+    background-color: var(--color-second);
+    transition-duration: .2s;
+}
+  
+.exitBtn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: transparent;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    border: none;
+    color: var(--txt-black);
+    font-size: var(--font-lrg);
+    cursor: pointer;
+}
+  
+.resendNote {
+    font-size: 0.7em;
+    color: var(--text);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+  
+.resendBtn {
+    background-color: transparent;
+    border: none;
+    color: var(--color-second);
+    cursor: pointer;
+    font-size: var(--font-med);
+    font-weight: 700;
+}
 
 /*----------------------------------------------------*/
 /*--------------------Profile Section------------------*/

@@ -149,3 +149,80 @@ document.querySelectorAll(".prevable").forEach(img=>{
         document.body.appendChild(imagePrev)
     })
 })
+
+const confirm = (isDanger, title, description) => {
+    return new Promise((resolve) => {
+        const container = document.createElement("div");
+        container.classList.add("overtop-conf", "flex-row", "flex-center");
+    
+        const iconElement = document.createElement("i");
+        if (isDanger) {
+            iconElement.classList.add("fa-solid", "fa-triangle-exclamation", "icon-danger");
+        } else {
+            iconElement.classList.add("fa-solid", "fa-circle-info", "icon-confirm");
+        }
+
+        const confButton = document.createElement('button')
+        confButton.classList.add("desactivate", isDanger?"dBut":"ndBut", "bt-hover")
+        confButton.innerText = "Confirm"
+
+        const cancButton = document.createElement('button')
+        cancButton.classList.add("cancel", "bt-hover")
+        cancButton.innerText = "Cancel"
+        
+        confButton.addEventListener("click", () => {
+            try{
+                document.body.removeChild(container)
+            }catch(error){}
+            resolve(true);
+        });
+    
+        cancButton.addEventListener("click", () => {
+            try{
+                document.body.removeChild(container)
+            }catch(error){}
+            resolve(false);
+        });
+
+        const card = document.createElement("div");
+        card.classList.add("card");
+
+        const header = document.createElement("div");
+        header.classList.add("header");
+
+        const image = document.createElement("div");
+        image.classList.add("image", isDanger ? "red-trans" : "green-trans");
+        image.appendChild(iconElement);
+
+        const content = document.createElement("div");
+        content.classList.add("content");
+
+        const titleElement = document.createElement("span");
+        titleElement.classList.add("title");
+        titleElement.innerText = title;
+
+        const messageElement = document.createElement("p");
+        messageElement.classList.add("message");
+        messageElement.innerText = description;
+
+        const actions = document.createElement("div");
+        actions.classList.add("actions");
+        actions.appendChild(confButton);
+        actions.appendChild(cancButton);
+
+        content.appendChild(titleElement);
+        content.appendChild(messageElement);
+        header.appendChild(image);
+        header.appendChild(content);
+        header.appendChild(actions);
+        card.appendChild(header);
+        container.appendChild(card);
+        document.body.appendChild(container)
+    });
+};
+
+/*
+confirm(false, "Confirm Action", "Are you sure you want to proceed?").then((result) => {
+    console.log(result);
+});
+*/

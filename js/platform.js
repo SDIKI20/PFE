@@ -204,3 +204,127 @@ document.querySelectorAll(".ordTf").forEach(el=>{
     document.querySelector(".orders-type-f").style.setProperty('--after-transform', `translateY(-50%) translateX(calc((30em / 5.1)*${el.classList[1]}))`);
   })
 })
+
+async function sendCode() {
+  openLoader();
+
+  const phone = document.getElementById("userPhoneNum").value.trim(); 
+  if (!phone) {
+      closeLoader();
+      pushNotif("e", "Please enter a valid phone number!");
+      return;
+  }
+
+  try {
+      const response = await fetch("http://localhost:5000/api/sms/send-code", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone }),
+      });
+
+      const data = await response.json();
+      pushNotif("i", data.message);
+
+      if (response.ok) {
+          closeLoader();
+          createOtpForm();
+      } else {
+          closeLoader();
+          pushNotif("e", "Something went wrong! Try again later.");
+      }
+  } catch (error) {
+      closeLoader();
+      pushNotif("e", "Network error! Please check your connection.");
+  }
+}
+
+function createOtpForm() {
+  const verfC = document.createElement("div");
+  verfC.classList.add("overtop-conf", "flex-row", "flex-center");
+  verfC.innerHTML = `
+      <div class="otp-Form">
+        <span class="mainHeading">Enter OTP</span>
+        <p class="otpSubheading">We have sent a verification code to your mobile number</p>
+        <div class="inputContainer">
+          ${[1, 2, 3, 4, 5, 6]
+            .map((num) => `<input maxlength="1" type="text" class="otp-input" id="otp-input${num}">`)
+            .join("")}
+        </div>
+        <button class="verifyButton bt-hover" id="verifyButton" type="submit">Verify</button>
+        <button class="exitBtn">×</button>
+      </div>
+  `;
+
+  document.body.appendChild(verfC);
+
+  document.querySelectorAll(".otp-input").forEach((oi, index, inputs) => {
+      oi.addEventListener("input", (event) => {
+          let value = event.target.value;
+          if (!/^\d$/.test(value)) {
+              event.target.value = "";
+              return;
+          }
+
+          if (index < inputs.length - 1) {
+              inputs[index + 1].focus();
+          }
+      });
+
+      oi.addEventListener("keydown", (event) => {
+          if (event.key === "Backspace" && !oi.value && index > 0) {
+              inputs[index - 1].focus();
+          }
+      });
+  });
+
+  document.querySelector(".exitBtn").addEventListener("click", () => {
+      document.body.removeChild(verfC);
+  });
+
+  document.getElementById("verifyButton").addEventListener("click", verifyCode);
+}
+
+async function verifyCode() {
+  openLoader();
+  try{
+    const phone = document.getElementById("userPhoneNum").value.trim();
+    if (!phone) {
+        closeLoader();
+        pushNotif("e", "Invalid phone number!");
+        return;
+    }
+  
+    let code = "";
+    document.querySelectorAll(".otp-input").forEach((oi) => {
+        code += oi.value;
+    });
+  
+    if (code.length !== 6 || !/^\d{6}$/.test(code)) {
+        closeLoader();
+        pushNotif("e", "Please enter a valid 6-digit OTP.");
+        return;
+    }
+    console.log(code)
+    try {
+      const response = await fetch("http://localhost:5000/api/sms/verify-code", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone, code }),
+      });
+
+      if (response.ok) {
+          closeLoader();
+          pushNotif("s", "Verification successful!");
+      } else {
+          closeLoader();
+          pushNotif("e", "Invalid OTP. Try again.");
+      }
+    } catch (error) {
+        closeLoader();
+        pushNotif("e", "Network error! Please check your connection.");
+    }
+  }catch(error){
+    closeLoader()
+    pushNotif("e", "Somthing went wrong! try again later")
+  }
+}

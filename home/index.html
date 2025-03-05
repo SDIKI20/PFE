@@ -1457,144 +1457,104 @@
     <section class="plat-main-doc" id="helpDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectHelp">
     </section>
-    <section class="plat-main-doc flex-col flex-wrap flex-center" id="docsDoc">
+    <section class="plat-main-doc flex-col flex-center" id="docsDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectDocs" checked>
-        <div class="docs-doc doc-mydocs">
-            <h1 class="title-med" style="color: var(--txt-black);">My Documents</h1>
-            <p class="para-sml">Check your account status and informations</p>
-            <div class="doc-accounting">
-                <div class="flex-row">
-                    <div class="user-ac-image flex-row flex-center">
-                        <img src="../assets/images/user.jpg" alt="PICTURE">
+        <div class="flex-row flex-center docsDocBody">
+            <div class="flex-col start-center myProf">
+                <h1 class="title-med" style="color: var(--txt-black);">My Documents</h1>
+                <p class="para-sml">Check your account status and informations</p>
+                <div class="doc-accounting">
+                    <div class="flex-row">
+                        <div class="user-ac-image flex-row flex-center">
+                            <img src="../assets/images/user.jpg" alt="PICTURE">
+                        </div>
+                        <div class="flex-col">
+                            <p class="account-stat-p notVer"><i class="fa-solid fa-circle-exclamation" style="margin: 0 5px;" title="Not Verified"></i>                            Not verified</p>
+                            <p class="account-stat-t">Full Name <time>#232153</time></p>
+                            <time>DD/MM/YYY</time>
+                        </div>
+                    </div>
+                </div>
+                <div class="docs-doc doc-userinfos">
+                    <div class="flex-row">
+                        <div class="flex-col">
+                            <label class="para-sml">State</label>
+                            <div class="flex-row input-holder" style="height: 2.625rem;">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                                <input type="text" disabled value="Ghardaia">
+                            </div>
+                        </div>
+                        <div class="flex-col" style="margin-left: 20px;">
+                            <label class="para-sml">City</label>
+                            <div class="flex-row input-holder" style="height: 2.625rem;">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <input type="text" disabled value="Ghardaia">
+                            </div>
+                        </div>
                     </div>
                     <div class="flex-col">
-                        <p class="account-stat-p notVer"><i class="fa-solid fa-circle-exclamation" style="margin: 0 5px;" title="Not Verified"></i>                            Not verified</p>
-                        <p class="account-stat-t">Full Name <time>#232153</time></p>
-                        <time>DD/MM/YYY</time>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="docs-doc doc-userinfos">
-            <div class="flex-col">
-                <label class="para-sml">State</label>
-                <div class="flex-row input-holder" style="height: 2.625rem;">
-                    <i class="fa-solid fa-map-location-dot"></i>
-                    <input type="text" disabled value="Ghardaia">
-                </div>
-            </div>
-            <div class="flex-col">
-                <label class="para-sml">City</label>
-                <div class="flex-row input-holder" style="height: 2.625rem;">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <input type="text" disabled value="El meniaa">
-                </div>
-            </div>
-            <div class="flex-col">
-                <label class="para-sml">Address</label>
-                <div class="flex-row input-holder" style="height: 2.625rem;">
-                    <i class="fa-solid fa-at"></i>
-                    <input type="text" disabled value="Address">
-                </div>
-            </div>
-            <div class="flex-col">
-                <label class="para-sml">Email</label>
-                <div class="flex-row center-start">
-                    <div class="flex-row input-holder" style="height: 2.625rem;">
-                        <i class="fa-solid fa-envelope-open-text"></i>
-                        <input type="text" disabled value="Email@exemple.com">
-                        <i class="fa-solid fa-pen-to-square editButInp bt-hover" style="margin: 0 5px;"></i>
-                    </div>
-                    <i class="fa-solid fa-check-to-slot" style="margin: 0 10px;" title="Verified"></i>
-                </div>
-            </div>
-            <div class="flex-col">
-                <label class="para-sml">Phone number</label>
-                <div class="flex-row center-start">
-                    <div class="flex-row input-holder" style="height: 2.625rem;">
-                        <i class="fa-solid fa-phone"></i>
-                        <input type="text" disabled value="+213 0666666666">
-                        <i class="fa-solid fa-pen-to-square editButInp bt-hover" style="margin: 0 5px;"></i>
-                    </div>
-                    <i class="fa-solid fa-circle-exclamation notVerfE" style="margin: 0 10px;" title="Not Verified"></i>
-                </div>
-            </div>
-        </div>
-        <div class="docs-doc doc-accountstat">
-            
-        </div>
-        <div class="docs-doc doc-drivelice flex-row flex-center">
-            <div class="doc-card">
-                <img src="../assets/images/worldmap.png" alt="Image" class="img-bg">
-                <div class="flex-col flex-center docard-loc">
-                    <p>Algeria</p>
-                </div>
-                <div class="flex-col flex-center docard-tit">
-                    <p>DRIVER LICENSE</p>
-                </div>
-                <div class="flex-col center-start docard-pict">
-                    <div class="docard-img">
-                        <img src="../assets/images/user.jpg" alt="Picture">
-                    </div>
-                </div>
-                <div class="docard-info">
-                    <div class="flex-row center-spacebet">
-                        <div class="flex-col">
-                            <div class="info-lrg">
-                                <h1>FNAME LNAME</h1>
-                            </div>
-                            <div class="flex-col info-sml">
-                                <h5>License Number</h5>
-                                <h6>AA99999999999</h6>
-                            </div>
-                            <div class="flex-col info-sml">
-                                <h5>DOB</h5>
-                                <h6>DD/MM/YYYY</h6>
-                            </div>
-                            <div class="flex-col info-sml">
-                                <h5>ENDORSEMENTS</h5>
-                                <h6>None</h6>
-                            </div>
-                        </div>
-                        <div class="flex-col">
-                            <div class="info-lrg">
-                                <h6>ADDRESS</h6>
-                            </div>
-                            <div class="flex-col info-sml">
-                                <h5>ISSUED</h5>
-                                <h6>DD/MM/YYYY</h6>
-                            </div>
-                            <div class="flex-col info-sml">
-                                <h5>EXPIRES</h5>
-                                <h6>DD/MM/YYYY</h6>
-                            </div>
-                            <div class="flex-col info-sml">
-                                <h5>RESTRICTIONS</h5>
-                                <h6>None</h6>
-                            </div>
+                        <label class="para-sml">Address</label>
+                        <div class="flex-row input-holder" style="height: 2.625rem;">
+                            <i class="fa-solid fa-at"></i>
+                            <input type="text" disabled value="Address Line">
                         </div>
                     </div>
-                    <div class="flex-row center-space-bet" style="gap: 30px;">
-                        <div class="flex-col info-sml">
-                            <h5>SEX</h5>
-                            <h6>MALE</h6>
+                    <div class="flex-col">
+                        <label class="para-sml">Email</label>
+                        <div class="flex-row center-start">
+                            <div class="flex-row input-holder" style="height: 2.625rem;">
+                                <i class="fa-solid fa-envelope-open-text"></i>
+                                <input type="text" disabled value="Email@exemple.com">
+                                <i class="fa-solid fa-pen-to-square editButInp bt-hover" style="margin: 0 5px;"></i>
+                            </div>
+                            <i class="fa-solid fa-check-to-slot" style="margin: 0 10px;" title="Verified"></i>
                         </div>
-                        <div class="flex-col info-sml">
-                            <h5>EYES</h5>
-                            <h6>Brown</h6>
-                        </div>
-                        <div class="flex-col info-sml">
-                            <h5>HAIR</h5>
-                            <h6>BLACK</h6>
-                        </div>
-                        <div class="flex-col info-sml">
-                            <h5>HEIGHT</h5>
-                            <h6>9.99 M</h6>
+                    </div>
+                    <div class="flex-col">
+                        <label class="para-sml">Phone number</label>
+                        <div class="flex-row center-start">
+                            <div class="flex-row input-holder" style="height: 2.625rem;">
+                                <i class="fa-solid fa-phone"></i>
+                                <input type="text" id="userPhoneNum" disabled value="+213553728440">
+                                <i class="fa-solid fa-pen-to-square editButInp bt-hover" style="margin: 0 5px;"></i>
+                            </div>
+                            <i class="fa-solid fa-circle-exclamation notVerfE" style="margin: 0 10px;" title="Not Verified"></i>
                         </div>
                     </div>
                 </div>
-                <div class="docard-sign">
-                    <img src="../assets/signature.png" alt="">
+            </div>
+            <div class="flex-col start-center doc-accountstat" style="width: 50%;height:100%;">
+                <div class="stepper">
+                    <div class="step" id="stepperStep1">
+                        <input type="checkbox" hidden>
+                        <div class="step-circle step-completed flex-row flex-center">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <h1 class="step-title">Personal Informations</h1>
+                        <div class="step-details">
+                            <p>provide your personal information, including your full name, address, email, and phone number.</p>
+                        </div>
+                    </div>
+                    <div class="step" id="stepperStep2">
+                        <input type="checkbox" hidden>
+                        <div class="step-circle step-canceled flex-row flex-center">
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                        <h1 class="step-title">Phone Verification</h1>
+                        <div class="step-details">
+                            <p>Click the button below to receive a verification code on your phone. Then, enter the code to complete the verification process.</p>
+                            <button id="verfBut" class="bt bt-hover" onclick="sendCode()">Send Verificaion <i class="fa-solid fa-comment-sms"></i></button>
+                        </div>
+                    </div>
+                    <div class="step step-final" id="stepperStep3">
+                        <input type="checkbox" hidden>
+                        <div class="step-circle flex-row flex-center">
+                        </div>
+                        <h1 class="step-title">Upload Document</h1>
+                        <div class="step-details">
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
