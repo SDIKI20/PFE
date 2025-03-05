@@ -137,24 +137,25 @@ ul label a i{
 
 }
 
-.table{
+table{
     width: 100%;
     overflow-x: auto;
 }
-table{
+.table{
     border-collapse: collapse;
     min-width: 600px;
-    color: white;
+    color: black;
     width: 100%;
     text-align: center;
     border-spacing: 8px;
 }
 td,th{
     padding: 10px;
-    text-align: left;
+    text-align: center;
     border: 1px solid var(--border);
-    background-color: #123;
+    background-color: white;
     height: 50px;
+    
 }
 th{
   
@@ -175,6 +176,7 @@ button{
     height: 40px;
     margin-top:20px ;
     margin-right: 20px;
+    
 }
 
 .table{
@@ -196,13 +198,52 @@ button{
     width: 100% ;
     height: 100% ;
 }
-
-
-.content-section {
-    display: none;
+.mainmenu{
+    margin-top: 11px;
+    opacity: 60%;
 }
 
-.dashboard-menu ul li a.active {
-    font-weight: bold;
 
+/*tableorder*/
+.ordertable{
+   margin-top: 10px;
+   margin-right: 0;
+    text-align: center;
+    border-collapse: collapse;
+    width:100vh;
+    border-spacing: 8px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+/* إخفاء جميع الأقسام عند بدء التشغيل */
+.content-section {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+/* عند استهداف أحد الأقسام يتم إظهاره فقط */
+.content-section:target {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    position: relative;
+}
+
+
+/* تحسين التأثيرات للقائمة الجانبية */
+.dashboard-menu a {
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* تمييز العنصر النشط */
+.dashboard-menu a:focus,
+.dashboard-menu a:target {
+    background-color: #007bff;
+    color: white;
 }

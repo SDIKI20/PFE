@@ -25,56 +25,55 @@
                 </div>
                 <h2>User</h2>
             </li>
+            <p class="mainmenu">MainMenu</p>
             <li id="dashboard-menu-item">
-                <a href="#" class="active">
+                <a href="#dash-content" >
                     <i class="fa-solid fa-grip"></i>
                     <p>Dashboard</p>
                 </a>
             </li>
             <li id="orders-menu-item">
-                <a href="#">
+                <a href="#orders-content">
                     <i class="fa-solid fa-file-lines"></i>
                     <p>Orders</p>
                 </a>
             </li>
-            <li id="products-menu-item">
-                <a href="#">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <p>Product</p>
-                </a>
-            </li>
+            
             <li id="billing-menu-item">
-                <a href="#">
+                <a href="#billing-content">
                     <i class="fa-solid fa-credit-card"></i>
                     <p>Billing</p>
                 </a>
             </li>
             <li id="customers-menu-item">
-                <a href="#">
+                <a href="#customers-content">
                     <i class="fa-solid fa-users"></i>
                     <p>Costumers</p>
                 </a>
             </li>
+            <hr>
             <li id="account-menu-item">
-                <a href="#">
+                <a href="#account-content">
                     <i class="fa-solid fa-user"></i>
                     <p>My Account</p>
                 </a>
             </li>
             <li id="help-menu-item">
-                <a href="#">
+                <a href="#help-content">
                     <i class="fa-solid fa-circle-question"></i>
                     <p>Get Help</p>
                 </a>
             </li>
             <li id="report-menu-item">
-                <a href="#">
+                <a href="#report-content">
                     <i class="fa-solid fa-file-excel"></i>
                     <p>Report</p>
                 </a>
             </li>
+            <hr>
+            <p class="mainmenu">Account</p>
             <li  id="settings-menu-item">
-                <a href="#">
+                <a href="#settings-content">
                     <i class="fa-solid fa-gear"></i>
                     <p>Settings</p>
                 </a>
@@ -96,7 +95,7 @@
                     <p class="moniteur">Moniteur your sales Revenue</p>
     
                 </div>
-                <button style="color: black;"><i class="fa-solid fa-plus fa-cm" style="color: #63E6BE;"></i> Add
+                <button style="color: black;"><i class="fa-solid fa-plus fa-cm" style="color: #63E6BE; "></i> Add
                     widget</button>
             </div>
     
@@ -179,14 +178,32 @@
         </section>
     </section>
     <section class="content-section" id="orders-content">
-        <h2>Orders</h2>
-        <p>Content for Orders section.</p>
+        <table class="ordertable">
+            <thead>
+                <tr>
+                    <th>Order</th>
+                    <th>Date</th>
+                    <th>Costumer</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        
     </section>
     
-    <section class="content-section" id="products-content">
-        <h2>Products</h2>
-        <p>Content for Products section.</p>
-    </section>
+   
     <section class="content-section" id="billing-content">
         <h2>Billing</h2>
         <p>Content for Billing section.</p>
