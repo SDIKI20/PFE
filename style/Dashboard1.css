@@ -4,7 +4,6 @@
     border-radius: 50%;
     overflow: hidden;
 }
-
 .img-box img{
     width: 100%;
 }
@@ -15,24 +14,22 @@
     height: 100vh;
     padding: 20px;
 }
-
 ul{
     list-style: none;
     position: relative;
-    height: 95%;    
+    height: 95%;
+    
+    
 }
-
 .profile{
     display: flex;
     align-items: center;
     gap: 30px;
 }
-
 .profile h2{
     font-size: 20px;
     
 }
-
 ul li a{
     display: block;
     text-decoration: none;
@@ -43,38 +40,31 @@ ul li a{
     align-items: center;
     gap: 40px;
     transition: .5s;
-    color: var(--txt-black);
+    color: black;
     opacity: 60%; 
-    cursor: pointer;
 }
 
 ul li a:hover, .active{
-    background-color:var(--border-low);
+    background-color:aqua;
 }
-
 .log-out{
     position: absolute;
     bottom: 0;
     width: 100%;
     opacity: 100%;    
 }
-
 .log-out a{
-    color: #a00;
+    background-color: #a00;
     border-radius: 8px;
     opacity: 100%;
 }
 .log-out a:hover{
-   color: #a00;
+    background-color: #a00;
 }
 
 ul label a i{
     font-size: 20px;
 
-}
-
-.dashboard-menu ul li{
-    cursor: pointer;
 }
 
 #dash-content{
@@ -84,17 +74,20 @@ ul label a i{
     background-color: var(--container);
     overflow-y: scroll;
     padding: 20px;
+    
 }
-
+.title-info{
+    background-color:white;
+    
+}
 .title-info p{
-    color: var(--txt-black);
+    color: black;
     height: 40px;
     font-size: 30px;
     padding-bottom: none;
     padding-left: 10px;
 
 }
-
 .data-info{
     display: flex;
     align-items: center;
@@ -104,9 +97,8 @@ ul label a i{
     margin-bottom: 10px;
     
 }
-
 .data-info .box{
-    background-color: var(--bg-lower);
+    background-color: white;
     border-style: solid;
     height: 150px;
     flex-basis: 150px;
@@ -116,10 +108,9 @@ ul label a i{
     align-items: center;
     justify-content: space-around;
     margin: 5px;
-    color: var(--text);
-    border: 1px solid var(--border-low);
+    color: black;
+    border: var(--border) solid 1px;
 }
-
 .data-info i{
     display: flex;
     justify-content: center;
@@ -127,14 +118,13 @@ ul label a i{
     width: 40px;
     height: 40px;
     border:solid;
-    background-color: transparent;
+    background-color: #f5f5f5;
     border-radius: 50%;
-    color:var(--border);
+    color:#aaa;
 }
-
 #dash-content .boxe{
     display: flex;
-    background-color: var(--container);
+    background-color: white;
     height: 200px;
     border-radius: 8px;
     height: 290px;
@@ -142,8 +132,8 @@ ul label a i{
     justify-content:top;
     margin: 5px;
     padding-left: 20px;
-    color: var(--text);
-    border: 1px solid var(--border-low);
+    color: black;
+    border: var(--border) solid 1px;
 
 }
 
@@ -151,54 +141,36 @@ table{
     width: 100%;
     overflow-x: auto;
 }
-<<<<<<< HEAD
 .table{
     border-collapse: collapse;
     min-width: 600px;
     color: black;
-=======
-
-table{
-    border-collapse: collapse;
-    min-width: 600px;
-    color: var(--text);
->>>>>>> f862de75b996ef68a958cc691f6df0345af9ab91
     width: 100%;
     text-align: center;
     border-spacing: 8px;
 }
-
-td,
-th{
+td,th{
     padding: 10px;
-<<<<<<< HEAD
     text-align: center;
     border: 1px solid var(--border);
     background-color: white;
-=======
-    text-align: left;
-    border: 1px solid var(--border-low);
-    background-color: var(--bg-lower);
->>>>>>> f862de75b996ef68a958cc691f6df0345af9ab91
     height: 50px;
     
 }
-
 th{
-    background-color: var(--border);
+  
+    background-color: aqua;
 }
-
 #dash-content .title-info .moniteur{
     font-size: 15px;
     margin-top: 0;
-    opacity: 60%;    
+    opacity: 60%;
+    
 }
-
 #dash-content .title {
     display: flex;
     justify-content: space-between;
 }
-
 button{
     width: 100px;
     height: 40px;
@@ -208,17 +180,15 @@ button{
 }
 
 .table{
-    border: var(--border-low) solid 1px;
+    border: var(--border) solid 1px;
     border-radius: 8px;
     margin: 10px;
     flex-wrap: wrap;
 }
-
 .data p{
     margin: 10px;
     margin-top: 0;
 }
-
 #chartContainer {
     width: 90vw; 
     height: 80vh; 
@@ -228,7 +198,6 @@ button{
     width: 100% ;
     height: 100% ;
 }
-<<<<<<< HEAD
 .mainmenu{
     margin-top: 11px;
     opacity: 60%;
@@ -246,7 +215,6 @@ button{
     flex-wrap: wrap;
     width: 100%;
 }
-/* إخفاء جميع الأقسام عند بدء التشغيل */
 .content-section {
     display: none;
     opacity: 0;
@@ -257,8 +225,6 @@ button{
     width: 100%;
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
-
-/* عند استهداف أحد الأقسام يتم إظهاره فقط */
 .content-section:target {
     display: block;
     opacity: 1;
@@ -267,24 +233,9 @@ button{
 }
 
 
-/* تحسين التأثيرات للقائمة الجانبية */
-.dashboard-menu a {
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+body:not(:has(:target)) #dash-content {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    position: relative;
 }
-
-/* تمييز العنصر النشط */
-.dashboard-menu a:focus,
-.dashboard-menu a:target {
-    background-color: #007bff;
-    color: white;
-}
-=======
-
-.content-section {
-    display: none;
-}
-
-.dashboard-menu ul li a.active {
-    font-weight: bold;
-}
->>>>>>> f862de75b996ef68a958cc691f6df0345af9ab91
