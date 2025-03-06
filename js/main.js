@@ -1,3 +1,5 @@
+
+
 const loadingBar = document.createElement('div')
 loadingBar.id = "loading"
 loadingBar.classList.add("loading", "flex-row", "flex-center")
@@ -226,3 +228,33 @@ confirm(false, "Confirm Action", "Are you sure you want to proceed?").then((resu
     console.log(result);
 });
 */
+
+async function checkAuth() {
+    let token = localStorage.getItem("token");
+    
+    const response = await fetch("http://localhost:5000/api/users/protected", {
+        method: "GET",
+        credentials: "include",
+        headers: token ? { "Authorization": `Bearer ${token}` } : {}  // ✅ Use token from localStorage if needed
+    });
+
+    if (!response.ok) {
+        console.warn("Authentication failed, redirecting...");
+        window.location.href = "login.html";
+    } else {
+        const data = await response.json();
+        console.log("User authenticated:", data);
+    }
+}
+
+// Logout Function
+async function logout (){
+    try{
+        await fetch("http://localhost:5000/api/users/logout", {
+            method: "POST",
+            credentials: "include"
+        });
+        window.location.href = "login.html";
+    }catch(error){}
+
+}

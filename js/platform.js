@@ -205,6 +205,30 @@ document.querySelectorAll(".ordTf").forEach(el=>{
   })
 })
 
+const verfButton = document.getElementById("verfBut")
+const counter =  document.getElementById('countdown')
+
+verfButton.addEventListener('click', ()=>{
+  let timeLeft = 30;
+  verfButton.disabled = true
+  verfButton.style.opacity = "0.2"
+  counter.textContent = "30"
+  counter.style.display = "flex";
+  sendCode()
+  const countdown = setInterval(() => {
+    counter.textContent = timeLeft;
+    timeLeft--;
+    if (timeLeft < 0) {
+      clearInterval(countdown);
+      counter.classList.remove("counter-active")
+      verfButton.style.opacity = "1"
+      verfButton.disabled = false
+      counter.textContent = "";
+      counter.style.display = "none";
+    }
+  }, 1000);
+})
+
 async function sendCode() {
   openLoader();
 
@@ -252,6 +276,7 @@ function createOtpForm() {
         </div>
         <button class="verifyButton bt-hover" id="verifyButton" type="submit">Verify</button>
         <button class="exitBtn">×</button>
+        <p class="resendNote">Didn't receive the code? <button class="resendBtn" id="resendBtn">Resend Code</button></p>
       </div>
   `;
 
@@ -278,6 +303,10 @@ function createOtpForm() {
   });
 
   document.querySelector(".exitBtn").addEventListener("click", () => {
+      document.body.removeChild(verfC);
+  });
+
+  document.querySelector(".resendBtn").addEventListener("click", () => {
       document.body.removeChild(verfC);
   });
 
@@ -328,3 +357,38 @@ async function verifyCode() {
     pushNotif("e", "Somthing went wrong! try again later")
   }
 }
+
+document.getElementById('uploadDocsClose').addEventListener('click', ()=>{
+  try{
+    document.querySelector('.overtop-conf').style.display = "none"
+  }catch(error){}
+})
+
+document.querySelector('.custum-file-upload').addEventListener('click', ()=>{
+  document.getElementById('upDocsContainer').style.display = "flex"
+})
+
+var upfilefront
+document.getElementById("upFront").addEventListener('change', function() {
+    openLoader()
+    upfilefront = this.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById("idFront").setAttribute('src',e.target.result);
+        closeLoader()
+    };
+    reader.readAsDataURL(upfilefront);
+});
+
+var upfileback
+document.getElementById("upback").addEventListener('change', function() {
+    openLoader()
+    upfileback = this.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById("idBack").setAttribute('src',e.target.result);
+        closeLoader()
+    };
+    reader.readAsDataURL(upfileback);
+});
+

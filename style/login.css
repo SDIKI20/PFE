@@ -46,7 +46,8 @@
     border-color: #fff;
 }
 
-.login-container form{
+#signUpForm,
+#loginForm{
     background-color: var(--container);
     display: flex;
     align-items: center;

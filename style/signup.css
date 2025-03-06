@@ -93,9 +93,26 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 5px solid var(--container);
     cursor: pointer;
-    border: 2px solid var(--color-main);
+}
+
+.pictureConainer::after,
+.pictureConainer::before{
+    content: "";
+    position: absolute;
+    background-color: transparent;
+    width: 80px;
+    height: 80px;
+    transform: scale(1.02);
+    border-radius: 50%;
+    border: 3px solid var(--color-main);
+    opacity: 0.4;
+}
+
+.pictureConainer::before{
+    box-shadow: 0 0 20px var(--color-second);
+    border: none;
+    transform: scale(1.01);
 }
 
 .pictChange{

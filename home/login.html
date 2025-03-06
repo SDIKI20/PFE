@@ -21,7 +21,7 @@
     <main class="login-main flex-col flex-center">
       <div class="login-container" id="loginContainer">
         <div class="form-container sign-up">
-          <form  method="POST" id="signUpForm">
+          <div id="signUpForm">
             <h1 class="title-med" style="color: var(--txt-black);">Create Account</h1>
             <div class="social-icons">
               <a href="#" id="sicnG" class="icon bt-hover"><i class="fa-brands fa-google-plus-g"></i></a>
@@ -42,10 +42,10 @@
             <p id="result"></p>
             <button class="bt-hover" onclick="validateCaptcha()">Sign Up</button>
             <a id="dhai">Already have an account? SignIn</a>
-          </form>
+          </div>
         </div>
         <div class="form-container sign-in">
-          <form action="index.html" method="get">
+          <div id="loginForm">
             <h1 class="title-med">Sign In</h1>
             <div class="social-icons">
               <a href="#" id="lIcnG" class="icon bt-hover"><i class="fa-brands fa-google-plus-g"></i></a>
@@ -55,16 +55,16 @@
             <span class="para-mid">or use your email password</span>
             <div class="flex-row input-holder" style="width: 70%;">
               <i class="fa-regular fa-envelope"></i>
-              <input type="email" placeholder="Email" />
+              <input type="email" placeholder="Email" id="logMail"/>
             </div>
             <div class="flex-row input-holder" style="width: 70%;">
               <i class="fa-solid fa-lock"></i>
-              <input type="password" placeholder="Password" />
+              <input type="password" placeholder="Password" id="logPass"/>
             </div>
             <a href="#">Forget Your Password?</a>
-            <button class="bt bt-hover">Sign In</button>
+            <button class="bt bt-hover" id="signinBut">Sign In</button>
             <a id="dhaa">Don't have an account? Signup</a>
-          </form>
+          </div>
         </div>
         <div class="toggle-container">
           <div class="toggle">

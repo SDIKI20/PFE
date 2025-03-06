@@ -1,3 +1,5 @@
+
+
 const container = document.getElementById("loginContainer");
 const registerBtn = document.getElementById("register");
 const loginBtn = document.getElementById("login");
@@ -80,3 +82,38 @@ document.getElementById("signUpForm").addEventListener("submit", async function 
       generateCaptcha();
   }
 });
+
+const passwordInp = document.getElementById('logPass')
+const emailInp = document.getElementById('logMail')
+const logBut = document.getElementById('signinBut')
+
+logBut.addEventListener("click", async () => {
+  try {
+      const response = await fetch("http://localhost:5000/api/users/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: emailInp.value, password: passwordInp.value }),
+          credentials: "include"  // Try using cookies first
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+          alert("Login successful!");
+
+          // ✅ Check if cookies are blocked
+          if (!navigator.cookieEnabled || !document.cookie.includes("token")) {
+              console.warn("Cookies blocked! Using localStorage instead.");
+              localStorage.setItem("token", data.token);
+          }
+
+          window.location.href = "dashboard1.html"; // Redirect to protected page
+      } else {
+          alert(data.msg || "Login failed");
+      }
+  } catch (error) {
+      console.error("Login error:", error);
+      alert("Something went wrong! Try again later.");
+  }
+});
+
