@@ -793,6 +793,67 @@
         border-bottom: 1px solid var(--border-low);
     }
 
+    #docsDoc{
+        padding: 0;
+        overflow: hidden;
+        height: calc(100svh - 4.5em);
+    }
+
+    .docsDocBody{
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 1rem;
+    }
+
+    .myProf{
+        width: 100%;
+        height: fit-content;
+    }
+    
+    .doc-accountstat{
+        height: fit-content;
+        width: 100% !important;
+        margin-top: 30px;
+    }
+
+    .upload-input-container{
+        flex-direction: column;
+    }
+
+    .custum-file-upload {
+        height: 200px;
+        width: 100%;
+    }
+
+    .nid-upload-container{
+        width: 95vw;
+        height: 600px;
+        padding: 1rem;
+    }
+
+    .doc-inp{
+        padding: 0.25rem;
+        width: 250px;
+        height: 200px;
+    }
+
+    .doc-image-container{
+        width: 180px;
+        height: 130px;
+        opacity: 0.5;
+        padding: 5px;
+    }
+
+    .doc-image-container img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
     /*-------------------------------------------------------*/
 
 }
