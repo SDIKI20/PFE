@@ -5,8 +5,8 @@ const pool = require("../models/ordermodel");
 // Get All Orders
 const getOrders = async (req, res) => {
     try {
-        const users = await pool.query("SELECT * FROM reservations");
-        res.json(users.reservations);
+        const orders = await pool.query("SELECT * FROM reservations");
+        res.json(orders.rows);
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server Error");
@@ -15,10 +15,10 @@ const getOrders = async (req, res) => {
 try {
     const newOrder = await pool.query(
         
-        `INSERT INTO reservations (client_id, vehicle_id, start_date, end_date, status, reservation_date) 
-             VALUES ($1, $2, $3, $4, $5, $6) 
+        `INSERT INTO reservations (client_id, vehicle_id, start_date, end_date, status,price) 
+             VALUES ($1, $2, $3, $4, $5) 
              RETURNING *`,
-            [client_id, vehicle_id, start_date, end_date, status, reservation_date]);
+            [client_id, vehicle_id, start_date, end_date, status,price]);
         res.json(newOrder.rows[0]);
     }
     catch (err) {

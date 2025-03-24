@@ -12,7 +12,7 @@ const createOrderTable = async () => {
                 start_date DATE NOT NULL,
                 end_date DATE NOT NULL,
                 status VARCHAR(10) CHECK (status IN ('pending', 'confirmed', 'canceled', 'completed')) DEFAULT 'pending',
-                reservation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                price DECIMAL(10, 2) NOT NULL,
 );
     `);
 };
