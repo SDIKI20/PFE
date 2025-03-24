@@ -23,7 +23,7 @@ new Chart(ctx, {
 document.addEventListener("DOMContentLoaded", function () {
     fetchOrders(); 
 });
-
+//get all orders
 function fetchOrders() {
     fetch("http://localhost:5000/api/getOrders") 
         .then(response => response.json())
@@ -48,3 +48,34 @@ function fetchOrders() {
         })
         .catch(error => console.error("Error fetching orders:", error));
 }
+
+//get all users
+
+document.getElementById("customers-menu-item").addEventListener("click", function () {
+    fetchCustomers(); 
+});
+
+function fetchCustomers() {
+    fetch("http://localhost:5000/api/getUsers") 
+        .then(response => response.json())
+        .then(customers => {
+            const tableBody = document.getElementById("customersTableBody");
+            tableBody.innerHTML = ""; 
+
+            customers.forEach(customer => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${customer.id}</td>
+                    <td>${customer.fname}</td>
+                    <td>${customer.lname}</td>
+                    <td>${customer.email}</td>
+                    <td>${customer.phone}</td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => console.error("Error fetching customers:", error));
+}
+

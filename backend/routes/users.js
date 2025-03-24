@@ -1,5 +1,6 @@
 const express = require("express");
 const { 
+    getUsers,
     addUser,
     confirmPhone,
     checkPhone,
@@ -10,6 +11,9 @@ const {
 } = require("../controllers/userController");
 
 const router = express.Router();
+//get all users
+router.get("/getusers", getUsers);
+
 
 // Public Routes
 router.post("/add", addUser);
