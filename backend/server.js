@@ -10,6 +10,7 @@ const documentsRoutes = require("./routes/documentsRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const verificationRoutes = require("./routes/verificationRoutes");
 const emailRoutes = require('./routes/emailRoutes');
+const orderroutes = require('./routes/orderroutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -40,6 +41,7 @@ app.use("/api/docs", documentsRoutes);
 app.use('/api/email', emailRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/sms", verificationRoutes);
+app.use("/api/orders", orderroutes);
 
 // ✅ Serve Static Assets
 app.use("/assets", express.static(path.join(__dirname, "../../assets")));
