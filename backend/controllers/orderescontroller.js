@@ -10,13 +10,15 @@ const getOrders = async (req, res) => {
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server Error");
-    }
+    }}
 // Store Data in Database
+const newOrder = async (req, res) => {
+    const { client_id, vehicle_id, start_date, end_date, status,price } = req.body;
 try {
     const newOrder = await pool.query(
         
         `INSERT INTO reservations (client_id, vehicle_id, start_date, end_date, status,price) 
-             VALUES ($1, $2, $3, $4, $5) 
+             VALUES ($1, $2, $3, $4, $5, $6) 
              RETURNING *`,
             [client_id, vehicle_id, start_date, end_date, status,price]);
         res.json(newOrder.rows[0]);
