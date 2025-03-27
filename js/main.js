@@ -230,17 +230,14 @@ confirm(false, "Confirm Action", "Are you sure you want to proceed?").then((resu
 */
 
 async function checkAuth() {
-    let token = localStorage.getItem("token");
     
-    const response = await fetch("http://localhost:5000/api/users/protected", {
+    const response = await fetch("https://pfeserver-odaydid002s-projects.vercel.app/api/users/auth", {
         method: "GET",
         credentials: "include",
-        headers: token ? { "Authorization": `Bearer ${token}` } : {}  // ✅ Use token from localStorage if needed
     });
 
     if (!response.ok) {
-        console.warn("Authentication failed, redirecting...");
-        window.location.href = "login.html";
+        alert("Authentication failed, redirecting...");
     } else {
         const data = await response.json();
         console.log("User authenticated:", data);
@@ -250,7 +247,7 @@ async function checkAuth() {
 // Logout Function
 async function logout (){
     try{
-        await fetch("http://localhost:5000/api/users/logout", {
+        await fetch("https://pfeserver-odaydid002s-projects.vercel.app/api/users/logout", {
             method: "POST",
             credentials: "include"
         });
