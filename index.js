@@ -16,6 +16,7 @@ const initializePassport = require("./passportConfig.js")
 const userRoutes = require("./api/routes/users");
 const verificationRoutes = require("./api/routes/verificationRoutes");
 const emailRoutes = require('./api/routes/emailRoutes');
+const orders = require("./api/routes/orderRoutes");
 
 require("dotenv").config();
 
@@ -60,6 +61,7 @@ app.use(cors({
 app.use("/api/users", userRoutes);
 app.use('/api/email', emailRoutes);
 app.use("/api/sms", verificationRoutes);
+app.use('/api/orders', orders);
 
 app.use(flash());
 
