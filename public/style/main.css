@@ -749,7 +749,7 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     transition: all ease 0.8s;
     opacity: 0;
     display: none;
-    z-index: 999;
+    z-index: 9999;
 }
 
 /*---------------------------------*/

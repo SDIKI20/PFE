@@ -1,4 +1,5 @@
 const pool = require("../models/userModel");
+
 // Update phone status
 const confirmPhone = async (req, res) => {
     try {
@@ -8,7 +9,7 @@ const confirmPhone = async (req, res) => {
 
         await pool.query(`UPDATE users SET phone_status = TRUE WHERE id = $1;`, [id]);
 
-        res.json({ message: "Phone Verified" });
+        res.redirect(`/home`);
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server Error");

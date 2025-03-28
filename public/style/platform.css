@@ -1,4 +1,13 @@
+a{
+    text-decoration: none;
+}
+
+a *{
+    cursor: pointer;
+}
+
 /*------------Navigator---------------*/
+
 
 .hidden{
     display: none;
@@ -151,10 +160,6 @@
     height: 100vh;
     overflow: hidden;
     position: relative;
-    display: none;
-}
-
-.plat-main-doc:has(.sectRad:checked){
     display: flex;
 }
 
@@ -451,6 +456,7 @@ input[type='radio']:checked + .rnt{
     transition: ease 0.6s;
     overflow: hidden;
     position: relative;
+    display: flex;
 }
 
 
@@ -490,15 +496,22 @@ input[type='radio']:checked + .rnt{
 
 .plat-car-container header{
     grid-area: 1 / 1 / 2 / 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 0.2fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
 }
 
 .car-available{
     font-size: var(--font-sml);
     color: var(--text);
     background-color: var(--border-low);
-    padding: 2px 10px;
+    padding: 2.5px 6px;
     border-radius: 5px;
     cursor: default;
+    margin: 0 2px;
+    text-align: center;
 }
 
 .av{
@@ -515,6 +528,8 @@ input[type='radio']:checked + .rnt{
     border: 1px solid var(--border-low);
     padding: 2.5px 6px;
     border-radius: 5px;
+    margin: 0 2px;
+    text-align: center;
 }
 
 .fa-star{
@@ -832,28 +847,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     color: var(--text);
 }
 
-.pagesControl{
-    position: sticky;
-    top: -1.25rem;
-    z-index: 1;
-    width: 95%;
-    height: 3em;
-    background-color: var(--container);
-    border-radius: .6rem;
-    box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.05);
-}
-
-.cars-f-order{
-    padding: 0 0.625rem;
-}
-
-.cars-f-order label,
-.cars-page-ctr label{
-    font-size: var(--font-med);
-    color: var(--text);
-    padding-right: 0.5rem;
-}
-
 #carsOrderBy{
     border: none;
     border-radius: .25rem;
@@ -1128,6 +1121,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 
 #docsDoc{
     padding: 1.25rem;
+    overflow-y: auto;
 }
 
 .docsDocBody{
@@ -1137,6 +1131,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     padding: 1.25rem 2rem;
     background-color: var(--container);
     overflow: hidden;
+    min-height: 600px;
 }
 
 .myProf,
@@ -1145,8 +1140,17 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     height:100%;
 }
 
+.myProf h1,
+.myProf p{
+    text-align: left;
+    align-self: flex-start;
+    justify-self: flex-start;
+}
+
 .doc-accounting{
     margin-top: 20px;
+    align-self: flex-start;
+    justify-self: flex-start;
 }
 
 .user-ac-image{

@@ -64,7 +64,7 @@ app.use("/api/sms", verificationRoutes);
 app.use(flash());
 
 app.get("/", (req, res) => {
-    res.render("index")
+    res.render("index");
 })
 
 app.get("/login",checkAuth, (req, res) => {
@@ -76,7 +76,35 @@ app.get("/signup",checkAuth, (req, res) => {
 })
 
 app.get("/home",checkNotAuth, (req, res) => {
-    res.render("home", {user: req.user})
+    res.render("home", { user: req.user, section:"home"})
+})
+
+app.get("/cars", (req, res) => {
+    res.render("home", { user: req.user, section : "cars" });
+})
+
+app.get("/orders",checkNotAuth, (req, res) => {
+    res.render("home", { user: req.user, section : "orders" });
+})
+
+app.get("/recent",checkNotAuth, (req, res) => {
+    res.render("home", { user: req.user, section : "recent" });
+})
+
+app.get("/fav",checkNotAuth, (req, res) => {
+    res.render("home", { user: req.user, section : "fav" });
+})
+
+app.get("/profile",checkNotAuth, (req, res) => {
+    res.render("home", { user: req.user, section : "profile" });
+})
+
+app.get("/docs",checkNotAuth, (req, res) => {
+    res.render("home", { user: req.user, section : "docs" });
+})
+
+app.get("/help",checkNotAuth, (req, res) => {
+    res.render("home", { user: req.user, section : "help" });
 })
 
 app.get("/logout", (req, res, next) => {
@@ -93,7 +121,7 @@ const upload = multer({ storage: storage });
 
 app.post('/reg', upload.single("image"), async (req, res) => {
     try {
-        const { fname, lname, email, address, country, wilaya, city, zipcode, phone, birthdate, username, password } = req.body;
+        const { fname, lname, email, address, country, wilaya, city, zipcode, phone, phone_country_code, birthdate, username, password } = req.body;
         const role = "client";
 
         // Get Cloudinary Image URL
@@ -109,7 +137,7 @@ app.post('/reg', upload.single("image"), async (req, res) => {
             `INSERT INTO users (fname, lname, image, email, address, country, wilaya, city, zipcode, phone, birthdate, username, password, role) 
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
              RETURNING id, email, fname, lname, role, image`,
-            [fname, lname, imageUrl, email, address, country, wilaya, city, zipcode, phone, birthdate, hashedUsername, hashedPassword, role]
+            [fname, lname, imageUrl, email, address, country, wilaya, city, zipcode, `+${phone_country_code}${phone}`, birthdate, hashedUsername, hashedPassword, role]
         );
 
         // ✅ Delete the used token from the database

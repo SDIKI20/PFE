@@ -3,6 +3,22 @@ const range = document.querySelector(".range-selected");
 const rangeInput = document.querySelectorAll(".range-input input");
 const rangePrice = document.querySelectorAll(".range-price input");
 
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".nav-link").forEach(link => {
+      link.addEventListener("click", function (event) {
+          event.preventDefault();
+          const section = this.getAttribute("data-section");
+
+          fetch(`/${section}`)
+              .then(response => response.text())
+              .then(html => {
+                  document.getElementById("platContent").innerHTML = html;
+              });
+      });
+  });
+});
+
+
 rangeInput.forEach((input) => {
   input.addEventListener("input", (e) => {
     let minRange = parseInt(rangeInput[0].value);
@@ -313,6 +329,12 @@ function createOtpForm() {
   document.getElementById("verifyButton").addEventListener("click", verifyCode);
 }
 
+const phoneVerIcn = document.getElementById("phoneVerIcn")
+const phoneVerfStepP = document.getElementById("phoneVerfStepP")
+const verfBut = document.getElementById("verfBut")
+const phoneStepCercle = document.getElementById("phoneStepCercle")
+const phoneStepCercleI = document.getElementById("phoneStepCercleI")
+
 async function verifyCode() {
   openLoader();
   try{
@@ -327,23 +349,35 @@ async function verifyCode() {
     document.querySelectorAll(".otp-input").forEach((oi) => {
         code += oi.value;
     });
+
+    const id = document.getElementById("userId").innerText
   
     if (code.length !== 6 || !/^\d{6}$/.test(code)) {
         closeLoader();
         pushNotif("e", "Please enter a valid 6-digit OTP.");
         return;
     }
-    console.log(code)
+     
     try {
       const response = await fetch("http://localhost:4000/api/sms/verify-code", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone, code }),
+          body: JSON.stringify({ phone, code, id }),
       });
 
       if (response.ok) {
           closeLoader();
           pushNotif("s", "Verification successful!");
+          phoneVerIcn.classList.remove("fa-circle-exclamation", "notVerfE")
+          phoneVerIcn.classList.add("fa-circle-check", "VerfE")
+          phoneVerIcn.setAttribute('title', "Verified")
+          phoneVerfStepP.innerText = "Your phone number has been confirmed."
+          verfBut.style.display = "none"
+          phoneStepCercle.classList.add("step-completed")
+          phoneStepCercle.classList.remove("step-canceled")
+          phoneStepCercleI.classList.add('fa-check')
+          phoneStepCercleI.classList.remove('fa-xmark')
+          document.querySelector('.exitBtn').click()
       } else {
           closeLoader();
           pushNotif("e", "Invalid OTP. Try again.");

@@ -6,8 +6,11 @@ var iti = window.intlTelInput(input, {
   separateDialCode: true,
 });
 
+document.querySelector("#phone-country-code").value = iti.getSelectedCountryData().dialCode;
+
 input.addEventListener("countrychange", function () {
   var countryCode = iti.getSelectedCountryData().dialCode;
+  document.querySelector("#phone-country-code").value = countryCode
 });
 
 document.querySelector('.pictChange').addEventListener('click',function(){

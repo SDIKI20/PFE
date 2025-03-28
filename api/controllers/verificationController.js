@@ -1,4 +1,5 @@
 const client = require("../config/twilioConfig");
+const { pool } = require("../config/dbConfig")
 const { storeCode, getCode } = require("../models/verificationModel");
 
 const sendCode = async (req, res) => {
@@ -20,12 +21,13 @@ const sendCode = async (req, res) => {
     }
 };
 
-const verifyCode = (req, res) => {
-    const { phone, code } = req.body;
+const  verifyCode = async (req, res) => {
+    const { phone, code, id } = req.body;
     const storedCode = getCode(phone);
 
     if (storedCode && storedCode == code) {
-        res.json({ message: "Verification successful!" });
+        await pool.query(`UPDATE users SET phone_status = TRUE WHERE id = $1`, [id]);
+        res.redirect(`/login`);
     } else {
         res.status(400).json({ message: "Invalid verification code" });
     }
