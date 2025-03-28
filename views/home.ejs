@@ -46,9 +46,9 @@
         </div>
     </div>
     <nav class="plat-main-navigator flex-col center-start" id="platMainNavigator">
-        <div class="plat-logo flex-row flex-center">
+        <a href="/" class="plat-logo flex-row flex-center">
             <img src="../assets/logo.png" alt="LOGO" width="80%">
-        </div>
+        </a>
         <ul class="plat-navigator flex-col center-start">
             <a href="/home" data-section="home" class="plat-nav-element <%= section==="home"?"plat-nav-selected":"" %>" title="Home" >
                 <label for="sectHome">
@@ -1720,11 +1720,13 @@
                 </footer>
             </div>
         </div>
+        
     </section>
     <% } %>
     <% if (section === 'home') { %>
     <section class="plat-main-doc" id="homeDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectHome">
+        
     </section>
     <% } %>
     <% if (section === 'orders') { %>
@@ -2039,21 +2041,25 @@
                 </div>
             </div>
         </div>
+        
     </section>
     <% } %>
     <% if (section === 'fav') { %>
     <section class="plat-main-doc" id="favoriteDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectFavorite">
+        
     </section>
     <% } %>
     <% if (section === 'recent') { %>
     <section class="plat-main-doc" id="recentDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectRecent">
+        
     </section>
     <% } %>
     <% if (section === 'help') { %>
     <section class="plat-main-doc" id="helpDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectHelp">
+        
     </section>
     <% } %>
     <% if (section === 'docs') { %>
@@ -2176,11 +2182,13 @@
                 </div>
             </div>
         </div>
+        
     </section>
     <% } %>
     <% if (section === 'profile') { %>
     <section class="plat-main-doc" id="profileDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectProfile">
+        
     </section>
     <% } %>
 
@@ -2192,5 +2200,29 @@
     <script src="../lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
     <script src="../lib/node_modules/flatpickr/dist/flatpickr.js"></script>
     <script src="../js/platform.js"></script>
+    <% if (section === 'cars') { %>
+        <script src="/js/home/cars.js"></script>
+    <% } %>
+    <% if (section === 'home') { %>
+        <script src="/js/home/home.js"></script>
+    <% } %>
+    <% if (section === 'orders') { %>
+        <script src="/js/home/orders.js"></script>
+    <% } %>
+    <% if (section === 'fav') { %>
+        <script src="/js/home/fav.js"></script>
+    <% } %>
+    <% if (section === 'recent') { %>
+        <script src="/js/home/recent.js"></script>
+    <% } %>
+    <% if (section === 'help') { %>
+        <script src="/js/home/help.js"></script>
+    <% } %>
+    <% if (section === 'docs') { %>
+        <script src="/js/home/docs.js"></script>
+    <% } %>
+    <% if (section === 'profile') { %>
+        <script src="/js/home/profile.js"></script>
+    <% } %>
 </body>
 </html>
