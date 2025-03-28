@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //get all orders
 function fetchOrders() {
-    fetch("http://localhost:5000/api/getOrders") 
+    fetch("http://localhost:4000/api/getOrders") 
         .then(response => response.json())
         .then(orders => {
             const tableBody = document.getElementById("ordersTableBody");
@@ -56,7 +56,7 @@ document.getElementById("customers-menu-item").addEventListener("click", functio
 });
 
 function fetchCustomers() {
-    fetch("http://localhost:5000/api/getUsers") 
+    fetch("http://localhost:4000/api/getUsers") 
         .then(response => response.json())
         .then(customers => {
             const tableBody = document.getElementById("customersTableBody");
