@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         openLoader()
-        const response = await fetch("https://pfeserver-odaydid002s-projects.vercel.app/api/email/verify-token?token=" + token);
+        const response = await fetch("http://localhost:4000/api/email/verify-token?token=" + token);
         const data = await response.json();
 
         if (response.ok) {

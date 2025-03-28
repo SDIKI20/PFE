@@ -1,5 +1,9 @@
 /*------------Navigator---------------*/
 
+.hidden{
+    display: none;
+}
+
 .plat-main-navigator{
     width: 5.5em;
     border-right: 3px solid var(--border-low);
@@ -1155,8 +1159,8 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 
 .user-ac-image img{
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    object-fit: fill;
 }
 
 .account-stat-t{
@@ -1178,6 +1182,20 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     border: 2px solid rgba(255, 0, 0, 0.048);
 }
 
+.notVerfE{
+    color: #ff8138b9;
+}
+
+.Ver{
+    color: rgb(67, 160, 98);
+    background-color: rgba(80, 224, 157, 0.185);
+    border: 2px solid rgba(0, 255, 98, 0.048);
+}
+
+.VerfE{
+    color: #248f66b9;
+}
+
 .fa-check-to-slot{
     font-size: var(--font-sml);
     color: var(--text);
@@ -1187,10 +1205,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 .editButInp{
     opacity: 0.4 !important;
     cursor: pointer;
-}
-
-.notVerfE{
-    color: #ff8138b9;
 }
 
 time{
@@ -1398,8 +1412,8 @@ time{
 
 .step-pending{
     color: white;
-    background-color: rgb(231, 162, 101);
-    border: 2px solid rgba(239, 159, 39, 0.285);
+    background-color: rgb(236, 152, 78);
+    border: 2px solid rgba(243, 154, 19, 0.575);
 }
 
 .step-final{
@@ -1574,7 +1588,7 @@ time{
 
 .nid-upload-container{
     width: 700px;
-    height: 60%;
+    height: 70%;
     border-radius: 15px;
     background-color: var(--container);
     padding: 1.25rem 1.5rem;

@@ -109,23 +109,23 @@ app.post('/reg', upload.single("image"), async (req, res) => {
             `INSERT INTO users (fname, lname, image, email, address, country, wilaya, city, zipcode, phone, birthdate, username, password, role) 
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
              RETURNING id, email, fname, lname, role, image`,
-            [fname, lname, imageUrl, email, address, country, wilaya, city, zipcode, phone, birthdate, hashedUsername, hashedPassword, role],
-            (err, results) => {
-                if (err) {
-                    throw err;
-                }
-                console.log(results.rows)
-                req.flash("success_msg", "Registred successfully please login!")
-                res.redirect('/login')
-            }
+            [fname, lname, imageUrl, email, address, country, wilaya, city, zipcode, phone, birthdate, hashedUsername, hashedPassword, role]
         );
 
-        //res.json({ message: "User created successfully", user: newUser.rows[0] });
+        // ✅ Delete the used token from the database
+        await pool.query(`DELETE FROM user_tokens WHERE email = $1`, [email]);
+
+        console.log("User registered successfully & token deleted.");
+        
+        req.flash("success_msg", "Registered successfully! Please log in.");
+        res.redirect('/login');
+
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server Error");
     }
-})
+});
+
 
 app.post("/login", passport.authenticate("local", {
     successRedirect: "/home",
