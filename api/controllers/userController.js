@@ -1,4 +1,4 @@
-const pool = require("../models/userModel");
+const { pool } = require("../config/dbConfig");
 
 // Update phone status
 const confirmPhone = async (req, res) => {

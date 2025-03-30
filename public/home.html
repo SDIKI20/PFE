@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="./favicon/favicon.svg" />
+    <link rel="shortcut icon" href="./favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+    <link rel="manifest" href="./favicon/site.webmanifest" />
+    <link rel="stylesheet" href="./style/lib/fontawesome/all.min.css">
+    <link rel="stylesheet" href="./style/main.css">
+    <link rel="stylesheet" href="./style/checkbox.css">
+    <link rel="stylesheet" href="./style/platform.css">
+    <link rel="stylesheet" href="./lib/node_modules/flatpickr/dist/flatpickr.css">
+    <link rel="stylesheet" href="./lib/node_modules/mapbox-gl/dist/mapbox-gl.css">
+    <link rel="stylesheet" href="./style/mobile.css">
+    <link rel="stylesheet" href="./style/lagreScreen.css">
+    <title>Platform</title>
+</head>
+<body class="flex-row" id="platContent">
+    <div class="overtop-conf flex-row flex-center" id="upDocsContainer">
+        <div class="nid-upload-container flex-col">
+            <i class="fa-solid fa-xmark bt-hover" id="uploadDocsClose"></i>
+            <label class="label-important">Upload your documents</label>
+            <div class="upload-input-container flex-row flex-center">
+                <div class="doc-inp flex-col flex-center">
+                    <div class="doc-image-container">
+                        <img src="../assets/images/idfront.png" id="idFront" alt="Doc">
+                    </div>
+                    <label class="bt bt-hover" for="upFront">Upload Front</label>
+                    <p>Supported formates: JPEG, PNG, JPG</p>
+                    <input type="file" id="upFront" accept=".jpg, .jpeg, .png " capture="environment" hidden>
+                </div>
+                <div class="doc-inp flex-col flex-center">
+                    <div class="doc-image-container">
+                        <img src="../assets/images/idback.png" id="idBack" alt="Doc">
+                    </div>
+                    <label class="bt bt-hover" for="upback">Upload Back</label>
+                    <p>Supported formates: JPEG, PNG, JPG</p>
+                    <input type="file" id="upback" accept=".jpg, .jpeg, .png" capture="environment" hidden>
+                </div>
+            </div>
+            <button class="bt bt-hover" id="uploadDocs"><i class="fa-solid fa-upload"></i> Upload</button>
+        </div>
+    </div>
+    <nav class="plat-main-navigator flex-col center-start" id="platMainNavigator">
+        <label class="plat-logo flex-row flex-center">
+            <img src="./assets/logo.png" alt="LOGO" width="80%">
+        </label>
+        <ul class="plat-navigator flex-col center-start">
+            <label for="sectHome" class="plat-nav-element plat-nav-selected">
+                <div class="flex-col">
+                    <i class="fa-solid fa-house"></i>
+                    <p class="nav-label">Home</p>
+                </div>
+            </label>
+            <label for="sectMain" class="plat-nav-element">
+                <div class="flex-col">
+                    <i class="fa-solid fa-car"></i>
+                    <p class="nav-label">Cars</p>
+                </div>
+            </label>
+            <label for="sectOrders" class="plat-nav-element">
+                <div class="flex-col">
+                    <i class="fa-regular fa-clipboard phbb"></i>
+                    <p class="nav-label">Rentals</p>
+                </div>
+            </label>
+            <label for="sectFavorite" class="plat-nav-element">
+                <div class="flex-col">
+                    <i class="fa-regular fa-heart phbb"></i>
+                    <p class="nav-label">Favorite</p>
+                </div>
+            </label>
+            <label for="sectRecent" class="plat-nav-element">
+                <div class="flex-col">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <p class="nav-label">Recent</p>
+                </div>
+            </label>
+            <label for="sectProfile" class="plat-nav-element">
+                <div class="plat-profile">
+                    <img src="<%= user?user.image:"assets/images/user.jpg"%>" alt="Profile" style="width: 100%;">
+                </div>
+            </label>
+        </ul>
+        <ul class="plat-user-info flex-col center-start">
+                <label for="sectDocs" class="plat-nav-element">
+                    <div class="flex-col">
+                        <i class="fa-regular fa-id-card"></i>
+                        <p class="nav-label">Documents</p>
+                    </div>
+                </label>
+
+                <label for="sectHelp" class="plat-nav-element">
+                    <div class="flex-col">
+                        <i class="fa-regular fa-handshake"></i>
+                        <p class="nav-label">Help</p>
+                    </div>
+                </label>
+
+        </ul>
+        <a href="/logout" class="plat-nav-element plat-logout" title="Logout">
+            <div class="flex-col">
+                <i class="fa-solid fa-person-walking-arrow-right"></i>
+                <p class="nav-label" style="color: var(--color-second);">Logout</p>
+            </div>
+        </a>
+    </nav>
+    <img class="map-img" src="./assets/images/map.png" alt="Maps">
+    <section class="plat-main-doc flex-col center-start" id="homeDoc">
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectHome">
+        <div class="head">
+            <h1 class="title">Drive the Car of your dreams</h1>
+            <div class="flex-row center-start filter-opt">
+                <div class="flex-row center-spacebet options">
+                    <label for="carBrand" class="flex-col start-center">
+                        CAR BRAND
+                        <select name="select-opt-brand" class="select-opt plat-text">
+                            <option value="any">Any</option>
+                        </select>
+                    </label>
+                    <div class="h-break-line" style="height: 2em;"></div>
+                    <label for="carModel" class="flex-col start-center">
+                        CAR MODEL
+                        <select name="select-opt-model" class="select-opt plat-text">
+                            <option value="any">Any</option>
+                        </select>
+                    </label>
+                    <div class="h-break-line" style="height: 2em;"></div>
+                    <label for="location" class="flex-col start-center">
+                        PICKUP LOCATION  
+                        <p class="plat-text">UserLocation</p>
+                    </label>
+                    <div class="h-break-line" style="height: 2em;"></div>
+                    <label for="pickup" class="flex-row center-spacebet">
+                        <div class="flex-col start-center">
+                            PICK UP & RETURN DATE
+                            <p class="plat-text">Apr 29 - May 1</p>
+                        </div>
+                        <i id="pickupInp" class="fa-regular fa-calendar bt bt-hover" style="margin-left: 15px; font-size: 1.3rem;"></i>
+                    </label>
+                </div>
+                <button id="searchOpt" class="bt bt-hover"><i class="fa-solid fa-magnifying-glass"></i><span style="margin-right: 10px;"></span>Search</button>
+            </div>
+        </div>
+        <div class="popular-cars flex-col start-center">
+            <div class="pop-head flex-row center-spacebet">
+                <p class="title"><i class="fa-solid fa-fire"></i> Popular Cars</p>
+                <a href="/cars" class="link">See All Collection <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+            <div class="flex-row flex-center pop-cars-container">
+                <div class="pop-car-container flex-col start-center" style="background-color: rgba(255, 147, 147, 0.08);">
+                    <div class="pop-car-head flex-row start-spacebet">
+                        <div class="flex-row center-start car-info">
+                            <div class="brand-icon">
+                                <img src="./assets/cars/nissan.png" width="35" alt="ICON">
+                            </div>
+                            <div class="flex-col pop-car-name">
+                                <p class="title">911</p>
+                                <p class="plat-text">Turbo S - 2021</p>
+                            </div>
+                        </div>
+                        <div class="pop-avilability flex-row flex-center">
+                            <p>2 Unit available</p>
+                        </div>
+                    </div>
+                    <div class="pop-car-img flex-col flex-center">
+                        <img src="./assets/cars/ford_.png" alt="CAR">
+                    </div>
+                    <div class="foot flex-row center-spacebet">
+                        <div class="pop-car-brand">Porshe</div>
+                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                    </div>
+                </div>
+                <div class="pop-car-container flex-col start-center" style="background-color: rgba(147, 230, 255, 0.08);">
+                    <div class="pop-car-head flex-row start-spacebet">
+                        <div class="flex-row center-start car-info">
+                            <div class="brand-icon">
+                                <img src="./assets/cars/bmw.png" width="35" alt="ICON">
+                            </div>
+                            <div class="flex-col pop-car-name">
+                                <p class="title">C8</p>
+                                <p class="plat-text">Corvette Stingray</p>
+                            </div>
+                        </div>
+                        <div class="pop-avilability flex-row flex-center">
+                            <p class="reserved">Reserved</p>
+                        </div>
+                    </div>
+                    <div class="pop-car-img flex-col flex-center">
+                        <img src="./assets/cars/hyundai_.png" alt="CAR">
+                    </div>
+                    <div class="foot flex-row center-spacebet">
+                        <div class="pop-car-brand">Chevrolet</div>
+                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                    </div>
+                </div>
+                <div class="pop-car-container flex-col start-center" style="background-color: rgba(233, 147, 255, 0.08);">
+                    <div class="pop-car-head flex-row start-spacebet">
+                        <div class="flex-row center-start car-info">
+                            <div class="brand-icon">
+                                <img src="./assets/cars/volkswagen.png" width="35" alt="ICON">
+                            </div>
+                            <div class="flex-col pop-car-name">
+                                <p class="title">GT-R 2023</p>
+                                <p class="plat-text">Nismo 3.8 V6</p>
+                            </div>
+                        </div>
+                        <div class="pop-avilability flex-row flex-center">
+                            <p>Arriving Soon</p>
+                        </div>
+                    </div>
+                    <div class="pop-car-img flex-col flex-center">
+                        <img src="./assets/cars/seat_.png" alt="CAR">
+                    </div>
+                    <div class="foot flex-row center-spacebet">
+                        <div class="pop-car-brand">Nissan</div>
+                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="collection flex-col start-center">
+            <div class="flex-row center-spacebet">
+                <p class="title"><i class="fa-solid fa-warehouse"></i> Our Collection</p>
+                <a href="/cars" class="link">See All Collection <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+            <div class="flex-row start-center pop-cars-container">
+                <div class="clc-car-container">
+                    <div class="head flex-col">
+                        <p class="title"></p>
+                        <p class="plat-text"></p>
+                    </div>
+                    <div class="clc-car-img flex-col flex-center">
+                        <img src="" alt="CAR">
+                    </div>
+                    <div class="foot flex-row center-spacebet">
+                        <p class="title"></p>
+                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                    </div>
+                </div>
+                <div class="clc-car-container">
+                    <div class="head flex-col">
+                        <p class="title"></p>
+                        <p class="plat-text"></p>
+                    </div>
+                    <div class="clc-car-img flex-col flex-center">
+                        <img src="" alt="CAR">
+                    </div>
+                    <div class="foot flex-row center-spacebet">
+                        <p class="title"></p>
+                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                    </div>
+                </div>
+                <div class="clc-car-container">
+                    <div class="head flex-col">
+                        <p class="title"></p>
+                        <p class="plat-text"></p>
+                    </div>
+                    <div class="clc-car-img flex-col flex-center">
+                        <img src="" alt="CAR">
+                    </div>
+                    <div class="foot flex-row center-spacebet">
+                        <p class="title"></p>
+                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                    </div>
+                </div>
+                <div class="clc-car-container">
+                    <div class="head flex-col">
+                        <p class="title"></p>
+                        <p class="plat-text"></p>
+                    </div>
+                    <div class="clc-car-img flex-col flex-center">
+                        <img src="" alt="CAR">
+                    </div>
+                    <div class="foot flex-row center-spacebet">
+                        <p class="title"></p>
+                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="./js/main.js"></script>
+    <script src="./js/darkmode.js"></script>
+    <script src="./lib/node_modules/gsap/dist/gsap.min.js"></script>
+    <script src="./lib/node_modules/gsap/dist/ScrollTrigger.min.js"></script>
+    <script src="./lib/node_modules/svelte-range-slider-pips/dist/range-slider-pips.js"></script>
+    <script src="./lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
+    <script src="./lib/node_modules/flatpickr/dist/flatpickr.js"></script>
+    <script src="./js/platform.js"></script>
+    <script src="./js/home/home.js"></script>
+</body>
+</html>

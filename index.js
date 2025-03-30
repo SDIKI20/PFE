@@ -17,6 +17,7 @@ const userRoutes = require("./api/routes/users");
 const verificationRoutes = require("./api/routes/verificationRoutes");
 const emailRoutes = require('./api/routes/emailRoutes');
 const orders = require("./api/routes/orderRoutes");
+const vehicles = require("./api/routes/vehiclesRoutes");
 
 require("dotenv").config();
 
@@ -62,6 +63,7 @@ app.use("/api/users", userRoutes);
 app.use('/api/email', emailRoutes);
 app.use("/api/sms", verificationRoutes);
 app.use('/api/orders', orders);
+app.use('/api/vehicles', vehicles);
 
 app.use(flash());
 

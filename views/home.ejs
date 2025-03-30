@@ -314,8 +314,8 @@
                             <label for="coup">Coup</label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="couple">
-                            <label for="couple">Couple</label>
+                            <input type="checkbox" id="suv">
+                            <label for="suv">SUV</label>
                         </div>
                         <div class="flex-row check-holder checkbox-wrapper-13">
                             <input type="checkbox" id="offroad">
@@ -473,7 +473,7 @@
                             </div>
                             <div class="flex-row flex-center">
                                 <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Automatic</p>
+                                <p class="plat-car-model">Auto</p>
                             </div>
                             <div class="flex-row flex-center">
                                 <i class="fa-solid fa-gas-pump plat-icn"></i>
@@ -661,7 +661,7 @@
                             </div>
                             <div class="flex-row flex-center">
                                 <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Automatic</p>
+                                <p class="plat-car-model">Auto</p>
                             </div>
                             <div class="flex-row flex-center">
                                 <i class="fa-solid fa-gas-pump plat-icn"></i>
@@ -849,7 +849,7 @@
                             </div>
                             <div class="flex-row flex-center">
                                 <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Automatic</p>
+                                <p class="plat-car-model">Auto</p>
                             </div>
                             <div class="flex-row flex-center">
                                 <i class="fa-solid fa-gas-pump plat-icn"></i>
@@ -1037,7 +1037,7 @@
                             </div>
                             <div class="flex-row flex-center">
                                 <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Automatic</p>
+                                <p class="plat-car-model">Auto</p>
                             </div>
                             <div class="flex-row flex-center">
                                 <i class="fa-solid fa-gas-pump plat-icn"></i>
@@ -1225,7 +1225,7 @@
                             </div>
                             <div class="flex-row flex-center">
                                 <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Automatic</p>
+                                <p class="plat-car-model">Auto</p>
                             </div>
                             <div class="flex-row flex-center">
                                 <i class="fa-solid fa-gas-pump plat-icn"></i>
@@ -1413,7 +1413,7 @@
                             </div>
                             <div class="flex-row flex-center">
                                 <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Automatic</p>
+                                <p class="plat-car-model">Auto</p>
                             </div>
                             <div class="flex-row flex-center">
                                 <i class="fa-solid fa-gas-pump plat-icn"></i>
@@ -1720,7 +1720,6 @@
                 </footer>
             </div>
         </div>
-        
     </section>
     <% } %>
     <% if (section === 'home') { %>
@@ -2200,29 +2199,18 @@
     <script src="../lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
     <script src="../lib/node_modules/flatpickr/dist/flatpickr.js"></script>
     <script src="../js/platform.js"></script>
-    <% if (section === 'cars') { %>
-        <script src="/js/home/cars.js"></script>
-    <% } %>
-    <% if (section === 'home') { %>
-        <script src="/js/home/home.js"></script>
-    <% } %>
-    <% if (section === 'orders') { %>
-        <script src="/js/home/orders.js"></script>
-    <% } %>
-    <% if (section === 'fav') { %>
-        <script src="/js/home/fav.js"></script>
-    <% } %>
-    <% if (section === 'recent') { %>
-        <script src="/js/home/recent.js"></script>
-    <% } %>
-    <% if (section === 'help') { %>
-        <script src="/js/home/help.js"></script>
-    <% } %>
-    <% if (section === 'docs') { %>
-        <script src="/js/home/docs.js"></script>
-    <% } %>
-    <% if (section === 'profile') { %>
-        <script src="/js/home/profile.js"></script>
+    <% const scripts = { 
+        cars: "cars.js", 
+        home: "home.js", 
+        orders: "orders.js", 
+        fav: "fav.js", 
+        recent: "recent.js", 
+        help: "help.js", 
+        docs: "docs.js", 
+        profile: "profile.js" 
+    }; %>
+    <% if (scripts[section]) { %>
+        <script src="/js/home/<%= scripts[section] %>"></script>
     <% } %>
 </body>
 </html>

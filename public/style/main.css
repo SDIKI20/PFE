@@ -6,7 +6,7 @@
     --bg-low: #17212B;
     --bg-lower: #f7f7f7;
     --container: white;
-    --text: #333;
+    --text: #171b24;
     --text-low: #3333334b;
     --txt-black: black;
     --txt-white: white;
@@ -33,11 +33,11 @@
 
 @font-face {
     font-family: poppins;
-    src: url(/fonts/poppins.ttf);
+    src: url(../fonts/poppins.ttf);
 }
 @font-face {
     font-family: poppinsB;
-    src: url(/fonts/Poppins-Black.ttf);
+    src: url(../fonts/Poppins-Black.ttf);
 }
 
 * {
@@ -419,6 +419,11 @@ p,span{
     justify-content: space-between;
 }
 
+.start-spacebet{
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
 .center-start{
     align-items: center;
     justify-content: flex-start;
@@ -439,6 +444,12 @@ p,span{
     max-height: 1px;
     background-color: var(--border-low);
     margin: 2vh 0;
+}
+
+.h-break-line{
+    min-width: 2px;
+    max-width: 2px;
+    background-color: var(--border-low);
 }
 
 .phd{
@@ -538,6 +549,23 @@ p,span{
     cursor: pointer;
 }
 
+.link{
+    color: rgb(32, 91, 180);
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 0 0.5em;
+    cursor: pointer;
+    transition: ease 0.6s;
+}
+
+.link:hover{
+    transform: scale(1.02);
+}
+
+.link:active{
+    color: rgb(12, 28, 63);
+}
+
 /*--------------------*/
 
 /*          buttons           */
@@ -552,7 +580,7 @@ p,span{
 
 .bt-hover:hover{
     opacity: 0.8;
-    transform: scale(1.02);
+    transform: scale(1.015);
     transition: ease 0.5s;
     cursor: pointer;
 }

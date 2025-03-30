@@ -1,6 +1,4 @@
-const { Pool } = require("pg");
 const { pool } = require("../config/dbConfig")
-
 
 // Get All Orders
 const getOrders = async (req, res) => {

@@ -6,8 +6,11 @@ a *{
     cursor: pointer;
 }
 
-/*------------Navigator---------------*/
+.title{
+    line-height: 0.5rem;
+}
 
+/*------------Navigator---------------*/
 
 .hidden{
     display: none;
@@ -88,7 +91,7 @@ a *{
 }
 
 .plat-user-profile{
-    width: 2.2em;
+    min-width: 2.2em;
     height: 2.2em;
     border-radius: 50%;
     margin: 0 .625rem;
@@ -484,14 +487,14 @@ input[type='radio']:checked + .rnt{
     background-color: var(--container);
     border-radius: 0.7rem;
     overflow: hidden;
-    padding: 0.8rem 1rem;
+    padding: 0;
     padding-bottom: 0.3rem;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 0.2fr 1fr 0.5fr 0.2fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
-    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.075);
+    border: 3px solid rgba(32, 32, 32, 0.11);
 }
 
 .plat-car-container header{
@@ -501,6 +504,12 @@ input[type='radio']:checked + .rnt{
     grid-template-rows: 1fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+    padding: 0.8rem 0.5rem;
+    padding-bottom: 0;
+}
+
+.plat-car-info{
+    padding: 0 0.8rem;
 }
 
 .car-available{
@@ -571,6 +580,7 @@ input[type='radio']:checked + .rnt{
     cursor: pointer;
     overflow: hidden;
     transition: 0.6s;
+    padding: 0 0.5rem;
 }
 
 .plat-car-image:hover{
@@ -580,7 +590,7 @@ input[type='radio']:checked + .rnt{
 .plat-car-image img{
     object-fit: cover;
     width: 90%;
-    height: 90%;
+    height: auto;
 }
 
 .plat-car-name{
@@ -605,7 +615,7 @@ input[type='radio']:checked + .rnt{
 
 .car-foot{
     border-top: 2px solid var(--border-low);
-    padding-top: 0.1rem;
+    padding: 0.5rem 0.5rem;
 }
 
 .plat-icn{
@@ -960,6 +970,144 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 
 /*--------------------Home Section--------------------*/
 
+#homeDoc{
+    padding: 0.5rem;
+    padding-top: 1.25em;
+    background-color: var(--bg-lower);
+    overflow-y: auto;
+}
+
+#homeDoc .head{
+    width: 100%;
+    height: 10em;
+    padding: 0.5rem;
+}
+
+.filter-opt{
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.options{
+    flex-grow: 3;
+    padding: 1.5em;
+    margin-right: 1em;
+    border: 2px solid var(--border-low);
+    border-radius: 10px;
+}
+
+.options label{
+    font-size: var(--font-sml);
+    font-weight: bold;
+    color: var(--text);
+}
+
+.select-opt{
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.plat-text{
+    color: rgb(102, 102, 102);
+    font-weight: 500;
+}
+
+#searchOpt{
+    flex-grow: 1;
+    background-color: var(--color-second);
+    color: white;
+    padding: 1em 0;
+    border-radius: 15px;
+    font-size: var(--font-med);
+}
+
+.popular-cars{
+    width: 100%;
+    padding: 1em 0.5em;
+}
+
+.pop-head{
+    width: 100%;
+    padding: 0.5em;
+}
+
+.fa-fire{
+    font-size: 1.5rem;
+    margin-right: .4em;
+    color: rgb(196, 52, 48);
+}
+
+.pop-cars-container{
+    width: 100%;
+    height: 20em;
+    overflow: hidden;
+    overflow-x: auto;
+    margin-top: 1em;
+}
+
+.pop-car-container{
+    border-radius: 1.25em;
+    width: 30vw;
+    max-width: 380px;
+    min-width: 300px;
+    height: 16em;
+    margin: 0.5em;
+    overflow: hidden;
+    padding-top: 1em;
+}
+
+.pop-car-head{
+    width: 100%;
+    padding: 0 1em;
+}
+
+.brand-icon{
+    margin-right: .625rem;
+}
+
+.pop-avilability{
+    font-size: var(--font-sml);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 0.4em 0.8em;
+    background-color: white;
+}
+
+.reserved{
+    color: rgb(189, 78, 78);
+}
+
+.pop-car-name .plat-text{
+    font-size: 0.8rem;
+    padding-top: 5px;
+}
+
+.pop-car-img{
+    width: 100%;
+    height: 8em;
+    padding: 0 1em;
+    margin: auto 0;
+}
+
+.pop-car-img img{
+    width: 80%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pop-car-container .foot{
+    width: 100%;
+    height: 3em;
+    background-color: rgba(0, 0, 0, 0.025);
+    padding: 0 1em;
+}
+
+.pop-car-brand{
+    font-size: var(--font-med);
+    color: var(--text);
+}
 
 /*---------------------------------------------------*/
 /*--------------------Orders Section------------------*/
@@ -1663,8 +1811,7 @@ time{
 #upDocsContainer{
     display: none;
 }
-
-
 /*----------------------------------------------------*/
+
 /*--------------------Profile Section------------------*/
 /*----------------------------------------------------*/
