@@ -10,6 +10,8 @@ const upload = vehiclesController.upload.fields([
 ]);
 
 router.get("/all", vehiclesController.getVehicles);
+router.get("/brands", vehiclesController.getBrands);
+router.get("/brands/all/:brand_id", vehiclesController.getBrandVehicles);
 router.post("/add", upload, vehiclesController.addVehicle);
 router.get("/:id/availability", vehiclesController.checkAvailability);
 router.get("/filter", vehiclesController.getFilteredVehicles);

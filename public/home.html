@@ -20,31 +20,6 @@
     <title>Platform</title>
 </head>
 <body class="flex-row" id="platContent">
-    <div class="overtop-conf flex-row flex-center" id="upDocsContainer">
-        <div class="nid-upload-container flex-col">
-            <i class="fa-solid fa-xmark bt-hover" id="uploadDocsClose"></i>
-            <label class="label-important">Upload your documents</label>
-            <div class="upload-input-container flex-row flex-center">
-                <div class="doc-inp flex-col flex-center">
-                    <div class="doc-image-container">
-                        <img src="../assets/images/idfront.png" id="idFront" alt="Doc">
-                    </div>
-                    <label class="bt bt-hover" for="upFront">Upload Front</label>
-                    <p>Supported formates: JPEG, PNG, JPG</p>
-                    <input type="file" id="upFront" accept=".jpg, .jpeg, .png " capture="environment" hidden>
-                </div>
-                <div class="doc-inp flex-col flex-center">
-                    <div class="doc-image-container">
-                        <img src="../assets/images/idback.png" id="idBack" alt="Doc">
-                    </div>
-                    <label class="bt bt-hover" for="upback">Upload Back</label>
-                    <p>Supported formates: JPEG, PNG, JPG</p>
-                    <input type="file" id="upback" accept=".jpg, .jpeg, .png" capture="environment" hidden>
-                </div>
-            </div>
-            <button class="bt bt-hover" id="uploadDocs"><i class="fa-solid fa-upload"></i> Upload</button>
-        </div>
-    </div>
     <nav class="plat-main-navigator flex-col center-start" id="platMainNavigator">
         <label class="plat-logo flex-row flex-center">
             <img src="./assets/logo.png" alt="LOGO" width="80%">
@@ -82,7 +57,7 @@
             </label>
             <label for="sectProfile" class="plat-nav-element">
                 <div class="plat-profile">
-                    <img src="<%= user?user.image:"assets/images/user.jpg"%>" alt="Profile" style="width: 100%;">
+                    <img src="./assets/images/user.jpg" alt="Profile" style="width: 100%;">
                 </div>
             </label>
         </ul>
@@ -113,34 +88,34 @@
     <section class="plat-main-doc flex-col center-start" id="homeDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectHome">
         <div class="head">
-            <h1 class="title">Drive the Car of your dreams</h1>
+            <h1 class="title" style="margin-bottom: 10px;">Drive the Car of your dreams</h1>
             <div class="flex-row center-start filter-opt">
-                <div class="flex-row center-spacebet options">
+                <div class="flex-row center-spacearound options">
                     <label for="carBrand" class="flex-col start-center">
                         CAR BRAND
                         <select name="select-opt-brand" class="select-opt plat-text">
                             <option value="any">Any</option>
                         </select>
                     </label>
-                    <div class="h-break-line" style="height: 2em;"></div>
+                    <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
                     <label for="carModel" class="flex-col start-center">
                         CAR MODEL
                         <select name="select-opt-model" class="select-opt plat-text">
                             <option value="any">Any</option>
                         </select>
                     </label>
-                    <div class="h-break-line" style="height: 2em;"></div>
+                    <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
                     <label for="location" class="flex-col start-center">
                         PICKUP LOCATION  
                         <p class="plat-text">UserLocation</p>
                     </label>
-                    <div class="h-break-line" style="height: 2em;"></div>
+                    <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
                     <label for="pickup" class="flex-row center-spacebet">
                         <div class="flex-col start-center">
                             PICK UP & RETURN DATE
-                            <p class="plat-text">Apr 29 - May 1</p>
+                            <input class="bt plat-text" type="text" id="dateRange">
                         </div>
-                        <i id="pickupInp" class="fa-regular fa-calendar bt bt-hover" style="margin-left: 15px; font-size: 1.3rem;"></i>
+                        <i class="fa-regular fa-calendar" style="margin-left: 25px; font-size: 1.3rem;"></i>
                     </label>
                 </div>
                 <button id="searchOpt" class="bt bt-hover"><i class="fa-solid fa-magnifying-glass"></i><span style="margin-right: 10px;"></span>Search</button>
@@ -159,7 +134,7 @@
                                 <img src="./assets/cars/nissan.png" width="35" alt="ICON">
                             </div>
                             <div class="flex-col pop-car-name">
-                                <p class="title">911</p>
+                                <p class="title">Porsh 911</p>
                                 <p class="plat-text">Turbo S - 2021</p>
                             </div>
                         </div>
@@ -171,7 +146,17 @@
                         <img src="./assets/cars/ford_.png" alt="CAR">
                     </div>
                     <div class="foot flex-row center-spacebet">
-                        <div class="pop-car-brand">Porshe</div>
+                        <div class="flex-row center-start">
+                            <h6 class="spec-tit">4.7</h6>
+                            <h6 class="clp" style="margin: 0 0.7em;">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </h6>
+                            <h6 class="spec-para">(109 RATE)</h6>
+                        </div>
                         <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
                     </div>
                 </div>
@@ -182,7 +167,7 @@
                                 <img src="./assets/cars/bmw.png" width="35" alt="ICON">
                             </div>
                             <div class="flex-col pop-car-name">
-                                <p class="title">C8</p>
+                                <p class="title">Chevrolet C8</p>
                                 <p class="plat-text">Corvette Stingray</p>
                             </div>
                         </div>
@@ -194,7 +179,17 @@
                         <img src="./assets/cars/hyundai_.png" alt="CAR">
                     </div>
                     <div class="foot flex-row center-spacebet">
-                        <div class="pop-car-brand">Chevrolet</div>
+                        <div class="flex-row center-start">
+                            <h6 class="spec-tit">4.7</h6>
+                            <h6 class="clp" style="margin: 0 0.7em;">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </h6>
+                            <h6 class="spec-para">(109 RATE)</h6>
+                        </div>
                         <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
                     </div>
                 </div>
@@ -205,7 +200,7 @@
                                 <img src="./assets/cars/volkswagen.png" width="35" alt="ICON">
                             </div>
                             <div class="flex-col pop-car-name">
-                                <p class="title">GT-R 2023</p>
+                                <p class="title">Nissan GT-R 2023</p>
                                 <p class="plat-text">Nismo 3.8 V6</p>
                             </div>
                         </div>
@@ -217,67 +212,235 @@
                         <img src="./assets/cars/seat_.png" alt="CAR">
                     </div>
                     <div class="foot flex-row center-spacebet">
-                        <div class="pop-car-brand">Nissan</div>
+                        <div class="flex-row center-start">
+                            <h6 class="spec-tit">4.7</h6>
+                            <h6 class="clp" style="margin: 0 0.7em;">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </h6>
+                            <h6 class="spec-para">(109 RATE)</h6>
+                        </div>
                         <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="collection flex-col start-center">
-            <div class="flex-row center-spacebet">
-                <p class="title"><i class="fa-solid fa-warehouse"></i> Our Collection</p>
+        <div class="collection-cars flex-col start-center">
+            <div class="pop-head flex-row center-spacebet" >
+                <p class="title"><i class="fa-solid fa-warehouse" style="margin-right: 10px;"></i>Collection</p>
                 <a href="/cars" class="link">See All Collection <i class="fa-solid fa-chevron-right"></i></a>
             </div>
-            <div class="flex-row start-center pop-cars-container">
-                <div class="clc-car-container">
-                    <div class="head flex-col">
-                        <p class="title"></p>
-                        <p class="plat-text"></p>
+            <div class="flex-row flex-center pop-cars-container">
+                <div class="clc-car-container flex-col">
+                    <div class="pop-car-name clc-head flex-col">
+                        <p class="title">911 Carrera GTS</p>
+                        <p class="plat-text">Type 992</p>
                     </div>
                     <div class="clc-car-img flex-col flex-center">
-                        <img src="" alt="CAR">
+                        <img src="./assets/cars/ford_.png" alt="CAR">
                     </div>
-                    <div class="foot flex-row center-spacebet">
-                        <p class="title"></p>
+                    <div class="clc-foot flex-row center-spacebet">
+                        <div class="flex-row center-spacearound">
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-regular fa-user"></i>
+                                <p>4</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-repeat"></i>
+                                <p>A</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                <p>330KM/s</p>
+                            </div>
+                        </div>
                         <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
                     </div>
                 </div>
-                <div class="clc-car-container">
-                    <div class="head flex-col">
-                        <p class="title"></p>
-                        <p class="plat-text"></p>
+                <div class="clc-car-container flex-col">
+                    <div class="pop-car-name clc-head flex-col">
+                        <p class="title">911 Carrera GTS</p>
+                        <p class="plat-text">Type 992</p>
                     </div>
                     <div class="clc-car-img flex-col flex-center">
-                        <img src="" alt="CAR">
+                        <img src="./assets/cars/kia_.png" alt="CAR">
                     </div>
-                    <div class="foot flex-row center-spacebet">
-                        <p class="title"></p>
+                    <div class="clc-foot flex-row center-spacebet">
+                        <div class="flex-row center-spacearound">
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-regular fa-user"></i>
+                                <p>4</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-repeat"></i>
+                                <p>M</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                <p>250KM/s</p>
+                            </div>
+                        </div>
                         <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
                     </div>
                 </div>
-                <div class="clc-car-container">
-                    <div class="head flex-col">
-                        <p class="title"></p>
-                        <p class="plat-text"></p>
+                <div class="clc-car-container flex-col">
+                    <div class="pop-car-name clc-head flex-col">
+                        <p class="title">911 Carrera GTS</p>
+                        <p class="plat-text">Type 992</p>
                     </div>
                     <div class="clc-car-img flex-col flex-center">
-                        <img src="" alt="CAR">
+                        <img src="./assets/cars/seat_.png" alt="CAR">
                     </div>
-                    <div class="foot flex-row center-spacebet">
-                        <p class="title"></p>
+                    <div class="clc-foot flex-row center-spacebet">
+                        <div class="flex-row center-spacearound">
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-regular fa-user"></i>
+                                <p>4</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-repeat"></i>
+                                <p>M</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                <p>220KM/s</p>
+                            </div>
+                        </div>
                         <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
                     </div>
                 </div>
-                <div class="clc-car-container">
-                    <div class="head flex-col">
-                        <p class="title"></p>
-                        <p class="plat-text"></p>
+                <div class="clc-car-container flex-col">
+                    <div class="pop-car-name clc-head flex-col">
+                        <p class="title">911 Carrera GTS</p>
+                        <p class="plat-text">Type 992</p>
                     </div>
                     <div class="clc-car-img flex-col flex-center">
-                        <img src="" alt="CAR">
+                        <img src="./assets/cars/kia_.png" alt="CAR">
                     </div>
-                    <div class="foot flex-row center-spacebet">
-                        <p class="title"></p>
+                    <div class="clc-foot flex-row center-spacebet">
+                        <div class="flex-row center-spacearound">
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-regular fa-user"></i>
+                                <p>4</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-repeat"></i>
+                                <p>M</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                <p>350KM/s</p>
+                            </div>
+                        </div>
+                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-row flex-center pop-cars-container">
+                <div class="clc-car-container flex-col">
+                    <div class="pop-car-name clc-head flex-col">
+                        <p class="title">911 Carrera GTS</p>
+                        <p class="plat-text">Type 992</p>
+                    </div>
+                    <div class="clc-car-img flex-col flex-center">
+                        <img src="./assets/cars/ford_.png" alt="CAR">
+                    </div>
+                    <div class="clc-foot flex-row center-spacebet">
+                        <div class="flex-row center-spacearound">
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-regular fa-user"></i>
+                                <p>4</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-repeat"></i>
+                                <p>A</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                <p>330KM/s</p>
+                            </div>
+                        </div>
+                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                    </div>
+                </div>
+                <div class="clc-car-container flex-col">
+                    <div class="pop-car-name clc-head flex-col">
+                        <p class="title">911 Carrera GTS</p>
+                        <p class="plat-text">Type 992</p>
+                    </div>
+                    <div class="clc-car-img flex-col flex-center">
+                        <img src="./assets/cars/kia_.png" alt="CAR">
+                    </div>
+                    <div class="clc-foot flex-row center-spacebet">
+                        <div class="flex-row center-spacearound">
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-regular fa-user"></i>
+                                <p>4</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-repeat"></i>
+                                <p>M</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                <p>250KM/s</p>
+                            </div>
+                        </div>
+                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                    </div>
+                </div>
+                <div class="clc-car-container flex-col">
+                    <div class="pop-car-name clc-head flex-col">
+                        <p class="title">911 Carrera GTS</p>
+                        <p class="plat-text">Type 992</p>
+                    </div>
+                    <div class="clc-car-img flex-col flex-center">
+                        <img src="./assets/cars/seat_.png" alt="CAR">
+                    </div>
+                    <div class="clc-foot flex-row center-spacebet">
+                        <div class="flex-row center-spacearound">
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-regular fa-user"></i>
+                                <p>4</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-repeat"></i>
+                                <p>M</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                <p>220KM/s</p>
+                            </div>
+                        </div>
+                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                    </div>
+                </div>
+                <div class="clc-car-container flex-col">
+                    <div class="pop-car-name clc-head flex-col">
+                        <p class="title">911 Carrera GTS</p>
+                        <p class="plat-text">Type 992</p>
+                    </div>
+                    <div class="clc-car-img flex-col flex-center">
+                        <img src="./assets/cars/kia_.png" alt="CAR">
+                    </div>
+                    <div class="clc-foot flex-row center-spacebet">
+                        <div class="flex-row center-spacearound">
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-regular fa-user"></i>
+                                <p>4</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-repeat"></i>
+                                <p>M</p>
+                            </div>
+                            <div class="clc-icon flex-row flex-center">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                <p>350KM/s</p>
+                            </div>
+                        </div>
                         <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
                     </div>
                 </div>

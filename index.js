@@ -79,12 +79,40 @@ app.get("/signup",checkAuth, (req, res) => {
     res.render("signup")
 })
 
-app.get("/home",checkNotAuth, (req, res) => {
-    res.render("home", { user: req.user, section:"home"})
-})
+app.get("/home", checkNotAuth, async (req, res) => {
+    try {
+        const brandsResult = await pool.query("SELECT * FROM brands ORDER BY id ASC LIMIT 3");
+        const brands = brandsResult.rows;
 
-app.get("/cars", (req, res) => {
-    res.render("home", { user: req.user, section : "cars" });
+        const officesResult = await pool.query("SELECT * FROM office ORDER BY id ASC");
+        const offices = officesResult.rows;
+
+        const vehiclePromises = brands.map(async (b) => {
+            const vehiclesResult = await pool.query(`
+                SELECT vehicles.*, brands.name AS brand_name, brands.id AS brand_id, brands.logo AS logo
+                FROM vehicles
+                JOIN brands ON vehicles.brand_id = brands.id
+                WHERE brands.id = $1
+                ORDER BY vehicles.id ASC LIMIT 5;
+            `, [b.id]);
+
+            return vehiclesResult.rows.length > 0 ? [vehiclesResult.rows, b] : null;
+        });
+
+        const vehicles = (await Promise.all(vehiclePromises)).filter(v => v !== null);
+
+        res.render("home", { user: req.user, brands: brands, vehicles: vehicles, offices: offices, section: "home" });
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+app.get("/cars", async (req, res) => {
+    const brandsResult = await pool.query("SELECT * FROM brands ORDER BY id DESC");
+    const brands = brandsResult.rows;
+    res.render("home", { user: req.user, brands, section : "cars" });
 })
 
 app.get("/orders",checkNotAuth, (req, res) => {
@@ -126,25 +154,24 @@ const upload = multer({ storage: storage });
 app.post('/reg', upload.single("image"), async (req, res) => {
     try {
         const { fname, lname, email, address, country, wilaya, city, zipcode, phone, phone_country_code, birthdate, username, password } = req.body;
-        const role = "client";
+        const role = "Client";
 
         // Get Cloudinary Image URL
-        const imageUrl = req.file ? req.file.path : "/assets/images/user.jpg";
+        const imageUrl = req.file ? req.file.path : "./assets/images/user.jpg";
 
-        // Hash Password & Username
+        // Hash Password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-        const hashedUsername = await bcrypt.hash(username, salt);
 
         // Store Data in Database
         const newUser = await pool.query(
             `INSERT INTO users (fname, lname, image, email, address, country, wilaya, city, zipcode, phone, birthdate, username, password, role) 
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
              RETURNING id, email, fname, lname, role, image`,
-            [fname, lname, imageUrl, email, address, country, wilaya, city, zipcode, `+${phone_country_code}${phone}`, birthdate, hashedUsername, hashedPassword, role]
+            [fname, lname, imageUrl, email, address, country, wilaya, city, zipcode, `+${phone_country_code}${phone}`, birthdate, username, hashedPassword, role]
         );
 
-        // ✅ Delete the used token from the database
+        // Delete the used token from the database
         await pool.query(`DELETE FROM user_tokens WHERE email = $1`, [email]);
 
         console.log("User registered successfully & token deleted.");

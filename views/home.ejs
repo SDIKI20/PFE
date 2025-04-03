@@ -20,31 +20,33 @@
     <title>Platform</title>
 </head>
 <body class="flex-row" id="platContent">
-    <div class="overtop-conf flex-row flex-center" id="upDocsContainer">
-        <div class="nid-upload-container flex-col">
-            <i class="fa-solid fa-xmark bt-hover" id="uploadDocsClose"></i>
-            <label class="label-important">Upload your documents</label>
-            <div class="upload-input-container flex-row flex-center">
-                <div class="doc-inp flex-col flex-center">
-                    <div class="doc-image-container">
-                        <img src="../assets/images/idfront.png" id="idFront" alt="Doc">
+    <% if (section === 'docs') { %>
+        <div class="overtop-conf flex-row flex-center" id="upDocsContainer">
+            <div class="nid-upload-container flex-col">
+                <i class="fa-solid fa-xmark bt-hover" id="uploadDocsClose"></i>
+                <label class="label-important">Upload your documents</label>
+                <div class="upload-input-container flex-row flex-center">
+                    <div class="doc-inp flex-col flex-center">
+                        <div class="doc-image-container">
+                            <img src="../assets/images/idfront.png" id="idFront" alt="Doc">
+                        </div>
+                        <label class="bt bt-hover" for="upFront">Upload Front</label>
+                        <p>Supported formates: JPEG, PNG, JPG</p>
+                        <input type="file" id="upFront" accept=".jpg, .jpeg, .png " capture="environment" hidden>
                     </div>
-                    <label class="bt bt-hover" for="upFront">Upload Front</label>
-                    <p>Supported formates: JPEG, PNG, JPG</p>
-                    <input type="file" id="upFront" accept=".jpg, .jpeg, .png " capture="environment" hidden>
-                </div>
-                <div class="doc-inp flex-col flex-center">
-                    <div class="doc-image-container">
-                        <img src="../assets/images/idback.png" id="idBack" alt="Doc">
+                    <div class="doc-inp flex-col flex-center">
+                        <div class="doc-image-container">
+                            <img src="../assets/images/idback.png" id="idBack" alt="Doc">
+                        </div>
+                        <label class="bt bt-hover" for="upback">Upload Back</label>
+                        <p>Supported formates: JPEG, PNG, JPG</p>
+                        <input type="file" id="upback" accept=".jpg, .jpeg, .png" capture="environment" hidden>
                     </div>
-                    <label class="bt bt-hover" for="upback">Upload Back</label>
-                    <p>Supported formates: JPEG, PNG, JPG</p>
-                    <input type="file" id="upback" accept=".jpg, .jpeg, .png" capture="environment" hidden>
                 </div>
+                <button class="bt bt-hover" id="uploadDocs"><i class="fa-solid fa-upload"></i> Upload</button>
             </div>
-            <button class="bt bt-hover" id="uploadDocs"><i class="fa-solid fa-upload"></i> Upload</button>
         </div>
-    </div>
+    <% } %>
     <nav class="plat-main-navigator flex-col center-start" id="platMainNavigator">
         <a href="/" class="plat-logo flex-row flex-center">
             <img src="../assets/logo.png" alt="LOGO" width="80%">
@@ -123,7 +125,7 @@
             </div>
         </a>
     </nav>
-    <img class="map-img" src="../assets/images/map.png" alt="Maps">
+    <img class="map-img" src="./assets/images/map.png" alt="Maps">
     <% if (section === 'cars') { %>
     <section class="plat-main-doc" id="mainDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectMain">
@@ -1553,8 +1555,7 @@
                         <li><label class="bt-hover" data-target="specs">Specifications<input type="radio" name="nav-rad" hidden checked></label></li>
                         <li><label class="bt-hover" data-target="stats">Statistics <input type="radio" name="nav-rad" hidden></label></li>
                         <li><label class="bt-hover" data-target="dcds">Essues <input type="radio" name="nav-rad" hidden></label></li>
-                    </ul>
-                    
+                    </ul>     
                     <div class="car-det-bod">
                         <div class="car-det-sec rent-detailsec flex-col">
                             <input type="radio" class="displayRad" name="sec-rad" id="rentDetails" hidden>
@@ -1723,8 +1724,182 @@
     </section>
     <% } %>
     <% if (section === 'home') { %>
-    <section class="plat-main-doc" id="homeDoc">
+    <section class="plat-main-doc flex-col center-start" id="homeDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectHome">
+        <div class="head">
+            <h1 class="title" style="margin-bottom: 10px;">Drive the Car of your dreams</h1>
+            <div class="flex-row center-start filter-opt">
+                <div class="flex-row center-spacearound options">
+                    <label for="carBrand" class="flex-col start-center">
+                        CAR BRAND
+                        <select name="select-opt-brand" class="select-opt plat-text">
+                            <option value="any">Any</option>
+                            <% brands.forEach(brand => { %>
+                                <option value="<%= brand.id %>"><%= brand.name %></li>
+                            <% }); %>
+                        </select>
+                    </label>
+                    <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
+                    <label for="carModel" class="flex-col start-center">
+                        CAR MODEL
+                        <select name="select-opt-model" class="select-opt plat-text">
+                            <option value="any">Any</option>
+                        </select>
+                    </label>
+                    <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
+                    <label for="location" class="flex-col start-center">
+                        PICKUP LOCATION  
+                        <div class="flex-row center-start">
+                            <i class="fa-solid fa-location-crosshairs" style="margin-right: 5px;"></i>
+                            <select name="select-opt-brand" class="select-opt plat-text">
+                                <option value="any">Any</option>
+                                <% offices.forEach(office => { %>
+                                    <option value="<%= office.id %>"><%= office.wilaya %>, <%=office.city%></li>
+                                <% }); %>
+                            </select>
+                        </div>
+                    </label>
+                    <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
+                    <label for="pickup" class="flex-col start-center">
+                        PICK UP & RETURN DATE
+                        <div class="flex-row center-start">
+                            <i class="fa-regular fa-calendar" style="margin-right: 5px;"></i>
+                            <input class="plat-text" type="text" id="dateRange">
+                        </div>
+                    </label>
+                </div>
+                <button id="searchOpt" class="bt bt-hover"><i class="fa-solid fa-magnifying-glass"></i><span style="margin-right: 10px;"></span>Search</button>
+            </div>
+        </div>
+        <div class="popular-cars flex-col start-center">
+            <div class="pop-head flex-row center-spacebet">
+                <p class="title"><i class="fa-solid fa-fire"></i> Popular Cars</p>
+                <a href="/cars" class="link">See All Collection <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+            <div class="flex-row flex-center pop-cars-container">
+                <div class="pop-car-container flex-col start-center" style="background-color: rgba(255, 147, 147, 0.08);">
+                    <div class="pop-car-head flex-row start-spacebet">
+                        <div class="flex-row center-start car-info">
+                            <div class="brand-icon">
+                                <img src="./assets/cars/nissan.png" width="35" alt="ICON">
+                            </div>
+                            <div class="flex-col pop-car-name">
+                                <p class="title">911</p>
+                                <p class="plat-text">Turbo S - 2021</p>
+                            </div>
+                        </div>
+                        <div class="pop-avilability flex-row flex-center">
+                            <p>2 Unit available</p>
+                        </div>
+                    </div>
+                    <div class="pop-car-img flex-col flex-center">
+                        <img src="./assets/cars/ford_.png" alt="CAR">
+                    </div>
+                    <div class="foot flex-row center-spacebet">
+                        <div class="pop-car-brand">Porshe</div>
+                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                    </div>
+                </div>
+                <div class="pop-car-container flex-col start-center" style="background-color: rgba(147, 230, 255, 0.08);">
+                    <div class="pop-car-head flex-row start-spacebet">
+                        <div class="flex-row center-start car-info">
+                            <div class="brand-icon">
+                                <img src="./assets/cars/bmw.png" width="35" alt="ICON">
+                            </div>
+                            <div class="flex-col pop-car-name">
+                                <p class="title">C8</p>
+                                <p class="plat-text">Corvette Stingray</p>
+                            </div>
+                        </div>
+                        <div class="pop-avilability flex-row flex-center">
+                            <p class="reserved">Reserved</p>
+                        </div>
+                    </div>
+                    <div class="pop-car-img flex-col flex-center">
+                        <img src="./assets/cars/hyundai_.png" alt="CAR">
+                    </div>
+                    <div class="foot flex-row center-spacebet">
+                        <div class="pop-car-brand">Chevrolet</div>
+                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                    </div>
+                </div>
+                <div class="pop-car-container flex-col start-center" style="background-color: rgba(233, 147, 255, 0.08);">
+                    <div class="pop-car-head flex-row start-spacebet">
+                        <div class="flex-row center-start car-info">
+                            <div class="brand-icon">
+                                <img src="./assets/cars/volkswagen.png" width="35" alt="ICON">
+                            </div>
+                            <div class="flex-col pop-car-name">
+                                <p class="title">GT-R 2023</p>
+                                <p class="plat-text">Nismo 3.8 V6</p>
+                            </div>
+                        </div>
+                        <div class="pop-avilability flex-row flex-center">
+                            <p>Arriving Soon</p>
+                        </div>
+                    </div>
+                    <div class="pop-car-img flex-col flex-center">
+                        <img src="./assets/cars/seat_.png" alt="CAR">
+                    </div>
+                    <div class="foot flex-row center-spacebet">
+                        <div class="pop-car-brand">Nissan</div>
+                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="collection-cars flex-col start-center">
+            <div class="pop-head flex-row center-spacebet">
+                <p class="title">
+                    <i class="fa-solid fa-warehouse" style="margin-right: 10px;"></i> Collection
+                </p>
+                <a href="/cars" class="link">See All Collection <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+        
+            <% vehicles.forEach(v => { 
+                if (Array.isArray(v[0]) && v[0].length > 0) { 
+            %>
+                <% if (v[1] && v[1].logo) { %>
+                    <div class="break-line" style="height: 8px; width: 60%; margin:1em auto;"></div>
+                    <div class="clc-brands-head flex-row center-start">
+                        <div class="image-container clc-brand-logo" style="margin-left: 10px;">
+                            <img src="<%= v[1].logo %>" alt="LOGO">
+                        </div>
+                        <p class="title" style="margin-left: 10px;"><%= v[1].name %></p>
+                    </div>
+                <% } %>
+                <div id="clcCars" class="flex-row pop-cars-container" style="margin-top: 40px; height: 15em;">
+                    <% v[0].forEach(vehicle => { %>
+                        <div class="clc-car-container flex-col">
+                            <div class="pop-car-name clc-head flex-col">
+                                <p class="title"><%= vehicle.brand_name %> <%= vehicle.model %> <%= vehicle.fab_year %></p>
+                                <p class="plat-text"><%= vehicle.engine_type %></p>
+                            </div>
+                            <div class="clc-car-img flex-col flex-center">
+                                <img src="<%= vehicle.image %>" alt="CAR">
+                            </div>
+                            <div class="clc-foot flex-row center-spacebet">
+                                <div class="flex-row center-spacearound">
+                                    <div class="clc-icon flex-row flex-center">
+                                        <i class="fa-regular fa-user"></i>
+                                        <p><%= vehicle.capacity %></p>
+                                    </div>
+                                    <div class="clc-icon flex-row flex-center">
+                                        <i class="fa-solid fa-repeat"></i>
+                                        <p><%= vehicle.transmission.substring(0,1) %></p>
+                                    </div>
+                                    <div class="clc-icon flex-row flex-center">
+                                        <i class="fa-solid fa-gauge-high"></i>
+                                        <p><%= vehicle.speed %>KM/s</p>
+                                    </div>
+                                </div>
+                                <p class="plat-car-price"><%= vehicle.price %><span class="currence">DZD</span> <span class="price-tag">/<%= vehicle.rental_type %></span></p>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% }}); %>
+        </div>
         
     </section>
     <% } %>

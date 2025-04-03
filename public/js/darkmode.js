@@ -43,7 +43,7 @@ function toggleLight(){
     }catch(error){}
     root.style.setProperty('--bg', '#f0eded');
     root.style.setProperty('--dark-bg', '#1a1a1a');
-    root.style.setProperty('--bg-lower','#f7f7f7');
+    root.style.setProperty('--bg-lower','rgb(250, 250, 250)');
     root.style.setProperty('--container', 'white');
     root.style.setProperty('--txt-black', 'black');
     root.style.setProperty('--txt-white', 'white');

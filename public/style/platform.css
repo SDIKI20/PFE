@@ -10,6 +10,17 @@ a *{
     line-height: 0.5rem;
 }
 
+::-webkit-scrollbar:vertical {
+    width: 5px;
+    height: 5px;
+    background-color: var(--border-low);
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:vertical {
+    background: var(--border);
+    border-radius: 5px;
+}
+
 /*------------Navigator---------------*/
 
 .hidden{
@@ -244,6 +255,9 @@ details{
     border-radius: 0.5rem;
     margin: 0.8em 0.6em 0 0;
     cursor: pointer;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 input[type='radio']:checked + .rnt{
@@ -990,16 +1004,31 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 
 .options{
     flex-grow: 3;
-    padding: 1.5em;
     margin-right: 1em;
     border: 2px solid var(--border-low);
     border-radius: 10px;
 }
 
 .options label{
+    margin: 1.5em 0;
     font-size: var(--font-sml);
     font-weight: bold;
     color: var(--text);
+}
+
+.options label > select{
+    background-color: transparent;
+    color: var(--text);
+}
+
+.options label > select:focus{
+    outline: none;
+    border: none;
+}
+
+.options label > select > option{
+    color: var(--text);
+    background-color: var(--container);
 }
 
 .select-opt{
@@ -1012,6 +1041,9 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 .plat-text{
     color: rgb(102, 102, 102);
     font-weight: 500;
+    background-color: transparent;
+    border: none;
+    cursor: default;
 }
 
 #searchOpt{
@@ -1023,14 +1055,16 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     font-size: var(--font-med);
 }
 
-.popular-cars{
+.popular-cars,
+.collection-cars{
     width: 100%;
     padding: 1em 0.5em;
 }
 
 .pop-head{
     width: 100%;
-    padding: 0.5em;
+    padding: 0 0.5em;
+    margin-bottom: 1em;
 }
 
 .fa-fire{
@@ -1044,7 +1078,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     height: 20em;
     overflow: hidden;
     overflow-x: auto;
-    margin-top: 1em;
 }
 
 .pop-car-container{
@@ -1056,6 +1089,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     margin: 0.5em;
     overflow: hidden;
     padding-top: 1em;
+    box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.025);
 }
 
 .pop-car-head{
@@ -1084,14 +1118,16 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     padding-top: 5px;
 }
 
-.pop-car-img{
+.pop-car-img,
+.clc-car-img{
     width: 100%;
     height: 8em;
     padding: 0 1em;
     margin: auto 0;
 }
 
-.pop-car-img img{
+.pop-car-img img,
+.clc-car-img img{
     width: 80%;
     height: 100%;
     object-fit: cover;
@@ -1107,6 +1143,46 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 .pop-car-brand{
     font-size: var(--font-med);
     color: var(--text);
+}
+
+.clc-car-container{
+    width: 25vw;
+    min-width: 280px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 15px;
+    margin: 0 10px;
+    background-color: var(--container);
+    box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.025);
+}
+
+.clc-car-img{
+    height: 7em;
+}
+
+.clc-head{
+    padding: 1em;
+    padding-bottom: 0;
+}
+
+.clc-foot{
+    background-color: rgba(114, 114, 114, 0.034);
+    padding: 0.8em 1em;
+}
+
+.clc-icon{
+    font-size: 0.65rem;
+    margin: 0 0.325em;
+    color: rgba(62, 86, 117, 0.808);
+}
+
+.clc-icon i{
+    margin-right: 5px;
+}
+
+.clc-brand-logo{
+    width: 30px;
+    height: 30px;
 }
 
 /*---------------------------------------------------*/
