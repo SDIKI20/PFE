@@ -58,3 +58,30 @@ gsap.from(".clc-car-container", {
         scroller: "#homeDoc"
     }
 });
+
+gsap.set(".review-container", { scale: 1, opacity: 1});
+
+gsap.from(".review-container", {
+    scale: 0,
+    stagger: 0.5,
+    opacity: 0,
+    delay: 1,
+    scrollTrigger: {
+        scrub: 1,
+        start: "bottom top",
+        scroller: "#homeDoc"
+    }
+});
+
+const content = document.querySelector(".reviews-container");
+let distance = content.scrollWidth /2;
+
+gsap.to(".review-container", {
+    x: -distance,
+    duration: 15,
+    ease: "linear",
+    repeat: -1,
+    onRepeat: function() {
+    gsap.set(".review-container", { x: 0 }); 
+    }
+});

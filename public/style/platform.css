@@ -937,7 +937,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 
 .clp{
-    background:linear-gradient(90deg, yellow 93%, var(--text)0%);
+    background:linear-gradient(90deg, yellow 50%, var(--text)0%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1153,7 +1153,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     border-radius: 15px;
     margin: 0 10px;
     background-color: var(--container);
-    box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.025);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.212);
 }
 
 .clc-car-img{
@@ -1184,6 +1184,77 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     width: 30px;
     height: 30px;
 }
+
+#reviews{
+    width: 100%;
+    min-height: 19em;
+}
+
+.reviews-container{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-x: scroll;
+    padding: 1em;
+    gap: 1.2rem;
+}
+
+.review-container{
+    min-height: 80%;
+    min-width: 18em;
+    border-radius: 15px;
+    background-color: var(--container);
+    position: relative;
+    padding: 1em;
+    padding-bottom: 0.8em;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.103);
+}
+
+.fa-quote-right{
+    position: absolute;
+    top: -8px;
+    right: -5px;
+    font-size: var(--font-lrg);
+    color: var(--text);
+}
+
+.vehicle-name,
+.review-desc{
+    font-size: var(--font-sml);
+    margin-bottom: 0.5rem;
+}
+
+.review-user{
+    margin-top: auto;
+}
+
+.user-name{
+    margin-top: 2.5px;
+    font-size: var(--font-sml);
+    color: var(--text);
+    font-weight: bold;
+}
+
+.user-username{
+    line-height: 5px;
+    font-size: 0.75rem;
+    color: var(--text-low);
+}
+
+.review-desc{
+    font-size: var(--font-sml);
+    color: var(--text);
+}
+
+.active-start{
+    color: gold;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 0, 0.486))
+}
+
+.inactive-start{
+    color: var(--text);
+}
+
 
 /*---------------------------------------------------*/
 /*--------------------Orders Section------------------*/

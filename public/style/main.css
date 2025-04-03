@@ -140,6 +140,13 @@ p,span{
     transform: none;
 }
 
+.profile-image{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
 .preview-image img{
     object-fit: cover;
     max-width: 800px;

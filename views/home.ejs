@@ -1753,6 +1753,7 @@
                             <i class="fa-solid fa-location-crosshairs" style="margin-right: 5px;"></i>
                             <select name="select-opt-brand" class="select-opt plat-text">
                                 <option value="any">Any</option>
+                                <option value="any">My Location</option>
                                 <% offices.forEach(office => { %>
                                     <option value="<%= office.id %>"><%= office.wilaya %>, <%=office.city%></li>
                                 <% }); %>
@@ -1848,7 +1849,7 @@
                 </div>
             </div>
         </div>
-        <div class="collection-cars flex-col start-center">
+        <div class="collection-cars flex-col start-center" id="collectionCars">
             <div class="pop-head flex-row center-spacebet">
                 <p class="title">
                     <i class="fa-solid fa-warehouse" style="margin-right: 10px;"></i> Collection
@@ -1873,7 +1874,7 @@
                         <div class="clc-car-container flex-col">
                             <div class="pop-car-name clc-head flex-col">
                                 <p class="title"><%= vehicle.brand_name %> <%= vehicle.model %> <%= vehicle.fab_year %></p>
-                                <p class="plat-text"><%= vehicle.engine_type %></p>
+                                <p class="plat-text"><%= vehicle.body %></p>
                             </div>
                             <div class="clc-car-img flex-col flex-center">
                                 <img src="<%= vehicle.image %>" alt="CAR">
@@ -1899,6 +1900,63 @@
                     <% }); %>
                 </div>
             <% }}); %>
+        </div>
+        <div class="reviews flex-col flex-center" id="reviews">
+            <div class="pop-head flex-row center-spacebet">
+                <p class="title"><i class="fa-solid fa-star-half-stroke"></i> Reviews</p>
+            </div>
+            <div class="reviews-container flex-row center-start">
+                <% reviews.forEach(review => { %>
+                    <div class="review-container flex-col">
+                        <i class="fa-solid fa-quote-right"></i>
+                        <p class="plat-text vehicle-name"><%=review.brand%> <%=review.model%> <%=review.fab_year%></p>
+                        <div class="review-para flex-col">
+                            <p class="review-desc"><%= review.review %></p>
+                        </div>
+                        <div class="flex-row center-start" style="margin-top: auto;">
+                            <h6>
+                                <% for( let i = 0; i < 6; i++ ) { %>
+                                    <i class="fa-solid fa-star <%= review.stars >= i?'active-start':'inactive-start' %>"></i>
+                                <% } %>
+                            </h6>
+                        </div>
+                        <div class="review-user flex-row">
+                            <div class="profile-image image-container">
+                                <img src="<%= review.image %>" alt="User">
+                            </div>
+                            <div class="flex-col" style="margin-left: 10px;">
+                                <p class="user-name"><%= review.fname %> <%= review.lname %></p>
+                                <p class="user-username">@<%=review.username%></p>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+                <% reviews.forEach(review => { %>
+                    <div class="review-container flex-col">
+                        <i class="fa-solid fa-quote-right"></i>
+                        <p class="plat-text vehicle-name"><%=review.brand%> <%=review.model%> <%=review.fab_year%></p>
+                        <div class="review-para flex-col">
+                            <p class="review-desc"><%= review.review %></p>
+                        </div>
+                        <div class="flex-row center-start" style="margin-top: auto;">
+                            <h6>
+                                <% for( let i = 0; i < 6; i++ ) { %>
+                                    <i class="fa-solid fa-star <%= review.stars >= i?'active-start':'inactive-start' %>"></i>
+                                <% } %>
+                            </h6>
+                        </div>
+                        <div class="review-user flex-row">
+                            <div class="profile-image image-container">
+                                <img src="<%= review.image %>" alt="User">
+                            </div>
+                            <div class="flex-col" style="margin-left: 10px;">
+                                <p class="user-name"><%= review.fname %> <%= review.lname %></p>
+                                <p class="user-username">@<%=review.username%></p>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
         </div>
         
     </section>

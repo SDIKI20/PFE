@@ -84,6 +84,19 @@ app.get("/home", checkNotAuth, async (req, res) => {
         const brandsResult = await pool.query("SELECT * FROM brands ORDER BY id ASC LIMIT 3");
         const brands = brandsResult.rows;
 
+        const reviewsResult = await pool.query(`
+            SELECT reviews.stars, reviews.review, reviews.created_at AS cdate,
+            users.username AS username, users.lname AS lname, users.fname AS fname, users.image AS image,
+            vehicles.model, vehicles.fab_year,
+            brands.name AS brand
+                FROM reviews
+                JOIN users ON reviews.user_id = users.id
+                JOIN vehicles ON reviews.vehicle_id = vehicles.id
+                JOIN brands ON vehicles.brand_id = brands.id
+                ORDER BY reviews.created_at LIMIT 10;
+            `);
+        const reviews = reviewsResult.rows;
+
         const officesResult = await pool.query("SELECT * FROM office ORDER BY id ASC");
         const offices = officesResult.rows;
 
@@ -101,7 +114,7 @@ app.get("/home", checkNotAuth, async (req, res) => {
 
         const vehicles = (await Promise.all(vehiclePromises)).filter(v => v !== null);
 
-        res.render("home", { user: req.user, brands: brands, vehicles: vehicles, offices: offices, section: "home" });
+        res.render("home", { user: req.user, brands: brands, reviews:reviews, vehicles: vehicles, offices: offices, section: "home" });
 
     } catch (error) {
         console.error("Error fetching data:", error);
