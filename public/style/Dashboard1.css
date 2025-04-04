@@ -141,31 +141,9 @@ ul label a i{
     border: 1px solid var(--border);
 }
 
-table{
-    width: 100%;
-    overflow-x: auto;
-}
 
-.table{
-    border-collapse: collapse;
-    min-width: 600px;
-    color: var(--text);
-    width: 100%;
-    text-align: center;
-    border-spacing: 8px;
-}
 
-td,th{
-    padding: 10px;
-    text-align: center;
-    border: 1px solid var(--border-low);
-    background-color: var(--bg);
-    height: 50px;   
-}
 
-th{
-    background-color: var(--bg-lower);
-}
 
 #dash-content .title-info .moniteur{
     font-size: 15px;
@@ -185,12 +163,7 @@ button{
     margin-right: 20px;
 }
 
-.table{
-    border: var(--border) solid 1px;
-    border-radius: 8px;
-    margin: 10px;
-    flex-wrap: wrap;
-}
+
 
 .data p{
     margin: 10px;
@@ -247,4 +220,65 @@ body:not(:has(:target)) #dash-content {
     opacity: 1;
     visibility: visible;
     position: relative;
+}
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: right;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+.status-active {
+    color: green;
+    font-weight: bold;
+}
+
+.status-pending {
+    color: orange;
+    font-weight: bold;
+}
+
+.status-in-progress {
+    color: blue;
+    font-weight: bold;
+}
+.button_order{
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+.button_ord:hover , .active{
+    background-color:var(--border-low);
 }

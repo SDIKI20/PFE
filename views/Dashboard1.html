@@ -39,16 +39,11 @@
                 </a>
             </li>
             
-            <li id="billing-menu-item">
-                <a href="#billing-content">
-                    <i class="fa-solid fa-credit-card"></i>
-                    Billing
-                </a>
-            </li>
+           
             <li id="customers-menu-item">
                 <a href="#customers-content">
                     <i class="fa-solid fa-users"></i>
-                    Costumers
+                    Customers
                 </a>
             </li>
             <hr>
@@ -65,12 +60,7 @@
                     Get Help
                 </a>
             </li>
-            <li id="report-menu-item">
-                <a href="#report-content">
-                    <i class="fa-solid fa-file-excel"></i>
-                    Report
-                </a>
-            </li>
+          
             <hr>
             <li  id="settings-menu-item">
                 <a href="#settings-content">
@@ -178,36 +168,57 @@
         </section>
     </section>
     <section class="content-section" id="orders-content">
-        <table class="ordertable">
+        <h1>OrdersList</h1>
+        <div class="button_order">
+            <button  class="button_ord active">AllOrders</button>
+            <button class="button_ord">Pending</button>
+            <button class="button_ord">InProgress</button>
+            <button class="button_ord">Completed</button>
+        </div>
+    
+        <table>
             <thead>
                 <tr>
-                    <th>client_id</th>
-                    <th>vehicule_id</th>
-                    <th>start_Date</th>
-                    <th>End_Date</th>
-                    <th>Status</th>
-                    <th>price</th>
+                    <th>CLIENT_ID</th>
+                    <th>VEHICULE_ID</th>
+                    <th>START_DATE</th>
+                    <th>END_DATE</th>
+                    <th>STATUS</th>
+                    <th>PRICE</th>
                 </tr>
             </thead>
-            <tbody id="ordersTableBody">
+            <tbody>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>#C-00123</td>
+                    <td>#V-00123</td>
+                    <td>24 July 2024</td>
+                    <td>25 July 2024</td>
+                    <td class="status-active">Completed</td>
+                    <td>100.00€</td>
+                </tr>
+                <tr>
+                    <td>#C-00124</td>
+                    <td>#V-00124</td>
+                    <td>24 July 2024</td>
+                    <td>25 July 2024</td>
+                    <td class="status-pending">Pending</td>
+                    <td>150.00€</td>
+                </tr>
+                <tr>
+                    <td>#C-00125</td>
+                    <td>#V-00125</td>
+                    <td>24 July 2024</td>
+                    <td>25 July 2024</td>
+                    <td class="status-in-progress">In Progress</td>
+                    <td>200.00€</td>
                 </tr>
             </tbody>
-        </table>
+        </table>  
         
     </section>
     
    
-    <section class="content-section" id="billing-content">
-        <h2>Billing</h2>
-        <p>Content for Billing section.</p>
-    </section>
+
     
     <section class="content-section" id="customers-content">
         <h2>Customers List</h2>
