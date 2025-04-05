@@ -85,535 +85,66 @@
         </a>
     </nav>
     <img class="map-img" src="./assets/images/map.png" alt="Maps">
-    <section class="plat-main-doc flex-col center-start" id="homeDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectHome">
-        <div class="head">
-            <h1 class="title" style="margin-bottom: 10px;">Drive the Car of your dreams</h1>
-            <div class="flex-row center-start filter-opt">
-                <div class="flex-row center-spacearound options">
-                    <label for="carBrand" class="flex-col start-center">
-                        CAR BRAND
-                        <select name="select-opt-brand" class="select-opt plat-text">
-                            <option value="any">Any</option>
-                        </select>
-                    </label>
-                    <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
-                    <label for="carModel" class="flex-col start-center">
-                        CAR MODEL
-                        <select name="select-opt-model" class="select-opt plat-text">
-                            <option value="any">Any</option>
-                        </select>
-                    </label>
-                    <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
-                    <label for="location" class="flex-col start-center">
-                        PICKUP LOCATION  
-                        <p class="plat-text">UserLocation</p>
-                    </label>
-                    <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
-                    <label for="pickup" class="flex-row center-spacebet">
-                        <div class="flex-col start-center">
-                            PICK UP & RETURN DATE
-                            <input class="bt plat-text" type="text" id="dateRange">
+    <section class="plat-main-doc flex-col center-start" id="carDetail">
+        <div class="car-det-details">
+            <div class="head flex-col start-center">
+                <h1 class="car-det-name">Seat Ibiza 2022</h1>
+                <div class="flex-row center-spacebet" style="width: 100%;">
+                    <div class="s-details flex-row center-start" style="height: 1.5em;">
+                        <div class="flex-row det-brand center-start">
+                            <img src="./assets/cars/bmw.png" width="25" style="margin-right: 5px;" alt="Logo" class="brand-logo">
+                            <p class="para-sml">BMW</p>
                         </div>
-                        <i class="fa-regular fa-calendar" style="margin-left: 25px; font-size: 1.3rem;"></i>
-                    </label>
+                        <div class="h-break-line" style="height: 50%;"></div>
+                        <p class="para-sml flex-row center-start">
+                            <i class="fa-solid fa-location-dot" style="color: var(--color-main); margin-right:5px;"></i>
+                            <span style="font-size: var(--font-sml);">Location, Location</span>
+                        </p>
+                        <div class="h-break-line" style="height: 50%;"></div>
+                        <div class="flex-row center-start">
+                            <i class="fa-solid fa-star"></i>
+                            <span class="para-sml">4.0</span>
+                            <span class="para-sml plat-text">(180 reviews)</span>
+                        </div>
+                    </div>
+                    <div class="fav-share">
+                        <button class="bt bt-hover bt-regular"><i class="fa-regular fa-heart"></i></button>
+                        <button class="bt bt-hover bt-regular"><i class="fa-solid fa-share" style="margin-right: 5px;"></i> Share this car</button>
+                    </div>
                 </div>
-                <button id="searchOpt" class="bt bt-hover"><i class="fa-solid fa-magnifying-glass"></i><span style="margin-right: 10px;"></span>Search</button>
-            </div>
+            </div>       
         </div>
-        <div class="popular-cars flex-col start-center">
-            <div class="pop-head flex-row center-spacebet">
-                <p class="title"><i class="fa-solid fa-fire"></i> Popular Cars</p>
-                <a href="/cars" class="link">See All Collection <i class="fa-solid fa-chevron-right"></i></a>
-            </div>
-            <div class="flex-row flex-center pop-cars-container">
-                <div class="pop-car-container flex-col start-center" style="background-color: rgba(255, 147, 147, 0.08);">
-                    <div class="pop-car-head flex-row start-spacebet">
-                        <div class="flex-row center-start car-info">
-                            <div class="brand-icon">
-                                <img src="./assets/cars/nissan.png" width="35" alt="ICON">
-                            </div>
-                            <div class="flex-col pop-car-name">
-                                <p class="title">Porsh 911</p>
-                                <p class="plat-text">Turbo S - 2021</p>
-                            </div>
-                        </div>
-                        <div class="pop-avilability flex-row flex-center">
-                            <p>2 Unit available</p>
-                        </div>
-                    </div>
-                    <div class="pop-car-img flex-col flex-center">
-                        <img src="./assets/cars/ford_.png" alt="CAR">
-                    </div>
-                    <div class="foot flex-row center-spacebet">
-                        <div class="flex-row center-start">
-                            <h6 class="spec-tit">4.7</h6>
-                            <h6 class="clp" style="margin: 0 0.7em;">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </h6>
-                            <h6 class="spec-para">(109 RATE)</h6>
-                        </div>
-                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                    </div>
-                </div>
-                <div class="pop-car-container flex-col start-center" style="background-color: rgba(147, 230, 255, 0.08);">
-                    <div class="pop-car-head flex-row start-spacebet">
-                        <div class="flex-row center-start car-info">
-                            <div class="brand-icon">
-                                <img src="./assets/cars/bmw.png" width="35" alt="ICON">
-                            </div>
-                            <div class="flex-col pop-car-name">
-                                <p class="title">Chevrolet C8</p>
-                                <p class="plat-text">Corvette Stingray</p>
-                            </div>
-                        </div>
-                        <div class="pop-avilability flex-row flex-center">
-                            <p class="reserved">Reserved</p>
-                        </div>
-                    </div>
-                    <div class="pop-car-img flex-col flex-center">
-                        <img src="./assets/cars/hyundai_.png" alt="CAR">
-                    </div>
-                    <div class="foot flex-row center-spacebet">
-                        <div class="flex-row center-start">
-                            <h6 class="spec-tit">4.7</h6>
-                            <h6 class="clp" style="margin: 0 0.7em;">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </h6>
-                            <h6 class="spec-para">(109 RATE)</h6>
-                        </div>
-                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                    </div>
-                </div>
-                <div class="pop-car-container flex-col start-center" style="background-color: rgba(233, 147, 255, 0.08);">
-                    <div class="pop-car-head flex-row start-spacebet">
-                        <div class="flex-row center-start car-info">
-                            <div class="brand-icon">
-                                <img src="./assets/cars/volkswagen.png" width="35" alt="ICON">
-                            </div>
-                            <div class="flex-col pop-car-name">
-                                <p class="title">Nissan GT-R 2023</p>
-                                <p class="plat-text">Nismo 3.8 V6</p>
-                            </div>
-                        </div>
-                        <div class="pop-avilability flex-row flex-center">
-                            <p>Arriving Soon</p>
-                        </div>
-                    </div>
-                    <div class="pop-car-img flex-col flex-center">
-                        <img src="./assets/cars/seat_.png" alt="CAR">
-                    </div>
-                    <div class="foot flex-row center-spacebet">
-                        <div class="flex-row center-start">
-                            <h6 class="spec-tit">4.7</h6>
-                            <h6 class="clp" style="margin: 0 0.7em;">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </h6>
-                            <h6 class="spec-para">(109 RATE)</h6>
-                        </div>
-                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+        <div class="prev-images flex-row flex-center">
+            <label class="flex-row flex-center prev-img">
+                <input type="radio" name="same-check" checked hidden>
+                <img src="./assets/car/ibiza2.jpg" alt="Preview">
+            </label>
+            <label class="flex-row flex-center prev-img">
+                <input type="radio" name="same-check" hidden>
+                <img src="./assets/car/ibiza1.jpg" alt="Preview">
+            </label>
+            <label class="flex-row flex-center prev-img">
+                <input type="radio" name="same-check" hidden>
+                <img src="./assets/car/ibiza3.jpg" alt="Preview">
+            </label>
+        </div>
+        <div class="car-rent-details">
+            <div class="car-det-info"></div>
+            <div class="car-det-rentprice">
+                <p class="para-mid">Book information</p>
+                <p class="para-sml max-dur">Duration maximum to rent this car is <strong>1 mounth</strong>.</p>
+                <div class="break-line" style="height: 3px;"></div>
+                <div class="pickinfo flex-col">
+                    <p class="title-sml">Pickup Date</p>
+                    <div class="flex-row center-spacebet">
+                        <input type="datetime-local">
+                        <i class="fa-regular fa-calendar"></i>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="collection-cars flex-col start-center">
-            <div class="pop-head flex-row center-spacebet" >
-                <p class="title"><i class="fa-solid fa-warehouse" style="margin-right: 10px;"></i>Collection</p>
-                <a href="/cars" class="link">See All Collection <i class="fa-solid fa-chevron-right"></i></a>
-            </div>
-            <div class="flex-row flex-center pop-cars-container">
-                <div class="clc-car-container flex-col">
-                    <div class="pop-car-name clc-head flex-col">
-                        <p class="title">911 Carrera GTS</p>
-                        <p class="plat-text">Type 992</p>
-                    </div>
-                    <div class="clc-car-img flex-col flex-center">
-                        <img src="./assets/cars/ford_.png" alt="CAR">
-                    </div>
-                    <div class="clc-foot flex-row center-spacebet">
-                        <div class="flex-row center-spacearound">
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-regular fa-user"></i>
-                                <p>4</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-repeat"></i>
-                                <p>A</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-gauge-high"></i>
-                                <p>330KM/s</p>
-                            </div>
-                        </div>
-                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                    </div>
-                </div>
-                <div class="clc-car-container flex-col">
-                    <div class="pop-car-name clc-head flex-col">
-                        <p class="title">911 Carrera GTS</p>
-                        <p class="plat-text">Type 992</p>
-                    </div>
-                    <div class="clc-car-img flex-col flex-center">
-                        <img src="./assets/cars/kia_.png" alt="CAR">
-                    </div>
-                    <div class="clc-foot flex-row center-spacebet">
-                        <div class="flex-row center-spacearound">
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-regular fa-user"></i>
-                                <p>4</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-repeat"></i>
-                                <p>M</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-gauge-high"></i>
-                                <p>250KM/s</p>
-                            </div>
-                        </div>
-                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                    </div>
-                </div>
-                <div class="clc-car-container flex-col">
-                    <div class="pop-car-name clc-head flex-col">
-                        <p class="title">911 Carrera GTS</p>
-                        <p class="plat-text">Type 992</p>
-                    </div>
-                    <div class="clc-car-img flex-col flex-center">
-                        <img src="./assets/cars/seat_.png" alt="CAR">
-                    </div>
-                    <div class="clc-foot flex-row center-spacebet">
-                        <div class="flex-row center-spacearound">
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-regular fa-user"></i>
-                                <p>4</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-repeat"></i>
-                                <p>M</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-gauge-high"></i>
-                                <p>220KM/s</p>
-                            </div>
-                        </div>
-                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                    </div>
-                </div>
-                <div class="clc-car-container flex-col">
-                    <div class="pop-car-name clc-head flex-col">
-                        <p class="title">911 Carrera GTS</p>
-                        <p class="plat-text">Type 992</p>
-                    </div>
-                    <div class="clc-car-img flex-col flex-center">
-                        <img src="./assets/cars/kia_.png" alt="CAR">
-                    </div>
-                    <div class="clc-foot flex-row center-spacebet">
-                        <div class="flex-row center-spacearound">
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-regular fa-user"></i>
-                                <p>4</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-repeat"></i>
-                                <p>M</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-gauge-high"></i>
-                                <p>350KM/s</p>
-                            </div>
-                        </div>
-                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                    </div>
-                </div>
-            </div>
-            <div class="flex-row flex-center pop-cars-container">
-                <div class="clc-car-container flex-col">
-                    <div class="pop-car-name clc-head flex-col">
-                        <p class="title">911 Carrera GTS</p>
-                        <p class="plat-text">Type 992</p>
-                    </div>
-                    <div class="clc-car-img flex-col flex-center">
-                        <img src="./assets/cars/ford_.png" alt="CAR">
-                    </div>
-                    <div class="clc-foot flex-row center-spacebet">
-                        <div class="flex-row center-spacearound">
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-regular fa-user"></i>
-                                <p>4</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-repeat"></i>
-                                <p>A</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-gauge-high"></i>
-                                <p>330KM/s</p>
-                            </div>
-                        </div>
-                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                    </div>
-                </div>
-                <div class="clc-car-container flex-col">
-                    <div class="pop-car-name clc-head flex-col">
-                        <p class="title">911 Carrera GTS</p>
-                        <p class="plat-text">Type 992</p>
-                    </div>
-                    <div class="clc-car-img flex-col flex-center">
-                        <img src="./assets/cars/kia_.png" alt="CAR">
-                    </div>
-                    <div class="clc-foot flex-row center-spacebet">
-                        <div class="flex-row center-spacearound">
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-regular fa-user"></i>
-                                <p>4</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-repeat"></i>
-                                <p>M</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-gauge-high"></i>
-                                <p>250KM/s</p>
-                            </div>
-                        </div>
-                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                    </div>
-                </div>
-                <div class="clc-car-container flex-col">
-                    <div class="pop-car-name clc-head flex-col">
-                        <p class="title">911 Carrera GTS</p>
-                        <p class="plat-text">Type 992</p>
-                    </div>
-                    <div class="clc-car-img flex-col flex-center">
-                        <img src="./assets/cars/seat_.png" alt="CAR">
-                    </div>
-                    <div class="clc-foot flex-row center-spacebet">
-                        <div class="flex-row center-spacearound">
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-regular fa-user"></i>
-                                <p>4</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-repeat"></i>
-                                <p>M</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-gauge-high"></i>
-                                <p>220KM/s</p>
-                            </div>
-                        </div>
-                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                    </div>
-                </div>
-                <div class="clc-car-container flex-col">
-                    <div class="pop-car-name clc-head flex-col">
-                        <p class="title">911 Carrera GTS</p>
-                        <p class="plat-text">Type 992</p>
-                    </div>
-                    <div class="clc-car-img flex-col flex-center">
-                        <img src="./assets/cars/kia_.png" alt="CAR">
-                    </div>
-                    <div class="clc-foot flex-row center-spacebet">
-                        <div class="flex-row center-spacearound">
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-regular fa-user"></i>
-                                <p>4</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-repeat"></i>
-                                <p>M</p>
-                            </div>
-                            <div class="clc-icon flex-row flex-center">
-                                <i class="fa-solid fa-gauge-high"></i>
-                                <p>350KM/s</p>
-                            </div>
-                        </div>
-                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="reviews flex-col flex-center" id="reviews">
-            <div class="pop-head flex-row center-spacebet">
-                <p class="title"><i class="fa-solid fa-star-half-stroke"></i> Reviews</p>
-            </div>
-            <div class="reviews-container flex-row center-start">
-                <div class="review-container flex-col">
-                    <i class="fa-solid fa-quote-right"></i>
-                    <p class="plat-text vehicle-name">Vehicle name</p>
-                    <div class="review-para flex-col">
-                        <p class="review-desc">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis est quidem debitis nostrum cupiditate cumque ullam vitae nesciunt quia ea consequuntur, officiis, quo accusamus hic, illo ab totam praesentium commodi?
-                        </p>
-                    </div>
-                    <div class="flex-row center-start" style="margin-top: auto;">
-                        <h6>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </h6>
-                    </div>
-                    <div class="review-user flex-row">
-                        <div class="profile-image image-container">
-                            <img src="./assets/images/user.jpg" alt="User">
-                        </div>
-                        <div class="flex-col center-start" style="margin-left: 10px;">
-                            <p class="user-name">User name</p>
-                            <p class="user-username">@Username</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="review-container flex-col">
-                    <i class="fa-solid fa-quote-right"></i>
-                    <p class="plat-text vehicle-name">Vehicle name</p>
-                    <div class="review-para flex-col">
-                        <p class="review-desc">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis est quidem debitis nostrum cupiditate cumque ullam vitae nesciunt quia ea consequuntur, officiis, quo accusamus hic, illo ab totam praesentium commodi?
-                        </p>
-                    </div>
-                    <div class="flex-row center-start" style="margin-top: auto;">
-                        <h6>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </h6>
-                    </div>
-                    <div class="review-user flex-row">
-                        <div class="profile-image image-container">
-                            <img src="./assets/images/user.jpg" alt="User">
-                        </div>
-                        <div class="flex-col center-start" style="margin-left: 10px;">
-                            <p class="user-name">User name</p>
-                            <p class="user-username">@Username</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="review-container flex-col">
-                    <i class="fa-solid fa-quote-right"></i>
-                    <p class="plat-text vehicle-name">Vehicle name</p>
-                    <div class="review-para flex-col">
-                        <p class="review-desc">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis est quidem debitis nostrum cupiditate cumque ullam vitae nesciunt quia ea consequuntur, officiis, quo accusamus hic, illo ab totam praesentium commodi?
-                        </p>
-                    </div>
-                    <div class="flex-row center-start" style="margin-top: auto;">
-                        <h6>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </h6>
-                    </div>
-                    <div class="review-user flex-row">
-                        <div class="profile-image image-container">
-                            <img src="./assets/images/user.jpg" alt="User">
-                        </div>
-                        <div class="flex-col center-start" style="margin-left: 10px;">
-                            <p class="user-name">User name</p>
-                            <p class="user-username">@Username</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="review-container flex-col">
-                    <i class="fa-solid fa-quote-right"></i>
-                    <p class="plat-text vehicle-name">Vehicle name</p>
-                    <div class="review-para flex-col">
-                        <p class="review-desc">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis est quidem debitis nostrum cupiditate cumque ullam vitae nesciunt quia ea consequuntur, officiis, quo accusamus hic, illo ab totam praesentium commodi?
-                        </p>
-                    </div>
-                    <div class="flex-row center-start" style="margin-top: auto;">
-                        <h6>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </h6>
-                    </div>
-                    <div class="review-user flex-row">
-                        <div class="profile-image image-container">
-                            <img src="./assets/images/user.jpg" alt="User">
-                        </div>
-                        <div class="flex-col center-start" style="margin-left: 10px;">
-                            <p class="user-name">User name</p>
-                            <p class="user-username">@Username</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="review-container flex-col">
-                    <i class="fa-solid fa-quote-right"></i>
-                    <p class="plat-text vehicle-name">Vehicle name</p>
-                    <div class="review-para flex-col">
-                        <p class="review-desc">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis est quidem debitis nostrum cupiditate cumque ullam vitae nesciunt quia ea consequuntur, officiis, quo accusamus hic, illo ab totam praesentium commodi?
-                        </p>
-                    </div>
-                    <div class="flex-row center-start" style="margin-top: auto;">
-                        <h6>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </h6>
-                    </div>
-                    <div class="review-user flex-row">
-                        <div class="profile-image image-container">
-                            <img src="./assets/images/user.jpg" alt="User">
-                        </div>
-                        <div class="flex-col center-start" style="margin-left: 10px;">
-                            <p class="user-name">User name</p>
-                            <p class="user-username">@Username</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="review-container flex-col">
-                    <i class="fa-solid fa-quote-right"></i>
-                    <p class="plat-text vehicle-name">Vehicle name</p>
-                    <div class="review-para flex-col">
-                        <p class="review-desc">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis est quidem debitis nostrum cupiditate cumque ullam vitae nesciunt quia ea consequuntur, officiis, quo accusamus hic, illo ab totam praesentium commodi?
-                        </p>
-                    </div>
-                    <div class="flex-row center-start" style="margin-top: auto;">
-                        <h6>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </h6>
-                    </div>
-                    <div class="review-user flex-row">
-                        <div class="profile-image image-container">
-                            <img src="./assets/images/user.jpg" alt="User">
-                        </div>
-                        <div class="flex-col center-start" style="margin-left: 10px;">
-                            <p class="user-name">User name</p>
-                            <p class="user-username">@Username</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="car-det-reviews">
+
         </div>
     </section>
     <script src="./js/main.js"></script>

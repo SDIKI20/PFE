@@ -78,7 +78,7 @@ let distance = content.scrollWidth /2;
 
 gsap.to(".review-container", {
     x: -distance,
-    duration: 15,
+    duration: 50,
     ease: "linear",
     repeat: -1,
     onRepeat: function() {

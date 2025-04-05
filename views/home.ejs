@@ -2282,6 +2282,11 @@
         
     </section>
     <% } %>
+    <% if (section === 'detail') { %>
+    <section class="plat-main-doc flex-col center-start" id="carDetail">
+        <h1><%= car.brand_name %></h1>
+    </section>
+    <% } %>
     <% if (section === 'recent') { %>
     <section class="plat-main-doc" id="recentDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectRecent">
@@ -2440,10 +2445,8 @@
         recent: "recent.js", 
         help: "help.js", 
         docs: "docs.js", 
+        docs: "detail.js", 
         profile: "profile.js" 
     }; %>
-    <% if (scripts[section]) { %>
-        <script src="/js/home/<%= scripts[section] %>"></script>
-    <% } %>
 </body>
 </html>

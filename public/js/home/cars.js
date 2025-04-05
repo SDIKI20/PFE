@@ -57,13 +57,18 @@ function closeFilter(){
     }, 100);
 }
 
-gsap.set(".plat-car-container", {y:0, opacity: 1});
+gsap.set(".plat-car-container", {x: 0, opacity: 1, scale: 1})
 
 gsap.from(".plat-car-container", {
-    y: -100,
-    duration: 1,
+    x: 100,
+    scale: 0.8,
+    stagger: 0.2,
     opacity: 0,
-    stagger: 0.1
+    scrollTrigger: {
+        scrub: 1,
+        start: "top bottom",
+        scroller: ".plat-cars-container"
+    }
 });
 
 document.querySelectorAll(".plat-car-image").forEach(carContainer=>{

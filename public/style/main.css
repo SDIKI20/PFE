@@ -52,6 +52,10 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+a{
+    text-decoration: none;
+}
+
 body{
     position: relative;
     width: 100vw;
@@ -473,6 +477,9 @@ p,span{
 .h-break-line{
     min-width: 2px;
     max-width: 2px;
+    height: 100%;
+    content: "";
+    margin: 0 0.5vw;
     background-color: var(--border-low);
 }
 
@@ -599,7 +606,6 @@ p,span{
     background-color: transparent;
     font-size: var(--font-med);
     cursor: pointer;
-    height: fit-content;
 }
 
 .bt-hover:hover{
@@ -609,9 +615,25 @@ p,span{
     cursor: pointer;
 }
 
-.bt-Primary{
+.bt-primary{
     color: white;
     background-color: var(--color-main);
+    padding: 0.325em 1em;
+    border-radius: 5px;
+}
+
+.bt-regular{
+    color: var(--text);
+    background-color: var(--container);
+    padding: 0.325em 1em;
+    border-radius: 5px;
+}
+
+.bt-second{
+    color: var(--txt-white);
+    background-color: var(--dark-bg);
+    padding: 0.5em 1em;
+    border-radius: 5px;
 }
 
 .gotop{

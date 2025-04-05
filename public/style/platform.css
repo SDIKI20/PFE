@@ -982,6 +982,75 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 
 /*----------------------------------------------------*/
 
+
+/*--------------------Car Section--------------------*/
+
+#carDetail{
+    padding: 1em 0;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.prev-images {
+    display: flex;
+    width: 100%;
+    max-width: 800px;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 12px;
+    margin: 0 auto;
+    gap: 8px;
+    transition: all 0.3s ease-in-out;
+    margin: 50px 0;
+}
+
+.prev-img {
+    flex-grow: 1;
+    flex-basis: 0;
+    overflow: hidden;
+    height: 100%;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: flex-grow 0.4s ease;
+}
+
+.prev-img:hover {
+    flex-grow: 4;
+}
+
+.prev-img:has(input:checked){
+    flex-grow: 4;
+}
+
+.prev-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.prev-img:hover img {
+    transform: scale(1.05);
+}
+
+.car-det-details{
+    width: 100%;
+    margin-top: 0.625em;
+    padding: 0.325em 1.25em;
+}
+
+.car-det-details .head{
+    width: 100%;
+}
+
+.car-det-name{
+    font-size: var(--font-lrg);
+    color: var(--text);
+}
+
+/*----------------------------------------------------*/
+
+
 /*--------------------Home Section--------------------*/
 
 #homeDoc{
@@ -1153,7 +1222,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     border-radius: 15px;
     margin: 0 10px;
     background-color: var(--container);
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.212);
+    box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.089);
 }
 
 .clc-car-img{

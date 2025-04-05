@@ -67,8 +67,18 @@ app.use('/api/vehicles', vehicles);
 
 app.use(flash());
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).render("p404");
+});
+
 app.get("/", (req, res) => {
     res.render("index");
+})
+
+
+app.get("/p404", (req, res) => {
+    res.render("p404");
 })
 
 app.get("/login",checkAuth, (req, res) => {
@@ -78,6 +88,30 @@ app.get("/login",checkAuth, (req, res) => {
 app.get("/signup",checkAuth, (req, res) => {
     res.render("signup")
 })
+
+app.get("/car/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const carResult = await pool.query(`
+            SELECT vehicles.*, brands.name AS brand_name, brands.logo
+            FROM vehicles
+            JOIN brands ON vehicles.brand_id = brands.id
+            WHERE vehicles.id = $1 LIMIT 1
+        `, [id]);
+
+        if (carResult.rows.length === 0) {
+            return res.status(404).render("p404");
+        }else{
+            const car = carResult.rows[0];
+            res.render("home", { car:car, user: req.user, section:"detail" });
+        }
+
+    } catch (error) {
+        console.error("Database error:", error);
+        res.status(500).render("p500");
+    }
+});
 
 app.get("/home", checkNotAuth, async (req, res) => {
     try {
@@ -114,52 +148,104 @@ app.get("/home", checkNotAuth, async (req, res) => {
 
         const vehicles = (await Promise.all(vehiclePromises)).filter(v => v !== null);
 
-        res.render("home", { user: req.user, brands: brands, reviews:reviews, vehicles: vehicles, offices: offices, section: "home" });
+        res.render("home", { 
+            user: req.user,
+            brands: brands,
+            reviews:reviews,
+            vehicles: vehicles,
+            offices: offices,
+            section: "home"
+        });
 
     } catch (error) {
         console.error("Error fetching data:", error);
-        res.status(500).send("Internal Server Error");
+        res.status(500).render("p404");
     }
 });
 
 app.get("/cars", async (req, res) => {
-    const brandsResult = await pool.query("SELECT * FROM brands ORDER BY id DESC");
-    const brands = brandsResult.rows;
-    res.render("home", { user: req.user, brands, section : "cars" });
+    try{
+        success_msg = Array.from([])
+        error_msg = Array.from([])
+        info_msg = Array.from([])
+        warning_msg = Array.from([])
+        const brandsResult = await pool.query("SELECT * FROM brands ORDER BY id DESC");
+        const brands = brandsResult.rows;
+        res.render("home", { user: req.user, brands, section : "cars" });
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
 })
 
 app.get("/orders",checkNotAuth, (req, res) => {
-    res.render("home", { user: req.user, section : "orders" });
+    try{
+        res.render("home", { user: req.user, section : "orders" });
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
 })
 
 app.get("/recent",checkNotAuth, (req, res) => {
-    res.render("home", { user: req.user, section : "recent" });
+    try{
+        res.render("home", { user: req.user, section : "recent" });
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
 })
 
 app.get("/fav",checkNotAuth, (req, res) => {
-    res.render("home", { user: req.user, section : "fav" });
+    try{
+        res.render("home", { user: req.user, section : "fav" });
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
 })
 
 app.get("/profile",checkNotAuth, (req, res) => {
-    res.render("home", { user: req.user, section : "profile" });
+    try{
+        res.render("home", { user: req.user, section : "profile" });
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
 })
 
 app.get("/docs",checkNotAuth, (req, res) => {
-    res.render("home", { user: req.user, section : "docs" });
+    try{
+        res.render("home", { user: req.user, section : "docs" });
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
 })
 
+
 app.get("/help",checkNotAuth, (req, res) => {
-    res.render("home", { user: req.user, section : "help" });
+    try{
+        res.render("home", { user: req.user, section : "help" });
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
 })
 
 app.get("/logout", (req, res, next) => {
-    req.logout((err) => {
-        if (err) {
-            return next(err);
+    try{
+        req.logout((err) => {
+            if (err) {
+                return next(err);
+            }
+            req.flash("info_msg", "You have logged out");
+            res.redirect("/login");
+        });
+    }catch(error){
+            console.error(error);
+            res.status(500).render("p404");
         }
-        req.flash("info_msg", "You have logged out");
-        res.redirect("/login");
-    });
 });
 
 const upload = multer({ storage: storage });
@@ -194,7 +280,7 @@ app.post('/reg', upload.single("image"), async (req, res) => {
 
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("Server Error");
+        res.status(500).render("p404");
     }
 });
 

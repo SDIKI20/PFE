@@ -229,29 +229,15 @@ confirm(false, "Confirm Action", "Are you sure you want to proceed?").then((resu
 });
 */
 
-async function checkAuth() {
-    
-    const response = await fetch("https://pfeserver-odaydid002s-projects.vercel.app/api/users/auth", {
-        method: "GET",
-        credentials: "include",
-    });
-
-    if (!response.ok) {
-        alert("Authentication failed, redirecting...");
-    } else {
-        const data = await response.json();
-        console.log("User authenticated:", data);
+function formatNumber(num) {
+    if (num >= 1e9) {
+      return (num / 1e9).toFixed(1).replace(/\.0$/, '') + 'b';
     }
-}
-
-// Logout Function
-async function logout (){
-    try{
-        await fetch("https://pfeserver-odaydid002s-projects.vercel.app/api/users/logout", {
-            method: "POST",
-            credentials: "include"
-        });
-        window.location.href = "login.html";
-    }catch(error){}
-
+    if (num >= 1e6) {
+      return (num / 1e6).toFixed(1).replace(/\.0$/, '') + 'm';
+    }
+    if (num >= 1e3) {
+      return (num / 1e3).toFixed(1).replace(/\.0$/, '') + 'k';
+    }
+    return num.toString();
 }

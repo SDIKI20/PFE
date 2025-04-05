@@ -37,7 +37,7 @@ CREATE TABLE users (
 	wilaya VARCHAR(30) NOT NULL,
 	city VARCHAR(30) NOT NULL,
 	zipcode VARCHAR(10) NOT NULL,
-	image VARCHAR(255) NOT NULL DEFAULT './assets/images/user.jpg',
+	image VARCHAR(255) NOT NULL DEFAULT '/assets/images/user.jpg',
 	phone VARCHAR(20) UNIQUE NOT NULL,
 	account_status BOOLEAN NOT NULL DEFAULT FALSE,
 	phone_status BOOLEAN NOT NULL DEFAULT FALSE,
@@ -68,7 +68,7 @@ CREATE TABLE user_tokens (
 CREATE TABLE brands (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL,
-    logo VARCHAR(255) NOT NULL DEFAULT 'images/brands/default_logo.png',
+    logo VARCHAR(255) NOT NULL DEFAULT '/assets/cars/default_logo.png',
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -105,10 +105,10 @@ CREATE TABLE vehicles (
   horsepower SMALLINT NOT NULL DEFAULT 0,
   engine_type VARCHAR(20) NOT NULL DEFAULT 'unknown',
   rental_type VARCHAR(2) NOT NULL DEFAULT 'h',
-  image VARCHAR(255) NOT NULL DEFAULT './assets/cars/default.png',
-  prevImage1 VARCHAR(255) NOT NULL DEFAULT './assets/cars/default_prev.png',
-  prevImage2 VARCHAR(255) NOT NULL DEFAULT './assets/cars/default_prev.png',
-  prevImage3 VARCHAR(255) NOT NULL DEFAULT './assets/cars/default_prev.png',
+  image VARCHAR(255) NOT NULL DEFAULT '/assets/cars/default.png',
+  prevImage1 VARCHAR(255) NOT NULL DEFAULT '/assets/cars/default_prev.png',
+  prevImage2 VARCHAR(255) NOT NULL DEFAULT '/assets/cars/default_prev.png',
+  prevImage3 VARCHAR(255) NOT NULL DEFAULT '/assets/cars/default_prev.png',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -343,8 +343,10 @@ INSERT INTO users (email, username, password, fname, lname, address, wilaya, cit
 ('employee1@rental.com', 'emp1', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Karim', 'Benzema', '456 Oak Ave', 'Oran', 'Oran', '31000', '+213551123456', TRUE, TRUE, '1985-05-20', 'Employe'),
 ('client1@example.com', 'client1', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Mohamed', 'Zidane', '789 Pine Rd', 'Constantine', 'Constantine', '25000', '+213552123456', TRUE, TRUE, '1990-08-10', 'Client'),
 ('client2@example.com', 'client2', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Ali', 'Messi', '321 Elm St', 'Annaba', 'Annaba', '23000', '+213553123456', TRUE, FALSE, '1992-11-25', 'Client'),
-('client3@example.com', 'client3', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Fatima', 'Ronaldo', '654 Maple Ave', 'Tizi Ouzou', 'Tizi Ouzou', '15000', '+213554123456', FALSE, FALSE, '1995-03-30', 'Client'),
-('odaydid002@gmail.com', 'odaydid002', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Oudai', 'Oulhadj', '110 Logement', 'El Menia', 'El Menia', '58001', '+213553728440', FALSE, FALSE, '2002-04-29', 'Client');
+('client3@example.com', 'client3', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Fatima', 'Ronaldo', '654 Maple Ave', 'Tizi Ouzou', 'Tizi Ouzou', '15000', '+213554123456', FALSE, FALSE, '1995-03-30', 'Client');
+
+INSERT INTO users (email, username, password, fname, lname, address, wilaya, city, zipcode, phone, account_status, phone_status, birthdate, role, image) VALUES
+('odaydid002@gmail.com', 'odaydid002', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Oudai', 'Oulhadj', '110 Logement', 'El Menia', 'El Menia', '58001', '+213553728440', FALSE, FALSE, '2002-04-29', 'Client', 'https://res.cloudinary.com/dnzuqdajo/image/upload/v1743722872/profile_images/image-1743722869237.png');
 
 -- Insert user documents
 INSERT INTO users_documents (user_id, image_front, image_back) VALUES
@@ -448,7 +450,12 @@ INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, total_price, sta
 
 -- Insert reviews
 INSERT INTO reviews (user_id, vehicle_id, rental_id, stars, review) VALUES
-(3, 1, 1, 5, 'Excellent car, very comfortable and fuel efficient. Would definitely rent again!'),
-(3, 3, 2, 4, 'Great SUV with lots of power. Only complaint is the fuel consumption in city driving.'),
-(4, 2, 3, 5, 'Luxury at its best. The Mercedes was perfect for our business trip.'),
-(4, 5, 4, 3, 'Good basic car for city driving, but lacks power on highways.');
+(6, 1, 1, 1, 'Excellent car, very comfortable and fuel efficient. Would definitely rent again!'),
+(3, 2, 2, 2, 'Great SUV with lots of power. Only complaint is the fuel consumption in city driving.'),
+(4, 3, 3, 3, 'Luxury at its best. The Mercedes was perfect for our business trip.'),
+(6, 4, 4, 5, 'Good basic car for city driving, but lacks power on highways.'),
+(4, 5, 4, 5, 'Good basic car for city driving, but lacks power on highways.'),
+(4, 4, 4, 4, 'Good basic car for city driving, but lacks power on highways.'),
+(6, 3, 4, 3, 'Good basic car for city driving, but lacks power on highways.'),
+(4, 2, 4, 2, 'Good basic car for city driving, but lacks power on highways.'),
+(4, 1, 4, 1, 'Good basic car for city driving, but lacks power on highways.');
