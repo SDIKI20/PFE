@@ -20,6 +20,20 @@
     <title>Platform</title>
 </head>
 <body class="flex-row" id="platContent">
+     
+    <%function formatNumber(num) {
+        if (num >= 1e9) {
+        return (num / 1e9).toFixed(1).replace(/\.0$/, '') + 'b';
+        }
+        if (num >= 1e6) {
+        return (num / 1e6).toFixed(1).replace(/\.0$/, '') + 'm';
+        }
+        if (num >= 1e3) {
+        return (num / 1e3).toFixed(1).replace(/\.0$/, '') + 'k';
+        }
+        return num.toString();
+    }%>
+    
     <% if (section === 'docs') { %>
         <div class="overtop-conf flex-row flex-center" id="upDocsContainer">
             <div class="nid-upload-container flex-col">
@@ -2283,9 +2297,205 @@
     </section>
     <% } %>
     <% if (section === 'detail') { %>
-    <section class="plat-main-doc flex-col center-start" id="carDetail">
-        <h1><%= car.brand_name %></h1>
-    </section>
+        <section class="plat-main-doc flex-col center-start" id="carDetail">
+            <div class="prev-images flex-row flex-center">
+                <label class="flex-row flex-center prev-img">
+                    <input type="radio" name="same-check" hidden>
+                    <img src="<%= car.previmage1 %>" alt="Preview">
+                </label>
+                <label class="flex-row flex-center prev-img">
+                    <input type="radio" name="same-check" hidden>
+                    <img src="<%= car.previmage2 %>" alt="Preview">
+                </label>
+                <label class="flex-row flex-center prev-img">
+                    <input type="radio" name="same-check" hidden>
+                    <img src="<%= car.previmage3 %>" alt="Preview">
+                </label>
+                <label class="flex-row flex-center prev-img">
+                    <input type="radio" name="same-check" checked hidden>
+                    <img src="<%= car.image %>" alt="Preview">
+                </label>
+            </div>
+            <div class="car-det-details">
+                <div class="head flex-col start-center">
+                    <h1 class="car-det-name"><%= car.brand_name %> <%= car.model %> <%= car.fab_year%></h1>
+                    <div class="flex-row center-spacebet" style="width: 100%;">
+                        <div class="s-details flex-row center-start" style="height: 1.5em;">
+                            <div class="flex-row det-brand center-start">
+                                <img src="<%= car.logo %>" width="25" style="margin-right: 5px;" alt="Logo" class="brand-logo">
+                                <p class="para-sml"><%= car.brand_name %></p>
+                            </div>
+                            <div class="h-break-line" style="height: 50%;"></div>
+                            <p class="para-sml flex-row center-start">
+                                <i class="fa-solid fa-location-dot" style="color: var(--color-main); margin-right:5px;"></i>
+                                <span style="font-size: var(--font-sml);"><%= car.wilaya %>, <%= car.city %>, <%= car.address %></span>
+                            </p>
+                            <div class="h-break-line" style="height: 50%;"></div>
+                            <div class="flex-row center-start">
+                                <i class="fa-solid fa-star"></i>
+                                <span class="para-sml"><%= formatNumber(car.stars) %> </span>
+                                <span class="para-sml plat-text">(<%= formatNumber(car.reviews) %> reviews)</span>
+                            </div>
+                        </div>
+                        <div class="fav-share">
+                            <button class="bt bt-hover bt-regular"><i class="fa-regular fa-heart"></i></button>
+                            <button class="bt bt-hover bt-regular"><i class="fa-solid fa-share" style="margin-right: 5px;"></i> Share this car</button>
+                        </div>
+                    </div>
+                </div>       
+            </div>
+            <div class="car-rent-details flex-row flex-wrap">
+                <div class="car-det-det-info">
+                    <div class="det-features">
+                        <p class="title-lrg" style="font-weight: bolder;">Features</p>
+                    </div>
+                </div>
+                <div class="car-det-rentprice">
+                    <p class="title-lrg" style="font-weight: bolder;">Book information</p>
+                    <p class="para-sml max-dur">Duration maximum to rent this car is <strong>1 mounth</strong>.</p>
+                    <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
+                    <div class="pickinfo flex-col">
+                        <h3>Pickup Location</h3>
+                        <div class="flex-row holder" style="position: relative;">
+                            <i class="fa-solid fa-location-dot float-icon"></i>
+                            <select class="para-sml plat-text">
+                                <option value="myLoc">My Location</option>
+                                <option value="loc1"><%= car.wilaya %>, <%= car.city %>, <%= car.address %></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="pickinfo flex-col">
+                        <h3>Pickup Date</h3>
+                        <div class="flex-row center-start holder">
+                            <input type="date" hidden>
+                            <p class="para-mid">Sat 4 Apr 2025, 21:00</p>
+                            <i class="fa-regular fa-calendar bt-hover"></i>
+                        </div>
+                    </div>
+                    <div class="pickinfo flex-col">
+                        <h3>Return Date</h3>
+                        <div class="flex-row center-spacebet holder">
+                            <input type="time" hidden>
+                            <p class="para-mid">Sat 4 Apr 2025, 21:00</p>
+                            <i class="fa-regular fa-calendar bt-hover"></i>
+                        </div>
+                    </div>
+                    <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
+                    <div class="det-total">
+                        <div class="flex-row center-spacebet" style="margin: 0.5rem 0;">
+                            <p class="para-sml plat-text">Delvery fee</p>
+                            <p class="plat-car-price">800<span class="currence">DZD</span></p>
+                        </div>
+                        <div class="flex-row center-spacebet" style="margin: 0.5rem 0;">
+                            <p class="para-sml plat-text">Total Price</p>
+                            <p class="plat-car-price"><i class="fa-solid fa-tag" style="margin-right: 5px;"></i> 800<span class="currence">DZD</span></p>
+                        </div>
+                    </div>
+                    <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
+                    <div class="foot flex-col center-start">
+                        <button id="rentProcessBut" class="bt bt-hover">Continue</button>
+                        <a class="report-car bt-hover"><i class="fa-solid fa-flag" style="color: rgb(211, 69, 69); margin-right: 5px;"></i> Report this car</a>
+                    </div>
+                </div>
+            </div>
+            <div class="car-det-reviews flex-col">
+                <div class="head flex-row center-spacebet">
+                    <h1 class="title-lrg">Reviews</h1>
+                    <p class="rev-period"><%= car.created_at.toString().slice(0, 15) %> - <%= new Date().toDateString() %></p>
+                </div>
+                <div class="flex-row center-spacebet rev-statics">
+                    <div class="flex-col center-start rev-total">
+                        <p class="para-mid">Total Reviews</p>
+                        <p class="rev-total-reviews"><%= formatNumber(car.reviews) %></p>
+                    </div>
+                    <div class="h-break-line" style="width: 3px; height: 60%;"></div>
+                    <div class="flex-col center-start rev-avrg">
+                        <p class="para-mid">Average Rating</p>
+                        <div class="rev-total-reviews flex-row center-start">
+                            <span><%= formatNumber(car.stars) %></span>
+                            <h6 class="clp" 
+                                style="
+                                    margin: 0 0.7em;
+                                    background: linear-gradient(90deg, yellow <%= (car.stars * 100) / 5 %>%,var(--text) 0%);
+                                    -webkit-background-clip: text;
+                                    -webkit-text-fill-color: transparent;
+                                    background-clip: text;
+                                "
+                            >
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            </h6>
+                        </div>
+                    </div>                    
+                    <div class="h-break-line" style="width: 3px; height: 60%;"></div>
+                    <div class="flex-col center-start rev-strs">
+                        <ul class="flex-col rev-stars-list" style="width: 80%;">
+                            <% 
+                            function progressBar(s, smax) {
+                                const percent = (smax > 0) ? (s * 90) / smax : 0;
+                                return percent === 0 ? 5 : percent; // avoid invisible bar if 0
+                            }
+                        
+                            const starMax = Math.max(car.s1, car.s2, car.s3, car.s4, car.s5);
+                            %>
+                        
+                            <% [5, 4, 3, 2, 1].forEach(star => { %>
+                                <li class="flex-row center-start">
+                                    <div class="flex-row center-start">
+                                        <i class="fa-solid fa-circle-notch"></i>
+                                        <span><%= star %></span>
+                                    </div>
+                                    <div class="flex-row center-start">
+                                        <div class="rev-stars-progressbar" style="background-color: 
+                                            <%= star === 5 ? 'rgb(58, 168, 117)' :
+                                                star === 4 ? 'rgb(172, 96, 202)' :
+                                                star === 3 ? 'rgb(240, 134, 73)' :
+                                                star === 2 ? 'rgb(64, 128, 211)' :
+                                                             'rgb(194, 67, 67)' %>;
+                                            width: <%= progressBar(car['s' + star], starMax) %>%;"></div>
+                                        <span><%= formatNumber(car['s' + star]) %></span>
+                                    </div>
+                                </li>
+                            <% }) %>
+                        </ul>             
+                    </div>
+                </div>
+                <div class="reviews-container flex-col">
+                    <% reviews.forEach(review => { %>
+                        <div class="reveiw-container">
+                            <div class="rev-profile flex-row">
+                                <div class="rev-profile-img flex-row flex-center image-container">
+                                    <img src="<%= review.image %>" alt="Profile">
+                                </div>
+                                <div class="rev-profile-info flex-col">
+                                    <p class="para-mid"><%= review.fname %> <%= review.lname %></p>
+                                    <span class="username">@<%= review.username %></span>
+                                    <div class="flex-row center-start para-sml flex-wrap">
+                                        <span class="plat-text">Total Spend: </span>
+                                        <p class="plat-car-price" style="margin-left: 5px;"><%= review.total_price %><span class="currence">DZD</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rev-review-det flex-col">
+                                <div class="flex-row center-start">
+                                    <h6 style="margin-right: 0.7em;">
+                                        <% for( let i = 0; i < 5; i++ ) { %>
+                                            <i class="fa-solid fa-star <%= i< review.stars?'active-start':'inactive-start' %>"></i>
+                                        <% } %>
+                                        
+                                    </h6>
+                                    <p class="para-sml plat-text"><%= review.created_at.toString().slice(0, 24) %></p>
+                                </div>
+                                <p class="para-sml" style="margin-top: 5px;"><%= review.review %></p>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </section>
     <% } %>
     <% if (section === 'recent') { %>
     <section class="plat-main-doc" id="recentDoc">
@@ -2448,5 +2658,8 @@
         docs: "detail.js", 
         profile: "profile.js" 
     }; %>
+    <% if (scripts[section]) { %>
+        <script src="/js/home/<%= scripts[section] %>"></script>
+    <% } %>
 </body>
 </html>

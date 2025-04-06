@@ -146,6 +146,17 @@ CREATE TABLE city (
   wilaya_id INT NOT NULL REFERENCES wilaya(id) ON DELETE CASCADE
 );
 
+CREATE TABLE features (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE vehicle_features (
+  vehicle_id INT NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE,
+  feature_id INT NOT NULL REFERENCES features(id) ON DELETE CASCADE,
+  PRIMARY KEY (vehicle_id, feature_id)
+);
+
 -- Indexes--------------------------------------------------------------
 CREATE INDEX idx_reviews_vehicle ON reviews(vehicle_id);
 CREATE INDEX idx_reviews_user ON reviews(user_id);
@@ -158,6 +169,9 @@ CREATE INDEX idx_vehicles_location ON vehicles(location);
 CREATE INDEX idx_vehicles_engine_type ON vehicles(engine_type);
 CREATE INDEX idx_vehicles_speed ON vehicles(speed);
 CREATE INDEX idx_vehicles_horsepower ON vehicles(horsepower);
+CREATE INDEX idx_vehicle_features_vehicle_id ON vehicle_features(vehicle_id);
+CREATE INDEX idx_vehicle_features_feature_id ON vehicle_features(feature_id);
+CREATE INDEX idx_vehicle_features_combo ON vehicle_features(vehicle_id, feature_id);
 
 --Triggers--------------------------------------------------------
 
@@ -356,16 +370,16 @@ INSERT INTO users_documents (user_id, image_front, image_back) VALUES
 
 -- Insert car brands
 INSERT INTO brands (name, logo) VALUES
-('Volkswagen', './assets/cars/volkswagen.png'),
-('Seat', './assets/cars/seat.png'),
-('BMW', './assets/cars/bmw.png'),
-('Audi', './assets/cars/audi.png'),
-('Skoda', './assets/cars/skoda.png'),
-('Peugeot', './assets/cars/peugeot.png'),
-('Hyundai', './assets/cars/hyundai.png'),
-('Kia', './assets/cars/kia.png'),
-('Ford', './assets/cars/ford.png'),
-('Chevrolet', './assets/cars/chevrolet.png');
+('Volkswagen', '/assets/cars/volkswagen.png'),
+('Seat', '/assets/cars/seat.png'),
+('BMW', '/assets/cars/bmw.png'),
+('Audi', '/assets/cars/audi.png'),
+('Skoda', '/assets/cars/skoda.png'),
+('Peugeot', '/assets/cars/peugeot.png'),
+('Hyundai', '/assets/cars/hyundai.png'),
+('Kia', '/assets/cars/kia.png'),
+('Ford', '/assets/cars/ford.png'),
+('Chevrolet', '/assets/cars/chevrolet.png');
 
 -- Insert office locations
 INSERT INTO office (country, wilaya, city, address, open_time, close_time, latitude, longitude) VALUES
@@ -459,3 +473,12 @@ INSERT INTO reviews (user_id, vehicle_id, rental_id, stars, review) VALUES
 (6, 3, 4, 3, 'Good basic car for city driving, but lacks power on highways.'),
 (4, 2, 4, 2, 'Good basic car for city driving, but lacks power on highways.'),
 (4, 1, 4, 1, 'Good basic car for city driving, but lacks power on highways.');
+
+INSERT INTO features (name) VALUES
+('GPS'),
+('Air Conditioner'),
+('Bluetooth'),
+('Heated Seats'),
+('Sunroof'),
+('Backup Camera'),
+('Cruise Control');

@@ -94,22 +94,64 @@ app.get("/car/:id", async (req, res) => {
         const { id } = req.params;
 
         const carResult = await pool.query(`
-            SELECT vehicles.*, brands.name AS brand_name, brands.logo
-            FROM vehicles
-            JOIN brands ON vehicles.brand_id = brands.id
-            WHERE vehicles.id = $1 LIMIT 1
+            SELECT 
+                vehicles.*, 
+                brands.name AS brand_name, 
+                brands.logo, 
+                office.country, 
+                office.wilaya,  
+                office.address, 
+                office.city,
+                ROUND(COALESCE(AVG(reviews.stars), 0), 1) AS stars,
+                COUNT(DISTINCT reviews.id) AS reviews,
+                COUNT(DISTINCT rentals.id) AS orders,
+
+                -- Count of each star rating
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 1) AS s1,
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 2) AS s2,
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 3) AS s3,
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 4) AS s4,
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 5) AS s5
+
+            FROM 
+                vehicles
+            JOIN 
+                brands ON vehicles.brand_id = brands.id
+            JOIN 
+                office ON vehicles.location = office.id
+            LEFT JOIN 
+                reviews ON vehicles.id = reviews.vehicle_id
+            LEFT JOIN 
+                rentals ON vehicles.id = rentals.vehicle_id
+            WHERE 
+                vehicles.id = $1
+            GROUP BY 
+                vehicles.id, brands.id, office.id
+            LIMIT 1;
         `, [id]);
+
+        const carReviews = await pool.query(`
+            SELECT 
+                reviews.*,
+                users.id AS user_id, users.fname, users.lname, users.username, users.image,
+                rentals.id AS rental_id, rentals.total_price
+            FROM reviews
+            JOIN users ON reviews.user_id = users.id
+            JOIN rentals ON reviews.rental_id = rentals.id
+            WHERE reviews.vehicle_id = $1
+        `, [id])
 
         if (carResult.rows.length === 0) {
             return res.status(404).render("p404");
         }else{
             const car = carResult.rows[0];
-            res.render("home", { car:car, user: req.user, section:"detail" });
+            const reviews = carReviews.rows;
+            res.render("home", { car:car, reviews:reviews, user: req.user, section:"detail" });
         }
 
     } catch (error) {
         console.error("Database error:", error);
-        res.status(500).render("p500");
+        res.status(500).render("p404");
     }
 });
 

@@ -86,14 +86,32 @@
     </nav>
     <img class="map-img" src="./assets/images/map.png" alt="Maps">
     <section class="plat-main-doc flex-col center-start" id="carDetail">
+        <div class="prev-images flex-row flex-center">
+            <label class="flex-row flex-center prev-img">
+                <input type="radio" name="same-check" hidden>
+                <img src="./assets/car/ibiza1.jpg" alt="Preview">
+            </label>
+            <label class="flex-row flex-center prev-img">
+                <input type="radio" name="same-check" hidden>
+                <img src="./assets/car/ibiza2.jpg" alt="Preview">
+            </label>
+            <label class="flex-row flex-center prev-img">
+                <input type="radio" name="same-check" hidden>
+                <img src="./assets/car/ibiza3.jpg" alt="Preview">
+            </label>
+            <label class="flex-row flex-center prev-img">
+                <input type="radio" name="same-check" checked hidden>
+                <img src="./assets/cars/seat_.png" alt="Preview">
+            </label>
+        </div>
         <div class="car-det-details">
             <div class="head flex-col start-center">
                 <h1 class="car-det-name">Seat Ibiza 2022</h1>
                 <div class="flex-row center-spacebet" style="width: 100%;">
                     <div class="s-details flex-row center-start" style="height: 1.5em;">
                         <div class="flex-row det-brand center-start">
-                            <img src="./assets/cars/bmw.png" width="25" style="margin-right: 5px;" alt="Logo" class="brand-logo">
-                            <p class="para-sml">BMW</p>
+                            <img src="./assets/cars/seat.png" width="25" style="margin-right: 5px;" alt="Logo" class="brand-logo">
+                            <p class="para-sml">Seat</p>
                         </div>
                         <div class="h-break-line" style="height: 50%;"></div>
                         <p class="para-sml flex-row center-start">
@@ -114,37 +132,196 @@
                 </div>
             </div>       
         </div>
-        <div class="prev-images flex-row flex-center">
-            <label class="flex-row flex-center prev-img">
-                <input type="radio" name="same-check" checked hidden>
-                <img src="./assets/car/ibiza2.jpg" alt="Preview">
-            </label>
-            <label class="flex-row flex-center prev-img">
-                <input type="radio" name="same-check" hidden>
-                <img src="./assets/car/ibiza1.jpg" alt="Preview">
-            </label>
-            <label class="flex-row flex-center prev-img">
-                <input type="radio" name="same-check" hidden>
-                <img src="./assets/car/ibiza3.jpg" alt="Preview">
-            </label>
-        </div>
-        <div class="car-rent-details">
-            <div class="car-det-info"></div>
+        <div class="car-rent-details flex-row flex-wrap">
+            <div class="car-det-det-info">
+                <div class="det-features">
+                    <p class="para-mid" style="font-weight: bolder;">Features</p>
+                </div>
+            </div>
             <div class="car-det-rentprice">
-                <p class="para-mid">Book information</p>
+                <p class="para-mid" style="font-weight: bolder;">Book information</p>
                 <p class="para-sml max-dur">Duration maximum to rent this car is <strong>1 mounth</strong>.</p>
-                <div class="break-line" style="height: 3px;"></div>
+                <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
                 <div class="pickinfo flex-col">
-                    <p class="title-sml">Pickup Date</p>
-                    <div class="flex-row center-spacebet">
-                        <input type="datetime-local">
-                        <i class="fa-regular fa-calendar"></i>
+                    <h3>Pickup Location</h3>
+                    <div class="flex-row holder" style="position: relative;">
+                        <i class="fa-solid fa-location-dot float-icon"></i>
+                        <select>
+                            <option value="myLoc">My Location</option>
+                            <option value="loc1">Ghardaia, Ghardaia</option>
+                        </select>
                     </div>
+                </div>
+                <div class="pickinfo flex-col">
+                    <h3>Pickup Date</h3>
+                    <div class="flex-row center-start holder">
+                        <input type="date" hidden>
+                        <p class="para-mid">Sat 4 Apr 2025, 21:00</p>
+                        <i class="fa-regular fa-calendar bt-hover"></i>
+                    </div>
+                </div>
+                <div class="pickinfo flex-col">
+                    <h3>Return Date</h3>
+                    <div class="flex-row center-spacebet holder">
+                        <input type="time" hidden>
+                        <p class="para-mid">Sat 4 Apr 2025, 21:00</p>
+                        <i class="fa-regular fa-calendar bt-hover"></i>
+                    </div>
+                </div>
+                <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
+                <div class="det-total">
+                    <div class="flex-row center-spacebet" style="margin: 0.5rem 0;">
+                        <p class="para-sml plat-text">Delvery fee</p>
+                        <p class="plat-car-price">800<span class="currence">DZD</span></p>
+                    </div>
+                    <div class="flex-row center-spacebet" style="margin: 0.5rem 0;">
+                        <p class="para-sml plat-text">Total Price</p>
+                        <p class="plat-car-price"><i class="fa-solid fa-tag" style="margin-right: 5px;"></i> 800<span class="currence">DZD</span></p>
+                    </div>
+                </div>
+                <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
+                <div class="foot flex-col center-start">
+                    <button id="rentProcessBut" class="bt bt-hover">Continue</button>
+                    <a class="report-car bt-hover"><i class="fa-solid fa-flag" style="color: rgb(211, 69, 69); margin-right: 5px;"></i> Report this car</a>
                 </div>
             </div>
         </div>
-        <div class="car-det-reviews">
-
+        <div class="car-det-reviews flex-col">
+            <div class="head flex-row center-spacebet">
+                <h1 class="title-lrg">Reviews</h1>
+                <p class="rev-period">March 2021 - February 2022</p>
+            </div>
+            <div class="flex-row center-spacebet rev-statics">
+                <div class="flex-col center-start rev-total">
+                    <p class="para-med">Total Reviews</p>
+                    <p class="rev-total-reviews">10.0K</p>
+                </div>
+                <div class="h-break-line" style="width: 3px; height: 60%;"></div>
+                <div class="flex-col center-start rev-avrg">
+                    <p class="para-med">Average Rating</p>
+                    <div class="rev-total-reviews flex-row center-start">
+                        <span>4.0 </span>
+                        <h6 class="clp" style="margin: 0 0.7em;">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </h6>
+                    </div>
+                </div>
+                <div class="h-break-line" style="width: 3px; height: 60%;"></div>
+                <div class="flex-col center-start rev-strs">
+                    <ul class="flex-col rev-stars-list" style="width: 80%;">
+                        <li class="flex-row center-start">
+                            <div class="flex-row center-start">
+                                <i class="fa-solid fa-circle-notch"></i>
+                                <span>5</span>
+                            </div>
+                            <div class="flex-row center-start">
+                                <div class="rev-stars-progressbar" style="background-color: rgb(58, 168, 117); width:20%;"></div>
+                                <span>1000</span>
+                            </div>
+                        </li>
+                        <li class="flex-row center-start">
+                            <div class="flex-row center-start">
+                                <i class="fa-solid fa-circle-notch"></i>
+                                <span>4</span>
+                            </div>
+                            <div class="flex-row center-start">
+                                <div class="rev-stars-progressbar" style="background-color: rgb(172, 96, 202); width: 60%;"></div>
+                                <span>11k</span>
+                            </div>
+                        </li>
+                        <li class="flex-row center-start">
+                            <div class="flex-row center-start">
+                                <i class="fa-solid fa-circle-notch"></i>
+                                <span>3</span>
+                            </div>
+                            <div class="flex-row center-start">
+                                <div class="rev-stars-progressbar" style="background-color: rgb(240, 134, 73); width: 90%;"></div>
+                                <span>22.0k</span>
+                            </div>
+                        </li>
+                        <li class="flex-row center-start">
+                            <div class="flex-row center-start">
+                                <i class="fa-solid fa-circle-notch"></i>
+                                <span>2</span>
+                            </div>
+                            <div class="flex-row center-start">
+                                <div class="rev-stars-progressbar" style="background-color: rgb(64, 128, 211); width: 20%;"></div>
+                                <span>10</span>
+                            </div>
+                        </li>
+                        <li class="flex-row center-start">
+                            <div class="flex-row center-start">
+                                <i class="fa-solid fa-circle-notch"></i>
+                                <span>1</span>
+                            </div>
+                            <div class="flex-row center-start">
+                                <div class="rev-stars-progressbar" style="background-color: rgb(194, 67, 67); width: 5%;"></div>
+                                <span>0</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="reviews-container flex-col">
+                <div class="reveiw-container">
+                    <div class="rev-profile flex-row">
+                        <div class="rev-profile-img flex-row flex-center image-container">
+                            <img src="./assets/images/user.jpg" alt="Profile">
+                        </div>
+                        <div class="rev-profile-info flex-col">
+                            <p class="title-mid">Oudai Oulhadj</p>
+                            <div class="flex-row center-start para-sml">
+                                <span class="plat-text">Total Spend: </span>
+                                <p class="plat-car-price" style="margin-left: 5px;">800<span class="currence">DZD</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rev-review-det flex-col">
+                        <div class="flex-row center-start">
+                            <h6 class="clp" style="margin-right: 0.7em;">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </h6>
+                            <p class="para-sml plat-text">04-04-2025</p>
+                        </div>
+                        <p class="para-sml" style="margin-top: 5px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet iure dolorum earum ipsam. Fuga iusto exercitationem ex sed perferendis corrupti labore eaque hic odit voluptatem nulla, eum quis, fugiat aperiam! Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui dignissimos voluptate ducimus asperiores ad delectus deserunt esse. Autem cum eius consequatur et, iste commodi assumenda incidunt nulla, maiores aliquam perferendis.</p>
+                    </div>
+                </div>
+                <div class="reveiw-container">
+                    <div class="rev-profile flex-row">
+                        <div class="rev-profile-img flex-row flex-center image-container">
+                            <img src="./assets/images/user.jpg" alt="Profile">
+                        </div>
+                        <div class="rev-profile-info flex-col">
+                            <p class="title-mid">Oudai Oulhadj</p>
+                            <div class="flex-row center-start para-sml">
+                                <span class="plat-text">Total Spend: </span>
+                                <p class="plat-car-price" style="margin-left: 5px;">800<span class="currence">DZD</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rev-review-det flex-col">
+                        <div class="flex-row center-start">
+                            <h6 class="clp" style="margin-right: 0.7em;">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </h6>
+                            <p class="para-sml plat-text">04-04-2025</p>
+                        </div>
+                        <p class="para-sml" style="margin-top: 5px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet iure dolorum earum ipsam. Fuga iusto exercitationem ex sed perferendis corrupti labore eaque hic odit voluptatem nulla, eum quis, fugiat aperiam! Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui dignissimos voluptate ducimus asperiores ad delectus deserunt esse. Autem cum eius consequatur et, iste commodi assumenda incidunt nulla, maiores aliquam perferendis.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <script src="./js/main.js"></script>
