@@ -109,7 +109,7 @@
             <a href="/profile" data-section="profile" class="plat-nav-element <%= section==="profile"?"plat-nav-selected":"" %></a> flex-row flex-center" title="Profile">
                 <label for="sectProfile">
                     <div class="plat-profile">
-                        <img src="<%= user?user.image:"assets/images/user.jpg"%>" alt="Profile" style="width: 100%;">
+                        <img src="<%= user?user.image:"/assets/images/user.jpg"%>" alt="Profile" style="width: 100%;">
                     </div>
                 </label>
             </a>
@@ -139,13 +139,13 @@
             </div>
         </a>
     </nav>
-    <img class="map-img" src="./assets/images/map.png" alt="Maps">
+    <img class="map-img" src="/assets/images/map.png" alt="Maps">
     <% if (section === 'cars') { %>
     <section class="plat-main-doc" id="mainDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectMain">
         <div class="plat-user-loc flex-row center-start">
             <div class="logo4p flex-col flex-center" style="margin-right: auto;">
-                <img src="../assets/logo.png" alt="">
+                <a href="/"><img src="../assets/logo.png" alt=""></a>
             </div>
             <div class="today-date flex-row center-start" id="todayDate">
                 <i class="fa-regular fa-clock tm-icn"></i>
@@ -179,9 +179,11 @@
                     </script>
                 </p>
             </div>
-            <div class="plat-user-profile">
-                <img src="<%= user?user.image:"assets/images/user.jpg"%>" alt="Use">
-            </div>
+            <a href="/profile">
+                <div class="plat-user-profile">
+                    <img src="<%= user?user.image:"/assets/images/user.jpg"%>" alt="Use">
+                </div>
+            </a>
         </div>
         <div class="plat-filter-sec flex-col center-start" id="filterSec">
             <header class="plat-filter-head flex-col center-start">
@@ -1562,80 +1564,8 @@
                     <p class="car-inf-name">EcoBlue 120 Zetec</p>
                     <p class="car-inf-price">750<span class="currence">DZD</span><span class="price-tag">/hour</span></p>
                 </div>
-                <div class="car-det-info">
-                    <ul class="car-det-info-head flex-row center-spacebet">
-                        <li><label class="bt-hover" data-target="rentDetails">Rent details<input type="radio" name="nav-rad" hidden></label></li>
-                        <li><label class="bt-hover" data-target="vehInfo">Location<input type="radio" name="nav-rad" hidden></label></li>
-                        <li><label class="bt-hover" data-target="specs">Specifications<input type="radio" name="nav-rad" hidden checked></label></li>
-                        <li><label class="bt-hover" data-target="stats">Statistics <input type="radio" name="nav-rad" hidden></label></li>
-                        <li><label class="bt-hover" data-target="dcds">Essues <input type="radio" name="nav-rad" hidden></label></li>
-                    </ul>     
+                <div class="car-det-info"> 
                     <div class="car-det-bod">
-                        <div class="car-det-sec rent-detailsec flex-col">
-                            <input type="radio" class="displayRad" name="sec-rad" id="rentDetails" hidden>
-                            <div class="flex-row" style="width: 100%;">
-                                <div class="flex-col" style="width: 50%;">
-                                    <div class="flex-col" style="width: 100%;">
-                                        <label class="para-sml">PICK-UP DATE & TIME</label>
-                                        <div class="input-holder flex-row" style="width: 95%;">
-                                            <i class="fa-regular fa-calendar"></i>
-                                            <input type="datetime-local" class="dtlocal" id="pickdate">
-                                        </div>
-                                    </div>
-                                    <div class="flex-col" style="width: 100%;">
-                                        <label class="para-sml">DROP-OFF DATE & TIME</label>
-                                        <div class="input-holder flex-row" style="width: 95%;">
-                                            <i class="fa-regular fa-calendar-check"></i>
-                                            <input type="datetime-local" class="dtlocal" id="dropdate">
-                                        </div>
-                                    </div>
-                                    <div class="flex-row center-spacebet" style="margin: 10px 0; padding-right: 10px;">
-                                        <label class="para-sml">Extra time</label>
-                                        <label class="switch">
-                                            <input id="stch" type="checkbox" hidden>
-                                            <span class="slider"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="flex-col" style="width: 50%;">
-                                    <div class="flex-row center-spacebet">
-                                        <label class="para-sml">INSURANCE</label>
-                                        <p class="rent-ins">750<span class="currence">DZD</span></p>
-                                    </div>
-                                    <div class="flex-col insur">
-                                        <label class="radio-holder bt-hover">
-                                            <input type="radio" id="personeA" name="radio-ins" value="incNo" checked/>
-                                            <p class="para-sml flex-row center-spacebet">No insurance<span style="color: var(--text-low);">0 DZD</span></p>
-                                        </label>
-                                        <label class="radio-holder bt-hover">
-                                            <input type="radio" id="persone2" name="radio-ins" value="incVip"/>
-                                            <p class="para-sml flex-row center-spacebet">Vehicle protection<span style="color: var(--text-low);">550 DZD</span></p>
-                                        </label>
-                                        <label class="radio-holder bt-hover">
-                                            <input type="radio" id="persone4" name="radio-ins" value="inc3p"/>
-                                            <p class="para-sml flex-row center-spacebet">3rd party liability<span style="color: var(--text-low);">900 DZD</span></p>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex-row center-end" style="width: 100%; margin-top: auto;">
-                                <div class="promo flex-col" style="width: 50%;">
-                                    <label class="para-sml">PROMO CODE</label>
-                                    <div class="input-holder flex-row" style="width: 90%;">
-                                        <i class="fa-solid fa-receipt"></i>                               
-                                        <input type="text" id="promoCode" id="codePromo" placeholder="Enter your code">
-                                     </div>
-                                </div>
-                                <div class="flex-row center-spacebet" style="width: 50%; padding: 10px;">
-                                    <p class="para-mid">Total Price</p>
-                                    <p class="car-inf-price" style="font-size: var(--font-lrg);" id="totalPrice">750<span class="currence">DZD</span></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="car-det-sec flex-col flex-center">
-                            <input type="radio" class="displayRad" name="sec-rad" id="vehInfo" hidden>
-                            <div class="cord-map" id="cordMap"></div>
-                        </div>
                         <div class="car-det-sec flex-col">
                             <input type="radio" class="displayRad" name="sec-rad" id="specs" hidden checked>
                             <div class="flex-row car-rate-stars center-spacebet">
@@ -1709,12 +1639,6 @@
                                 <button class="exploare-but bt bt-hover" title="See more about this vehicle"><i class="fa-solid fa-circle-info"></i> More About Vehicle</button>
                             </div>                  
                          </div>
-                        <div class="car-det-sec">
-                            <input type="radio" class="displayRad" name="sec-rad" id="stats" hidden>
-                        </div>
-                        <div class="car-det-sec">
-                            <input type="radio" class="displayRad" name="sec-rad" id="dcds" hidden>
-                        </div>
                     </div>
                 </div>
                 <footer class="plat-rdetail-foot flex-row flex-center">
@@ -1885,7 +1809,7 @@
                 <% } %>
                 <div id="clcCars" class="flex-row pop-cars-container" style="margin-top: 40px; height: 15em;">
                     <% v[0].forEach(vehicle => { %>
-                        <div class="clc-car-container flex-col">
+                        <div class="clc-car-container bt-hover cI<%= vehicle.id %> flex-col">
                             <div class="pop-car-name clc-head flex-col">
                                 <p class="title"><%= vehicle.brand_name %> <%= vehicle.model %> <%= vehicle.fab_year %></p>
                                 <p class="plat-text"><%= vehicle.body %></p>
@@ -1911,6 +1835,12 @@
                                 <p class="plat-car-price"><%= vehicle.price %><span class="currence">DZD</span> <span class="price-tag">/<%= vehicle.rental_type %></span></p>
                             </div>
                         </div>
+                        <script>
+                            carCont = document.querySelector('.cI<%= vehicle.id %>')
+                            carCont.addEventListener('click', ()=>{
+                                window.location.href = '/car/<%= vehicle.id %>'
+                            })
+                        </script>
                     <% }); %>
                 </div>
             <% }}); %>
@@ -2297,205 +2227,286 @@
     </section>
     <% } %>
     <% if (section === 'detail') { %>
-        <section class="plat-main-doc flex-col center-start" id="carDetail">
-            <div class="prev-images flex-row flex-center">
-                <label class="flex-row flex-center prev-img">
-                    <input type="radio" name="same-check" hidden>
-                    <img src="<%= car.previmage1 %>" alt="Preview">
-                </label>
-                <label class="flex-row flex-center prev-img">
-                    <input type="radio" name="same-check" hidden>
-                    <img src="<%= car.previmage2 %>" alt="Preview">
-                </label>
-                <label class="flex-row flex-center prev-img">
-                    <input type="radio" name="same-check" hidden>
-                    <img src="<%= car.previmage3 %>" alt="Preview">
-                </label>
-                <label class="flex-row flex-center prev-img">
-                    <input type="radio" name="same-check" checked hidden>
-                    <img src="<%= car.image %>" alt="Preview">
-                </label>
+    <section class="plat-main-doc flex-col center-start" id="carDetail">
+        <div class="prev-images flex-row flex-center">
+            <label class="flex-row flex-center prev-img">
+                <input type="radio" name="same-check" hidden>
+                <img src="<%= car.previmage1 %>" alt="Preview">
+            </label>
+            <label class="flex-row flex-center prev-img">
+                <input type="radio" name="same-check" checked hidden>
+                <img src="<%= car.previmage2 %>" alt="Preview">
+            </label>
+            <label class="flex-row flex-center prev-img">
+                <input type="radio" name="same-check" hidden>
+                <img src="<%= car.previmage3 %>" alt="Preview">
+            </label>
+            <label class="flex-row flex-center prev-img only-pc">
+                <input type="radio" name="same-check" hidden>
+                <img src="<%= car.image %>" alt="Preview">
+            </label>
+        </div>
+        <div class="car-det-details">
+            <div class="head flex-col start-center">
+                <h1 class="car-det-name"><%= car.brand_name %> <%= car.model %> <%= car.fab_year%></h1>
+                <div class="flex-row center-spacebet" style="width: 100%;">
+                    <div class="s-details flex-row center-start" style="height: 1.5em;">
+                        <div class="flex-row det-brand center-start">
+                            <img src="<%= car.logo %>" width="25" style="margin-right: 5px;" alt="Logo" class="brand-logo">
+                            <p class="para-sml"><%= car.brand_name %></p>
+                        </div>
+                        <div class="h-break-line" style="height: 50%;"></div>
+                        <p class="para-sml flex-row center-start">
+                            <i class="fa-solid fa-location-dot" style="color: var(--color-main); margin-right:5px;"></i>
+                            <span class="text-eclip" style="font-size: var(--font-sml); max-width: 30vw;"><%= car.wilaya %>, <%= car.city %>, <%= car.address %></span>
+                        </p>
+                        <div class="h-break-line" style="height: 50%;"></div>
+                        <div class="flex-row center-start">
+                            <i class="fa-solid fa-star"></i>
+                            <span class="para-sml"><%= formatNumber(car.stars) %> </span>
+                            <span class="para-sml plat-text only-pc">(<%= formatNumber(car.reviews) %> reviews)</span>
+                        </div>
+                    </div>
+                    <div class="fav-share flex-row">
+                        <button class="bt bt-hover bt-regular"><i class="fa-regular fa-heart"></i></button>
+                        <button class="bt bt-hover bt-regular flex-row center-start"><i class="fa-solid fa-share" style="margin-right: 5px;"></i> <span class="only-pc"> Share this car</span></button>
+                    </div>
+                </div>
+            </div>       
+        </div>
+        <div class="car-rent-details flex-row flex-wrap">
+            <div class="car-det-det-info flex-col">
+                <div class="det-features-engine flex-col">
+                    <p class="title-lrg">Engine Informations</p>
+                    <div class="flex-row center-spacebet" style="margin-bottom: 5px;">
+                        <p class="det-feature-icn para-sml plat-text">Engine: <span class="para-sml" style="font-size: 0.7rem;"><%= car.engine_type %></span></p>
+                        <p class="det-feature-icn para-sml plat-text">Max Speed: <span class="para-sml" style="font-size: 0.7rem;"><%= car.speed %> <span class="currence plat-text" style="font-size: 0.7rem;">KM/H</span></span></p>
+                        <p class="det-feature-icn para-sml plat-text">Power: <span class="para-sml" style="font-size: 0.7rem;"><%= car.horsepower %> <span class="currence plat-text"style="font-size: 0.7rem;">HP</span></span></p>
+                    </div>
+                </div>
+                <div class="break-line" style="height: 3px; width: 70%;"></div>
+                <div class="det-features flex-col">
+                    <p class="title-lrg">Features</p>
+                    <div class="flex-row center-spacebet det-feature-container flex-wrap">
+                        <p class="det-feature-icn"><i class="fa-solid fa-person"></i><span><%= car.capacity %> Persone</span></p>
+                        <p class="det-feature-icn"><i class="fa-solid fa-door-open"></i><span><%= car.doors %> Doors</span></p>
+                        <p class="det-feature-icn"><i class="fa-solid fa-droplet" style='color: <%= car.color %>;'></i><%= car.color %></p>
+                        <p class="det-feature-icn"><i class="fa-solid fa-retweet"></i><span><%= car.transmission %></span></p>
+                        <p class="det-feature-icn"><i class="fa-solid fa-car-rear"></i><span><%= car.body %></span></p>
+                        <p class="det-feature-icn"><i class="fa-solid fa-gas-pump"></i><span><%= car.fuel %></span></p>
+                    </div>
+                    <div class="det-features-row flex-row flex-wrap flex-center">
+                        <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>Android Auto</span> </p>
+                        <p class="det-feature"><i class="fa-solid fa-xmark" style="color: rgb(173, 59, 59); margin-right:5px;"></i> <span>Auto Pilot</span> </p>
+                        <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>GPS Nav System</span> </p>
+                        <p class="det-feature"><i class="fa-solid fa-xmark" style="color: rgb(173, 59, 59); margin-right:5px;"></i> <span>Air Conditioner</span> </p>
+                        <p class="det-feature"><i class="fa-solid fa-xmark" style="color: rgb(173, 59, 59); margin-right:5px;"></i> <span>Heated Seats</span> </p>
+                        <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>Sunroof</span> </p>
+                        <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>Backup Camera</span> </p>
+                        <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>Cruise Control</span> </p>
+                    </div>
+                </div>
+                <div class="break-line" style="height: 3px; width: 70%;"></div>
+                <div class="det-description flex-col">
+                    <p class="title-lrg">Description</p>
+                    <p class="para-sml" style="margin: 10px 0;"><%= car.description %></p>
+                </div>
+                <div class="break-line" style="height: 3px; width: 70%;"></div>
+                <div class="det-locaiton flex-col">
+                    <p class="title-lrg">Location</p>
+                    <div class="cord-map" id="cordMap"></div>
+                    <script src="/lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
+                    <script>
+                        mapboxgl.accessToken = '<%= process.env.MAPBOX_TOKEN %>'; 
+                        const coords = ['<%= car.longitude %>','<%= car.latitude %>'];
+                        const map = new mapboxgl.Map({
+                            container: 'cordMap',
+                            style: 'mapbox://styles/mapbox/streets-v12',
+                            center: coords,
+                            attributionControl: false,
+                            zoom: 12
+                        });
+                        const customMarkerEl = document.createElement('div');
+                        customMarkerEl.className = 'logo-map-mark';
+                        new mapboxgl.Marker(customMarkerEl)
+                        .setLngLat(coords)
+                        .setPopup(new mapboxgl.Popup().setHTML('<h3>DZRentCar</h3><p>The car is available at this office..</p>'))
+                        .addTo(map);
+                    </script>
+                </div>
             </div>
-            <div class="car-det-details">
-                <div class="head flex-col start-center">
-                    <h1 class="car-det-name"><%= car.brand_name %> <%= car.model %> <%= car.fab_year%></h1>
-                    <div class="flex-row center-spacebet" style="width: 100%;">
-                        <div class="s-details flex-row center-start" style="height: 1.5em;">
-                            <div class="flex-row det-brand center-start">
-                                <img src="<%= car.logo %>" width="25" style="margin-right: 5px;" alt="Logo" class="brand-logo">
-                                <p class="para-sml"><%= car.brand_name %></p>
-                            </div>
-                            <div class="h-break-line" style="height: 50%;"></div>
-                            <p class="para-sml flex-row center-start">
-                                <i class="fa-solid fa-location-dot" style="color: var(--color-main); margin-right:5px;"></i>
-                                <span style="font-size: var(--font-sml);"><%= car.wilaya %>, <%= car.city %>, <%= car.address %></span>
-                            </p>
-                            <div class="h-break-line" style="height: 50%;"></div>
-                            <div class="flex-row center-start">
-                                <i class="fa-solid fa-star"></i>
-                                <span class="para-sml"><%= formatNumber(car.stars) %> </span>
-                                <span class="para-sml plat-text">(<%= formatNumber(car.reviews) %> reviews)</span>
-                            </div>
-                        </div>
-                        <div class="fav-share">
-                            <button class="bt bt-hover bt-regular"><i class="fa-regular fa-heart"></i></button>
-                            <button class="bt bt-hover bt-regular"><i class="fa-solid fa-share" style="margin-right: 5px;"></i> Share this car</button>
-                        </div>
-                    </div>
-                </div>       
-            </div>
-            <div class="car-rent-details flex-row flex-wrap">
-                <div class="car-det-det-info">
-                    <div class="det-features">
-                        <p class="title-lrg" style="font-weight: bolder;">Features</p>
+            <button id="showContSec" class="only-mobile bt bt-hover">Book Informations</button>
+            <div class="car-det-rentprice">
+                <i class="fa-solid fa-xmark only-mobile" id="detCloseBut"></i>
+                <p class="title-lrg" style="font-weight: bolder;">Book information</p>
+                <p class="para-sml max-dur">Duration maximum to rent this car is <strong>1 mounth</strong>.</p>
+                <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
+                <div class="pickinfo flex-col">
+                    <h3>Pickup Location</h3>
+                    <div class="flex-row holder" style="position: relative;">
+                        <i class="fa-solid fa-location-dot float-icon"></i>
+                        <select class="para-sml plat-text">
+                            <option value="loc1"><%= car.wilaya %>, <%= car.city %>, <%= car.address %></option>
+                            <option value="myLoc">My Location</option>
+                        </select>
                     </div>
                 </div>
-                <div class="car-det-rentprice">
-                    <p class="title-lrg" style="font-weight: bolder;">Book information</p>
-                    <p class="para-sml max-dur">Duration maximum to rent this car is <strong>1 mounth</strong>.</p>
-                    <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
-                    <div class="pickinfo flex-col">
-                        <h3>Pickup Location</h3>
-                        <div class="flex-row holder" style="position: relative;">
-                            <i class="fa-solid fa-location-dot float-icon"></i>
-                            <select class="para-sml plat-text">
-                                <option value="myLoc">My Location</option>
-                                <option value="loc1"><%= car.wilaya %>, <%= car.city %>, <%= car.address %></option>
-                            </select>
-                        </div>
+                <!-- Pickup Date -->
+                <div class="pickinfo flex-col">
+                  <h3>Pickup Date</h3>
+                  <div class="flex-row center-start holder">
+                    <input id="pickupInput" type="<%= car.rental_type === 'h' ? 'time' : 'date' %>" style="position: absolute; left:0;z-index:-1;">
+                    <p class="para-mid" id="pickupText">Sat 4 Apr 2025, 21:00</p>
+                    <i class="fa-regular fa-calendar bt-hover" id="pickupIcon"></i>
+                  </div>
+                </div>
+                
+                <!-- Return Date -->
+                <div class="pickinfo flex-col">
+                  <h3>Return Date</h3>
+                  <div class="flex-row center-start holder">
+                    <input id="returnInput" type="<%= car.rental_type === 'h' ? 'time' : 'date' %>" style="position: absolute; left:0;z-index:-1;">
+                    <p class="para-mid" id="returnText">Sat 4 Apr 2025, 21:00</p>
+                    <i class="fa-regular fa-calendar bt-hover" id="returnIcon"></i>
+                  </div>
+                </div>
+                
+                <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
+                <div class="det-total">
+                    <div class="flex-row center-spacebet" style="margin: 0.5rem 0;">
+                        <p class="para-sml plat-text">Delvery fee</p>
+                        <p class="plat-car-price">800<span class="currence">DZD</span></p>
                     </div>
-                    <div class="pickinfo flex-col">
-                        <h3>Pickup Date</h3>
-                        <div class="flex-row center-start holder">
-                            <input type="date" hidden>
-                            <p class="para-mid">Sat 4 Apr 2025, 21:00</p>
-                            <i class="fa-regular fa-calendar bt-hover"></i>
-                        </div>
+                    <div class="flex-row center-spacebet" style="margin: 0.5rem 0;">
+                        <p class="para-sml plat-text">Total Price</p>
+                        <p class="plat-car-price"><i class="fa-solid fa-tag" style="margin-right: 5px;"></i> 800<span class="currence">DZD</span></p>
                     </div>
-                    <div class="pickinfo flex-col">
-                        <h3>Return Date</h3>
-                        <div class="flex-row center-spacebet holder">
-                            <input type="time" hidden>
-                            <p class="para-mid">Sat 4 Apr 2025, 21:00</p>
-                            <i class="fa-regular fa-calendar bt-hover"></i>
-                        </div>
-                    </div>
-                    <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
-                    <div class="det-total">
-                        <div class="flex-row center-spacebet" style="margin: 0.5rem 0;">
-                            <p class="para-sml plat-text">Delvery fee</p>
-                            <p class="plat-car-price">800<span class="currence">DZD</span></p>
-                        </div>
-                        <div class="flex-row center-spacebet" style="margin: 0.5rem 0;">
-                            <p class="para-sml plat-text">Total Price</p>
-                            <p class="plat-car-price"><i class="fa-solid fa-tag" style="margin-right: 5px;"></i> 800<span class="currence">DZD</span></p>
-                        </div>
-                    </div>
-                    <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
-                    <div class="foot flex-col center-start">
-                        <button id="rentProcessBut" class="bt bt-hover">Continue</button>
-                        <a class="report-car bt-hover"><i class="fa-solid fa-flag" style="color: rgb(211, 69, 69); margin-right: 5px;"></i> Report this car</a>
-                    </div>
+                </div>
+                <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
+                <div class="foot flex-col center-start">
+                    <button id="rentProcessBut" class="bt bt-hover">Continue</button>
+                    <a class="report-car bt-hover"><i class="fa-solid fa-flag" style="color: rgb(211, 69, 69); margin-right: 5px;"></i> Report this car</a>
                 </div>
             </div>
-            <div class="car-det-reviews flex-col">
-                <div class="head flex-row center-spacebet">
-                    <h1 class="title-lrg">Reviews</h1>
-                    <p class="rev-period"><%= car.created_at.toString().slice(0, 15) %> - <%= new Date().toDateString() %></p>
+        </div>
+        <div class="car-det-reviews flex-col">
+            <div class="head flex-row center-spacebet">
+                <h1 class="title-lrg">Reviews</h1>
+                <p class="rev-period only-pc"><%= car.created_at.toString().slice(0, 15) %> - <%= new Date().toDateString() %></p>
+            </div>
+            <div class="flex-row center-spacebet rev-statics">
+                <div class="flex-col center-start rev-total">
+                    <p class="para-mid">Total Reviews</p>
+                    <p class="rev-total-reviews"><%= formatNumber(car.reviews) %></p>
                 </div>
-                <div class="flex-row center-spacebet rev-statics">
-                    <div class="flex-col center-start rev-total">
-                        <p class="para-mid">Total Reviews</p>
-                        <p class="rev-total-reviews"><%= formatNumber(car.reviews) %></p>
+                <div class="h-break-line" style="width: 3px; height: 60%;"></div>
+                <div class="flex-col center-start rev-avrg">
+                    <p class="para-mid">Average Rating</p>
+                    <div class="rev-total-reviews flex-row center-start">
+                        <span><%= formatNumber(car.stars) %></span>
+                        <h6 class="clp" 
+                            style="
+                                margin: 0 0.7em;
+                                background: linear-gradient(90deg, yellow <%= (car.stars * 100) / 5 %>%,var(--text) 0%);
+                                -webkit-background-clip: text;
+                                -webkit-text-fill-color: transparent;
+                                background-clip: text;
+                            "
+                        >
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        </h6>
                     </div>
-                    <div class="h-break-line" style="width: 3px; height: 60%;"></div>
-                    <div class="flex-col center-start rev-avrg">
-                        <p class="para-mid">Average Rating</p>
-                        <div class="rev-total-reviews flex-row center-start">
-                            <span><%= formatNumber(car.stars) %></span>
-                            <h6 class="clp" 
-                                style="
-                                    margin: 0 0.7em;
-                                    background: linear-gradient(90deg, yellow <%= (car.stars * 100) / 5 %>%,var(--text) 0%);
-                                    -webkit-background-clip: text;
-                                    -webkit-text-fill-color: transparent;
-                                    background-clip: text;
-                                "
-                            >
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            </h6>
-                        </div>
-                    </div>                    
-                    <div class="h-break-line" style="width: 3px; height: 60%;"></div>
-                    <div class="flex-col center-start rev-strs">
-                        <ul class="flex-col rev-stars-list" style="width: 80%;">
-                            <% 
-                            function progressBar(s, smax) {
-                                const percent = (smax > 0) ? (s * 90) / smax : 0;
-                                return percent === 0 ? 5 : percent; // avoid invisible bar if 0
-                            }
-                        
-                            const starMax = Math.max(car.s1, car.s2, car.s3, car.s4, car.s5);
-                            %>
-                        
-                            <% [5, 4, 3, 2, 1].forEach(star => { %>
-                                <li class="flex-row center-start">
-                                    <div class="flex-row center-start">
-                                        <i class="fa-solid fa-circle-notch"></i>
-                                        <span><%= star %></span>
-                                    </div>
-                                    <div class="flex-row center-start">
-                                        <div class="rev-stars-progressbar" style="background-color: 
-                                            <%= star === 5 ? 'rgb(58, 168, 117)' :
-                                                star === 4 ? 'rgb(172, 96, 202)' :
-                                                star === 3 ? 'rgb(240, 134, 73)' :
-                                                star === 2 ? 'rgb(64, 128, 211)' :
-                                                             'rgb(194, 67, 67)' %>;
-                                            width: <%= progressBar(car['s' + star], starMax) %>%;"></div>
-                                        <span><%= formatNumber(car['s' + star]) %></span>
-                                    </div>
-                                </li>
-                            <% }) %>
-                        </ul>             
-                    </div>
-                </div>
-                <div class="reviews-container flex-col">
-                    <% reviews.forEach(review => { %>
-                        <div class="reveiw-container">
-                            <div class="rev-profile flex-row">
-                                <div class="rev-profile-img flex-row flex-center image-container">
-                                    <img src="<%= review.image %>" alt="Profile">
-                                </div>
-                                <div class="rev-profile-info flex-col">
-                                    <p class="para-mid"><%= review.fname %> <%= review.lname %></p>
-                                    <span class="username">@<%= review.username %></span>
-                                    <div class="flex-row center-start para-sml flex-wrap">
-                                        <span class="plat-text">Total Spend: </span>
-                                        <p class="plat-car-price" style="margin-left: 5px;"><%= review.total_price %><span class="currence">DZD</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="rev-review-det flex-col">
+                </div>                    
+                <div class="h-break-line only-pc" style="width: 3px; height: 60%;"></div>
+                <div class="flex-col center-start rev-strs only-pc">
+                    <ul class="flex-col rev-stars-list" style="width: 80%;">
+                        <% 
+                        function progressBar(s, smax) {
+                            const percent = (smax > 0) ? (s * 90) / smax : 0;
+                            return percent === 0 ? 5 : percent; // avoid invisible bar if 0
+                        }
+                    
+                        const starMax = Math.max(car.s1, car.s2, car.s3, car.s4, car.s5);
+                        %>
+                    
+                        <% [5, 4, 3, 2, 1].forEach(star => { %>
+                            <li class="flex-row center-start">
                                 <div class="flex-row center-start">
-                                    <h6 style="margin-right: 0.7em;">
-                                        <% for( let i = 0; i < 5; i++ ) { %>
-                                            <i class="fa-solid fa-star <%= i< review.stars?'active-start':'inactive-start' %>"></i>
-                                        <% } %>
-                                        
-                                    </h6>
-                                    <p class="para-sml plat-text"><%= review.created_at.toString().slice(0, 24) %></p>
+                                    <i class="fa-solid fa-circle-notch"></i>
+                                    <span><%= star %></span>
                                 </div>
-                                <p class="para-sml" style="margin-top: 5px;"><%= review.review %></p>
-                            </div>
-                        </div>
-                    <% }) %>
+                                <div class="flex-row center-start">
+                                    <div class="rev-stars-progressbar" style="background-color: 
+                                        <%= star === 5 ? 'rgb(58, 168, 117)' :
+                                            star === 4 ? 'rgb(172, 96, 202)' :
+                                            star === 3 ? 'rgb(240, 134, 73)' :
+                                            star === 2 ? 'rgb(64, 128, 211)' :
+                                                            'rgb(194, 67, 67)' %>;
+                                        width: <%= progressBar(car['s' + star], starMax) %>%;"></div>
+                                    <span><%= formatNumber(car['s' + star]) %></span>
+                                </div>
+                            </li>
+                        <% }) %>
+                    </ul>             
                 </div>
             </div>
-        </section>
+            <ul class="flex-col rev-stars-list only-mobile" style="width: 80%;">
+                <% [5, 4, 3, 2, 1].forEach(star => { %>
+                    <li class="flex-row center-start">
+                        <div class="flex-row center-start">
+                            <i class="fa-solid fa-circle-notch"></i>
+                            <span><%= star %></span>
+                        </div>
+                        <div class="flex-row center-start">
+                            <div class="rev-stars-progressbar" style="background-color: 
+                                <%= star === 5 ? 'rgb(58, 168, 117)' :
+                                    star === 4 ? 'rgb(172, 96, 202)' :
+                                    star === 3 ? 'rgb(240, 134, 73)' :
+                                    star === 2 ? 'rgb(64, 128, 211)' :
+                                                    'rgb(194, 67, 67)' %>;
+                                width: <%= progressBar(car['s' + star], starMax) %>%;"></div>
+                            <span><%= formatNumber(car['s' + star]) %></span>
+                        </div>
+                    </li>
+                <% }) %>
+            </ul>   
+            <div class="reviews-container flex-col">
+                <% reviews.forEach(review => { %>
+                    <div class="reveiw-container">
+                        <div class="rev-profile flex-row">
+                            <div class="rev-profile-img flex-row flex-center image-container">
+                                <img src="<%= review.image %>" alt="Profile">
+                            </div>
+                            <div class="rev-profile-info flex-col">
+                                <p class="para-mid"><%= review.fname %> <%= review.lname %></p>
+                                <span class="username">@<%= review.username %></span>
+                                <div class="flex-row center-start para-sml flex-wrap only-pc">
+                                    <span class="plat-text">Total Spend: </span>
+                                    <p class="plat-car-price" style="margin-left: 5px;"><%= review.total_price %><span class="currence">DZD</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rev-review-det flex-col">
+                            <div class="flex-row center-spacebet">
+                                <h6 style="margin-right: 0.7em; min-width: 40%;">
+                                    <% for( let i = 0; i < 5; i++ ) { %>
+                                        <i class="fa-solid fa-star <%= i< review.stars?'active-start':'inactive-start' %>"></i>
+                                    <% } %>
+                                    
+                                </h6>
+                                <p class="para-sml plat-text text-eclip"><%= review.created_at.toString().slice(0, 24) %></p>
+                            </div>
+                            <p class="para-sml" style="margin-top: 5px;"><%= review.review %></p>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </section>
     <% } %>
     <% if (section === 'recent') { %>
     <section class="plat-main-doc" id="recentDoc">
@@ -2639,14 +2650,14 @@
     </section>
     <% } %>
 
-    <script src="../js/main.js"></script>
-    <script src="../js/darkmode.js"></script>
-    <script src="../lib/node_modules/gsap/dist/gsap.min.js"></script>
-    <script src="../lib/node_modules/gsap/dist/ScrollTrigger.min.js"></script>
-    <script src="../lib/node_modules/svelte-range-slider-pips/dist/range-slider-pips.js"></script>
-    <script src="../lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
-    <script src="../lib/node_modules/flatpickr/dist/flatpickr.js"></script>
-    <script src="../js/platform.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/darkmode.js"></script>
+    <script src="/lib/node_modules/gsap/dist/gsap.min.js"></script>
+    <script src="/lib/node_modules/gsap/dist/ScrollTrigger.min.js"></script>
+    <script src="/lib/node_modules/svelte-range-slider-pips/dist/range-slider-pips.js"></script>
+    <script src="/lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
+    <script src="/lib/node_modules/flatpickr/dist/flatpickr.js"></script>
+    <script src="/js/platform.js"></script>
     <% const scripts = { 
         cars: "cars.js", 
         home: "home.js", 
@@ -2655,7 +2666,7 @@
         recent: "recent.js", 
         help: "help.js", 
         docs: "docs.js", 
-        docs: "detail.js", 
+        detail: "detail.js", 
         profile: "profile.js" 
     }; %>
     <% if (scripts[section]) { %>

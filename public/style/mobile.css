@@ -5,6 +5,14 @@
         width: 100svw;
         overflow: hidden;
     }
+    
+    .only-pc{
+        display: none !important;
+    }
+    
+    .only-mobile{
+        display: flex;
+    }
 
     .notifications-container{
         left: 50%;
@@ -219,6 +227,7 @@
     }
 
     #account{
+        margin: 0;
         margin-top: 20px;
         width: 100%;
         border-radius: 5px;
@@ -233,8 +242,8 @@
         padding: 10px 0;
         margin: 5px 0;
         width: 100%;
-        border-bottom: 2px solid  var(--border-low);
-        border-radius: 10px;
+        background-color: var(--border-low);
+        border-radius: 0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -357,12 +366,24 @@
         height: fit-content;
     }
 
+    #getApp{
+        height: 50vh;
+        padding: 0 1rem;
+    }
+
+    .mapper{
+        width: 100%;
+        border-radius: 10px;
+    }
+
     .features-desc,
+    .features-desc2,
     .features{
         width: 100%;
     }
 
-    .features-desc p{
+    .features-desc p,
+    .features-desc2 p{
         width: 100% !important;
         padding: 0;
         margin: 5px 0;
@@ -389,8 +410,7 @@
     .feature-icon::after,
     .feature-icon::before,
     .company,
-    .policy,
-    #getApp{
+    .policy{
         display: none;
     }
 
@@ -571,7 +591,7 @@
         width: 100%;
         height: calc(100% - 4.5em);
         overflow: visible;
-        z-index: 91;
+        z-index: 99;
     }
 
     .carsec-body{
@@ -590,6 +610,7 @@
         background-color: var(--bg);
         display: none;
         padding: 0;
+        z-index: 999;
     }
 
     .carsec-head > h1{
@@ -613,6 +634,7 @@
         align-items: center;
         justify-content: space-around;
         width: 100%;
+        z-index: 92;
     }
 
     .carsec-head{
@@ -854,6 +876,83 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+
+    #carDetail{
+        padding: 1rem 0;
+    }
+
+    .prev-images{
+        min-height: 250px;
+    }
+
+    .prev-img {
+        flex-grow: 0.3;
+    }
+    .prev-img:hover {
+        flex-grow: 4;
+    }
+    .prev-img:has(input:checked){
+        flex-grow: 4;
+    }
+
+    .car-det-details{
+        padding: 0.325em 0.625em;
+    }
+
+    .fav-share{
+        gap: 5px;
+    }
+
+    .car-det-det-info,
+    .car-det-rentprice{
+        width: 100svw;
+    }
+
+    .car-det-rentprice{
+        position: fixed;
+        top: 200%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100svw;
+        height: 100svh;
+        max-height: unset;
+        margin: 0;
+        transition: ease 0.6s;
+        z-index: 92;
+    }
+
+    #detCloseBut{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        z-index: 99;
+        color: var(--txt-black);
+    }
+
+    #showContSec{
+        position: fixed;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, calc(-100% - 6em));
+        z-index: 98;
+        background-color: var(--color-second);
+        color: white;
+        padding: 0.8rem 1.3rem;
+        border-radius: 8px;
+    }
+
+    .rev-profile-img{
+        height: 50px;
+        width: 50px;
+    }
+
+    .rev-profile{
+        flex-direction: column;
+    }
+
+    .reviews-container{
+        padding: 1em 0;
     }
 
     /*-------------------------------------------------------*/

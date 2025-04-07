@@ -12,7 +12,8 @@ gsap.set(".type-image", { scale: 1, opacity: 1});
 gsap.set(".type-image-s", { scale: 1, opacity: 1});
 gsap.set(".feature-container", { scale: 1, y: 0, opacity: 1});
 gsap.set(".features-desc", { scale: 1, y: 0, opacity: 1});
-gsap.set(".banner", {y: 0, rotate:0});
+gsap.set(".features-desc2", { scale: 1, y: 0, opacity: 1});
+gsap.set(".mapper", {y: 0, opacity:1});
 gsap.set(".feature-icon i", { scale: 1});
 gsap.set("footer", { opacity: 1});
 
@@ -186,6 +187,19 @@ gsap.from(".features-desc", {
     }
 });
 
+gsap.from(".features-desc2", {
+    scale: 1.5,
+    y: 100,
+    stagger: 0.2,
+    opacity: 0,
+    delay: 0.3,
+    scrollTrigger: {
+        scrub: 2,
+        start: "center center",
+        trigger: "#featuresSection"
+    }
+});
+
 gsap.from(".feature-icon i", {
     scale: 0.5,
     stagger: 0.1,
@@ -205,9 +219,9 @@ gsap.to(".map-img", {
     }
 });
 
-gsap.from(".banner", {
+gsap.from(".mapper", {
     y: 100,
-    rotate: 20,
+    opacity: 0,
     stagger: 0.1,
     scrollTrigger: {
         scrub: 2,

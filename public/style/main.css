@@ -75,9 +75,25 @@ p,span{
     cursor: default;
 }
 
+.logo-map-mark {
+    width: 3em;
+    height: 3em;
+    cursor: pointer;
+    background-image: url('../assets/logo.png'); 
+    background-size: cover;
+}
+
 ::-webkit-scrollbar{
     width: 0px;
     z-index: -1;
+}
+
+.only-pc{
+    display: flex;
+}
+
+.only-mobile{
+    display: none;
 }
 
 .close-x{

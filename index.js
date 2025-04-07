@@ -72,10 +72,18 @@ app.use((err, req, res, next) => {
     res.status(500).render("p404");
 });
 
-app.get("/", (req, res) => {
-    res.render("index");
+app.get("/", async (req, res) => {
+    try{
+        const officeRows = await pool.query(`
+            SELECT * FROM office WHERE 1 = 1
+        `)
+        offices = officeRows.rows.length === 0?null:officeRows.rows
+        res.render("index", {offices:offices});
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
 })
-
 
 app.get("/p404", (req, res) => {
     res.render("p404");
@@ -102,17 +110,16 @@ app.get("/car/:id", async (req, res) => {
                 office.wilaya,  
                 office.address, 
                 office.city,
+                office.latitude,
+                office.longitude,
                 ROUND(COALESCE(AVG(reviews.stars), 0), 1) AS stars,
                 COUNT(DISTINCT reviews.id) AS reviews,
                 COUNT(DISTINCT rentals.id) AS orders,
-
-                -- Count of each star rating
                 COUNT(reviews.id) FILTER (WHERE reviews.stars = 1) AS s1,
                 COUNT(reviews.id) FILTER (WHERE reviews.stars = 2) AS s2,
                 COUNT(reviews.id) FILTER (WHERE reviews.stars = 3) AS s3,
                 COUNT(reviews.id) FILTER (WHERE reviews.stars = 4) AS s4,
                 COUNT(reviews.id) FILTER (WHERE reviews.stars = 5) AS s5
-
             FROM 
                 vehicles
             JOIN 
@@ -265,7 +272,6 @@ app.get("/docs",checkNotAuth, (req, res) => {
     }
 })
 
-
 app.get("/help",checkNotAuth, (req, res) => {
     try{
         res.render("home", { user: req.user, section : "help" });
@@ -325,7 +331,6 @@ app.post('/reg', upload.single("image"), async (req, res) => {
         res.status(500).render("p404");
     }
 });
-
 
 app.post("/login", passport.authenticate("local", {
     successRedirect: "/home",

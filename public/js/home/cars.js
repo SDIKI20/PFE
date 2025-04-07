@@ -131,25 +131,6 @@ document.querySelectorAll('.car-det-info-head label').forEach(label => {
       }
   });
 });
-/*
-mapboxgl.accessToken = 'pk.eyJ1Ijoib2RheWRpZDAwMiIsImEiOiJjbTdjZ3pzOGgwdW5oMmlzOGxubDF5d3ByIn0.zGe8aXHfdUvVGecjXwJ5Ow'; // Replace with your Mapbox token
-
-const coords = [3.685660, 32.483643];
-
-const map = new mapboxgl.Map({
-    container: 'cordMap',
-    style: 'mapbox://styles/mapbox/streets-v12',
-    center: coords,
-    zoom: 13
-});
-
-const customMarkerEl = document.createElement('div');
-customMarkerEl.className = 'logo-map-mark';
-
-new mapboxgl.Marker(customMarkerEl)
-    .setLngLat(coords)
-    .setPopup(new mapboxgl.Popup().setHTML('<h3>DZRentCar</h3><p>The car is available at this office..</p>'))
-    .addTo(map);*/
 
 const today = new Date();
 

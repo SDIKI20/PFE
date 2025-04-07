@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/style/lib/fontawesome/all.min.css">
     <link rel="stylesheet" href="/style/main.css">
     <link rel="stylesheet" href="/style/home.css">
+    <link rel="stylesheet" href="/lib/node_modules/mapbox-gl/dist/mapbox-gl.css">
     <link rel="stylesheet" href="/style/mobile.css">
     <link rel="stylesheet" href="/style/lagreScreen.css">
     <title>Home</title>
@@ -32,7 +33,7 @@
                 <li class="nav-element hover-scale"><a href="#aboutSection">About</a></li>
                 <li class="nav-element hover-scale"><a href="#carsSection">Cars</a></li>
                 <li class="nav-element hover-scale"><a href="#featuresSection">Features</a></li>
-                <li class="nav-element hover-scale"><a href="#homeFooter">Help</a></li>
+                <li class="nav-element hover-scale"><a href="#getApp">Location</a></li>
             </ul>
             <a href="/login"><button class="bt bt-hover account" id="account">Get In Touch</button></a>
         </div>
@@ -193,16 +194,42 @@
             </div>
         </section>
         <section class="doc-section flex-col flex-center" id="getApp">
-            <div class="banner flex-col flex-center">
-                <div class="abs-circle"></div>
-                <div class="abs-circle-l"></div>
-                <h2 class="blk-text title-large">Drive with DzRentCar Today</h2>
-                <p>Get the app to explore the world of premium cars - that’s exciting</p>
-                <a href="#" class="bt bt-hover download-btn">
-                    Download App
-                </a>
+            <div class="features-desc2 flex-col">
+                <h4 class="low-text-sml">Offices locations</h4>
+                <h1 class="blg-txt title-large">Find Us</h1>
+                <p class="para-mid" style="width: 50%;">Do not hesitate to come to one of our offices and take a closer look. Find the center nearest to you and give your opinion.</p>
             </div>
-        </section>
+            <div class="mapper" id="cordMap"></div>
+        
+            <script src="/lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
+            <script>
+                mapboxgl.accessToken = '<%= process.env.MAPBOX_TOKEN %>';
+        
+                const map = new mapboxgl.Map({
+                    container: 'cordMap',
+                    style: 'mapbox://styles/mapbox/streets-v12',
+                    center: [3.05, 36.75], // default center (you can use your first office)
+                    zoom: 3,
+                    attributionControl: false
+                });
+        
+                <% if (offices && offices.length) { %>
+                    <% offices.forEach((office, index) => { %>
+                        const coords<%= index %> = [<%= office.longitude %>, <%= office.latitude %>];
+                        const customMarkerEl<%= index %> = document.createElement('div');
+                        customMarkerEl<%= index %>.className = 'logo-map-mark';
+        
+                        new mapboxgl.Marker(customMarkerEl<%= index %>)
+                            .setLngLat(coords<%= index %>)
+                            .setPopup(new mapboxgl.Popup().setHTML(`
+                                <h3>DZRentCar</h3>
+                                <p><%= office.wilaya %> Office, <%= office.city %>, <%= office.address %></p>
+                            `))
+                            .addTo(map);
+                    <% }) %>
+                <% } %>
+            </script>
+        </section>        
         <footer class="doc-footer flex-col flex-center" id="homeFooter">
             <div class="subscribe flex-row" style="height: 30%; justify-content: space-between;">
                 <p class="para-lrg">Join our newsletter to <br> Keep to date with us!</p>

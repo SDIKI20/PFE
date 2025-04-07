@@ -401,13 +401,15 @@ body{
   justify-content: flex-start;
 }
 
-.features-desc{
+.features-desc,
+.features-desc2{
   width: 80%;
   align-items: flex-start;
   justify-content: flex-start;
 }
 
-.features-desc p{
+.features-desc p,
+.features-desc2 p{
   margin: 3vh 0;
 }
 
@@ -519,6 +521,7 @@ body{
 
 #getApp{
   padding: 0;
+  height: 50vh;
 }
 
 .banner {
@@ -584,6 +587,12 @@ body{
 #navLogo{
   width: auto;
   height: calc(var(--nav-height) * 0.6);
+}
+
+.mapper{
+  width: 80%;
+  height: 100%;
+  border-radius: 20px;
 }
 
 @media (max-width: 900px) {

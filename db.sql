@@ -94,6 +94,7 @@ CREATE TABLE vehicles (
   fab_year SMALLINT NOT NULL DEFAULT EXTRACT(YEAR FROM CURRENT_DATE),
   color VARCHAR(20) NOT NULL,
   capacity SMALLINT NOT NULL DEFAULT 4,
+  doors SMALLINT NOT NULL DEFAULT 4,
   fuel fuel_type NOT NULL,
   transmission transmission_type NOT NULL,
   availability BOOLEAN NOT NULL DEFAULT TRUE,
@@ -109,6 +110,7 @@ CREATE TABLE vehicles (
   prevImage1 VARCHAR(255) NOT NULL DEFAULT '/assets/cars/default_prev.png',
   prevImage2 VARCHAR(255) NOT NULL DEFAULT '/assets/cars/default_prev.png',
   prevImage3 VARCHAR(255) NOT NULL DEFAULT '/assets/cars/default_prev.png',
+  description VARCHAR(100) NOT NULL DEFAULT 'There is no description for this car.'
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -351,7 +353,16 @@ INSERT INTO city (name, wilaya_id) VALUES
 INSERT INTO city (name, wilaya_id) VALUES 
 ('El Meniaa', 58), ('El Meniaa', 58), ('Hassi Fehal', 58), ('Hassi Gara', 58);
 
--- Insert sample users (all with password '123' hashed)
+INSERT INTO features (name) VALUES
+('Android Auto'),
+('Auto Pilot'),
+('GPS Nav System'),
+('Air Conditioner'),
+('Heated Seats'),
+('Sunroof'),
+('Backup Camera'),
+('Cruise Control');
+
 INSERT INTO users (email, username, password, fname, lname, address, wilaya, city, zipcode, phone, account_status, phone_status, birthdate, role) VALUES
 ('admin@rental.com', 'admin', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Admin', 'User', '123 Main St', 'Algiers', 'Algiers', '16000', '+213550123456', TRUE, TRUE, '1980-01-15', 'Admin'),
 ('employee1@rental.com', 'emp1', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Karim', 'Benzema', '456 Oak Ave', 'Oran', 'Oran', '31000', '+213551123456', TRUE, TRUE, '1985-05-20', 'Employe'),
@@ -361,12 +372,6 @@ INSERT INTO users (email, username, password, fname, lname, address, wilaya, cit
 
 INSERT INTO users (email, username, password, fname, lname, address, wilaya, city, zipcode, phone, account_status, phone_status, birthdate, role, image) VALUES
 ('odaydid002@gmail.com', 'odaydid002', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Oudai', 'Oulhadj', '110 Logement', 'El Menia', 'El Menia', '58001', '+213553728440', FALSE, FALSE, '2002-04-29', 'Client', 'https://res.cloudinary.com/dnzuqdajo/image/upload/v1743722872/profile_images/image-1743722869237.png');
-
--- Insert user documents
-INSERT INTO users_documents (user_id, image_front, image_back) VALUES
-(3, 'documents/client1_front.jpg', 'documents/client1_back.jpg'),
-(4, 'documents/client2_front.jpg', 'documents/client2_back.jpg'),
-(5, 'documents/client3_front.jpg', 'documents/client3_back.jpg');
 
 -- Insert car brands
 INSERT INTO brands (name, logo) VALUES
@@ -474,11 +479,3 @@ INSERT INTO reviews (user_id, vehicle_id, rental_id, stars, review) VALUES
 (4, 2, 4, 2, 'Good basic car for city driving, but lacks power on highways.'),
 (4, 1, 4, 1, 'Good basic car for city driving, but lacks power on highways.');
 
-INSERT INTO features (name) VALUES
-('GPS'),
-('Air Conditioner'),
-('Bluetooth'),
-('Heated Seats'),
-('Sunroof'),
-('Backup Camera'),
-('Cruise Control');
