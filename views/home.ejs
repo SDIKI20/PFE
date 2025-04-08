@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/style/platform.css">
     <link rel="stylesheet" href="/lib/node_modules/flatpickr/dist/flatpickr.css">
     <link rel="stylesheet" href="/lib/node_modules/mapbox-gl/dist/mapbox-gl.css">
+    <link rel="stylesheet" href="/lib/node_modules/driver.js/dist/driver.css">
     <link rel="stylesheet" href="/style/mobile.css">
     <link rel="stylesheet" href="/style/lagreScreen.css">
     <title>Platform</title>
@@ -67,7 +68,7 @@
             <img src="../assets/logo.png" alt="LOGO" width="80%">
         </a>
         <ul class="plat-navigator flex-col center-start">
-            <a href="/home" data-section="home" class="plat-nav-element <%= section==="home"?"plat-nav-selected":"" %>" title="Home" >
+            <a id="navHome" href="/home" data-section="home" class="plat-nav-element <%= section==="home"?"plat-nav-selected":"" %>" title="Home" >
                 <label for="sectHome">
                     <div class="flex-col">
                         <i class="fa-solid fa-house"></i>
@@ -75,7 +76,7 @@
                     </div>
                 </label>
             </a>
-            <a href="/cars" data-section="cars" class="plat-nav-element <%= section==="cars"?"plat-nav-selected":"" %>" title="Cars" >
+            <a id="navCars" href="/cars" data-section="cars" class="plat-nav-element <%= section==="cars"?"plat-nav-selected":"" %>" title="Cars" >
                 <label for="sectMain">
                     <div class="flex-col">
                         <i class="fa-solid fa-car"></i>
@@ -83,7 +84,7 @@
                     </div>
                 </label>
             </a>
-            <a href="/orders" data-section="orders" class="plat-nav-element <%= section==="orders"?"plat-nav-selected":"" %>" title="Orders" >
+            <a id="navOrders" href="/orders" data-section="orders" class="plat-nav-element <%= section==="orders"?"plat-nav-selected":"" %>" title="Orders" >
                 <label for="sectOrders">
                     <div class="flex-col">
                         <i class="fa-regular fa-clipboard phbb"></i>
@@ -91,7 +92,7 @@
                     </div>
                 </label>
             </a>
-            <a href="/fav" data-section="fav" class="plat-nav-element <%= section==="fav"?"plat-nav-selected":"" %>" title="Favorite" >
+            <a id="navFav" href="/fav" data-section="fav" class="plat-nav-element <%= section==="fav"?"plat-nav-selected":"" %>" title="Favorite" >
                 <label for="sectFavorite">
                     <div class="flex-col">
                         <i class="fa-regular fa-heart phbb"></i>
@@ -99,7 +100,7 @@
                     </div>
                 </label>
             </a>
-            <a href="/recent" data-section="recent" class="plat-nav-element <%= section==="recent"?"plat-nav-selected":"" %>" id="navRecent" title="Recent" >
+            <a id="navRencent" href="/recent" data-section="recent" class="plat-nav-element <%= section==="recent"?"plat-nav-selected":"" %>" id="navRecent" title="Recent" >
                 <label for="sectRecent">
                     <div class="flex-col">
                         <i class="fa-solid fa-clock-rotate-left"></i>
@@ -107,7 +108,7 @@
                     </div>
                 </label>
             </a>
-            <a href="/profile" data-section="profile" class="plat-nav-element <%= section==="profile"?"plat-nav-selected":"" %></a> flex-row flex-center" title="Profile">
+            <a id="navProfile" href="/profile" data-section="profile" class="plat-nav-element <%= section==="profile"?"plat-nav-selected":"" %> flex-row flex-center" title="Profile">
                 <label for="sectProfile">
                     <div class="plat-profile">
                         <img src="<%= user?user.image:"/assets/images/user.jpg"%>" alt="Profile" style="width: 100%;">
@@ -116,7 +117,7 @@
             </a>
         </ul>
         <ul class="plat-user-info flex-col center-start">
-            <a href="/docs" data-section="docs" class="plat-nav-element <%= section==="docs"?"plat-nav-selected":"" %>" title="My Documents">
+            <a id="navDocs" href="/docs" data-section="docs" class="plat-nav-element <%= section==="docs"?"plat-nav-selected":"" %>" title="My Documents">
                 <label for="sectDocs">
                     <div class="flex-col">
                         <i class="fa-regular fa-id-card"></i>
@@ -124,7 +125,7 @@
                     </div>
                 </label>
             </a>
-            <a href="/help" class="plat-nav-element" title="Help" data-section="help">
+            <a id="navHelp" href="/help" class="plat-nav-element" title="Help" data-section="help">
                 <label for="sectHelp">
                     <div class="flex-col">
                         <i class="fa-regular fa-handshake"></i>

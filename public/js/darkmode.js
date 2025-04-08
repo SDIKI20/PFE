@@ -1,4 +1,4 @@
-/*document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     var root = document.documentElement;
 
     let dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
