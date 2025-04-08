@@ -201,9 +201,9 @@
             </div>
             <div class="mapper" id="cordMap"></div>
         
-            <script src="/lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
+            <script src="./lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
             <script>
-                mapboxgl.accessToken = '<%= process.env.MAPBOX_TOKEN %>';
+                mapboxgl.accessToken = '';
         
                 const map = new mapboxgl.Map({
                     container: 'cordMap',

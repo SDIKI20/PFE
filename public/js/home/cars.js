@@ -132,18 +132,89 @@ document.querySelectorAll('.car-det-info-head label').forEach(label => {
   });
 });
 
-const today = new Date();
+try {
+    document.getElementById('applyFilter').addEventListener('click', () => {
+        let search = document.getElementById('filterSearch').value.trim();
+        let rentalType = "";
+        let availableOnly = document.getElementById('stch').checked ? '1' : "";
+        let Pricem = document.getElementById("pricem").value.trim();
+        let PriceM = document.getElementById("priceM").value.trim();
+        let transm = "";
+        let cap = "";
+        let brands = [];
+        let fuelTypes = [];
+        let bodyStyles = [];
 
-formattedDateTime = today.getFullYear() + '-' +
-String(today.getMonth() + 1).padStart(2, '0') + '-' +
-String(today.getDate()).padStart(2, '0') + 'T' +
-String(today.getHours()).padStart(2, '0') + ':' +
-String(today.getMinutes()).padStart(2, '0');
-document.getElementById("pickdate").value = formattedDateTime;
+        // Capacity
+        document.querySelectorAll('input[name="cap"]').forEach(radioButton => {
+            if (radioButton.checked && radioButton.id !== "personeA") {
+                cap = radioButton.id.substring(7);
+            }
+        });
 
-formattedDateTime = today.getFullYear() + '-' +
-String(today.getMonth() + 1).padStart(2, '0') + '-' +
-String(today.getDate() + 1).padStart(2, '0') + 'T' +
-String(today.getHours()).padStart(2, '0') + ':' +
-String(today.getMinutes()).padStart(2, '0');
-document.getElementById("dropdate").value = formattedDateTime;
+        // Transmission
+        document.querySelectorAll('input[name="transm"]').forEach(radioButton => {
+            if (radioButton.checked && radioButton.id !== "transAny") {
+                transm = radioButton.value;
+            }
+        });
+
+        // Rental type
+        document.querySelectorAll('input[name="rnt"]').forEach(radioButton => {
+            if (radioButton.checked && radioButton.id !== "rentalA") {
+                rentalType = radioButton.id === "rentalD" ? "d" : "h";
+            }
+        });
+
+        // Body styles
+        document.querySelectorAll('.filter-body-style').forEach(st => {
+            if (st.checked) bodyStyles.push(st.id.substring(8));
+        });
+
+        // Fuel types
+        document.querySelectorAll('.filter-fuel-type').forEach(st => {
+            if (st.checked) fuelTypes.push(st.id.substring(8));
+        });
+
+        // Brands
+        document.querySelectorAll('.filter-brand-inp').forEach(st => {
+            if (st.checked) brands.push(st.id.substring(5));
+        });
+
+        // Build query string
+        const params = new URLSearchParams();
+
+        if (search) params.append("search", search);
+        if (rentalType) params.append("rtype", rentalType);
+        if (availableOnly) params.append("availability", availableOnly);
+        if (Pricem) params.append("pricem", Pricem);
+        if (PriceM) params.append("priceM", PriceM);
+        if (transm) params.append("trans", transm);
+        if (cap) params.append("capacity", cap);
+        if (brands.length) params.append("brand", brands.join(","));
+        if (fuelTypes.length) params.append("fuel", fuelTypes.join(","));
+        if (bodyStyles.length) params.append("body", bodyStyles.join(","));
+
+        // params.append("limit", 15);
+        // params.append("offset", 0);
+
+        const finalUrl = `/cars?${params.toString()}`;
+
+        window.location.href = finalUrl;
+    });
+} catch (error) {}
+
+try {
+    const searchInput = document.querySelectorAll('.filter-search-inp');
+    searchInput.forEach(inp=>{
+        inp.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                let search = inp.value.trim();
+                const params = new URLSearchParams();
+                if (search) params.append("search", search);
+                const finalUrl = `/cars?${params.toString()}`;
+                window.location.href = finalUrl;
+            }
+        });
+    })
+} catch (error) {}

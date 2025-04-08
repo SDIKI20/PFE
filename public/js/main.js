@@ -226,8 +226,8 @@ const confirm = (isDanger, title, description) => {
 /*
 confirm(false, "Confirm Action", "Are you sure you want to proceed?").then((result) => {
     console.log(result);
-});
-*/
+});*/
+
 
 function formatNumber(num) {
     if (num >= 1e9) {
@@ -241,3 +241,36 @@ function formatNumber(num) {
     }
     return num.toString();
 }
+
+try {
+    document.querySelectorAll('.animated-heart').forEach(fb=>{
+        fb.addEventListener('click', async (e)=>{
+            if(!fb.parentElement.children[0].checked){
+                v = parseInt(fb.id.substring(1, fb.id.indexOf('u')));
+                u = parseInt(fb.id.substring(fb.id.indexOf('u') + 1));
+                openLoader()
+                try{
+                    const response = await fetch(`${window.location.origin}/api/users/add/favorite`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ u, v }),
+                    });
+                    const data = await response.json();
+                    pushNotif("i", data.message);
+                    fb.parentElement.children[0].disabled = true
+                    closeLoader()
+                }catch(error){
+                    pushNotif("e", "Somthing went wrong!");
+                    closeLoader()
+                }
+            }else{
+            }
+        })
+    })
+} catch (error) {}
+/*
+pushNotif("e", "Error Message Notification")
+pushNotif("i", "Information Message Notification")
+pushNotif("w", "Warning Message Notification")
+pushNotif("s", "Success Message Notification")
+*/

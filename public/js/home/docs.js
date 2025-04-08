@@ -136,7 +136,7 @@ async function verifyCode() {
     }
      
     try {
-      const response = await fetch("http://localhost:4000/api/sms/verify-code", {
+      const response = await fetch(`${window.location.origin}/api/sms/verify-code`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ phone, code, id }),

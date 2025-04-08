@@ -5,6 +5,7 @@ const {
     checkPhone,
     checkAccountStat,
     confirmAccount,
+    addFav
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -17,5 +18,6 @@ router.post("/confirmphone", confirmPhone);
 router.post("/confirmaccount", confirmAccount);
 router.get("/checkphone", checkPhone);
 router.get("/checkaccountstat", checkAccountStat);
+router.post("/add/favorite", addFav);
 
 module.exports = router;

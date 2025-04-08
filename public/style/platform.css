@@ -184,8 +184,8 @@ a *{
 /*----------------Cars Section------------------*/
 
 .plat-filter-sec{
-    max-width: 28em;
-    min-width: 16em;
+    min-width: 19em;
+    max-width: 19em;
     height: 100%;
     overflow: hidden;
     background-color: var(--container);
@@ -197,7 +197,8 @@ a *{
 }
 
 .reset-but{
-    color: var(--text-low);
+    font-size: var(--font-sml);
+    color: rgba(184, 43, 43, 0.745);
 }
 
 .plat-filter-body{
@@ -208,9 +209,24 @@ a *{
     padding: 1.25rem;
 }
 
-.plat-filter-foot,
 .filter-close-mob{
     display: none;
+}
+
+.plat-filter-foot{
+    display: flex;
+    height: 4em;
+    border-top: 2px solid var(--border-low);
+    width: 100%;
+}
+
+.apply-filter{
+    color: white;
+    background-color: var(--color-second);
+    width: 80%;
+    height: 60%;
+    font-size: var(--font-sml);
+    border-radius: 8px;
 }
 
 summary,
@@ -288,10 +304,11 @@ input[type='radio']:checked + .rnt{
     background-color: var(--border);
     border-radius: 2px;
 }
+
 .range-selected {
     height: 100%;
-    left: 30%;
-    right: 30%;
+    left: 0;
+    right: 0;
     position: absolute;
     border-radius: 5px;
     background-color: var(--color-second);
@@ -487,7 +504,7 @@ input[type='radio']:checked + .rnt{
     overflow: hidden;
     overflow-y: auto;
     padding: 1.25rem 0.8rem;
-    gap: 1.25em;   
+    gap: 1em;   
     padding-bottom: 4em;
     transition: all ease 0.6s;
 }
@@ -499,12 +516,10 @@ input[type='radio']:checked + .rnt{
 }
 
 .plat-car-container{
-    width: calc((100vw - 30.5em)/3);
-    min-width: 19em;
-    height: 300px;
+    width: 18em;
+    height: 280px;
     background-color: var(--container);
     border-radius: 0.7rem;
-    overflow: hidden;
     padding: 0;
     padding-bottom: 0.3rem;
     display: grid;
@@ -517,11 +532,6 @@ input[type='radio']:checked + .rnt{
 
 .plat-car-container header{
     grid-area: 1 / 1 / 2 / 2;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr) 0.2fr;
-    grid-template-rows: 1fr;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
     padding: 0.8rem 0.5rem;
     padding-bottom: 0;
 }
@@ -531,20 +541,19 @@ input[type='radio']:checked + .rnt{
 }
 
 .car-available{
-    font-size: var(--font-sml);
+    font-size: 0.75rem;
     color: var(--text);
     background-color: var(--border-low);
-    padding: 2.5px 6px;
-    border-radius: 5px;
+    padding: 2px 8px;
+    border-radius: 8px;
     cursor: default;
-    margin: 0 2px;
+    margin-left: 10px;
     text-align: center;
 }
 
 .av{
     color: rgb(69, 167, 101);
-    border: 1px solid rgba(69, 167, 102, 0.185);
-    background-color: rgba(69, 167, 102, 0.164);
+    background-color: rgba(69, 167, 102, 0.08);
 }
 
 .nav{
@@ -552,11 +561,8 @@ input[type='radio']:checked + .rnt{
 }
 
 .car-rate{
-    border: 1px solid var(--border-low);
-    padding: 2.5px 6px;
-    border-radius: 5px;
-    margin: 0 2px;
-    text-align: center;
+    margin-left: auto;
+    text-align: left;
 }
 
 .fa-star{
@@ -566,6 +572,7 @@ input[type='radio']:checked + .rnt{
 }
 
 .car-locate p{
+    max-width: 8em;
     font-size: var(--font-sml);
     color: var(--text);
 }
@@ -613,12 +620,14 @@ input[type='radio']:checked + .rnt{
 }
 
 .plat-car-name{
+    max-width: 18em;
     font-size: var(--font-sml);
     color: var(--text-low);
 }
 
 .plat-car-model,
 .plat-car-price{
+    max-width: 18em;
     font-size: var(--font-sml);
     color: var(--text);
 }
@@ -716,6 +725,10 @@ input[type='radio']:checked + .rnt{
     display: none;
 }
 
+.fav-lab{
+    margin-left: 5px;
+}
+
 .fav-lab:has(input[type="checkbox"]:checked) i{
     color: rgb(219, 64, 64);
     font-weight: bolder;
@@ -724,6 +737,12 @@ input[type='radio']:checked + .rnt{
 .fav-lab i{
     transition: all ease 0.8s;
 }
+
+.fav-lab, .animated-heart {
+    position: relative;
+    overflow: visible;
+}
+  
 
 .plat-rdetail-foot{
     width: 100%;
@@ -977,6 +996,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     width: .9375rem;
 }
 
+
 /*----------------------------------------------------*/
 
 
@@ -1001,7 +1021,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 
 .prev-img {
-    flex-grow: 1;
+    flex-grow: 1    ;
     flex-basis: 0;
     overflow: hidden;
     height: 100%;
@@ -1392,7 +1412,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     margin: 0.5em;
     overflow: hidden;
     padding-top: 1em;
-    box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.025);
+    box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.03);
 }
 
 .pop-car-head{
@@ -1456,7 +1476,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     border-radius: 15px;
     margin: 0 10px;
     background-color: var(--container);
-    box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.089);
+    box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.02);
 }
 
 .clc-car-img{
@@ -1510,7 +1530,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     position: relative;
     padding: 1em;
     padding-bottom: 0.8em;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.103);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
 }
 
 .fa-quote-right{

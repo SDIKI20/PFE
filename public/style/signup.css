@@ -248,6 +248,8 @@ input:disabled{
     height: var(--input-height-sml);
     border-radius: 6px;
     font-size: var(--font-sml);
+    color: white;
+    background-color: var(--color-second);
 }   
 
 #iti-0__country-listbox{

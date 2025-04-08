@@ -15,5 +15,4 @@ router.get("/brands/all/:brand_id", vehiclesController.getBrandVehicles);
 router.post("/add", upload, vehiclesController.addVehicle);
 router.get("/:id/availability", vehiclesController.checkAvailability);
 router.get("/filter", vehiclesController.getFilteredVehicles);
-
 module.exports = router;

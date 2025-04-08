@@ -1,3 +1,4 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 var path = require("path");
 const express = require("express");
 const app = express();
@@ -52,7 +53,6 @@ const storage = new CloudinaryStorage({
     },
 });
 
-// ✅ Enable CORS and Allow Credentials
 app.use(cors({
     origin: ["http://127.0.0.1:5500", "http://localhost:5000", "https://pfe-server-sandy.vercel.app", "https://pjr.vercel.app"],
     credentials: true
@@ -100,7 +100,9 @@ app.get("/signup",checkAuth, (req, res) => {
 app.get("/car/:id", async (req, res) => {
     try {
         const { id } = req.params;
-
+        const userId = req.user ? req.user.id : null;  // Assuming the user object is attached to the request
+        
+        // Query to fetch car details and review statistics
         const carResult = await pool.query(`
             SELECT 
                 vehicles.*, 
@@ -119,7 +121,8 @@ app.get("/car/:id", async (req, res) => {
                 COUNT(reviews.id) FILTER (WHERE reviews.stars = 2) AS s2,
                 COUNT(reviews.id) FILTER (WHERE reviews.stars = 3) AS s3,
                 COUNT(reviews.id) FILTER (WHERE reviews.stars = 4) AS s4,
-                COUNT(reviews.id) FILTER (WHERE reviews.stars = 5) AS s5
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 5) AS s5,
+                CASE WHEN COUNT(f.vehicle_id) > 0 THEN true ELSE false END AS is_favorite
             FROM 
                 vehicles
             JOIN 
@@ -130,13 +133,16 @@ app.get("/car/:id", async (req, res) => {
                 reviews ON vehicles.id = reviews.vehicle_id
             LEFT JOIN 
                 rentals ON vehicles.id = rentals.vehicle_id
+            LEFT JOIN 
+                favorites f ON f.user_id = $1 AND f.vehicle_id = vehicles.id
             WHERE 
-                vehicles.id = $1
+                vehicles.id = $2
             GROUP BY 
                 vehicles.id, brands.id, office.id
             LIMIT 1;
-        `, [id]);
+        `, [userId, id]);
 
+        // Query to fetch reviews for the car
         const carReviews = await pool.query(`
             SELECT 
                 reviews.*,
@@ -146,14 +152,14 @@ app.get("/car/:id", async (req, res) => {
             JOIN users ON reviews.user_id = users.id
             JOIN rentals ON reviews.rental_id = rentals.id
             WHERE reviews.vehicle_id = $1
-        `, [id])
+        `, [id]);
 
         if (carResult.rows.length === 0) {
             return res.status(404).render("p404");
-        }else{
+        } else {
             const car = carResult.rows[0];
             const reviews = carReviews.rows;
-            res.render("home", { car:car, reviews:reviews, user: req.user, section:"detail" });
+            res.render("home", { car: car, reviews: reviews, user: req.user, section: "detail" });
         }
 
     } catch (error) {
@@ -213,19 +219,161 @@ app.get("/home", checkNotAuth, async (req, res) => {
 });
 
 app.get("/cars", async (req, res) => {
-    try{
-        success_msg = Array.from([])
-        error_msg = Array.from([])
-        info_msg = Array.from([])
-        warning_msg = Array.from([])
-        const brandsResult = await pool.query("SELECT * FROM brands ORDER BY id DESC");
-        const brands = brandsResult.rows;
-        res.render("home", { user: req.user, brands, section : "cars" });
-    }catch(error){
+    try {
+        const {
+            search,
+            brand,
+            rtype,
+            trans,
+            capacity,
+            body,
+            fuel,
+            availability,
+            pricem,
+            priceM,
+            limit = 15,
+            offset = 0
+        } = req.query;
+
+        const userId = req.user ? req.user.id : null; 
+        
+        let query = `
+        SELECT v.*, 
+                b.name AS brand_name, 
+                b.logo AS brand_logo,
+                o.wilaya, 
+                COALESCE(r.stars, 0) AS stars,
+                COALESCE(r.reviews, 0) AS reviews,
+                COALESCE(rn.orders, 0) AS orders,
+                CASE WHEN f.vehicle_id IS NOT NULL THEN true ELSE false END AS is_favorite
+        FROM vehicles v
+        JOIN brands b ON v.brand_id = b.id
+        JOIN office o ON v.location = o.id
+        LEFT JOIN (
+            SELECT vehicle_id, 
+                    ROUND(AVG(stars), 1) AS stars, 
+                    COUNT(*) AS reviews
+            FROM reviews
+            GROUP BY vehicle_id
+        ) r ON v.id = r.vehicle_id
+        LEFT JOIN (
+            SELECT vehicle_id, 
+                    COUNT(*) AS orders
+            FROM rentals
+            GROUP BY vehicle_id
+        ) rn ON v.id = rn.vehicle_id
+        LEFT JOIN favorites f ON f.user_id = $1 AND f.vehicle_id = v.id
+        WHERE 1=1
+        `;
+
+        const values = [userId];
+        let index = 2; 
+
+        if (search) {
+            query += ` AND (LOWER(b.name) LIKE $${index} OR LOWER(v.model) LIKE $${index})`;
+            values.push(`%${search.toLowerCase()}%`);
+            index++;
+        }
+
+        if (brand) {
+            const brands = Array.isArray(brand) ? brand : brand.split(',');
+            const placeholders = brands.map(() => `$${index++}`);
+            query += ` AND LOWER(b.name) IN (${placeholders.join(", ")})`;
+            values.push(...brands.map(b => b.toLowerCase()));
+        }
+
+        if (rtype) {
+            query += ` AND v.rental_type = $${index}`;
+            values.push(rtype.toLowerCase());
+            index++;
+        }
+
+        if (trans) {
+            query += ` AND LOWER(v.transmission::TEXT) = $${index}`;
+            values.push(trans.toLowerCase());
+            index++;
+        }
+
+        if (capacity) {
+            if (capacity > 4) {
+                query += ` AND v.capacity > $${index}`;
+            } else {
+                query += ` AND v.capacity = $${index}`;
+            }
+            values.push(parseInt(capacity));
+            index++;
+        }
+
+        if (body) {
+            const bodies = Array.isArray(body) ? body : body.split(',');
+            const placeholders = bodies.map(() => `$${index++}`);
+            query += ` AND LOWER(v.body::TEXT) IN (${placeholders.join(", ")})`;
+            values.push(...bodies.map(b => b.toLowerCase()));
+        }
+
+        if (fuel) {
+            const fuels = Array.isArray(fuel) ? fuel : fuel.split(',');
+            const placeholders = fuels.map(() => `$${index++}`);
+            query += ` AND LOWER(v.fuel::TEXT) IN (${placeholders.join(", ")})`;
+            values.push(...fuels.map(f => f.toLowerCase()));
+        }
+
+        if (availability !== undefined) {
+            query += ` AND v.availability = $${index}`;
+            values.push(parseInt(availability));
+            index++;
+        }
+
+        if (pricem) {
+            query += ` AND v.price >= $${index}`;
+            values.push(parseFloat(pricem));
+            index++;
+        }
+
+        if (priceM) {
+            query += ` AND v.price <= $${index}`;
+            values.push(parseFloat(priceM));
+            index++;
+        }
+
+        query += ` ORDER BY stars DESC LIMIT $${index}`;
+        values.push(parseInt(limit));
+        index++;
+
+        query += ` OFFSET $${index}`;
+        values.push(parseInt(offset));
+
+        const carsResult = await pool.query(query, values);
+        const cars = carsResult.rows.length > 0 ? carsResult.rows : null;
+
+        const brandsResult = await pool.query(`SELECT * FROM brands`);
+        const brandsList = brandsResult.rows.length > 0 ? brandsResult.rows : null;
+
+        const fuelResult = await pool.query(`SELECT unnest(enum_range(NULL::fuel_type))`);
+        const fuelTypes = fuelResult.rows.length > 0 ? fuelResult.rows : null;
+
+        const bodyResult = await pool.query(`SELECT unnest(enum_range(NULL::body_type))`);
+        const bodyTypes = bodyResult.rows.length > 0 ? bodyResult.rows : null;
+
+        const transResult = await pool.query(`SELECT unnest(enum_range(NULL::transmission_type))`);
+        const transTypes = transResult.rows.length > 0 ? transResult.rows : null;
+
+        res.render("home", {
+            user: req.user,
+            cars: cars,
+            brands: brandsList,
+            fuelTypes: fuelTypes,
+            bodyTypes: bodyTypes,
+            transTypes: transTypes,
+            filters: req.query,
+            section: "cars"
+        });
+
+    } catch (error) {
         console.error(error);
         res.status(500).render("p404");
     }
-})
+});
 
 app.get("/orders",checkNotAuth, (req, res) => {
     try{

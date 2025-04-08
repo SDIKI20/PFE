@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/style/lib/fontawesome/all.min.css">
     <link rel="stylesheet" href="/style/main.css">
     <link rel="stylesheet" href="/style/checkbox.css">
+    <link rel="stylesheet" href="/style/heart-animation.css">
     <link rel="stylesheet" href="/style/platform.css">
     <link rel="stylesheet" href="/lib/node_modules/flatpickr/dist/flatpickr.css">
     <link rel="stylesheet" href="/lib/node_modules/mapbox-gl/dist/mapbox-gl.css">
@@ -189,11 +190,11 @@
             <header class="plat-filter-head flex-col center-start">
                 <div class="flex-row center-spacebet" style="width: 100%; padding: 10px 16px;">
                     <h1 class="title-sml">Filter by</h1>
-                    <button class="bt bt-hover reset-but" id="filterReset" title="Remove filter">Reset All <i class="fa-solid fa-xmark"></i></button>
+                    <a class="reset-but" href="/cars"> <i class="fa-solid fa-xmark"></i> <span>Rest All</span></a>
                 </div>
                 <div class="input-holder flex-row" style="width: 90%;">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" id="filterSearch" placeholder="Search...">
+                    <input class="filter-search-inp" type="search" id="filterSearch" placeholder="Search..." value="<%= filters.search || '' %>">
                 </div>
             </header>
             <section class="plat-filter-body flex-col">
@@ -204,11 +205,11 @@
                 <details class="rental-type" open>
                     <summary class="bt-hover">RENTAL TYPE</summary>
                     <div class="flex-row rental-types">
-                        <input type="radio" name="rnt" id="rentalA" class="r-type" hidden>
+                        <input type="radio" name="rnt" id="rentalA" class="r-type" hidden <%= filters.rtype=="d"?"":filters.rtype=="h"?"":"checked"%> >
                         <label for="rentalA" class="rnt bt-hover">Any</label>
-                        <input type="radio" name="rnt" id="rentalD" class="r-type" hidden checked>
+                        <input type="radio" name="rnt" id="rentalD" class="r-type" hidden <%= filters.rtype=="d"?"checked":"" %>>
                         <label for="rentalD" class="rnt bt-hover">Per day</label>
-                        <input type="radio" name="rnt" id="rentalH" class="r-type" hidden>
+                        <input type="radio" name="rnt" id="rentalH" class="r-type" hidden <%= filters.rtype=="h"?"checked":"" %>>
                         <label for="rentalH" class="rnt bt-hover">Per hour</label>
                     </div>
                 </details>
@@ -216,98 +217,64 @@
                 <div class="flex-row center-spacebet available">
                     <label for="stch" class="bt-hover">AVAILABLE ONLY</label>
                     <label class="switch">
-                        <input id="stch" type="checkbox" hidden>
+                        <input id="stch" type="checkbox" hidden <% if(filters.availability) %> <%= filters.availability=="1"?"checked":"" %>>
                         <span class="slider"></span>
                     </label>
                 </div>
                 <div class="break-line"></div>
-                <details class="filter-price">
+                <details class="filter-price" open>
                     <summary class="bt-hover"><span>PRICE RANGE <span id="priceBy">/HOUR</span></span></summary>
                     <div class="range flex-col">
                         <div class="range-slider">
-                            <span class="range-selected"></span>
+                            <span class="range-selected" <% if(filters.pricem && filters.priceM ) %> style="left:<%= (parseInt(filters.pricem) / 50000) * 100 %>%; right:<%= 100 - (parseInt(filters.priceM )/ 50000) * 100 %>%;"></span>
                         </div>
                         <div class="range-input">
-                            <input type="range" class="min" min="0" max="50000" value="15000" step="10">
-                            <input type="range" class="max" min="0" max="50000" value="36000" step="10">
+                            <input type="range" class="min" min="0" max="50000" value="<%= filters.pricem || '0' %>" step="10">
+                            <input type="range" class="max" min="0" max="50000" value="<%= filters.priceM || '50000' %>" step="10">
                         </div>
                         <div class="range-price flex-row">
                             <div class="flex-row center-start range-price-contanier">
                                 <label for="min">From</label>
-                                <input type="number" name="min" value="15000" disabled>      
+                                <input type="number" name="min" id="pricem" value="<%= filters.pricem || '0' %>" disabled>      
                             </div>
                             <div class="flex-row center-start range-price-contanier">
                                 <label for="max">To</label>
-                                <input type="number" name="max" value="36000" disabled>      
+                                <input type="number" name="max" id="priceM" value="<%= filters.priceM || '50000' %>" disabled>      
                             </div>
                         </div>
                         </div>
                 </details>
                 <div class="break-line"></div>
-                <details class="filter-brand">
+                <details class="filter-brand" open>
                     <summary class="bt-hover">CAR BRAND</summary>
                     <div class="flex-row flex-wrap">
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="bmw">
-                            <label class="flex-row flex-center" for="bmw">BMW <img src="../assets/cars/bmw.png" class="brandCImg" alt=""></label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="audi">
-                            <label class="flex-row flex-center" for="audi">AUDI <img src="../assets/cars/audi.png" class="brandCImg" alt=""></label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="chevrolet">
-                            <label class="flex-row flex-center" for="chevrolet">CHEVROLET <img src="../assets/cars/chevrolet.png" class="brandCImg" alt=""></label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="hyundai">
-                            <label class="flex-row flex-center" for="hyundai">HYUNDAI <img src="../assets/cars/hyundai.png" class="brandCImg" alt=""></label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="ford">
-                            <label class="flex-row flex-center" for="ford">FORD <img src="../assets/cars/ford.png" class="brandCImg" alt=""></label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="seat">
-                            <label class="flex-row flex-center" for="seat">SEAT <img src="../assets/cars/seat.png" class="brandCImg" alt=""></label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="mazda">
-                            <label class="flex-row flex-center" for="mazda">MAZDA <img src="../assets/cars/mazda.png" class="brandCImg" alt=""></label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="kia">
-                            <label class="flex-row flex-center" for="kia">KIA <img src="../assets/cars/kia.png" class="brandCImg" alt=""></label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="opel">
-                            <label class="flex-row flex-center" for="opel">OPEL <img src="../assets/cars/opel.png" class="brandCImg" alt=""></label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="skoda">
-                            <label class="flex-row flex-center" for="skoda">SKODA <img src="../assets/cars/skoda.png" class="brandCImg" alt=""></label>
-                        </div>
+                        <% if (brands) brands.forEach(brand=>{%>
+                            <div class="flex-row check-holder checkbox-wrapper-13">
+                                <input type="checkbox" class="filter-brand-inp" id="brand<%= brand.name %>" <%= filters.brand?Array.from(filters.brand.toUpperCase().split(",")).includes(brand.name.toUpperCase())?"checked":"":"" %>>
+                                <label class="flex-row flex-center" for="brand<%= brand.name %>"> <%= brand.name.toUpperCase() %> <img src="<%= brand.logo %>" class="brandCImg" alt=""></label>
+                            </div>
+                        <%})%>
                     </div>
                 </details>
                 <div class="break-line"></div>
-                <details class="filter-modal">
+                <details class="filter-modal" open>
                     <summary class="bt-hover">CAPACITY</summary>
                     <div class="flex-col transms">
                         <label class="radio-holder bt-hover">
-                            <input type="radio" id="personeA" name="value-radio1" value="personeA" checked/>
+                            <input type="radio" id="personeA" name="cap" value="personeA" <%= filters.capacity?"":"checked"%>/>
                             <p class="text">Any</p>
                         </label>
                         <label class="radio-holder bt-hover">
-                            <input type="radio" id="persone2" name="value-radio1" value="persone2"/>
+                            <input type="radio" id="persone2" name="cap" value="persone2" <%= filters.capacity==2?"checked":""%>/>
                             <p class="text">2 PERSON</p>
                         </label>
                         <label class="radio-holder bt-hover">
-                            <input type="radio" id="persone4" name="value-radio1" value="persone4"/>
+                            <input type="radio" id="persone4" name="cap" value="persone4" <%= filters.capacity==4?"checked":""%>/>
                             <p class="text">4 PERSON</p>
                         </label>
                         <label class="radio-holder bt-hover">
-                            <input type="radio" id="persone6" name="value-radio1" value="persone6"/>
-                            <p class="text">6 PERSON</p>
+                            <input type="radio" id="persone6" name="cap" value="persone6" <%= filters.capacity>4?"checked":""%>/>
+                            <p class="text">+5 PERSON</p>
                         </label>
                     </div>
                 </details>
@@ -315,30 +282,12 @@
                 <details class="filter-style" open>
                     <summary class="bt-hover">BODY STYLE</summary>
                     <div class="flex-row flex-wrap">
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="sport">
-                            <label for="sport">Sport</label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="sedan">
-                            <label for="sedan">Sedan</label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="van">
-                            <label for="van">Van</label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="coup">
-                            <label for="coup">Coup</label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="suv">
-                            <label for="suv">SUV</label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="offroad">
-                            <label for="offroad">Off-Road</label>
-                        </div>
+                        <% if (bodyTypes) bodyTypes.forEach(body=>{%>
+                            <div class="flex-row check-holder checkbox-wrapper-13">
+                                <input class="filter-body-style" type="checkbox" id="bodyType<%= body.unnest %>" <%= filters.body?Array.from(filters.body.toUpperCase().split(",")).includes(body.unnest.toUpperCase())?"checked":"":"" %>>
+                                <label for="bodyType<%= body.unnest %>"><%= body.unnest %></label>
+                            </div>
+                        <%})%>
                     </div>
                 </details>
                 <div class="break-line"></div>
@@ -346,15 +295,15 @@
                     <summary class="bt-hover">TRANSMISSION</summary>
                     <div class="flex-col transms">
                         <label class="radio-holder bt-hover">
-                            <input type="radio" id="transAny" name="value-radio" value="transAny"/>
+                            <input type="radio" id="transAny" name="transm" value="transAny" <%= filters.trans=="Automatic"?"":filters.trans=="Manual"?"":"checked"%>/>
                             <p class="text">Any</p>
                         </label>
                         <label class="radio-holder bt-hover">
-                            <input type="radio" id="transAut" name="value-radio" value="transAut"/>
+                            <input type="radio" id="transAut" name="transm" value="Automatic" <%= filters.trans=="Automatic"?"checked":""%>/>
                             <p class="text">Automatic</p>
                         </label>
                         <label class="radio-holder bt-hover">
-                            <input type="radio" id="transMan" name="value-radio" value="transMan" checked/>
+                            <input type="radio" id="transMan" name="transm" value="Manual" <%= filters.trans=="Manual"?"checked":""%>/>
                             <p class="text">Manuel</p>
                         </label>
                     </div>
@@ -363,34 +312,12 @@
                 <details class="filter-fuel" open>
                     <summary class="bt-hover">FUEL TYPE</summary>
                     <div class="flex-row flex-wrap">
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="deisel">
-                            <label for="deisel">Deisel</label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="electr">
-                            <label for="electr">Electric</label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="gasoline">
-                            <label for="gasoline">Gasoline</label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="ngas">
-                            <label for="ngas">Natural gas</label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="hybrid">
-                            <label for="hybrid">Hybrid</label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="lgp">
-                            <label for="lgp">LGP</label>
-                        </div>
-                        <div class="flex-row check-holder checkbox-wrapper-13">
-                            <input type="checkbox" id="e85">
-                            <label for="e85">E85</label>
-                        </div>
+                        <% if (fuelTypes) fuelTypes.forEach(fuel=>{%>
+                            <div class="flex-row check-holder checkbox-wrapper-13">
+                                <input class="filter-fuel-type" type="checkbox" id="fuelType<%= fuel.unnest %>" <%= filters.fuel?Array.from(filters.fuel.toUpperCase().split(",")).includes(fuel.unnest.toUpperCase())?"checked":"":"" %>>
+                                <label for="fuelType<%= fuel.unnest %>"><%= fuel.unnest %></label>
+                            </div>
+                        <%})%>
                     </div>
                 </details>                
             </section>
@@ -404,1139 +331,65 @@
                     <h1 class="title-sml plat-car-name"><span id="rentalResult" style="color:var(--text-low); font-size:11.2px;">99</span> Vehicles results</h1>
                     <div class="searchbar-4p flex-row center-start">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="search" id="search4p" placeholder="Search...">
+                        <input class="filter-search-inp" type="search" id="search4p" placeholder="Search...">
                         <i class="fa-solid fa-filter bt-hover" id="filterBut4p"></i>
                     </div>
                 </header>
                 <div class="plat-cars-container flex-row flex-wrap start-center">
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Available
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Ghardaia</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/hyundai_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">HYUNDAI FOCUS</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">5 <span class="car-s-rates">(500)</span></p>
-                            </div>
-                            <div class="car-available nav">
-                                Booked
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Oran</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden checked>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/kia_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">KIA CODE</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">800<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Auto</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available nav">
-                                Booked
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Metlili</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/ford_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">FORD EX</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">3.5 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Avilable
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Algers</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/seat_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">SEAT IBIZA</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">400<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">4</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Available
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Ghardaia</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/hyundai_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">HYUNDAI FOCUS</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">5 <span class="car-s-rates">(500)</span></p>
-                            </div>
-                            <div class="car-available nav">
-                                Booked
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Oran</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/kia_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">KIA CODE</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">800<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Auto</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available nav">
-                                Booked
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Metlili</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/ford_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">FORD EX</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">3.5 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Avilable
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Algers</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/seat_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">SEAT IBIZA</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">400<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">4</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Available
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Ghardaia</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/hyundai_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">HYUNDAI FOCUS</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">5 <span class="car-s-rates">(500)</span></p>
-                            </div>
-                            <div class="car-available nav">
-                                Booked
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Oran</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/kia_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">KIA CODE</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">800<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Auto</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available nav">
-                                Booked
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Metlili</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/ford_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">FORD EX</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">3.5 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Avilable
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Algers</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/seat_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">SEAT IBIZA</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">400<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">4</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Available
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Ghardaia</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/hyundai_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">HYUNDAI FOCUS</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">5 <span class="car-s-rates">(500)</span></p>
-                            </div>
-                            <div class="car-available nav">
-                                Booked
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Oran</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden checked>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/kia_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">KIA CODE</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">800<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Auto</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available nav">
-                                Booked
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Metlili</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/ford_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">FORD EX</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">3.5 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Avilable
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Algers</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/seat_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">SEAT IBIZA</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">400<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">4</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Available
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Ghardaia</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/hyundai_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">HYUNDAI FOCUS</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">5 <span class="car-s-rates">(500)</span></p>
-                            </div>
-                            <div class="car-available nav">
-                                Booked
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Oran</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/kia_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">KIA CODE</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">800<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Auto</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available nav">
-                                Booked
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Metlili</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/ford_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">FORD EX</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">3.5 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Avilable
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Algers</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/seat_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">SEAT IBIZA</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">400<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">4</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Available
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Ghardaia</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/hyundai_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">HYUNDAI FOCUS</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">5 <span class="car-s-rates">(500)</span></p>
-                            </div>
-                            <div class="car-available nav">
-                                Booked
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Oran</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/kia_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">KIA CODE</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">800<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Auto</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">4.7 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available nav">
-                                Booked
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Metlili</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/ford_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">FORD EX</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">6</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plat-car-container">
-                        <header class="flex-row center-start">
-                            <div class="car-rate flex-row flex-center">
-                                <i class="fa-solid fa-star"></i>
-                                <p class="para-detail">3.5 <span class="car-s-rates">(109)</span></p>
-                            </div>
-                            <div class="car-available av">
-                                Avilable
-                            </div>
-                            <div class="car-locate flex-row flex-center">
-                                <i class="fa-solid fa-location-dot tm-icn"></i>
-                                <p>Algers</p>
-                            </div>
-                            <label class="fav-lab">
-                                <i class="fa-regular fa-heart fav-but"></i>
-                                <input type="checkbox" class="fav-check" hidden>
-                            </label>
-                        </header>
-                        <div class="plat-car-image flex-col flex-center">
-                            <img src="../assets/cars/seat_.png" alt="Car">
-                        </div>
-                        <div class="plat-car-info flex-col start-center">
-                            <span class="plat-car-name">SEAT IBIZA</span>
-                            <div class="plat-car-card flex-row center-spacebet">
-                                <p class="plat-car-model">1.5 EcoGrey MT Titanium X</p>
-                                <p class="plat-car-price">400<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                            </div>
-                        </div>
-                        <div class="car-foot flex-row center-spacebet">
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-car-rear plat-icn"></i>
-                                <p class="plat-car-model">Hatchback</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gears plat-icn"></i>
-                                <p class="plat-car-model">Manual</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                <p class="plat-car-model">Diesel</p>
-                            </div>
-                            <div class="flex-row flex-center">
-                                <i class="fa-solid fa-couch plat-icn"></i>
-                                <p class="plat-car-model">4</p>
-                            </div>
-                        </div>
-                    </div>
+                    <% if (cars) cars.forEach(car=>{%>
+                        <div class="plat-car-container">
+                            <header class="flex-row center-start">
+                                <div class="car-locate flex-row flex-center">
+                                    <i class="fa-solid fa-location-dot tm-icn"></i>
+                                    <p class="text-eclip"><%= car.wilaya %></p>
+                                </div>
+                                <div class="car-available flex-row center-start <%= car.availability?'av':'nav' %>">
+                                    <%= car.availability?'Available':'Booked' %>
+                                </div>
+                                <div class="car-rate flex-row center-start">
+                                    <i class="fa-solid fa-star"></i>
+                                    <p class="para-detail"><%= car.stars %> <span class="car-s-rates">(<%= formatNumber(car.orders) %>)</span></p>
+                                </div>
+                                <% if (user){%>
+                                <label class="fav-lab flex-row center-start">
+                                    <label class="fav-lab flex-row center-start">
+                                        <input class="heart-anim" id="toggle-heart<%= car.id %>" type="checkbox" hidden <%= car.is_favorite ? 'checked disabled' : '' %>/>
+                                        <label for="toggle-heart<%= car.id %>" aria-label="like" class="animated-heart" id="v<%= car.id %>u<%= user.id %>">❤</label>
+                                    </label>                                    
+                                    <input type="checkbox" class="fav-check" hidden>
+                                </label>
+                                <% } %>
+                            </header>
+                            <div class="plat-car-image flex-col flex-center">
+                                <img src="<%= car.image %>" alt="Car">
+                            </div>
+                            <div class="plat-car-info flex-col start-center">
+                                <span class="plat-car-name text-eclip"><%= car.brand_name %> <%= car.model %> <%= car.fab_year %></span>
+                                <div class="plat-car-card flex-row center-spacebet">
+                                    <p class="plat-car-model text-eclip"><%= car.engine_type %></p>
+                                    <p class="plat-car-price"><%= car.price %><span class="currence">DZD</span> <span class="price-tag">/<%= car.rental_type %></span></p>
+                                </div>
+                            </div>
+                            <div class="car-foot flex-row center-spacebet">
+                                <div class="flex-row flex-center">
+                                    <i class="fa-solid fa-car-rear plat-icn"></i>
+                                    <p class="plat-car-model"><%= car.body %></p>
+                                </div>
+                                <div class="flex-row flex-center">
+                                    <i class="fa-solid fa-gears plat-icn"></i>
+                                    <p class="plat-car-model"><%= car.transmission %></p>
+                                </div>
+                                <div class="flex-row flex-center">
+                                    <i class="fa-solid fa-gas-pump plat-icn"></i>
+                                    <p class="plat-car-model"><%= car.fuel %></p>
+                                </div>
+                                <div class="flex-row flex-center">
+                                    <i class="fa-solid fa-couch plat-icn"></i>
+                                    <p class="plat-car-model"><%= car.capacity %></p>
+                                </div>
+                            </div>
+                        </div>
+                    <%})%>
                 </div>
             </div>
             <div class="plat-car-detail flex-col center-start" id="carDetail">
@@ -2223,7 +1076,6 @@
     <% if (section === 'fav') { %>
     <section class="plat-main-doc" id="favoriteDoc">
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectFavorite">
-        
     </section>
     <% } %>
     <% if (section === 'detail') { %>
@@ -2268,7 +1120,12 @@
                         </div>
                     </div>
                     <div class="fav-share flex-row">
-                        <button class="bt bt-hover bt-regular"><i class="fa-regular fa-heart"></i></button>
+                        <% if (user) { %>
+                            <button class="bt bt-hover bt-regular">
+                                <input class="heart-anim" id="toggle-heart<%= car.id %>" type="checkbox" hidden <%= car.is_favorite ? 'checked disabled' : '' %>/>
+                                <label for="toggle-heart<%= car.id %>" aria-label="like" class="animated-heart" id="v<%= car.id %>u<%= user.id %>">❤</label>
+                            </button>
+                        <% } %>
                         <button class="bt bt-hover bt-regular flex-row center-start"><i class="fa-solid fa-share" style="margin-right: 5px;"></i> <span class="only-pc"> Share this car</span></button>
                     </div>
                 </div>
@@ -2335,7 +1192,7 @@
                     </script>
                 </div>
             </div>
-            <button id="showContSec" class="only-mobile bt bt-hover">Book Informations</button>
+            <button id="showContSec" class="only-mobile bt bt-hover">Book Now</button>
             <div class="car-det-rentprice">
                 <i class="fa-solid fa-xmark only-mobile" id="detCloseBut"></i>
                 <p class="title-lrg" style="font-weight: bolder;">Book information</p>
@@ -2516,8 +1373,7 @@
     <% } %>
     <% if (section === 'help') { %>
     <section class="plat-main-doc" id="helpDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectHelp">
-        
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectHelp">   
     </section>
     <% } %>
     <% if (section === 'docs') { %>
@@ -2657,6 +1513,7 @@
     <script src="/lib/node_modules/svelte-range-slider-pips/dist/range-slider-pips.js"></script>
     <script src="/lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
     <script src="/lib/node_modules/flatpickr/dist/flatpickr.js"></script>
+    <script src="/lib/node_modules/driver.js/dist/driver.js.iife.js"></script>
     <script src="/js/platform.js"></script>
     <% const scripts = { 
         cars: "cars.js", 

@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         openLoader()
-        const response = await fetch("http://localhost:4000/api/email/verify-token?token=" + token);
+        const response = await fetch(`${window.location.origin}/api/email/verify-token?token=` + token);
         const data = await response.json();
 
         if (response.ok) {

@@ -332,7 +332,7 @@ p,span{
     max-height: 100vh;
     width: fit-content;
     overflow-y: auto;
-    z-index: 1000;
+    z-index: 10000;
     backdrop-filter: blur(2px);
 }
 
@@ -378,7 +378,7 @@ p,span{
 }
 
 .notif-error{
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.05);
+    box-shadow: 0 0 2px rgba(255, 0, 0, 0.05);
 }
 
 .notif-error .notif-type{
@@ -387,11 +387,11 @@ p,span{
 
 .notif-error .notif-close,
 .notif-error .notif-msg{
-    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.144));
+    filter: drop-shadow(0 0 2px rgba(255, 0, 0, 0.144));
 }
 
 .notif-warning{
-    box-shadow: 0 0 10px rgba(255, 123, 0, 0.05);
+    box-shadow: 0 0 2px rgba(255, 123, 0, 0.05);
 }
 
 .notif-warning .notif-type{
@@ -400,11 +400,11 @@ p,span{
 
 .notif-warning .notif-close,
 .notif-warning .notif-msg{
-    filter: drop-shadow(0 0 10px rgba(255, 115, 0, 0.144));
+    filter: drop-shadow(0 0 2px rgba(255, 115, 0, 0.144));
 }
 
 .notif-success{
-    box-shadow: 0 0 10px rgba(0, 255, 136, 0.05);
+    box-shadow: 0 0 2px rgba(0, 255, 136, 0.05);
 }
 
 .notif-success .notif-type{
@@ -413,12 +413,12 @@ p,span{
 
 .notif-success .notif-close,
 .notif-success .notif-msg{
-    filter: drop-shadow(0 0 10px rgba(136, 255, 0, 0.144));
+    filter: drop-shadow(0 0 2px rgba(136, 255, 0, 0.144));
 }
 
 .notif-info{
     border-color: rgba(66, 153, 194, 0.075);
-    box-shadow: 0 0 10px rgba(0, 238, 255, 0.05);
+    box-shadow: 0 0 2px rgba(0, 238, 255, 0.05);
 }
 
 .notif-info .notif-type{
@@ -427,7 +427,7 @@ p,span{
 
 .notif-info .notif-close,
 .notif-info .notif-msg{
-    filter: drop-shadow(0 0 10px rgba(0, 89, 255, 0.144));
+    filter: drop-shadow(0 0 2px rgba(0, 89, 255, 0.144));
 }
 
 /*--------------------------*/
@@ -685,6 +685,16 @@ input:focus,
 textarea:focus,
 select:focus{
     outline: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: var(--text);
+    transition: background-color 5000s ease-in-out 0s;
+    box-shadow: inset 0 0 20px 20px var(--container);
 }
 
 .fa-ellipsis-vertical{

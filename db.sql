@@ -159,6 +159,15 @@ CREATE TABLE vehicle_features (
   PRIMARY KEY (vehicle_id, feature_id)
 );
 
+CREATE TABLE favorites (
+    id SERIAL PRIMARY KEY,                              
+    user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,     
+    vehicle_id INT NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE, 
+    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (user_id, vehicle_id)                      
+);
+
+
 -- Indexes--------------------------------------------------------------
 CREATE INDEX idx_reviews_vehicle ON reviews(vehicle_id);
 CREATE INDEX idx_reviews_user ON reviews(user_id);
@@ -174,6 +183,8 @@ CREATE INDEX idx_vehicles_horsepower ON vehicles(horsepower);
 CREATE INDEX idx_vehicle_features_vehicle_id ON vehicle_features(vehicle_id);
 CREATE INDEX idx_vehicle_features_feature_id ON vehicle_features(feature_id);
 CREATE INDEX idx_vehicle_features_combo ON vehicle_features(vehicle_id, feature_id);
+CREATE INDEX idx_favorites_added_at ON favorites(added_at);
+
 
 --Triggers--------------------------------------------------------
 

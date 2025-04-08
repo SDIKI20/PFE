@@ -445,6 +445,11 @@
 
     /*---------------------Platform---------------------------*/
 
+    #carDetail,
+    #homeDoc{
+        height: calc(100svh - 3.5em);
+    }
+
     .plat-main-doc{
         width: 100vw;
         height: 100svh;
@@ -546,7 +551,7 @@
         height: 100svh;
         top: 150%;
         left: 50%;
-        z-index: 93;
+        z-index: 999 !important;
         transform: translate(-50%, -50%);
         display: none;
         transition: ease 0.6s;
@@ -602,7 +607,7 @@
     .plat-car-detail{
         position: absolute;
         width: 100vw;
-        height: 100svh;
+        height: 100svh !important;
         min-width: unset;
         top: 150%;
         left: 50%;
@@ -689,11 +694,15 @@
         margin: 0 5px;
     }
 
+    #platCloseFilter{
+        color: var(--txt-black);
+    }
+
     .plat-car-container{
-        width: 100%;
+        width: 90%;
         max-width: 500px;
         min-width: 20em;
-        height: 380px;
+        height: 280px;
     }
 
     #detailsClose{
@@ -938,7 +947,7 @@
         z-index: 98;
         background-color: var(--color-second);
         color: white;
-        padding: 0.8rem 1.3rem;
+        padding: 0.8rem 2rem;
         border-radius: 8px;
     }
 
