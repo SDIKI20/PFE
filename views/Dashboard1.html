@@ -54,10 +54,10 @@
                     My Account
                 </a>
             </li>
-            <li id="help-menu-item">
-                <a href="#help-content">
+            <li id="report-menu-item">
+                <a href="#report-content">
                     <i class="fa-solid fa-circle-question"></i>
-                    Get Help
+                    Report
                 </a>
             </li>
           
@@ -222,6 +222,12 @@
     
     <section class="content-section" id="customers-content">
         <h2>Customers List</h2>
+        <div class=".button_customer">
+            <button  class="button_cust active">AllCustomers</button>
+            <button class="button_cust">Clients</button>
+            <button class="button_cust">Admins</button>
+        </div>
+<br>
         <table class="customer-table">
             <thead>
                 <tr>
@@ -239,14 +245,94 @@
     </section>
     
     <section class="content-section" id="account-content">
-        <h2>My Account</h2>
-        <p>Content for My Account section.</p>
+        <div class="containeraccount">
+            <!-- General Account Information -->
+            <div class="section">
+                <h2>General Account Information</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <div class="input-wrapper">
+                            <input id="name" type="text">
+                            <i class="fas fa-user icon"></i>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <div class="input-wrapper">
+                            <input id="email" type="email">
+                            <i class="fas fa-envelope icon"></i>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="country">Your Country</label>
+                        <div class="input-wrapper">
+                            <input id="country" type="text">
+                            <i class="fas fa-globe icon"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Your Wilaya</label>
+                        <div class="input-wrapper">
+                            <input id="country" type="text">
+                            <i class="fas fa-globe icon"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Your City</label>
+                        <div class="input-wrapper">
+                            <input id="country" type="text">
+                            <i class="fas fa-city icon"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Your Phone number</label>
+                        <div class="input-wrapper">
+                            <input id="country" type="number">
+                            <i class="fas fa-phone icon"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Your Birthdate</label>
+                        <div class="input-wrapper">
+                          <input id="country" type="Date">
+                          <i class="fas fa-calendar-days icon"></i>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="country">Your Zipcode</label>
+                        <div class="input-wrapper">
+                          <input id="country" type="text">
+                          <i class="fas fa-code icon"></i>
+                        </div>
+                        
+                      </div>
+                </div>
+            </div>
+        
+            <!-- Security Settings -->
+            <div class="section">
+              <h2>Security Settings</h2>
+              <div class="form-group">
+                <label for="password">Your Password</label>
+                <div class="input-wrapper">
+                  <input id="password" type="password" value="********">
+                  <i class="fas fa-lock icon"></i>
+                </div>
+              </div>
+            </div>
+        
+           <div class="button">
+            <a href="/"><button class="bn632-hover bn26">Save</button></a>
+
+              </button>
+           </div>
+          </div>
     </section>
     
-    <section class="content-section" id="help-content">
-        <h2>Get Help</h2>
-        <p>Content for Get Help section.</p>
-    </section>
+   
     
     <section class="content-section" id="report-content">
         <h2>Report</h2>

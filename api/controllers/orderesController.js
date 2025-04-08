@@ -15,10 +15,10 @@ const newOrder = async (req, res) => {
 try {
     const newOrder = await pool.query(
         
-        `INSERT INTO reservations (id,client_id, vehicle_id, start_date, end_date, status,reservation_date) 
-             VALUES ($1, $2, $3, $4, $5, $6,$7) 
+        `INSERT INTO reservations (id,client_id, vehicle_id, start_date, end_date, status) 
+             VALUES ($1, $2, $3, $4, $5, $6) 
              RETURNING *`,
-            [id,client_id, vehicle_id, start_date, end_date, status,reservation_date]);
+            [id,client_id, vehicle_id, start_date, end_date, status]);
         res.json(newOrder.rows[0]);
     }
     catch (err) {

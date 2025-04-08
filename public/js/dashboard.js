@@ -93,7 +93,7 @@ document.getElementById("customers-menu-item").addEventListener("click", functio
 });
 
 function fetchCustomers() {
-    fetch("http://localhost:4000/api/getUsers") 
+    fetch("http://localhost:4000/api/Users/getUsers") 
         .then(response => response.json())
         .then(customers => {
             const tableBody = document.getElementById("customersTableBody");
@@ -115,4 +115,19 @@ function fetchCustomers() {
         })
         .catch(error => console.error("Error fetching customers:", error));
 }
+let allcustomers = []; // تخزين جميع الطلبات
 
+document.addEventListener("DOMContentLoaded", function () {
+    fetchCustomers(); // جلب الطلبات عند تحميل الصفحة
+
+    // إضافة مستمع للأزرار
+    document.querySelectorAll(".button_cust").forEach(button => {
+        button.addEventListener("click", function () {
+            document.querySelectorAll(".button_cust").forEach(btn => btn.classList.remove("active"));
+            this.classList.add("active");
+
+            const status = this.textContent;
+            filtefetchCustomers(status);
+        });
+    });
+});
