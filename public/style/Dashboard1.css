@@ -46,7 +46,7 @@ ul li a{
 }
 
 ul li a:hover, .active{
-    background-color:var(--border-low);
+    background-color:var(--border);
 }
 
 .log-out{
@@ -74,7 +74,7 @@ ul label a i{
     width: 100%;
     border-radius: 8px;
     margin: 10px;
-    background-color: var(--container);
+    background-color: var(--bg-lower);
     overflow-y: scroll;
     padding: 20px;
 }
@@ -469,26 +469,6 @@ tr:hover {
   }
 
 
-  .deleteButton{
-    color: #eee;
-    padding: 7px 13px;
-    border: none;
-    border-radius: 20px;
-    background: red;
-    color: white;
-    height: 49px;
-    position: absolute;
-    bottom: 20px;
-    right: 200px;
-    width: 160px;
-    height: 55px;
-  }
-  .deleteButton:hover{
-    background: #c0392b;
-  }
-  .deleteButton:active{
-    background: #e74c3c;
-  }
   .AddButton{
     color: #eee;
     padding: 7px 13px;
@@ -502,4 +482,8 @@ tr:hover {
     right: 200px;
     width: 160px;
     height: 55px;
+  }
+
+  .nav-selected{
+    background-color: red;
   }

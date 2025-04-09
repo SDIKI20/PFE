@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 /*document.addEventListener("DOMContentLoaded", () => {
+=======
+/*
+document.addEventListener("DOMContentLoaded", () => {
+>>>>>>> 5104c87074415d5601bc9f4eda867c90db878ed0
     var root = document.documentElement;
 
     let dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
