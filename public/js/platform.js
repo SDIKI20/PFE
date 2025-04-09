@@ -91,4 +91,4 @@ function startTour() {
   tour.drive(); // start the tour
 }
 
-startTour()
+//startTour()
