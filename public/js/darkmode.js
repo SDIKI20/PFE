@@ -1,3 +1,4 @@
+/*
 document.addEventListener("DOMContentLoaded", () => {
     var root = document.documentElement;
 
@@ -61,3 +62,4 @@ document.addEventListener("DOMContentLoaded", () => {
         root.style.setProperty('--bg-darker', '#d3d0d0');
     }
 });
+*/

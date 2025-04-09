@@ -486,7 +486,7 @@ app.post("/login", passport.authenticate("local", {
     failureFlash: true
 }))
 /*-----------dashboard.ejs----------------*/
-app.get('/order',checkNotAuth,(req, res) => {
+app.get('/order',checkNotAuth, (req, res) => {
     try{
     res.render("dashboard",{user: req.user, section:"order"})
     }catch(error){
@@ -502,10 +502,8 @@ app.get('/dashboard',checkNotAuth,(req, res) => {
         res.status(500).render("p404");
     }
 })
-app.get('/customers',checkNotAuth,async(req, res) => {
-    const customer = await pool.query("SELECT * FROM users ");
-        const brands = customer.rows;});
-        app.get('/customers',checkNotAuth,(req, res) => {
+
+app.get('/customers',checkNotAuth,(req, res) => {
         try{
           res.render("dashboard",{user: req.user, section:"customers"}    
     )
@@ -535,6 +533,14 @@ app.get('/report',checkNotAuth,(req, res) => {
 app.get('/settings',checkNotAuth,(req, res) => {
     try{
     res.render("dashboard",{user: req.user, section:"settings"})
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
+app.get('/vehicules',checkNotAuth,(req, res) => {
+    try{
+    res.render("dashboard",{user: req.user, section:"vehicules"})
     }catch(error){
         console.error(error);
         res.status(500).render("p404");

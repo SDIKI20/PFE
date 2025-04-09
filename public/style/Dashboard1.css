@@ -483,3 +483,7 @@ tr:hover {
     width: 160px;
     height: 55px;
   }
+
+  .nav-selected{
+    background-color: red;
+  }
