@@ -141,31 +141,9 @@ ul label a i{
     border: 1px solid var(--border);
 }
 
-table{
-    width: 100%;
-    overflow-x: auto;
-}
 
-.table{
-    border-collapse: collapse;
-    min-width: 600px;
-    color: var(--text);
-    width: 100%;
-    text-align: center;
-    border-spacing: 8px;
-}
 
-td,th{
-    padding: 10px;
-    text-align: center;
-    border: 1px solid var(--border-low);
-    background-color: var(--bg);
-    height: 50px;   
-}
 
-th{
-    background-color: var(--bg-lower);
-}
 
 #dash-content .title-info .moniteur{
     font-size: 15px;
@@ -185,12 +163,7 @@ button{
     margin-right: 20px;
 }
 
-.table{
-    border: var(--border) solid 1px;
-    border-radius: 8px;
-    margin: 10px;
-    flex-wrap: wrap;
-}
+
 
 .data p{
     margin: 10px;
@@ -248,3 +221,285 @@ body:not(:has(:target)) #dash-content {
     visibility: visible;
     position: relative;
 }
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: right;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+.status-active {
+    color: green;
+    font-weight: bold;
+}
+
+.status-pending {
+    color: orange;
+    font-weight: bold;
+}
+
+.status-in-progress {
+    color: blue;
+    font-weight: bold;
+}
+.button_order{
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+.button_ord:hover , .active{
+    background-color:var(--border-low);
+}
+.button_customer{
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.button_cust:hover , .active{
+  background-color:var(--border-low);
+}
+
+.containeraccount {
+    max-width: 10000px;
+    height: 100%;
+    margin: 0 auto;
+    background-color: white;
+    padding: 24px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    
+  }
+  
+  .section {
+    margin-bottom: 32px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  
+  .form-group {
+    position: relative;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+  }
+  
+  .input-wrapper {
+    position: relative;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="Date"],
+  input[type="number"] {
+    width: 100%;
+    padding: 8px 36px 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 1px #6366f1;
+  }
+  
+  .icon,
+  .icon-error,
+  .icon-success {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    pointer-events: none;
+    color: #9ca3af;
+  }
+  
+  .icon-error {
+    color: #ef4444;
+    right: 30px;
+  }
+  
+  .icon-success {
+    color: #10b981;
+  }
+  
+  .tooltip {
+    position: absolute;
+    top: 100%;
+    right: 10px;
+    background-color: #111827;
+    color: white;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+    margin-top: 4px;
+    white-space: nowrap;
+  }
+  
+  .edit-button {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    padding: 4px 8px;
+    font-size: 12px;
+    background-color: #e5e7eb;
+    color: #374151;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+ 
+  
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .checkbox-group label {
+    font-size: 14px;
+    color: #111827;
+  }
+  
+  .checkbox-group input[type="checkbox"] {
+    margin-right: 8px;
+  }
+  /*button account css*/
+  .bn632-hover {
+    width: 160px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    margin: 20px;
+    height: 55px;
+    text-align:center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  
+  .bn632-hover:hover {
+    background-position: 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+  }
+  
+  .bn632-hover:focus {
+    outline: none;
+  }
+  
+  .bn632-hover.bn26 {
+    background-image: linear-gradient(
+      to right,
+      #25aae1,
+      #4481eb,
+      #04befe,
+      #3f86ed
+    );
+    box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
+  }
+
+
+  .deleteButton{
+    color: #eee;
+    padding: 7px 13px;
+    border: none;
+    border-radius: 20px;
+    background: red;
+    color: white;
+    height: 49px;
+    position: absolute;
+    bottom: 20px;
+    right: 200px;
+    width: 160px;
+    height: 55px;
+  }
+  .deleteButton:hover{
+    background: #c0392b;
+  }
+  .deleteButton:active{
+    background: #e74c3c;
+  }
+  .AddButton{
+    color: #eee;
+    padding: 7px 13px;
+    border: none;
+    border-radius: 20px;
+    background-color: white;
+    color: black;
+    height: 49px;
+    position: absolute;
+    bottom: 20px;
+    right: 200px;
+    width: 160px;
+    height: 55px;
+  }
