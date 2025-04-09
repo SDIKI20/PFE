@@ -27,13 +27,13 @@
             </li>
             <p class="mainmenu">MainMenu</p>
             <li id="dashboard-menu-item">
-                <a href="#dash-content" >
+                <a href="/Dashboard" <%= section === "Dashboard" %> title="Dashboard">
                     <i class="fa-solid fa-grip"></i>
                     Dashboard
                 </a>
             </li>
             <li id="orders-menu-item">
-                <a href="#orders-content">
+                <a href="/order" <%= section === "order" %> title="order">
                     <i class="fa-solid fa-file-lines"></i>
                     Orders
                 </a>
@@ -41,7 +41,7 @@
             
            
             <li id="customers-menu-item">
-                <a href="#customers-content">
+                <a href="/customers" <%= section === "customers" %> title="customers">
                     <i class="fa-solid fa-users"></i>
                     Customers
                 </a>
@@ -49,13 +49,13 @@
             <hr>
             <p class="mainmenu">Account</p>
             <li id="account-menu-item">
-                <a href="#account-content">
+                <a href="/account" <%= section === "account" %> title="account">
                     <i class="fa-solid fa-user"></i>
                     My Account
                 </a>
             </li>
             <li id="report-menu-item">
-                <a href="#report-content">
+                <a href="/report" <%= section === "report" %> title="report">
                     <i class="fa-solid fa-circle-question"></i>
                     Report
                 </a>
@@ -63,19 +63,22 @@
           
             <hr>
             <li  id="settings-menu-item">
-                <a href="#settings-content">
+                <a href="/settings" <%= section === "settings" %> title="settings">
                     <i class="fa-solid fa-gear"></i>
                     Settings
                 </a>
             </li>
             <li class="log-out">
-                <a href="#" onclick="window.location.href='../views/login.ejs'" >
+                <a href="/log-out" onclick="window.location.href='../views/login.ejs'" >
                     <i class="fa-solid fa-right-from-bracket"></i>
                     Log Out
                 </a>
             </li>
         </ul>
     </nav>
+
+
+    <% if (section === 'dashboard') { %>
 
     <section class="content-section" id="dash-content">
         <section>
@@ -111,7 +114,29 @@
                         <span>$100</span>
                     </div>
                 </div>
-    
+                <script>
+                const ctx = document.getElementById('myChart');
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    datasets: [{
+      label: '# of Votes',
+      data: [12, 19, 3, 5, 2, 3],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+})
+</script>
             </div>
             <div class="boxe flex-row" style="flex-wrap: wrap;">
                 <i class="fa-solid fa-database"></i>
@@ -167,6 +192,10 @@
         <section>
         </section>
     </section>
+    <% } %>
+
+    <% if (section === 'orders') { %>
+
     <section class="content-section" id="orders-content">
         <h1>OrdersList</h1>
         <div class="button_order">
@@ -216,10 +245,13 @@
         </table>  
         
     </section>
-    
-   
+    <% } %>
 
     
+ 
+
+        <% if (section === 'customers') { %>
+
     <section class="content-section" id="customers-content">
         <h2>Customers List</h2>
         <div class=".button_customer">
@@ -243,7 +275,10 @@
             </tbody>
         </table>
     </section>
-    
+    <% } %>
+
+    <% if (section === 'account') { %>
+
     <section class="content-section" id="account-content">
         <div class="containeraccount">
             <!-- General Account Information -->
@@ -331,18 +366,23 @@
            </div>
           </div>
     </section>
-    
+    <% } %>
+
    
-    
+    <% if (section === 'report') { %>
+
     <section class="content-section" id="report-content">
         <h2>Report</h2>
         <p>Content for Report section.</p>
     </section>
-    
+    <% } %>
+
+    <% if (section === 'settings') { %>
     <section class="content-section" id="settings-content">
         <h2>Settings</h2>
         <p>Content for Settings section.</p>
     </section>
+    <% } %>
     <script src="../public/js/main.js"></script>
     <script src="../public/lib/node_modules/chart.js/dist/chart.umd.js"></script>
     <script src="../public/js/darkmode.js"></script>
