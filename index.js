@@ -97,6 +97,16 @@ app.get("/signup",checkAuth, (req, res) => {
     res.render("signup")
 })
 
+app.get("/dashboard", async (req, res) => {
+    const officesResult = await pool.query("SELECT * FROM office ORDER BY id ASC");
+    const offices = officesResult.rows;
+    res.render("dashboard", {section:"dashboard", o:offices})
+})
+
+app.get("/settings", async (req, res) => {
+    res.render("dashboard", {section:"settings"})
+})
+
 app.get("/car/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -375,14 +385,70 @@ app.get("/cars", async (req, res) => {
     }
 });
 
-app.get("/orders",checkNotAuth, (req, res) => {
-    try{
-        res.render("home", { user: req.user, section : "orders" });
-    }catch(error){
+app.get("/rentals", checkNotAuth, async (req, res) => {
+    try {
+        const {
+            search,      // a general search input
+            start_date,
+            end_date,
+            status
+        } = req.query;
+
+        const values = [req.user.id];
+        const conditions = ["user_id = $1"];
+        let index = values.length + 1;
+
+        if (search) {
+            conditions.push(`(
+                brands.name ILIKE $${index} OR
+                vehicles.model ILIKE $${index} OR
+                CAST(vehicles.fab_year AS TEXT) ILIKE $${index}
+            )`);
+            values.push(`%${search}%`);
+            index++;
+        }
+
+        if (start_date) {
+            conditions.push(`rentals.start_date >= $${index++}`);
+            values.push(start_date);
+        }
+
+        if (end_date) {
+            conditions.push(`rentals.end_date <= $${index++}`);
+            values.push(end_date);
+        }
+
+        if (status) {
+            conditions.push(`rentals.status = $${index++}`);
+            values.push(status);
+        }
+
+        const whereClause = `WHERE ${conditions.join(" AND ")}`;
+
+        const rentalsResult = await pool.query(`
+            SELECT rentals.*,
+                   vehicles.model, vehicles.fab_year, vehicles.rental_type,
+                   brands.name AS brand_name
+            FROM rentals 
+            JOIN vehicles ON vehicles.id = rentals.vehicle_id
+            JOIN brands ON vehicles.brand_id = brands.id
+            ${whereClause}
+            ORDER BY rentals.created_at DESC
+        `, values);
+
+        const rentals = rentalsResult.rows.length > 0 ? rentalsResult.rows : null;
+
+        res.render("home", {
+            user: req.user,
+            section: "rentals",
+            filters: req.query,
+            rentals
+        });
+    } catch (error) {
         console.error(error);
         res.status(500).render("p404");
     }
-})
+});
 
 app.get("/recent",checkNotAuth, (req, res) => {
     try{

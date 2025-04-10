@@ -1686,19 +1686,25 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     border: 1px solid rgba(184, 43, 43, 0.096);
 }
 
-.Completed{
+.completed{
     color: rgb(175, 71, 206);
     background-color: rgba(205, 83, 216, 0.116);
     border: 1px solid rgba(179, 43, 184, 0.096);
 }
 
-.InProgress{
+.pending{
     color: rgb(143, 125, 148);
     background-color: rgba(158, 158, 173, 0.116);
     border: 1px solid rgba(124, 122, 129, 0.096);
 }
 
-.Canceled{
+.active{
+    color: rgb(71, 170, 206);
+    background-color: rgba(83, 158, 216, 0.116);
+    border: 1px solid rgba(43, 132, 184, 0.096);
+}
+
+.canceled{
     color: rgb(206, 87, 71);
     background-color: rgba(216, 98, 83, 0.116);
     border: 1px solid rgba(184, 107, 43, 0.096);
