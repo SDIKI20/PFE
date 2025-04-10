@@ -19,22 +19,32 @@
     <link rel="stylesheet" href="/lib/node_modules/driver.js/dist/driver.css">
     <link rel="stylesheet" href="/style/mobile.css">
     <link rel="stylesheet" href="/style/lagreScreen.css">
-    <title>Platform</title>
+    <title><%= section.toString().substring(0,1).toUpperCase() %><%= section.toString().substring(1).toLowerCase() %></title>
 </head>
 <body class="flex-row" id="platContent">
      
-    <%function formatNumber(num) {
-        if (num >= 1e9) {
-        return (num / 1e9).toFixed(1).replace(/\.0$/, '') + 'b';
+    <%
+        function formatNumber(num) {
+            if (num >= 1e9) {
+            return (num / 1e9).toFixed(1).replace(/\.0$/, '') + 'b';
+            }
+            if (num >= 1e6) {
+            return (num / 1e6).toFixed(1).replace(/\.0$/, '') + 'm';
+            }
+            if (num >= 1e3) {
+            return (num / 1e3).toFixed(1).replace(/\.0$/, '') + 'k';
+            }
+            return num.toString();
         }
-        if (num >= 1e6) {
-        return (num / 1e6).toFixed(1).replace(/\.0$/, '') + 'm';
+        function formatDate(dateString) {
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = months[date.getMonth()];
+            return `${day} ${month}`;
         }
-        if (num >= 1e3) {
-        return (num / 1e3).toFixed(1).replace(/\.0$/, '') + 'k';
-        }
-        return num.toString();
-    }%>
+    %>
     
     <% if (section === 'docs') { %>
         <div class="overtop-conf flex-row flex-center" id="upDocsContainer">
@@ -763,41 +773,102 @@
     <% } %>
     <% if (section === 'rentals') { %>
     <section class="plat-main-doc flex-col center-start" id="ordersDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectOrders" value="<% if (filters)%><%= filters.search %>">
+        <input type="radio" class="sectRad" hidden name="sectRad" id="sectOrders">
         <div class="rentals-filter phd flex-row flex-center" style="margin-top: 10px;">
             <ul class="orders-type-f flex-row center-spacebet">
-                <label class="ordTf 0">All Rentals <input type="radio" name="ordTf" checked hidden></label>
-                <label class="ordTf 1">Drafts <input type="radio" name="ordTf" hidden></label>
-                <label class="ordTf 2">Running <input type="radio" name="ordTf" hidden></label>
-                <label class="ordTf 3">Completed <input type="radio" name="ordTf" hidden></label>
-                <label class="ordTf 4">Canceled <input type="radio" name="ordTf" hidden></label>
+                <label class="ordTf 0"><span>All Rentals</span><input type="radio" name="ordTf" value="" hidden></label>
+                <label class="ordTf 1"><span>Pending</span><input type="radio" name="ordTf" value="pending" hidden></label>
+                <label class="ordTf 2"><span>Active</span><input type="radio" name="ordTf" value="active" hidden></label>
+                <label class="ordTf 3"><span>Completed</span><input type="radio" name="ordTf" value="completed" hidden></label>
+                <label class="ordTf 4"><span>Canceled</span><input type="radio" name="ordTf" value="canceled" hidden></label>
             </ul>
         </div>
         <div class="searchbar-4p flex-row center-start">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="search" id="search4p" placeholder="Search...">
+            <input type="search" id="search4p" placeholder="Search..." value="">
             <i class="fa-solid fa-filter bt-hover" id="rentsFilterBut4p"></i>
         </div>
         <div class="rentals-filter phd flex-row center-spacebet" style="padding: 0 1em;">
             <div class="flex-row" style="gap: .7em;">
                 <div class="input-holder flex-row" style="height: 50%;">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Search...">
+                    <input type="search" id="search4pp" placeholder="Search..." value="">
                 </div>
                 <div class="input-holder flex-row">
                     <i class="fa-solid fa-arrow-up-wide-short"></i>
                     <select class="bt rental-fltr">
-                        <option>Filter</option>
-                        <option value="Paid">Paid</option>
-                        <option value="Unpaid">Unpaid</option>
+                        <option value="">Order</option>
+                        <option value="date">Date</option>
+                        <option value="price">Price</option>
                     </select>
                 </div>
-                <div class="input-holder flex-row">
+                <div class="input-holder flex-row" style="max-width: 12em;">
                     <i class="fa-regular fa-calendar"></i>
-                    <input type="text" id="dateRange" class="bt" placeholder="01 Dec - 16 Dec">
+                    <input type="text" id="dateRange" class="bt">
+                    <input type="date" id="filterStartDate" hidden>
+                    <input type="date" id="filterEndDate" hidden>                   
                 </div>
             </div>
-            <button class="data-download bt bt-hover"><i class="fa-solid fa-file-arrow-down" style="margin-right: .3125rem;"></i> Download as CSV</button>
+            <button class="data-download bt bt-hover text-eclip"><i class="fa-solid fa-file-arrow-down" style="margin-right: .3125rem;"></i> Download as CSV</button>
+            <script>
+                document.querySelector('.data-download').addEventListener('click', function() {
+                    const rentals = <%- JSON.stringify(rentals) %>; 
+            
+                    const headers = ['ID', 'Brand Name', 'Model', 'Fabrication Year', 'Start Date', 'End Date', 'Period', 'Payment Status', 'Status', 'Price'];
+            
+                    let csvContent = headers.join(',') + '\n'; 
+            
+                    rentals.forEach(rental => {
+                        const startDate = new Date(rental.start_date).toISOString().split('T')[0];
+                        const endDate = new Date(rental.end_date).toISOString().split('T')[0];
+                        const period = calculatePeriod(rental.start_date, rental.end_date, rental.rental_type);
+                        const paymentStatus = rental.payment_status || 'Not Paid';
+                        const status = rental.status || 'Unknown';
+                        const price = rental.total_price || 'N/A';
+            
+                        const row = [
+                            rental.id,
+                            rental.brand_name,
+                            rental.model,
+                            rental.fab_year,
+                            startDate,
+                            endDate,
+                            period,
+                            paymentStatus,
+                            status,
+                            price
+                        ];
+            
+                        csvContent += row.join(',') + '\n';
+                    });
+            
+                    const link = document.createElement('a');
+                    link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent);
+                    link.target = '_blank';
+                    link.download = 'rentals.csv';
+                    link.click();
+                });
+            
+                function calculatePeriod(startDate, endDate, rentalType) {
+                    const start = new Date(startDate);
+                    const end = new Date(endDate);
+                    const diffMs = end - start;
+                    let diff;
+            
+                    if (rentalType === 'h') {
+                        diff = Math.round(diffMs / (1000 * 60 * 60)) + ' HOURS';
+                    } else if (rentalType === 'd') {
+                        diff = Math.round(diffMs / (1000 * 60 * 60 * 24)) + ' DAYS';
+                    } else {
+                        diff = 'UNKNOWN TYPE';
+                    }
+            
+                    return diff;
+                }
+            </script>
+            <input type="number" id="uIR" value="<%= user.id %>" hidden>
+            <input type="number" id="filterLimit" value="10" hidden>
+            <input type="number" id="filterOffset" value="0" hidden>
         </div>
         <div class="rentals-main">
             <ul class="rentals-head rental-order">
@@ -809,70 +880,15 @@
                 <li class="flex-row center-start">Rentals</li>
                 <li class="flex-row center-start">Date</li>
                 <li class="flex-row center-start phd">Period</li>
-                <li class="flex-row center-start">Payment</li>
-                <li class="flex-row center-start">Status</li>
+                <li class="flex-row center-start phd">Payment</li>
+                <li class="flex-row center-start phd">Status</li>
                 <li class="flex-row center-start">Price</li>
                 <div class="flex-row center-start">
                     <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
                 </div>
             </ul>
             <ul class="rentals-container flex-col center-start">
-                <% if(rentals) rentals.forEach(rental => { %>
-                    <li class="rental-order">
-                        <div class="checkbox-wrapper-13 phd">
-                            <input class="rentCheckB" type="checkbox">
-                        </div>
-                        <div class="flex-col start-center">
-                            <p class="spec-tit"><%= rental.brand_name %> <%= rental.model %> <%= rental.fab_year %></p>
-                            <p class="price-tag">#<%= rental.id %></p>
-                        </div>
-                        <div class="flex-row center-start">
-                            <p class="spec-tit"><%= rental.created_at.toString().slice(0, 15) %></p>
-                        </div>
-                        <div class="flex-row center-start phd">
-                            <p class="spec-tit">
-                                <%
-                                  const start = new Date(rental.start_date);
-                                  const end = new Date(rental.end_date);
-                                  const diffMs = end - start;
-                                  let diff;
-                                  if (rental.rental_type === 'h') {
-                                    diff = Math.round(diffMs / (1000 * 60 * 60)) + ' HOURS';
-                                  } else if (rental.rental_type === 'd') {
-                                    diff = Math.round(diffMs / (1000 * 60 * 60 * 24)) + ' DAYS';
-                                  } else {
-                                    diff = 'UNKNOWN TYPE';
-                                  }
-                                %>
-                                <%= diff %>
-                              </p>                                                                              
-                        </div>
-                        <div class="flex-row center-start">
-                            <p class="rental-pay Paid">Paid</p>
-                        </div>
-                        <div class="flex-row center-start">
-                            <p class="rental-state <%= rental.status %>"><%= rental.status %></p>
-                        </div>
-                        <div class="flex-row center-start">
-                            <p class="rental-price"><%= rental.total_price %><span class="currence">DZD</span></p>
-                        </div>
-                        <div class="flex-row center-start">
-                            <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
-                        </div>
-                    </li>
-                <% }) %>
             </ul>
-            <div class="rentals-page-ctr">
-                <div class="cars-page-ctr flex-row flex-center">
-                    <label>Page</label>
-                    <i class="fa-solid fa-caret-left bt-hover" id="rentsPrevPage"></i>
-                    <div class="flex-row center-start">
-                        <input class="flex-row flex-center" type="number" disabled id="RentsCurrentPage" value="1" min="1">
-                        <p class="para-mid">Of <span id="totalPages">99</span></p>
-                    </div>
-                    <i class="fa-solid fa-caret-right bt-hover" id="rentsNextPage"></i>
-                </div>
-            </div>
         </div>
         
     </section>

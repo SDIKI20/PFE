@@ -5,6 +5,7 @@ const {
     checkPhone,
     checkAccountStat,
     confirmAccount,
+    getRentals,
     addFav
 } = require("../controllers/userController");
 
@@ -16,8 +17,9 @@ router.get("/getusers", getUsers);
 // Public Routes
 router.post("/confirmphone", confirmPhone);
 router.post("/confirmaccount", confirmAccount);
-router.get("/checkphone", checkPhone);
-router.get("/checkaccountstat", checkAccountStat);
 router.post("/add/favorite", addFav);
+router.get("/checkphone", checkPhone);
+router.get("/rentals", getRentals);
+router.get("/checkaccountstat", checkAccountStat);
 
 module.exports = router;

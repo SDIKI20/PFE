@@ -89,10 +89,6 @@ app.get("/p404", (req, res) => {
     res.render("p404");
 })
 
-app.get("/login",checkAuth, (req, res) => {
-    res.render("login")
-})
-
 app.get("/signup",checkAuth, (req, res) => {
     res.render("signup")
 })
@@ -388,10 +384,11 @@ app.get("/cars", async (req, res) => {
 app.get("/rentals", checkNotAuth, async (req, res) => {
     try {
         const {
-            search,      // a general search input
+            search,
             start_date,
             end_date,
-            status
+            status,
+            ody
         } = req.query;
 
         const values = [req.user.id];
@@ -425,6 +422,13 @@ app.get("/rentals", checkNotAuth, async (req, res) => {
 
         const whereClause = `WHERE ${conditions.join(" AND ")}`;
 
+        let orderByClause = `ORDER BY rentals.created_at DESC`; // default
+        if (ody === "price") {
+            orderByClause = `ORDER BY rentals.total_price DESC`;
+        } else if (ody === "date") {
+            orderByClause = `ORDER BY rentals.created_at DESC`;
+        }
+
         const rentalsResult = await pool.query(`
             SELECT rentals.*,
                    vehicles.model, vehicles.fab_year, vehicles.rental_type,
@@ -433,7 +437,7 @@ app.get("/rentals", checkNotAuth, async (req, res) => {
             JOIN vehicles ON vehicles.id = rentals.vehicle_id
             JOIN brands ON vehicles.brand_id = brands.id
             ${whereClause}
-            ORDER BY rentals.created_at DESC
+            ${orderByClause}
         `, values);
 
         const rentals = rentalsResult.rows.length > 0 ? rentalsResult.rows : null;
@@ -495,20 +499,13 @@ app.get("/help",checkNotAuth, (req, res) => {
     }
 })
 
-app.get("/logout", (req, res, next) => {
-    try{
-        req.logout((err) => {
-            if (err) {
-                return next(err);
-            }
-            req.flash("info_msg", "You have logged out");
-            res.redirect("/login");
-        });
-    }catch(error){
-            console.error(error);
-            res.status(500).render("p404");
-        }
+app.get("/logout", (req, res) => {
+    req.logout(() => {
+        req.session.returnTo = null;
+        res.redirect("/login");
+    });
 });
+
 
 const upload = multer({ storage: storage });
 
@@ -546,12 +543,22 @@ app.post('/reg', upload.single("image"), async (req, res) => {
     }
 });
 
+app.get('/login', checkAuth, (req, res) => {
+    res.render('login');
+});
+
+// Login handler
 app.post("/login", passport.authenticate("local", {
-    successRedirect: "/home",
     failureRedirect: "/login",
     failureFlash: true
-}))
+}), (req, res) => {
+    const redirectTo = req.session.returnTo || "/home";
+    delete req.session.returnTo;
+    res.redirect(redirectTo);
+});
+
 /*-----------dashboard.ejs----------------*/
+
 app.get('/order',checkNotAuth, (req, res) => {
     try{
     res.render("dashboard",{user: req.user, section:"order"})
@@ -560,6 +567,7 @@ app.get('/order',checkNotAuth, (req, res) => {
         res.status(500).render("p404");
     }
 })
+
 app.get('/dashboard',checkNotAuth,(req, res) => {
     try{
     res.render("dashboard",{user: req.user, section:"dashboard"})
@@ -580,6 +588,7 @@ app.get('/customers',checkNotAuth,(req, res) => {
         res.status(500).render("p404");
     }
 })
+
 app.get('/account',checkNotAuth,(req, res) => {
     try{
     res.render("dashboard",{user: req.user, section:"account"})
@@ -588,6 +597,7 @@ app.get('/account',checkNotAuth,(req, res) => {
         res.status(500).render("p404");
     }
 })
+
 app.get('/report',checkNotAuth,(req, res) => {
     try{
     res.render("dashboard",{user: req.user, section:"report"})
@@ -596,6 +606,7 @@ app.get('/report',checkNotAuth,(req, res) => {
         res.status(500).render("p404");
     }
 })
+
 app.get('/settings',checkNotAuth,(req, res) => {
     try{
     res.render("dashboard",{user: req.user, section:"settings"})
@@ -604,6 +615,7 @@ app.get('/settings',checkNotAuth,(req, res) => {
         res.status(500).render("p404");
     }
 })
+
 app.get('/vehicules',checkNotAuth,(req, res) => {
     try{
     res.render("dashboard",{user: req.user, section:"vehicules"})
@@ -612,6 +624,7 @@ app.get('/vehicules',checkNotAuth,(req, res) => {
         res.status(500).render("p404");
     }
 })
+
 /*--------*/ 
 
 function checkAuth(req, res, next){
@@ -621,12 +634,14 @@ function checkAuth(req, res, next){
     next();
 }
 
-function checkNotAuth(req, res, next){
-    if(req.isAuthenticated()){
+function checkNotAuth(req, res, next) {
+    if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect("/login")
+    req.session.returnTo = req.originalUrl;
+    res.redirect("/login");
 }
+
 
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
