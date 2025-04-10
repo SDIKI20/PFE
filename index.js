@@ -516,6 +516,7 @@ app.get("/logout", (req, res, next) => {
             res.status(500).render("p404");
         }
 });
+  
 
 const fileFilter = (req, file, cb) => {
     const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
@@ -526,7 +527,11 @@ const fileFilter = (req, file, cb) => {
     }
   };
   
-  const upload = multer({ storage: storage, fileFilter: fileFilter });
+const upload = multer({ storage: storage, fileFilter: fileFilter });
+app.post('/upload', upload.single('image'), (req, res) => {
+    res.send({ imageUrl: req.file.path });
+});
+
 app.post('/reg', upload.single("image"), async (req, res) => {
     try {
         const { fname, lname, email, address, country, wilaya, city, zipcode, phone, phone_country_code, birthdate, username, password } = req.body;
