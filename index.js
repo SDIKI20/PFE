@@ -48,7 +48,6 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: "profile_images",
-        format: async (req, file) => "png",
         public_id: (req, file) => file.fieldname + "-" + Date.now(),
     },
 });
@@ -518,8 +517,16 @@ app.get("/logout", (req, res, next) => {
         }
 });
 
-const upload = multer({ storage: storage });
-
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only .png, .jpg and .jpeg formats are allowed!'), false);
+    }
+  };
+  
+  const upload = multer({ storage: storage, fileFilter: fileFilter });
 app.post('/reg', upload.single("image"), async (req, res) => {
     try {
         const { fname, lname, email, address, country, wilaya, city, zipcode, phone, phone_country_code, birthdate, username, password } = req.body;
