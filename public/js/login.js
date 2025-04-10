@@ -24,8 +24,6 @@ loginBtn.addEventListener("click", () => {
   container.classList.remove("active");
 });
 
-
-
 let captchaText = "";
 function generateCaptcha() {
     const canvas = document.getElementById("captchaCanvas");
@@ -48,7 +46,7 @@ function validateCaptcha() {
 generateCaptcha();
 
 document.getElementById("signUpForm").addEventListener("submit", async function (event) {
-  event.preventDefault(); // Prevent form from reloading the page
+  event.preventDefault();
   const userInput = document.getElementById("captchaInput").value;
   if (userInput === captchaText) {
     generateCaptcha();

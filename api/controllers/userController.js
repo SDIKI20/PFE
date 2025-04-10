@@ -116,6 +116,94 @@ const addFav = async (req, res) => {
     }
 };
 
+const getRentals = async (req, res) => {
+    try {
+        const {
+            id,
+            search,
+            start_date,
+            end_date,
+            status,
+            ody,
+            limit = 10, // default limit is 10
+            offset = 0  // default offset is 0
+        } = req.query;
+
+        if (id) {
+            const values = [id];
+            const conditions = ["user_id = $1"];
+            let index = values.length + 1;
+
+            if (search) {
+                conditions.push(`(
+                    brands.name ILIKE $${index} OR
+                    vehicles.model ILIKE $${index} OR
+                    CAST(vehicles.fab_year AS TEXT) ILIKE $${index}
+                )`);
+                values.push(`%${search}%`);
+                index++;
+            }
+
+            if (start_date) {
+                conditions.push(`rentals.start_date >= $${index++}`);
+                values.push(start_date);
+            }
+
+            if (end_date) {
+                conditions.push(`rentals.end_date <= $${index++}`);
+                values.push(end_date);
+            }
+
+            if (status) {
+                conditions.push(`rentals.status = $${index++}`);
+                values.push(status);
+            }
+
+            const whereClause = `WHERE ${conditions.join(" AND ")}`;
+
+            let orderByClause = `ORDER BY rentals.created_at DESC`; // default order
+            if (ody === "price") {
+                orderByClause = `ORDER BY rentals.total_price DESC`;
+            } else if (ody === "date") {
+                orderByClause = `ORDER BY rentals.created_at DESC`;
+            }
+
+            // Query to get the total count of rentals matching the filters
+            const countResult = await pool.query(`
+                SELECT COUNT(*) AS total_count
+                FROM rentals 
+                JOIN vehicles ON vehicles.id = rentals.vehicle_id
+                JOIN brands ON vehicles.brand_id = brands.id
+                ${whereClause}
+            `, values);
+
+            const total = countResult.rows[0].total_count; // Total number of rentals
+
+            // Query to get the paginated results
+            const rentalsResult = await pool.query(`
+                SELECT rentals.*,
+                    vehicles.model, vehicles.fab_year, vehicles.rental_type,
+                    brands.name AS brand_name
+                FROM rentals 
+                JOIN vehicles ON vehicles.id = rentals.vehicle_id
+                JOIN brands ON vehicles.brand_id = brands.id
+                ${whereClause}
+                ${orderByClause}
+                LIMIT $${index++} OFFSET $${index++}  -- Adding limit and offset
+            `, [...values, limit, offset]);
+
+            res.json({
+                total,
+                rentals: rentalsResult.rows
+            });
+        } else {
+            return res.status(404).json({ error: "Something went wrong!" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+};
 
 module.exports = { 
     getUsers,
@@ -123,5 +211,6 @@ module.exports = {
     checkPhone,
     checkAccountStat,
     confirmAccount,
+    getRentals,
     addFav
 };

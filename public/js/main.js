@@ -1,12 +1,11 @@
 
 
-const loadingBar = document.createElement('div')
-loadingBar.id = "loading"
-loadingBar.classList.add("loading", "flex-row", "flex-center")
-loadingBar.innerHTML = `<span class="loader"></span>`
-document.body.appendChild(loadingBar)
 
 function openLoader(){
+    const loadingBar = document.createElement('div')
+    loadingBar.classList.add("loading", "flex-row", "flex-center")
+    loadingBar.innerHTML = `<span class="loader"></span>`
+    document.body.appendChild(loadingBar)
     loadingBar.style.display = "flex"
     setTimeout(() => {
         loadingBar.style.opacity = "1"
@@ -14,6 +13,7 @@ function openLoader(){
 }
 
 function closeLoader(){
+    loadingBar = document.querySelectorAll('.loading')[0]
     loadingBar.style.opacity = "0"
     setTimeout(() => {
         loadingBar.style.display = "none"

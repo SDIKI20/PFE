@@ -8,7 +8,8 @@ const getOrders = async (req, res) => {
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server Error");
-    }}
+}}
+
 // Store Data in Database
 const newOrder = async (req, res) => {
     const { id,client_id, vehicle_id, start_date, end_date, status,reservation_date } = req.body;
@@ -26,4 +27,5 @@ try {
         res.status(500).send("Server Error");
     }
 };
+
 module.exports = { getOrders, newOrder};
