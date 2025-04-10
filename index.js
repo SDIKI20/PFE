@@ -52,6 +52,19 @@ const storage = new CloudinaryStorage({
     },
 });
 
+const uploadImage = async (file) => {
+  try {
+    const result = await cloudinary.uploader.upload(file.path, {
+      folder: "vehicles",
+      use_filename: true,
+    });
+    return result.secure_url;
+  } catch (error) {
+    console.error("Cloudinary upload error:", error);
+    throw new Error("Image upload failed");
+  }
+};
+
 app.use(cors({
     origin: ["http://127.0.0.1:5500", "http://localhost:5000", "https://pfe-server-sandy.vercel.app", "https://pjr.vercel.app"],
     credentials: true
@@ -70,6 +83,15 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).render("p404");
 });
+
+app.use((err, req, res, next) => {
+    console.error("Unhandled error:", err.message);
+    if (err instanceof multer.MulterError) {
+        return res.status(400).json({ error: err.message });
+    }
+    res.status(500).json({ error: 'Internal Server Error' });
+});
+
 
 app.get("/", async (req, res) => {
     try{
@@ -97,9 +119,9 @@ app.get("/signup",checkAuth, (req, res) => {
 })
 
 app.get("/dashboard", async (req, res) => {
-    const officesResult = await pool.query("SELECT * FROM office ORDER BY id ASC");
-    const offices = officesResult.rows;
-    res.render("dashboard", {section:"dashboard", o:offices})
+    const rentalsResult = await pool.query("SELECT sum(total_price) AS total FROM rentals");
+    const rentals = rentalsResult.rows[0];
+    res.render("dashboard", {section:"dashboard", o:rentals})
 })
 
 app.get("/settings", async (req, res) => {
@@ -517,6 +539,85 @@ app.get("/logout", (req, res, next) => {
         }
 });
   
+app.post("/addvehicle", async (req, res) => {
+    try {
+        const {
+            brand_id,
+            model,
+            color,
+            capacity,
+            fuel,
+            transmission,
+            availability,
+            body,
+            price,
+            location,
+            units,
+            speed,
+            horsepower,
+            engine_type,
+            rental_type,
+            description
+        } = req.body;
+            console.log(req.body)
+/*
+        // Defaults
+        const vehicleUnits = units || 0;
+        const vehicleSpeed = speed || 0;
+        const vehicleHorsepower = horsepower || 0;
+        const vehicleEngineType = engine_type || 'unknown';
+        const vehicleRentalType = rental_type || 'h';
+        const vehicleTransmission = transmission || 'Manual';
+        const isAvailable = availability !== undefined ? availability : true;
+
+        // Upload images (assuming uploadImage is a working function)
+        const mainImage = req.files?.["image"] ? await uploadImage(req.files["image"][0]) : "/assets/cars/default.png";
+        const prevImage1 = req.files?.["prev_image1"] ? await uploadImage(req.files["prev_image1"][0]) : "/assets/cars/default_prev.png";
+        const prevImage2 = req.files?.["prev_image2"] ? await uploadImage(req.files["prev_image2"][0]) : "/assets/cars/default_prev.png";
+        const prevImage3 = req.files?.["prev_image3"] ? await uploadImage(req.files["prev_image3"][0]) : "/assets/cars/default_prev.png";
+
+        const query = `
+            INSERT INTO vehicles (
+                brand_id, model, color, capacity, fuel, transmission, availability, body, price, location,
+                image, prevImage1, prevImage2, prevImage3, units, speed, horsepower, engine_type, rental_type,description
+            )
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 
+                    $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
+            RETURNING *;
+        `;
+
+        const values = [
+            brand_id,
+            model,
+            color,
+            capacity,
+            fuel,
+            vehicleTransmission,
+            isAvailable,
+            body,
+            price,
+            location,
+            mainImage,
+            prevImage1,
+            prevImage2,
+            prevImage3,
+            vehicleUnits,
+            vehicleSpeed,
+            vehicleHorsepower,
+            vehicleEngineType,
+            vehicleRentalType,
+            description
+        ];
+
+        const result = await pool.query(query, values);
+        res.status(201).json(result.rows[0]);
+*/
+    } catch (error) {
+        console.error("Error adding vehicle:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 
 const fileFilter = (req, file, cb) => {
     const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
@@ -529,7 +630,11 @@ const fileFilter = (req, file, cb) => {
   
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 app.post('/upload', upload.single('image'), (req, res) => {
-    res.send({ imageUrl: req.file.path });
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded or invalid file type' });
+    }
+
+    return res.status(200).json({ imageUrl: req.file.path });
 });
 
 app.post('/reg', upload.single("image"), async (req, res) => {
@@ -631,9 +736,33 @@ app.get('/settings',checkNotAuth,(req, res) => {
     }
 })
 
-app.get('/vehicules',checkNotAuth,(req, res) => {
+app.get('/vehicules', async (req, res) => {
     try{
-    res.render("dashboard",{user: req.user, section:"vehicules"})
+        const fuelResult = await pool.query(`SELECT unnest(enum_range(NULL::fuel_type))`);
+        const fuelTypes = fuelResult.rows.length > 0 ? fuelResult.rows : null;
+
+        const bodyResult = await pool.query(`SELECT unnest(enum_range(NULL::body_type))`);
+        const bodyTypes = bodyResult.rows.length > 0 ? bodyResult.rows : null;
+
+        const transResult = await pool.query(`SELECT unnest(enum_range(NULL::transmission_type))`);
+        const transTypes = transResult.rows.length > 0 ? transResult.rows : null;
+
+        const brandsResult = await pool.query(`SELECT * FROM brands`);
+        const brandsList = brandsResult.rows.length > 0 ? brandsResult.rows : null;
+
+        const officeRows = await pool.query(`
+            SELECT * FROM office WHERE 1 = 1
+        `)
+        offices = officeRows.rows.length === 0?null:officeRows.rows
+
+    res.render("dashboard",{user: req.user, 
+        section:"vehicules", 
+        fuelTypes:fuelTypes, 
+        bodyTypes:bodyTypes, 
+        transTypes:transTypes,
+        brands:brandsList,
+        offices:offices
+    })
     }catch(error){
         console.error(error);
         res.status(500).render("p404");

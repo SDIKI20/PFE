@@ -75,6 +75,11 @@ p,span{
     cursor: default;
 }
 
+.currence{
+    font-size: var(--font-tag);
+    color: var(--text);
+}
+
 .logo-map-mark {
     width: 3em;
     height: 3em;

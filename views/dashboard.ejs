@@ -88,13 +88,16 @@
         <section class="content-section active-section" id="vehicules-content">
 
 
-            <form class="form-container" action="/vehicule" method="POST" enctype="multipart/form-data">
+            <form class="form-container" action="/addvehicle" method="post" autocomplete="off" enctype="multipart/form-data">
                 <h3>Ajouter un Véhicule</h3>
-                
                 <!-- Marque -->
                 <div class="form-group">
                   <label for="brand">Brand</label>
-                  <input type="text" id="brand" name="brand" placeholder="Ex: Toyota" required>
+                  <select id="brand" name="brand_id" required>
+                    <% if(brands) %> <% brands.forEach(f => { %>
+                        <option value="<%= f.id %>"><%= f.name %></option>
+                      <% }) %>
+                  </select>
                 </div>
               
                 <!-- Modèle -->
@@ -112,8 +115,7 @@
                 <div class="form-group">
                     <label for="color">Color</label>
                     <input type="text" id="color" name="color" placeholder="Ex: Noir" required>
-                  </div>
-            
+                  </div> 
                     <!-- Capacité -->
                 <div class="form-group">
                     <label for="capacity">Capacity</label>
@@ -124,21 +126,19 @@
                 <div class="form-group">
                     <label for="fuel">Fuel Type</label>
                     <select id="fuel" name="fuel" required>
-                      <option value="">--Sélectionner--</option>
-                      <option value="Essence">petrol</option>
-                      <option value="Diesel">Diesel</option>
-                      <option value="Hybride">Hybrid</option>
+                      <% if(fuelTypes) %> <% fuelTypes.forEach(f => { %>
+                        <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                      <% }) %>
                     </select>
                   </div>
-               
-            
-              
+
                 <!-- Type de Transmission -->
                 <div class="form-group">
                   <label for="transmission">Transmission</label>
                   <select id="transmission" name="transmission" required>
-                    <option value="Manual">Manuelle</option>
-                    <option value="Automatic">Automatique</option>
+                    <% if(transTypes) %> <% transTypes.forEach(f => { %>
+                        <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                      <% }) %>
                   </select>
                 </div>
               
@@ -155,11 +155,9 @@
                 <div class="form-group">
                   <label for="body">body</label>
                   <select id="body" name="body" required>
-                    <option value="">--Sélectionner--</option>
-                    <option value="Berline">Sedan</option>
-                    <option value="SUV">SUV</option>
-                    <option value="Coupé">Hatchback</option>
-                    <option value="Utilitaire">Coupe</option>
+                    <% if(bodyTypes) %> <% bodyTypes.forEach(f => { %>
+                        <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                      <% }) %>
                   </select>
                 </div>
               
@@ -171,8 +169,12 @@
               
                 <!-- Localisation -->
                 <div class="form-group">
-                  <label for="location">location</label>
-                  <input type="text" id="location" name="location" placeholder="Ex: Paris" required>
+                    <label for="location">location</label>
+                    <select id="location" name="location">
+                        <% offices.forEach(office => { %>
+                            <option value="<%= office.id %>"><%= office.wilaya %>, <%= office.city %>, <%= office.address %></option>
+                        <% }) %>
+                    </select>
                 </div>
                 <!--Units-->
                 <div class="form-group">
@@ -192,16 +194,7 @@
                   <!--engine_type-->
                   <div class="form-group">
                     <label for="engine_type">engine_type</label>
-                    <select id="engine_type" name="engine_type" required>
-                      <option value="">--Sélectionner--</option>
-                      <option value="4-Cylinder">4-Cylinder</option>
-                      <option value="4-Cylinder Turbo">4-Cylinder Turbo</option>
-                      <option value="4-Cylinder Diesel">4-Cylinder Diesel</option>
-                      <option value="3-Cylinder">3-Cylinder</option>
-                      <option value="6-Cylinder Turbo">6-Cylinder Turbo</option>
-                      <option value="V8">V8</option>
-                      <option value="Hybrid">Hybrid</option>
-                    </select>
+                   <input type="text" id="engine_type" name="engine_type" placeholder="Ex: V6" required>
                   </div>
                   <!--doors-->
                   <div class="form-group">
@@ -260,13 +253,13 @@
                 <div class="form-group">
                   <button type="submit" class="btn btn-success">Ajouter</button>
                 </div>
-              </form>
+            </form>
               
               <hr>
               
               <!-- نموذج تعديل المركبة -->
               <h3>Modifier un Véhicule</h3>
-              <form class="form-container" action="/vehicule/modify" method="POST">
+              <form class="form-container" action="/addvehicle" method="POST">
                 <!-- حقل معرف المركبة -->
                 <div class="form-group">
                   <label for="vehicleId">ID de Véhicule</label>
@@ -323,14 +316,14 @@
                             <i class="fa-regular fa-file"></i>
                             <div class="data">
                                 <p style="opacity: 60%;">TotalIncome</p>
-                                <span>$100</span>
+                                <span><%= o.total %> <span class="currence">DZD</span></span>
                             </div>
                         </div>
                         <div class="box">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                             <div class="data">
                                 <p style="opacity: 60%;">TotalSales</p>
-                                <span>$100</span>
+                                <span><%= o.sum %></span>
                             </div>
                         </div>
                         <div class="box">

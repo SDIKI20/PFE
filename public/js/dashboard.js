@@ -20,6 +20,7 @@ new Chart(ctx, {
   }
 })
 
+
 // جلب جميع الطلبات من السيرفر
 function fetchrentals() {
     fetch("http://localhost:4000/orders/getOrders") // استبدل هذا بالرابط الصحيح لواجهة برمجة التطبيقات الخاصة بك

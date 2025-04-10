@@ -785,11 +785,6 @@ input[type='radio']:checked + .rnt{
     color: var(--txt-black);
 }
 
-.currence{
-    font-size: var(--font-tag);
-    color: var(--text);
-}
-
 .car-det-info{
     width: 100%;
     display: grid;
