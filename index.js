@@ -89,6 +89,10 @@ app.get("/p404", (req, res) => {
     res.render("p404");
 })
 
+app.get("/login",checkAuth, (req, res) => {
+    res.render("login")
+})
+
 app.get("/signup",checkAuth, (req, res) => {
     res.render("signup")
 })
@@ -499,13 +503,20 @@ app.get("/help",checkNotAuth, (req, res) => {
     }
 })
 
-app.get("/logout", (req, res) => {
-    req.logout(() => {
-        req.session.returnTo = null;
-        res.redirect("/login");
-    });
+app.get("/logout", (req, res, next) => {
+    try{
+        req.logout((err) => {
+            if (err) {
+                return next(err);
+            }
+            req.flash("info_msg", "You have logged out");
+            res.redirect("/login");
+        });
+    }catch(error){
+            console.error(error);
+            res.status(500).render("p404");
+        }
 });
-
 
 const upload = multer({ storage: storage });
 
@@ -543,19 +554,11 @@ app.post('/reg', upload.single("image"), async (req, res) => {
     }
 });
 
-app.get('/login', checkAuth, (req, res) => {
-    res.render('login');
-});
-
-// Login handler
 app.post("/login", passport.authenticate("local", {
+    successRedirect: "/home",
     failureRedirect: "/login",
     failureFlash: true
-}), (req, res) => {
-    const redirectTo = req.session.returnTo || "/home";
-    delete req.session.returnTo;
-    res.redirect(redirectTo);
-});
+}))
 
 /*-----------dashboard.ejs----------------*/
 
@@ -634,14 +637,12 @@ function checkAuth(req, res, next){
     next();
 }
 
-function checkNotAuth(req, res, next) {
-    if (req.isAuthenticated()) {
+function checkNotAuth(req, res, next){
+    if(req.isAuthenticated()){
         return next();
     }
-    req.session.returnTo = req.originalUrl;
-    res.redirect("/login");
+    res.redirect("/login")
 }
-
 
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
