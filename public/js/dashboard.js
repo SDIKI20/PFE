@@ -6,7 +6,7 @@ new Chart(ctx, {
     datasets: [{
       label: '# of Votes',
       data: [12, 19, 3, 5, 2, 3],
-      borderWidth: 1
+      brentalsWidth: 1
     }]
   },
   options: {
@@ -20,71 +20,43 @@ new Chart(ctx, {
   }
 })
 
-let allOrders = []; // تخزين جميع الطلبات
-
-document.addEventListener("DOMContentLoaded", function () {
-    fetchOrders(); // جلب الطلبات عند تحميل الصفحة
-
-    // إضافة مستمع للأزرار
-    document.querySelectorAll(".button_ord").forEach(button => {
-        button.addEventListener("click", function () {
-            document.querySelectorAll(".button_ord").forEach(btn => btn.classList.remove("active"));
-            this.classList.add("active");
-
-            const status = this.textContent; // الحصول على نص الزر (الحالة المطلوبة)
-            filterOrders(status);
-        });
-    });
-});
-
 // جلب جميع الطلبات من السيرفر
-function fetchOrders() {
-    fetch("http://localhost:4000/api/getOrders")
+function fetchrentals() {
+    fetch("http://localhost:4000/orders/getOrders") // استبدل هذا بالرابط الصحيح لواجهة برمجة التطبيقات الخاصة بك
         .then(response => response.json())
-        .then(orders => { 
-            allOrders = orders; // حفظ جميع الطلبات في متغير عالمي
-            displayOrders(allOrders); // عرض جميع الطلبات افتراضيًا
+        .then( rentals=> { 
+            allrentals = rentals; // حفظ جميع الطلبات في متغير عالمي
+            displayrentals(allrentals); // عرض جميع الطلبات افتراضيًا
         })
-        .catch(error => console.error("Error fetching orders:", error));
+        .catch(error => console.error("Error fetching rentals:", error));
 }
 
 // عرض الطلبات في الجدول
-function displayOrders(orders) {
-    const tableBody = document.getElementById("ordersTableBody");
+function displayrentals(rentals) {
+    const tableBody = document.getElementById("rentalsTableBody");
     tableBody.innerHTML = ""; // تفريغ الجدول
 
-    orders.forEach(order => {
+    rentals.forEach(rentals => {
         const row = document.createElement("tr");
 
         // إضافة فئة (class) للحالة لتغيير اللون
         let statusClass = "";
-        if (order.status === "Completed") statusClass = "status-active";
-        else if (order.status === "Pending") statusClass = "status-pending";
-        else if (order.status === "In Progress") statusClass = "status-in-progress";
+        if (rentals.status === "Completed") statusClass = "status-active";
+        else if (rentals.status === "Pending") statusClass = "status-pending";
+        else if (rentals.status === "In Progress") statusClass = "status-in-progress";
 
         row.innerHTML = `
-            <td>${order.client_id}</td>
-            <td>${order.vehicle_id}</td>
-            <td>${order.start_date}</td>
-            <td>${order.end_date}</td>
-            <td class="${statusClass}">${order.status}</td>
-            <td>${order.price || "N/A"}</td>
+            <td>${rentals.user_id}</td>
+            <td>${rentals.vehicle_id}</td>
+            <td>${rentals.start_date}</td>
+            <td>${rentals.end_date}</td>
+            <td class="${statusClass}">${rentals.status}</td>
+            <td>${rentals.price || "N/A"}</td>
         `;
 
         tableBody.appendChild(row);
     });
 }
-
-// فلترة الطلبات حسب الحالة المختارة
-function filterOrders(status) {
-    if (status === "AllOrders") {
-        displayOrders(allOrders); // عرض جميع الطلبات
-    } else {
-        const filteredOrders = allOrders.filter(order => order.status === status);
-        displayOrders(filteredOrders);
-    }
-}
-
 
 //get all users
 
@@ -108,6 +80,12 @@ function fetchCustomers() {
                     <td>${customer.lname}</td>
                     <td>${customer.email}</td>
                     <td>${customer.phone}</td>
+                    <td>${customer.country}</td>
+                    <td>${customer.role}</td>
+                     <td>
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </td>
                 `;
 
                 tableBody.appendChild(row);
@@ -125,9 +103,18 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
             document.querySelectorAll(".button_cust").forEach(btn => btn.classList.remove("active"));
             this.classList.add("active");
+            const role = this.textContent.trim();
 
-            const status = this.textContent;
-            filtefetchCustomers(status);
+            const selectedRole = this.getAttribute("data-role");
+
+            if (selectedRole === "all") {
+                displayCustomers(allcustomers);
+            } else {
+                const filtered = allcustomers.filter(user => user.role.toLowerCase() === selectedRole);
+                displayCustomers(filtered);
+            }
         });
     });
 });
+           
+    
