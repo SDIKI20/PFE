@@ -551,6 +551,7 @@ app.post("/login", passport.authenticate("local", {
     failureRedirect: "/login",
     failureFlash: true
 }))
+
 /*-----------dashboard.ejs----------------*/
 app.get('/order',checkNotAuth, (req, res) => {
     try{
