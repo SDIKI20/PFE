@@ -585,7 +585,6 @@ app.post("/addvehicle",
             rental_type,
             description
         } = req.body;
-            console.log(req.body)
 
         // Defaults
         const vehicleUnits = units || 0;
