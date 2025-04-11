@@ -6,7 +6,11 @@ const {
     checkAccountStat,
     confirmAccount,
     getRentals,
-    addFav
+    addFav,
+    deleteuser,
+    getClients,
+    getAdmins,
+    getEmployees,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -21,5 +25,9 @@ router.post("/add/favorite", addFav);
 router.get("/checkphone", checkPhone);
 router.get("/rentals", getRentals);
 router.get("/checkaccountstat", checkAccountStat);
+router.delete("/deleteuser/:id", deleteuser);
+router.get("/getClients", getClients);
+router.get("/getAdmins", getAdmins);
+router.get("/getEmployees", getEmployees);
 
 module.exports = router;

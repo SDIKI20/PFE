@@ -204,6 +204,53 @@ const getRentals = async (req, res) => {
         res.status(500).send("Server Error");
     }
 };
+const deleteuser = async (req, res) => {
+    const userId = req.params.id;
+  
+    try {
+      const resultuser = await pool.query("DELETE FROM users WHERE id = $1", [userId]);
+  
+      if (resultuser.rowCount === 0) {
+        return res.status(404).json({ message: "Vehicle not found" });
+      }
+  
+      res.status(200).json({ message: "Vehicle deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting vehicle:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+
+  const getClients = async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM users WHERE role = 'Client'");
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error("Error fetching clients:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+const getAdmins = async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM users WHERE role = 'Admin'");
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error("Error fetching admins:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+const getEmployees = async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM users WHERE role = 'Employe'");
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error("Error fetching employees:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 
 module.exports = { 
     getUsers,
@@ -212,5 +259,9 @@ module.exports = {
     checkAccountStat,
     confirmAccount,
     getRentals,
-    addFav
+    addFav,
+    deleteuser,
+    getClients,
+    getAdmins,
+    getEmployees
 };

@@ -10,6 +10,7 @@ const upload = vehiclesController.upload.fields([
 ]);
 
 router.get("/all", vehiclesController.getVehicles);
+router.delete("/delete/:id", vehiclesController.deleteVehicle);
 router.get("/brands", vehiclesController.getBrands);
 router.get("/brands/all/:brand_id", vehiclesController.getBrandVehicles);
 router.post("/add", upload, vehiclesController.addVehicle);
