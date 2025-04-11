@@ -117,3 +117,34 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+document.getElementById("vehicles-menu-item").addEventListener("click", function () {
+    fetchVehicles(); 
+});
+
+function fetchVehicles() {
+    fetch("http://localhost:4000/api/vehicles/all")
+        .then(response => response.json())
+        .then(vehicles => {
+            const tableBody = document.getElementById("vehiclesTableBody");
+            tableBody.innerHTML = "";
+
+            vehicles.forEach(vehicle => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${vehicle.id}</td>
+                    <td>${vehicle.fab_year}</td>
+                    <td>${vehicle.model}</td>
+                    <td>
+                        <button class="delete-btn">Delete</button>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => console.error("Error fetching vehicles:", error));
+}
+document.addEventListener("DOMContentLoaded", function () {
+    fetchVehicles()});

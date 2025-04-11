@@ -56,10 +56,10 @@ const getBrandVehicles = async (req, res) => {
 const getVehicles = async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT vehicle.*, brands.name AS brand_name, brands.logo AS brand_logo
+      SELECT vehicles.*, brands.name AS brand_name, brands.logo AS brand_logo
       FROM vehicles
-      JOIN brands ON vehicle.brand_id = brands.id
-      ORDER BY vehicle.id DESC
+      JOIN brands ON vehicles.brand_id = brands.id
+      ORDER BY vehicles.id ASC
     `);
     res.status(200).json(result.rows);
   } catch (error) {

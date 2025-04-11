@@ -87,7 +87,7 @@
 
         <section class="content-section active-section" id="vehicules-content">
 
-
+          <div class="vehiculecontent" style="display: flex; flex-direction:row" justify-content:space-between; align-items:center;>
             <form class="form-container" action="/addvehicle" method="post" autocomplete="off" enctype="multipart/form-data"            >
                 <h3>Add Vehicule</h3>
                 <!-- Marque -->
@@ -264,43 +264,175 @@
               <hr>
               
               <!-- نموذج تعديل المركبة -->
-              <h3>Modifier un Véhicule</h3>
-              <form class="form-container" action="/" method="POST">
-                <!-- حقل معرف المركبة -->
+              <form class="form-container" id="editVehicleForm" method="POST" enctype="multipart/form-data">
+                <h3>Edit Vehicle</h3>
+              
+                <!-- Brand -->
                 <div class="form-group">
-                  <label for="vehicleId">ID de Véhicule</label>
-                  <input type="number" id="vehicleId" name="vehicleId" placeholder="ID de la Véhicule" required>
+                  <label for="brand">Brand</label>
+                  <select id="brand" name="brand_id" required>
+                    <% if(brands) brands.forEach(f => { %>
+                      <option value="<%= f.id %>"><%= f.name %></option>
+                    <% }) %>
+                  </select>
                 </div>
               
-                <!-- حقل للتعديل -->
+                <!-- Model -->
                 <div class="form-group">
-                  <label for="name">Nom du Véhicule</label>
-                  <input type="text" id="name" name="name" placeholder="Ex: Toyota Yaris - Édition Spéciale" required>
+                  <label for="model">Model</label>
+                  <input type="text" id="model" name="model" required>
                 </div>
               
-                <!-- زر تعديل -->
+                <!-- Fabrication Year -->
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary">Modifier</button>
+                  <label for="fab_year">Fabrication Year</label>
+                  <input type="number" id="fab_year" name="fab_year" required>
+                </div>
+              
+                <!-- Color -->
+                <div class="form-group">
+                  <label for="color">Color</label>
+                  <input type="text" id="color" name="color" required>
+                </div>
+              
+                <!-- Capacity -->
+                <div class="form-group">
+                  <label for="capacity">Capacity</label>
+                  <input type="number" id="capacity" name="capacity" required>
+                </div>
+              
+                <!-- Fuel -->
+                <div class="form-group">
+                  <label for="fuel">Fuel Type</label>
+                  <select id="fuel" name="fuel" required>
+                    <% if(fuelTypes) fuelTypes.forEach(f => { %>
+                      <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                    <% }) %>
+                  </select>
+                </div>
+              
+                <!-- Transmission -->
+                <div class="form-group">
+                  <label for="transmission">Transmission</label>
+                  <select id="transmission" name="transmission" required>
+                    <% if(transTypes) transTypes.forEach(f => { %>
+                      <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                    <% }) %>
+                  </select>
+                </div>
+              
+                <!-- Availability -->
+                <div class="form-group">
+                  <label for="availability">Availability</label>
+                  <select id="availability" name="availability" required>
+                    <option value="true">Available</option>
+                    <option value="false">Unavailable</option>
+                  </select>
+                </div>
+              
+                <!-- Body -->
+                <div class="form-group">
+                  <label for="body">Body</label>
+                  <select id="body" name="body" required>
+                    <% if(bodyTypes) bodyTypes.forEach(f => { %>
+                      <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                    <% }) %>
+                  </select>
+                </div>
+              
+                <!-- Price -->
+                <div class="form-group">
+                  <label for="price">Price (€)</label>
+                  <input type="number" id="price" name="price" step="0.01" required>
+                </div>
+              
+                <!-- Location -->
+                <div class="form-group">
+                  <label for="location">Location</label>
+                  <select id="location" name="location">
+                    <% offices.forEach(office => { %>
+                      <option value="<%= office.id %>"><%= office.wilaya %>, <%= office.city %></option>
+                    <% }) %>
+                  </select>
+                </div>
+              
+                <!-- Units -->
+                <div class="form-group">
+                  <label for="units">Units</label>
+                  <input type="number" id="units" name="units" min="1" required>
+                </div>
+              
+                <!-- Speed -->
+                <div class="form-group">
+                  <label for="speed">Speed (km/h)</label>
+                  <input type="number" id="speed" name="speed" required>
+                </div>
+              
+                <!-- Horsepower -->
+                <div class="form-group">
+                  <label for="horsepower">Horsepower</label>
+                  <input type="number" id="horsepower" name="horsepower" required>
+                </div>
+              
+                <!-- Engine Type -->
+                <div class="form-group">
+                  <label for="engine_type">Engine Type</label>
+                  <input type="text" id="engine_type" name="engine_type" required>
+                </div>
+              
+                <!-- Rental Type -->
+                <div class="form-group">
+                  <label for="rental_type">Rental Type</label>
+                  <select id="rental_type" name="rental_type" required>
+                    <option value="d">Days</option>
+                    <option value="h">Hours</option>
+                  </select>
+                </div>
+              
+                <!-- Doors -->
+                <div class="form-group">
+                  <label for="doors">Doors</label>
+                  <input type="number" id="doors" name="doors" required>
+                </div>
+              
+                <!-- Description -->
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea id="description" name="description" rows="3" required></textarea>
+                </div>
+              
+                <!-- Submit -->
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
               </form>
+              
               
               <hr>
               
               <!-- نموذج حذف المركبة -->
-              <h3>Supprimer un Véhicule</h3>
-              <form class="form-container" action="/vehicule/delete" method="POST">
-                <!-- حقل معرف المركبة -->
-                <div class="form-group">
-                  <label for="vehicleId">ID de Véhicule</label>
-                  <input type="number" id="vehicleId" name="vehicleId" placeholder="ID de la Véhicule" required>
-                </div>
+              <form class="form-container" action="/" method="POST">
+                <h3>Delete Vehicle</h3>
+                <br>
+                <table>
+                    <thead>
+                        <tr>
+                        <th>ID</th>
+                        <th>fab_year</th>
+                        <th>Model</th>
+                        <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="vehiclesTableBody">
+                        <!-- سيتم إدخال البيانات هنا ديناميكيًا -->
+                    </tbody>
+                </table>
+                
               
                 <!-- زر الحذف -->
-                <div class="form-group">
-                  <button type="submit" class="btn btn-danger">Supprimer</button>
-                </div>
+               
               </form>
-  
+          </div>
         </section>
 
         <% } %>
