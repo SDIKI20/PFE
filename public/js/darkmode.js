@@ -1,5 +1,3 @@
-
-/*
 document.addEventListener("DOMContentLoaded", () => {
     var root = document.documentElement;
 
@@ -40,6 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
         root.style.setProperty('--bg-darker', '#0f0f0f');
         root.style.setProperty('--border', 'rgba(122, 122, 122, 0.09)');
         root.style.setProperty('--border-low', 'rgba(122, 122, 122, 0.13)');
+        root.style.setProperty('--input-4dark', 'rgba(122, 122, 122, 0.13)');
+        root.style.setProperty('--select-4dark', 'rgb(39, 39, 39)');
     }
 
     function toggleLight() {
@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         root.style.setProperty('--text-low', '#3333334b');
         root.style.setProperty('--text', '#171b24');
         root.style.setProperty('--bg-darker', '#d3d0d0');
+        root.style.setProperty('--input-4dark', 'transparent');
+        root.style.setProperty('--select-4dark', 'white');
     }
 });
-*/

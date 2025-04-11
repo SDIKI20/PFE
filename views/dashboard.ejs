@@ -1,379 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="MyWebSite" />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
-    <link rel="stylesheet" href="/style/lib/fontawesome/all.min.css" />
-    <link rel="stylesheet" href="/style/main.css">
-    <link rel="stylesheet" href="/style/Dashboard1.css">
-    <link rel="stylesheet" href="/style/mobile.css">
-    <title>Dashboard</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+        <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+        <link rel="manifest" href="/favicon/site.webmanifest" />
+        <link rel="stylesheet" href="/style/lib/fontawesome/all.min.css" />
+        <link rel="stylesheet" href="/style/main.css">
+        <link rel="stylesheet" href="/style/Dashboard1.css">
+        <link rel="stylesheet" href="/style/mobile.css">
+        <title><%= section.toString().substring(0,1).toUpperCase() %><%= section.toString().substring(1).toLowerCase() %></title>
+    </head>
 
-<body class="flex-row">
-    <nav class="dashboard-menu">
-        <ul>
-            <li class="profile menu-element">
-                <div class="img-box">
-                    <img src="/assets/images/user.jpg" alt="profile">
-                </div>
-                <h2>Admin</h2>
-            </li>
-            <p class="mainmenu">MainMenu</p>
-            <li id="dashboard-menu-item">
-                <a href="/Dashboard" class="<%= section == " dashboard"?"nav-selected":"" %>" title="Dashboard">
-                    <i class="fa-solid fa-grip"></i>
-                    Dashboard
-                </a>
-            </li>
-            <li id="orders-menu-item">
-                <a href="/order" class="<%= section == " order"?"nav-selected":"" %>" title="order">
-                    <i class="fa-solid fa-file-lines"></i>
-                    Orders
-                </a>
-            </li>
-
-
-            <li id="customers-menu-item">
-                <a href="/customers" class="<%= section == " customers"?"nav-selected":"" %>" title="customers">
-                    <i class="fa-solid fa-users"></i>
-                    Customers
-                </a>
-            </li>
-            <li id="vehicles-menu-item">
-                <a href="/vehicules" class="<%= section == " vehicules"?"nav-selected":"" %>" title="vehicules">
-                    <i class="fa-solid fa-car"></i>
-                    Vehicles
-                </a>
-            </li>
-            <hr>
-            <p class="mainmenu">Account</p>
-            <li id="account-menu-item">
-                <a href="/account" class="<%= section == " account"?"nav-selected":"" %>" title="account">
-                    <i class="fa-solid fa-user"></i>
-                    My Account
-                </a>
-            </li>
-            <li id="report-menu-item">
-                <a href="/report" class="<%= section == " report"?"nav-selected":"" %>" title="report">
-                    <i class="fa-solid fa-circle-question"></i>
-                    Report
-                </a>
-            </li>
-
-            <hr>
-            <li id="settings-menu-item">
-                <a href="/settings" class="<%= section == " settings"?"nav-selected":"" %>"title="settings">
-                    <i class="fa-solid fa-gear"></i>
-                    Settings
-                </a>
-            </li>
-            <li class="log-out">
-                <a href="/log-out" onclick="window.location.href='../views/login.ejs'">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Log Out
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <% if (section==='vehicules' ){ %>
-
-        <section class="content-section active-section" id="vehicules-content">
-
-
-            <form class="form-container" action="/addvehicle" method="post" autocomplete="off" enctype="multipart/form-data"            >
-                <h3>Add Vehicule</h3>
-                <!-- Marque -->
-                <div class="form-group">
-                  <label for="brand">Brand</label>
-                  <select id="brand" name="brand_id" required>
-                    <% if(brands) %> <% brands.forEach(f => { %>
-                        <option value="<%= f.id %>"><%= f.name %></option>
-                      <% }) %>
-                  </select>
-                </div>
-              
-                <!-- Modèle -->
-                <div class="form-group">
-                  <label for="model">Model</label>
-                  <input type="text" id="model" name="model" placeholder="Ex: Yaris" required>
-                </div>
-              
-                <!--fab_year-->
-                <div class="form-group">
-                    <label for="fab_year">fab_year</label>
-                    <input type="number" id="fab_year" name="fab_year" placeholder="Ex: 2023" required>
-                  </div>
-                   <!-- Couleur -->
-                <div class="form-group">
-                    <label for="color">Color</label>
-                    <input type="text" id="color" name="color" placeholder="Ex: Noir" required>
-                  </div> 
-                    <!-- Capacité -->
-                <div class="form-group">
-                    <label for="capacity">Capacity</label>
-                    <input type="number" id="capacity" name="capacity" min="1" placeholder="Ex: 4" required>
-                  </div>
-            
-                    <!-- Type de Carburant -->
-                <div class="form-group">
-                    <label for="fuel">Fuel Type</label>
-                    <select id="fuel" name="fuel" required>
-                      <% if(fuelTypes) %> <% fuelTypes.forEach(f => { %>
-                        <option value="<%= f.unnest %>"><%= f.unnest %></option>
-                      <% }) %>
-                    </select>
-                  </div>
-
-                <!-- Type de Transmission -->
-                <div class="form-group">
-                  <label for="transmission">Transmission</label>
-                  <select id="transmission" name="transmission" required>
-                    <% if(transTypes) %> <% transTypes.forEach(f => { %>
-                        <option value="<%= f.unnest %>"><%= f.unnest %></option>
-                      <% }) %>
-                  </select>
-                </div>
-              
-                <!-- Disponibilité -->
-                <div class="form-group">
-                  <label for="rental_type">Rental type</label>
-                  <select id="rental_type" name="rental_type" required>
-                    <option value="d">Days</option>
-                    <option value="h">Hours</option>
-                  </select>
-                </div>
-              
-                <!-- Type de Carrosserie -->
-                <div class="form-group">
-                  <label for="body">body</label>
-                  <select id="body" name="body" required>
-                    <% if(bodyTypes) %> <% bodyTypes.forEach(f => { %>
-                        <option value="<%= f.unnest %>"><%= f.unnest %></option>
-                      <% }) %>
-                  </select>
-                </div>
-              
-                <!-- Prix -->
-                <div class="form-group">
-                  <label for="price">price (en €)</label>
-                  <input type="number" id="price" name="price" min="0" step="0.01" placeholder="Ex: 25000.00" required>
-                </div>
-              
-                <!-- Localisation -->
-                <div class="form-group">
-                    <label for="location">location</label>
-                    <select id="location" name="location">
-                        <% offices.forEach(office => { %>
-                            <option value="<%= office.id %>"><%= office.wilaya %>, <%= office.city %>, <%= office.address %></option>
-                        <% }) %>
-                    </select>
-                </div>
-                <!--Units-->
-                <div class="form-group">
-                    <label for="Units">Units</label>
-                    <input type="number" id="Units" name="Units" min="1" placeholder="Ex: 3" required>
-                </div>
-                <!--Speed-->
-                <div class="form-group">
-                    <label for="Speed">Speed</label>
-                    <input type="number" id="Speed" name="Speed" placeholder="Ex: 180" required>
-                  </div>
-                  <!--horspower-->
-                  <div class="form-group">
-                    <label for="horspower">horspower</label>
-                    <input type="number" id="horspower" name="horspower" placeholder="Ex: 200" required>
-                  </div>
-                  <!--engine_type-->
-                  <div class="form-group">
-                    <label for="engine_type">engine_type</label>
-                   <input type="text" id="engine_type" name="engine_type" placeholder="Ex: V6" required>
-                  </div>
-                  <!--doors-->
-                  <div class="form-group">
-                    <label for="doors">doors</label>
-                    <input type="number" id="doors" name="doors" placeholder="Ex: 4" required>
-                  </div>
-                  <!--description-->
-                  <div class="form-group">
-                    <label for="description">description</label>
-                    <input type="text" id="description" name="description" placeholder="taper description" required>
-                  </div>
-                <!-- Ajouter des images -->
-                <div class="form-group">
-                  <label for="ajouterimages">Ajouter Images</label>
-                </div>
-                <div class="images-wrapper">
-                  <!-- Image Principale -->
-                  <div class="image-block">
-                    <input type="file" id="image" name="image" accept="image/*">
-                    <img id="mainImagePreview" />
-                  </div>
-                  
-                  <!-- Image Secondaire -->
-                  <div class="image-block">
-                    <input type="file" id="prevImage1Inp" name="prevImage1" accept="image/*">
-                    <img id="prevImage1" />
-                  </div>
-                  
-                  <!-- Image supplémentaire -->
-                  <div class="image-block">
-                    <input type="file" id="prevImage2Inp" name="prevImage2" accept="image/*">
-                    <img id="prevImage2" />
-                  </div>
-
-                  <div class="image-block">
-                    <input type="file" id="prevImage3Inp" name="prevImage3" accept="image/*">
-                    <img id="prevImage3" />
-                  </div>
-                </div>
-                
-                <script>
-                  function previewImage(inputId, imgId) {
-                    const input = document.getElementById(inputId);
-                    const img = document.getElementById(imgId);
-              
-                    input.addEventListener("change", function () {
-                      const file = input.files[0];
-                      if (file) {
-                        img.src = URL.createObjectURL(file);
-                        img.onload = () => img.classList.add("loaded");
-                      }
-                    });
-                  }
-              
-                  previewImage("image", "mainImagePreview");
-                  previewImage("prevImage1Inp", "prevImage1");
-                  previewImage("prevImage2Inp", "prevImage2");
-                  previewImage("prevImage3Inp", "prevImage3");
-                </script>
-              
-                <!-- زر إضافة المركبة -->
-                <div class="form-group">
-                  <button type="submit" class="btn btn-success">Ajouter</button>
-                </div>
-            </form>
-              
-              <hr>
-              
-              <!-- نموذج تعديل المركبة -->
-              <h3>Modifier un Véhicule</h3>
-              <form class="form-container" action="/" method="POST">
-                <!-- حقل معرف المركبة -->
-                <div class="form-group">
-                  <label for="vehicleId">ID de Véhicule</label>
-                  <input type="number" id="vehicleId" name="vehicleId" placeholder="ID de la Véhicule" required>
-                </div>
-              
-                <!-- حقل للتعديل -->
-                <div class="form-group">
-                  <label for="name">Nom du Véhicule</label>
-                  <input type="text" id="name" name="name" placeholder="Ex: Toyota Yaris - Édition Spéciale" required>
-                </div>
-              
-                <!-- زر تعديل -->
-                <div class="form-group">
-                  <button type="submit" class="btn btn-primary">Modifier</button>
-                </div>
-              </form>
-              
-              <hr>
-              
-              <!-- نموذج حذف المركبة -->
-              <h3>Supprimer un Véhicule</h3>
-              <form class="form-container" action="/vehicule/delete" method="POST">
-                <!-- حقل معرف المركبة -->
-                <div class="form-group">
-                  <label for="vehicleId">ID de Véhicule</label>
-                  <input type="number" id="vehicleId" name="vehicleId" placeholder="ID de la Véhicule" required>
-                </div>
-              
-                <!-- زر الحذف -->
-                <div class="form-group">
-                  <button type="submit" class="btn btn-danger">Supprimer</button>
-                </div>
-              </form>
-  
-        </section>
-
-        <% } %>
-
-            <% if (section==='dashboard' ) { %>
-                <section class="content-section active-section" id="dash-content">
-
-                    <div class="title">
-                        <div class="title-info">
-                            <p>Dashboard</p>
-                            <p class="moniteur">Moniteur your sales Revenue</p>
-
-                        </div>
-
+    <body class="flex-row">
+        <nav class="flex-col">
+            <ul class="dashboard-menu flex-col start-center" style="width: 100%;">
+                <li class="nav-logo flex-row center-start">
+                    <div class="img-box">
+                        <img src="/assets/logo.png" alt="profile">
                     </div>
-
-                    <div class="data-info">
-                        <div class="box">
-                            <i class="fa-regular fa-file"></i>
-                            <div class="data">
-                                <p style="opacity: 60%;">TotalIncome</p>
-                                <span><%= o.total %> <span class="currence">DZD</span></span>
+                    <h2 class="title-sml">DZRentCars</h2>
+                </li>
+                <div class="flex-col">
+                    <p class="mainmenu">Management</p>
+                    <li class="flex-row center-start <%= section == "dashboard"?"nav-selected":"" %>">
+                        <a href="/Dashboard" title="Dashboard">
+                            <i class="fa-solid fa-grip"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="flex-row center-start <%= section == "order"?"nav-selected":"" %>">
+                        <a href="/order" title="Order">
+                            <i class="fa-solid fa-file-lines"></i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
+                    <li class="flex-row center-start <%= section == "customers"?"nav-selected":"" %>">
+                        <a href="/customers" title="Customers">
+                            <i class="fa-solid fa-users"></i>
+                            <span>Customers</span>
+                        </a>
+                    </li>
+                    <li class="flex-row center-start <%= section == "vehicles"?"nav-selected":section == "addvehicle"?"nav-selected":"" %>">
+                        <a href="/vehicles" title="Vehicles">
+                            <i class="fa-solid fa-car"></i>
+                            <span>Vehicles</span>
+                        </a>
+                    </li>
+                </div>
+                <div class="flex-col">
+                    <p class="mainmenu">Account</p>
+                    <li class="flex-row center-start <%= section == "account"?"nav-selected":"" %>">
+                        <a href="/account" title="Account">
+                            <i class="fa-solid fa-user"></i>
+                            <span>My Account</span>
+                        </a>
+                    </li>
+                    <li class="flex-row center-start <%= section == "report"?"nav-selected":"" %>">
+                        <a href="/report" title="Report">
+                            <i class="fa-solid fa-circle-question"></i>
+                            <span>Report</span>
+                        </a>
+                    </li>
+                    <li class="flex-row center-start <%= section == "settings"?"nav-selected":"" %>">
+                        <a href="/settings"title="Settings">
+                            <i class="fa-solid fa-gear"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </div>
+                <div class="flex-col">
+                    <p class="mainmenu">Database</p>
+                    <li class="flex-row center-start <%= section == "dbm"?"nav-selected":"" %>">
+                        <a href="/dbm" title="Database">
+                            <i class="fa-solid fa-database"></i>
+                            <span>Database</span>
+                        </a>
+                    </li>
+                </div>
+                <li class="log-out flex-row center-start">
+                    <a href="/logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Log Out</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <% if (section==='addvehicle' ){ %>
+            <section class="content-section flex-col" id="vehicles-content">
+                <form class="form-container add-vehicle-form" action="/addvehicle" method="post" autocomplete="off" enctype="multipart/form-data">
+                    <p class="title" style="margin-bottom: 10px;">
+                        <a style="color: var(--text);" href="/vehicles">Vehicles</a>
+                        <i class="fa-solid fa-chevron-right" style="font-size: var(--font-sml);"></i> 
+                        <span>Add</span>
+                    </p>
+                    <div class="flex-row">
+                        <div class="flex-col" style="width: 50%;">
+                            <div class="form-group">
+                                <label class="form-label" for="location">location</label>
+                                <select id="location" name="location">
+                                    <% offices.forEach(office => { %>
+                                        <option value="<%= office.id %>"><%= office.wilaya %>, <%= office.city %>, <%= office.address %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            <div class="flex-row" style="gap: 5px;">
+                                <div class="form-group" style="width: calc(30% - 5px);">
+                                    <label class="form-label" for="brand">Brand</label>
+                                    <select id="brand" name="brand_id" required>
+                                        <% if(brands) %> <% brands.forEach(f => { %>
+                                            <option value="<%= f.id %>"><%= f.name %></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="width: 50%;">
+                                    <label class="form-label" for="model">Model</label>
+                                    <input type="text" id="model" name="model" placeholder="Ex: Yaris" required>
+                                </div>
+                                <div class="form-group" style="width: calc(20% - 5px);">
+                                    <label class="form-label" for="fab_year">Year</label>
+                                    <input type="text" id="fab_year" name="fab_year" placeholder="Ex: 2023" required>
+                                </div>
+                            </div>
+                            <div class="flex-row" style="gap: 5px;">
+                                <div class="form-group" style="width: 20%;">
+                                    <label class="form-label" for="Units">Units</label>
+                                    <input type="number" id="Units" name="Units" min="1" placeholder="Ex: 3" required>
+                                </div>
+                                <div class="form-group" style="width: calc(50% - 5px);">
+                                    <label class="form-label" for="price">Price <span class="currence">(DZD)</span></label>
+                                    <input type="number" id="price" name="price" min="0" step="0.01" placeholder="Ex: 25000.00" required>
+                                </div>
+                                <div class="form-group" style="width: calc(30% - 5px);">
+                                    <label class="form-label" for="rental_type">Rental type</label>
+                                    <select id="rental_type" name="rental_type" required>
+                                        <option value="d">Days</option>
+                                        <option value="h">Hours</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex-row" style="gap: 5px;">
+                                <div class="form-group" style="width: calc(60% - 5px);">
+                                    <label class="form-label" for="body">body</label>
+                                    <select id="body" name="body" required>
+                                        <% if(bodyTypes) %> <% bodyTypes.forEach(f => { %>
+                                            <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                                        <% }) %>
+                                    </select>
+                                </div> 
+                                <div class="form-group" style="width: 40%;">
+                                    <label class="form-label" for="color">Color</label>
+                                    <input type="text" id="color" name="color" placeholder="Ex: Noir" list="css-colors" required>
+                                    <datalist id="css-colors">
+                                        <% if (colors) %> <% colors.forEach(color => { %>
+                                            <option value="<%= color.unnest %>"></option>
+                                        <% }) %>
+                                    </datalist>
+                                </div> 
+                            </div>
+        
+                            <div class="flex-row" style="gap: 5px;">
+                                <div class="form-group" style="width: 70%;">
+                                    <label class="form-label" for="engine_type">Engine type</label>
+                                    <input type="text" id="engine_type" name="engine_type" placeholder="Ex: V6" required>
+                                </div>
+                                <div class="form-group" style="width: calc(15%-5px);">
+                                    <label class="form-label" for="horspower">Horspower <span class="currence">(HP)</span></label>
+                                    <input type="number" id="horspower" name="horspower" placeholder="Ex: 200" required>
+                                </div>
+                                <div class="form-group" style="width: calc(15%-5px);">
+                                    <label class="form-label" for="Speed">Speed <span class="currence">(KM/H)</span></label>
+                                    <input type="number" id="Speed" name="Speed" placeholder="Ex: 180" required>
+                                </div>
+                            </div>
+        
+                            <div class="flex-row" style="gap: 5px;">
+                                <div class="form-group" style="width: calc(50% - 5px);">
+                                    <label class="form-label" for="capacity">Capacity</label>
+                                    <input type="number" id="capacity" name="capacity" min="1" placeholder="Ex: 4" required>
+                                </div>
+                                <div class="form-group" style="width: 50%;">
+                                    <label class="form-label" for="doors">Doors</label>
+                                    <input type="number" id="doors" name="doors" placeholder="Ex: 4" required>
+                                </div>
+                            </div>
+        
+                            <div class="flex-row" style="gap: 5px;">
+                                <div class="form-group" style="width: calc(50% - 5px);">
+                                    <label class="form-label" for="fuel">Fuel Type</label>
+                                    <select id="fuel" name="fuel" required>
+                                    <% if(fuelTypes) %> <% fuelTypes.forEach(f => { %>
+                                        <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                                    <% }) %>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="width: 50%;">
+                                    <label class="form-label" for="transmission">Transmission</label>
+                                    <select id="transmission" name="transmission" required>
+                                        <% if(transTypes) %> <% transTypes.forEach(f => { %>
+                                            <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                                        <% }) %>
+                                    </select>
+                                </div>                                                           
                             </div>
                         </div>
-                        <div class="box">
-                            <i class="fa-solid fa-clock-rotate-left"></i>
-                            <div class="data">
-                                <p style="opacity: 60%;">TotalSales</p>
-                                <span><%= o.sum %></span>
+                        <div class="flex-col" style="width: 50%; padding-left: 1rem;">
+                            <div class="form-group" style="width: 100%; height: 50%;">
+                                <div class="flex-row" style="width: 100%; height:100%; gap:10px;">
+                                    <div class="flex-col" style="width: calc(70% - 10px);">
+                                        <label for="image" class="image-block flex-row flex-center">
+                                            <input type="file" id="image" name="image" accept="image/*" hidden>
+                                            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                        </label>
+                                    </div>
+                                    <div class="flex-col" style="width: 30%; height: 100%; gap: 10px;">
+                                        <label for="prevImage1Inp" class="image-block-prev flex-row flex-center">
+                                            <input type="file" id="prevImage1Inp" name="prevImage1" accept="image/*" hidden>
+                                            <i class="fa-regular fa-images"></i>
+                                        </label>
+                                        <label for="prevImage2Inp" class="image-block-prev flex-row flex-center">
+                                            <i class="fa-regular fa-images"></i>
+                                            <input type="file" id="prevImage2Inp" name="prevImage2" accept="image/*" hidden>
+                                        </label>
+                                        <label for="prevImage3Inp" class="image-block-prev flex-row flex-center">
+                                            <i class="fa-regular fa-images"></i>
+                                            <input type="file" id="prevImage3Inp" name="prevImage3" accept="image/*" hidden>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" style="height: 50%;">
+                                <label class="form-label" for="description">Description</label>
+                                <textarea id="description" name="description" placeholder="Description..."></textarea>
                             </div>
                         </div>
-                        <div class="box">
-                            <i class="fa-solid fa-check"></i>
-                            <div class="data">
-                                <p style="opacity: 60%;">TotalExpences</p>
-                                <span>$100</span>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn bt-primary" id="addVehicleBut">Ajouter</button>
+                    </div>
+                </form>
+            </section>
+        <% } %>
+        <% if (section==='dashboard' ) { %>
+            <section class="content-section" id="dash-content">
+                <div class="title">
+                    <div class="title-info">
+                        <p>Dashboard</p>
+                        <p class="moniteur">Moniteur your sales Revenue</p>
+                    </div>
+                </div>
+                <div class="data-info">
+                    <div class="box">
+                        <i class="fa-regular fa-file"></i>
+                        <div class="data">
+                            <p style="opacity: 60%;">TotalIncome</p>
+                            <span><%= o.total %> <span class="currence">DZD</span></span>
                         </div>
-                        <script>
-                            const ctx = document.getElementById('myChart');
-                            new Chart(ctx, {
-                                type: 'line',
-                                data: {
-                                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                                    datasets: [{
-                                        label: '# of Votes',
-                                        data: [12, 19, 3, 5, 2, 3],
-                                        borderWidth: 1
-                                    }]
-                                },
-                                options: {
-                                    responsive: true,
-                                    maintainAspectRatio: false,
-                                    scales: {
-                                        y: {
-                                            beginAtZero: true
-                                        }
+                    </div>
+                    <div class="box">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <div class="data">
+                            <p style="opacity: 60%;">TotalSales</p>
+                            <span><%= o.sum %></span>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <i class="fa-solid fa-check"></i>
+                        <div class="data">
+                            <p style="opacity: 60%;">TotalExpences</p>
+                            <span>$100</span>
+                        </div>
+                    </div>
+                    <script>
+                        const ctx = document.getElementById('myChart');
+                        new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                                datasets: [{
+                                    label: '# of Votes',
+                                    data: [12, 19, 3, 5, 2, 3],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
                                     }
                                 }
-                            })
-                        </script>
-                    </div>
+                            }
+                        })
+                    </script>
                     <div class="boxe flex-row" style="flex-wrap: wrap;">
                         <i class="fa-solid fa-database"></i>
                         <div class="data">
                             <p> SalesRevenu</p>
-
                         </div>
-
                         <div class="chartcontainer" style="width: 100%; height:80%">
                             <canvas id="myChart"></canvas>
                         </div>
-
                     </div>
                     <div class="table">
                         <table>
@@ -413,184 +346,187 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </section>
+        <% } %>
+        <% if (section==='order' ) { %>
+            <section class="content-section" id="orders-content">
 
+                <h1>OrdersList</h1>
+                <div class="button_order">
+                    <button class="button_ord active">AllOrders</button>
+                    <button class="button_ord">Pending</button>
+                    <button class="button_ord">InProgress</button>
+                    <button class="button_ord">Completed</button>
+                </div>
 
-                </section>
-                <% } %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>USER_ID</th>
+                            <th>VEHICULE_ID</th>
+                            <th>START_DATE</th>
+                            <th>END_DATE</th>
+                            <th>STATUS</th>
+                            <th>PRICE</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rentalsTableBody">
+                    <!-- سيتم إدخال البيانات هنا ديناميكيًا -->
+                    </tbody>
+                </table>
 
-                    <% if (section==='order' ) { %>
-                        <section class="content-section active-section" id="orders-content">
+            </section>
+        <% } %>
+        <% if (section==='customers' ) { %>
+            <section class="content-section" id="customers-content">
 
-                            <h1>OrdersList</h1>
-                            <div class="button_order">
-                                <button class="button_ord active">AllOrders</button>
-                                <button class="button_ord">Pending</button>
-                                <button class="button_ord">InProgress</button>
-                                <button class="button_ord">Completed</button>
+                <h2>Customers List</h2>
+                <div class=".button_customer">
+                    <button class="button_cust active" data-role="all">AllCustomers</button>
+                    <button class="button_cust" data-role="Client">client</button>
+                    <button class="button_cust" data-role="Admin">Admin</button>
+                    <button class="button_cust" data-role="Employe">Employe</button>
+                </div>
+                <br>
+                <table class="customer-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>country</th>
+                            <th>Role</th>
+                            <th></th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody id="customersTableBody">
+                        <!-- سيتم إدخال البيانات هنا ديناميكيًا -->
+                    </tbody>
+                </table>
+            </section>
+        <% } %>
+        <% if (section==='account' ) { %>
+            <section class="content-section" id="account-content">
+
+                <div class="containeraccount">
+                    <!-- General Account Information -->
+                    <div class="section">
+                        <h2>General Account Information</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <div class="input-wrapper">
+                                    <input id="name" type="text">
+                                    <i class="fas fa-user icon"></i>
+                                </div>
                             </div>
 
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>USER_ID</th>
-                                        <th>VEHICULE_ID</th>
-                                        <th>START_DATE</th>
-                                        <th>END_DATE</th>
-                                        <th>STATUS</th>
-                                        <th>PRICE</th>
-                                    </tr>
-                                </thead>
-                              <tbody id="rentalsTableBody">
-                                <!-- سيتم إدخال البيانات هنا ديناميكيًا -->
-                              </tbody>
-                            </table>
+                            <div class="form-group">
+                                <label for="email">Your Email</label>
+                                <div class="input-wrapper">
+                                    <input id="email" type="email">
+                                    <i class="fas fa-envelope icon"></i>
+                                </div>
+                            </div>
 
-                        </section>
-                        <% } %>
+                            <div class="form-group">
+                                <label for="country">Your Country</label>
+                                <div class="input-wrapper">
+                                    <input id="country" type="text">
+                                    <i class="fas fa-globe icon"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="country">Your Wilaya</label>
+                                <div class="input-wrapper">
+                                    <input id="country" type="text">
+                                    <i class="fas fa-globe icon"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="country">Your City</label>
+                                <div class="input-wrapper">
+                                    <input id="country" type="text">
+                                    <i class="fas fa-city icon"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="country">Your Phone number</label>
+                                <div class="input-wrapper">
+                                    <input id="country" type="number">
+                                    <i class="fas fa-phone icon"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="country">Your Birthdate</label>
+                                <div class="input-wrapper">
+                                    <input id="country" type="Date">
+                                    <i class="fas fa-calendar-days icon"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="country">Your Zipcode</label>
+                                <div class="input-wrapper">
+                                    <input id="country" type="text">
+                                    <i class="fas fa-code icon"></i>
+                                </div>
 
-                            <% if (section==='customers' ) { %>
-                                <section class="content-section active-section" id="customers-content">
+                            </div>
+                        </div>
+                    </div>
 
-                                    <h2>Customers List</h2>
-                                    <div class=".button_customer">
-                                        <button class="button_cust active" data-role="all">AllCustomers</button>
-                                        <button class="button_cust" data-role="Client">client</button>
-                                        <button class="button_cust" data-role="Admin">Admin</button>
-                                        <button class="button_cust" data-role="Employe">Employe</button>
-                                    </div>
-                                    <br>
-                                    <table class="customer-table">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Email</th>
-                                                <th>Phone</th>
-                                                <th>country</th>
-                                                <th>Role</th>
-                                                <th></th>
-                                                
-                                            </tr>
-                                        </thead>
-                                        <tbody id="customersTableBody">
-                                            <!-- سيتم إدخال البيانات هنا ديناميكيًا -->
-                                        </tbody>
-                                    </table>
-                                </section>
-                                <% } %>
+                    <!-- Security Settings -->
+                    <div class="section">
+                        <h2>Security Settings</h2>
+                        <div class="form-group">
+                            <label for="password">Your Password</label>
+                            <div class="input-wrapper">
+                                <input id="password" type="password" value="********">
+                                <i class="fas fa-lock icon"></i>
+                            </div>
+                        </div>
+                    </div>
 
-                                    <% if (section==='account' ) { %>
-                                        <section class="content-section active-section" id="account-content">
+                    <div class="button">
+                        <a href="/"><button class="bn632-hover bn26">Save</button></a>
 
-                                            <div class="containeraccount">
-                                                <!-- General Account Information -->
-                                                <div class="section">
-                                                    <h2>General Account Information</h2>
-                                                    <div class="form-grid">
-                                                        <div class="form-group">
-                                                            <label for="name">Your Name</label>
-                                                            <div class="input-wrapper">
-                                                                <input id="name" type="text">
-                                                                <i class="fas fa-user icon"></i>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label for="email">Your Email</label>
-                                                            <div class="input-wrapper">
-                                                                <input id="email" type="email">
-                                                                <i class="fas fa-envelope icon"></i>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label for="country">Your Country</label>
-                                                            <div class="input-wrapper">
-                                                                <input id="country" type="text">
-                                                                <i class="fas fa-globe icon"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="country">Your Wilaya</label>
-                                                            <div class="input-wrapper">
-                                                                <input id="country" type="text">
-                                                                <i class="fas fa-globe icon"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="country">Your City</label>
-                                                            <div class="input-wrapper">
-                                                                <input id="country" type="text">
-                                                                <i class="fas fa-city icon"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="country">Your Phone number</label>
-                                                            <div class="input-wrapper">
-                                                                <input id="country" type="number">
-                                                                <i class="fas fa-phone icon"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="country">Your Birthdate</label>
-                                                            <div class="input-wrapper">
-                                                                <input id="country" type="Date">
-                                                                <i class="fas fa-calendar-days icon"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="country">Your Zipcode</label>
-                                                            <div class="input-wrapper">
-                                                                <input id="country" type="text">
-                                                                <i class="fas fa-code icon"></i>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Security Settings -->
-                                                <div class="section">
-                                                    <h2>Security Settings</h2>
-                                                    <div class="form-group">
-                                                        <label for="password">Your Password</label>
-                                                        <div class="input-wrapper">
-                                                            <input id="password" type="password" value="********">
-                                                            <i class="fas fa-lock icon"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="button">
-                                                    <a href="/"><button class="bn632-hover bn26">Save</button></a>
-
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </section>
-                                        <% } %>
-
-                                            <% if (section==='report' ) { %>
-                                                <section class="content-section active-section" id="report-content">
-
-                                                    <h2>Report</h2>
-                                                    <p>Content for Report section.</p>
-                                                    <% } %>
-                                                </section>
-                                                <% if (section==='settings' ) { %>
-                                                    <section class="content-section active-section"
-                                                        id="settings-content">
-
-                                                        <h2>Settings</h2>
-                                                        <p>Content for Settings section.</p>
-                                                    </section>
-                                                    <% } %>
-                                                        <script src="/js/main.js"></script>
-                                                        <script
-                                                            src="/lib/node_modules/chart.js/dist/chart.umd.js"></script>
-                                                        <script src="/js/darkmode.js"></script>
-                                                        <script src="/js/dashboard.js"></script>
-</body>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        <% } %>
+        <% if (section==='report' ) { %>
+            <section class="content-section" id="report-content">
+                <h2>Report</h2>
+                <p>Content for Report section.</p>
+            </section>
+        <% } %>
+        <% if (section==='settings' ) { %>
+            <section class="content-section" id="settings-content">
+                <h2>Settings</h2>
+                <p>Content for Settings section.</p>
+            </section>
+        <% } %>
+        <script src="/js/main.js"></script>
+        <script src="/lib/node_modules/chart.js/dist/chart.umd.js"></script>
+        <script src="/js/darkmode.js"></script>
+        <script src="/js/dashboard.js"></script>
+        <% const scripts = { 
+            addvehicle: "addvehicle.js", 
+            vehicles: "vehicles.js", 
+            order: "order.js",
+            customers: "customers.js",
+            account: "account.js",
+            report: "report.js",
+            settings: "settings.js"
+        }; %>
+        <% if (scripts[section]) { %>
+            <script src="/js/administration/<%= scripts[section] %>"></script>
+        <% } %>
+    </body>
 
 </html>

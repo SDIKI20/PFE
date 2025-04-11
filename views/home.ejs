@@ -22,30 +22,26 @@
     <title><%= section.toString().substring(0,1).toUpperCase() %><%= section.toString().substring(1).toLowerCase() %></title>
 </head>
 <body class="flex-row" id="platContent">
-     
-    <%
-        function formatNumber(num) {
-            if (num >= 1e9) {
-            return (num / 1e9).toFixed(1).replace(/\.0$/, '') + 'b';
-            }
-            if (num >= 1e6) {
-            return (num / 1e6).toFixed(1).replace(/\.0$/, '') + 'm';
-            }
-            if (num >= 1e3) {
-            return (num / 1e3).toFixed(1).replace(/\.0$/, '') + 'k';
-            }
-            return num.toString();
+    <%function formatNumber(num) {
+        if (num >= 1e9) {
+        return (num / 1e9).toFixed(1).replace(/\.0$/, '') + 'b';
         }
-        function formatDate(dateString) {
-            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            const date = new Date(dateString);
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = months[date.getMonth()];
-            return `${day} ${month}`;
+        if (num >= 1e6) {
+        return (num / 1e6).toFixed(1).replace(/\.0$/, '') + 'm';
         }
-    %>
-    
+        if (num >= 1e3) {
+        return (num / 1e3).toFixed(1).replace(/\.0$/, '') + 'k';
+        }
+        return num.toString();
+    }
+    function formatDate(dateString) {
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = months[date.getMonth()];
+        return `${day} ${month}`;
+    }%>
     <% if (section === 'docs') { %>
         <div class="overtop-conf flex-row flex-center" id="upDocsContainer">
             <div class="nid-upload-container flex-col">
@@ -127,6 +123,16 @@
             </a>
         </ul>
         <ul class="plat-user-info flex-col center-start">
+            <% if(user) if (user.role == "Admin") { %>
+                <a id="navDash" href="/dashboard" data-section="dashboard" class="plat-nav-element" title="Administration">
+                    <label for="sectDocs">
+                        <div class="flex-col">
+                            <i class="fa-solid fa-user-tie"></i>
+                            <p class="nav-label">Admin</p>
+                        </div>
+                    </label>
+                </a>
+            <% } %>
             <a id="navDocs" href="/docs" data-section="docs" class="plat-nav-element <%= section==="docs"?"plat-nav-selected":"" %>" title="My Documents">
                 <label for="sectDocs">
                     <div class="flex-col">
@@ -809,7 +815,7 @@
                     <input type="date" id="filterEndDate" hidden>                   
                 </div>
             </div>
-            <button class="data-download bt bt-hover text-eclip"><i class="fa-solid fa-file-arrow-down" style="margin-right: .3125rem;"></i> Download as CSV</button>
+            <button class="data-download bt bt-hover text-eclip"><i class="fa-solid fa-file-arrow-down" style="margin-right: .3125rem;"></i>CSV</button>
             <script>
                 document.querySelector('.data-download').addEventListener('click', function() {
                     const rentals = <%- JSON.stringify(rentals) %>; 
@@ -890,7 +896,6 @@
             <ul class="rentals-container flex-col center-start">
             </ul>
         </div>
-        
     </section>
     <% } %>
     <% if (section === 'fav') { %>
@@ -906,7 +911,7 @@
                 <img src="<%= car.previmage1 %>" alt="Preview">
             </label>
             <label class="flex-row flex-center prev-img">
-                <input type="radio" name="same-check" checked hidden>
+                <input type="radio" name="same-check" hidden>
                 <img src="<%= car.previmage2 %>" alt="Preview">
             </label>
             <label class="flex-row flex-center prev-img">
@@ -914,7 +919,7 @@
                 <img src="<%= car.previmage3 %>" alt="Preview">
             </label>
             <label class="flex-row flex-center prev-img only-pc">
-                <input type="radio" name="same-check" hidden>
+                <input type="radio" name="same-check" checked hidden>
                 <img src="<%= car.image %>" alt="Preview">
             </label>
         </div>
@@ -1324,7 +1329,6 @@
         <input type="radio" class="sectRad" hidden name="sectRad" id="sectProfile">
     </section>
     <% } %>
-
     <script src="/js/main.js"></script>
     <script src="/js/darkmode.js"></script>
     <script src="/lib/node_modules/gsap/dist/gsap.min.js"></script>

@@ -98,7 +98,6 @@ function refreshRentals( id, name, created, payment, status, price, start_date, 
 }
 
 function updateUrlFilters() {
-  openLoader()
   clearRentals()
   const i = document.getElementById('uIR').value;
   const limit = document.getElementById('filterLimit').value || "10";
@@ -125,6 +124,7 @@ function updateUrlFilters() {
   if (end_date) params.append('end_date', end_date);
 
   const FURL = `http://localhost:4000/api/users/rentals?${params.toString()}`
+  openLoader()
   fetch(FURL)
     .then(response => {
       if (!response.ok) {

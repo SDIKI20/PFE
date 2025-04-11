@@ -13,6 +13,8 @@
     --txt-white-low: rgba(172, 172, 172, 0.621);
     --border: rgba(129, 129, 129, 0.418);
     --border-low: rgba(129, 129, 129, 0.171);
+    --input-4dark: transparent;
+    --select-4dark: white;
     --input: rgb(235, 235, 235);
     --color-main: #ED6F21; 
     --color-second: #F3A028;

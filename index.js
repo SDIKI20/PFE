@@ -79,6 +79,17 @@ app.use('/api/vehicles', vehicles);
 
 app.use(flash());
 
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (allowedTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error('Only .png, .jpg and .jpeg formats are allowed!'), false);
+    }
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
+
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).render("p404");
@@ -91,7 +102,6 @@ app.use((err, req, res, next) => {
     }
     res.status(500).json({ error: 'Internal Server Error' });
 });
-
 
 app.get("/", async (req, res) => {
     try{
@@ -539,17 +549,6 @@ app.get("/logout", (req, res, next) => {
         }
 });
 
-
-const fileFilter = (req, file, cb) => {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    if (allowedTypes.includes(file.mimetype)) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only .png, .jpg and .jpeg formats are allowed!'), false);
-    }
-  };
-  
-const upload = multer({ storage: storage, fileFilter: fileFilter });
 app.post('/upload', upload.single('image'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'No file uploaded or invalid file type' });
@@ -634,8 +633,8 @@ app.post("/addvehicle",
             description
         ];
 
-        const result = await pool.query(query, values);
-        res.status(201).json(result.rows[0]);
+        await pool.query(query, values);
+        res.redirect('/vehicles');
 
     } catch (error) {
         console.error("Error adding vehicle:", error);
@@ -742,7 +741,7 @@ app.get('/settings',checkNotAuth,(req, res) => {
     }
 })
 
-app.get('/vehicules', async (req, res) => {
+app.get('/addvehicle', async (req, res) => {
     try{
         const fuelResult = await pool.query(`SELECT unnest(enum_range(NULL::fuel_type))`);
         const fuelTypes = fuelResult.rows.length > 0 ? fuelResult.rows : null;
@@ -753,6 +752,9 @@ app.get('/vehicules', async (req, res) => {
         const transResult = await pool.query(`SELECT unnest(enum_range(NULL::transmission_type))`);
         const transTypes = transResult.rows.length > 0 ? transResult.rows : null;
 
+        const colorsResult = await pool.query(`SELECT unnest(enum_range(NULL::css_color))`);
+        const colors = colorsResult.rows.length > 0 ? colorsResult.rows : null;
+
         const brandsResult = await pool.query(`SELECT * FROM brands`);
         const brandsList = brandsResult.rows.length > 0 ? brandsResult.rows : null;
 
@@ -761,14 +763,27 @@ app.get('/vehicules', async (req, res) => {
         `)
         offices = officeRows.rows.length === 0?null:officeRows.rows
 
-    res.render("dashboard",{user: req.user, 
-        section:"vehicules", 
-        fuelTypes:fuelTypes, 
-        bodyTypes:bodyTypes, 
-        transTypes:transTypes,
-        brands:brandsList,
-        offices:offices
-    })
+        res.render("dashboard",{user: req.user, 
+            section:"addvehicle", 
+            fuelTypes:fuelTypes, 
+            bodyTypes:bodyTypes, 
+            transTypes:transTypes,
+            brands:brandsList,
+            colors:colors,
+            offices:offices
+        })
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
+
+app.get('/vehicles', async (req, res) => {
+    try{
+        res.render("dashboard",{
+            user: req.user, 
+            section:"addvehicle",
+        })
     }catch(error){
         console.error(error);
         res.status(500).render("p404");

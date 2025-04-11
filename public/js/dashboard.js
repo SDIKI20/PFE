@@ -20,79 +20,87 @@ new Chart(ctx, {
   }
 })
 
-
 // جلب جميع الطلبات من السيرفر
 function fetchrentals() {
-    fetch("http://localhost:4000/orders/getOrders") // استبدل هذا بالرابط الصحيح لواجهة برمجة التطبيقات الخاصة بك
+    try {
+        
+        fetch("http://localhost:4000/orders/getOrders") // استبدل هذا بالرابط الصحيح لواجهة برمجة التطبيقات الخاصة بك
         .then(response => response.json())
         .then( rentals=> { 
             allrentals = rentals; // حفظ جميع الطلبات في متغير عالمي
             displayrentals(allrentals); // عرض جميع الطلبات افتراضيًا
         })
         .catch(error => console.error("Error fetching rentals:", error));
+    } catch (error) {}
 }
 
 // عرض الطلبات في الجدول
 function displayrentals(rentals) {
-    const tableBody = document.getElementById("rentalsTableBody");
-    tableBody.innerHTML = ""; // تفريغ الجدول
-
-    rentals.forEach(rentals => {
-        const row = document.createElement("tr");
-
-        // إضافة فئة (class) للحالة لتغيير اللون
-        let statusClass = "";
-        if (rentals.status === "Completed") statusClass = "status-active";
-        else if (rentals.status === "Pending") statusClass = "status-pending";
-        else if (rentals.status === "In Progress") statusClass = "status-in-progress";
-
-        row.innerHTML = `
+    try {
+        const tableBody = document.getElementById("rentalsTableBody");
+        tableBody.innerHTML = ""; // تفريغ الجدول
+        
+        rentals.forEach(rentals => {
+            const row = document.createElement("tr");
+            
+            // إضافة فئة (class) للحالة لتغيير اللون
+            let statusClass = "";
+            if (rentals.status === "Completed") statusClass = "status-active";
+            else if (rentals.status === "Pending") statusClass = "status-pending";
+            else if (rentals.status === "In Progress") statusClass = "status-in-progress";
+            
+            row.innerHTML = `
             <td>${rentals.user_id}</td>
             <td>${rentals.vehicle_id}</td>
             <td>${rentals.start_date}</td>
             <td>${rentals.end_date}</td>
             <td class="${statusClass}">${rentals.status}</td>
             <td>${rentals.price || "N/A"}</td>
-        `;
-
-        tableBody.appendChild(row);
-    });
+            `;
+            
+            tableBody.appendChild(row);
+        });
+        
+    } catch (error) {}
 }
-
+    
 //get all users
-
-document.getElementById("customers-menu-item").addEventListener("click", function () {
-    fetchCustomers(); 
-});
+try {
+    document.getElementById("customers-menu-item").addEventListener("click", function () {
+        fetchCustomers(); 
+    });
+} catch (error) {}
 
 function fetchCustomers() {
-    fetch("http://localhost:4000/api/Users/getUsers") 
+    try {
+        fetch("http://localhost:4000/api/Users/getUsers") 
         .then(response => response.json())
         .then(customers => {
             const tableBody = document.getElementById("customersTableBody");
             tableBody.innerHTML = ""; 
-
+            
             customers.forEach(customer => {
                 const row = document.createElement("tr");
-
+                
                 row.innerHTML = `
-                    <td>${customer.id}</td>
-                    <td>${customer.fname}</td>
+                <td>${customer.id}</td>
+                <td>${customer.fname}</td>
                     <td>${customer.lname}</td>
                     <td>${customer.email}</td>
                     <td>${customer.phone}</td>
                     <td>${customer.country}</td>
                     <td>${customer.role}</td>
-                     <td>
-                        <button class="edit-btn">Edit</button>
-                        <button class="delete-btn">Delete</button>
+                    <td>
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">Delete</button>
                     </td>
-                `;
-
-                tableBody.appendChild(row);
-            });
-        })
-        .catch(error => console.error("Error fetching customers:", error));
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
+            })
+        .catch(error => console.error("Error fetching customers:", error));  
+    } catch (error) {}
 }
 let allcustomers = []; // تخزين جميع الطلبات
 
