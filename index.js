@@ -684,7 +684,7 @@ app.post("/login", passport.authenticate("local", {
 
 /*-----------dashboard.ejs----------------*/
 
-app.get('/order',checkNotAuth, (req, res) => {
+app.get('/order', (req, res) => {
     try{
     res.render("dashboard",{user: req.user, section:"order"})
     }catch(error){

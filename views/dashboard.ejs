@@ -28,25 +28,25 @@
                 </li>
                 <div class="flex-col">
                     <p class="mainmenu">Management</p>
-                    <li class="flex-row center-start <%= section == "dashboard"?"nav-selected":"" %>">
+                    <li class="flex-row center-start <%= section == "dashboard"?"nav-selected":"" %>" id="#dash-menu-item">
                         <a href="/Dashboard" title="Dashboard">
                             <i class="fa-solid fa-grip"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="flex-row center-start <%= section == "order"?"nav-selected":"" %>">
+                    <li class="flex-row center-start <%= section == "order"?"nav-selected":"" %>" id="orders-menu-item">
                         <a href="/order" title="Order">
                             <i class="fa-solid fa-file-lines"></i>
                             <span>Orders</span>
                         </a>
                     </li>
-                    <li class="flex-row center-start <%= section == "customers"?"nav-selected":"" %>">
+                    <li class="flex-row center-start <%= section == "customers"?"nav-selected":"" %>" id="customers-menu-item">
                         <a href="/customers" title="Customers">
                             <i class="fa-solid fa-users"></i>
                             <span>Customers</span>
                         </a>
                     </li>
-                    <li class="flex-row center-start <%= section == "vehicles"?"nav-selected":section == "addvehicle"?"nav-selected":"" %>">
+                    <li class="flex-row center-start <%= section == "vehicles"?"nav-selected":section == "addvehicle"?"nav-selected":"" %>" id="vehicles-menu-item">
                         <a href="/vehicles" title="Vehicles">
                             <i class="fa-solid fa-car"></i>
                             <span>Vehicles</span>
@@ -254,7 +254,7 @@
                         <p class="moniteur">Moniteur your sales Revenue</p>
                     </div>
                 </div>
-                <div class="data-info">
+                <div class="data-info flex-row flex-wrap">
                     <div class="box">
                         <i class="fa-regular fa-file"></i>
                         <div class="data">
@@ -276,6 +276,7 @@
                             <span>$100</span>
                         </div>
                     </div>
+                    <script src="/lib/node_modules/chart.js/dist/chart.umd.js"></script>
                     <script>
                         const ctx = document.getElementById('myChart');
                         new Chart(ctx, {
@@ -345,39 +346,42 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="flex-col">
+                          <div class="flex-row"></div>
+                        </div>
                     </div>
                 </div>
             </section>
         <% } %>
         <% if (section==='order' ) { %>
-            <section class="content-section" id="orders-content">
+            <section class="content-section active-section" id="orders-content">
 
-                <h1>OrdersList</h1>
-                <div class="button_order">
-                    <button class="button_ord active">AllOrders</button>
-                    <button class="button_ord">Pending</button>
-                    <button class="button_ord">InProgress</button>
-                    <button class="button_ord">Completed</button>
-                </div>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>USER_ID</th>
-                            <th>VEHICULE_ID</th>
-                            <th>START_DATE</th>
-                            <th>END_DATE</th>
-                            <th>STATUS</th>
-                            <th>PRICE</th>
-                        </tr>
-                    </thead>
-                    <tbody id="rentalsTableBody">
-                    <!-- سيتم إدخال البيانات هنا ديناميكيًا -->
-                    </tbody>
-                </table>
-
+              <h1>OrdersList</h1>
+              <div class="button_order">
+                <button class="button_ord active" data-role="all">AllOrders</button>
+                <button class="button_ord" data-role="pending">Pending</button>
+                <button class="button_ord" data-role="active">Active</button>
+                <button class="button_ord" data-role="completed">Completed</button>
+                <button class="button_ord" data-role="canceled">Canceled</button>
+              </div>
+            
+              <table>
+                <thead>
+                  <tr>
+                    <th>USER_ID</th>
+                    <th>VEHICULE_ID</th>
+                    <th>START_DATE</th>
+                    <th>END_DATE</th>
+                    <th>STATUS</th>
+                    <th>TOTAL_PRICE</th>
+                  </tr>
+                </thead>
+                <tbody id="rentalsTableBody">
+                  <!-- سيتم إدخال البيانات هنا ديناميكيًا -->
+                </tbody>
+              </table>
             </section>
-        <% } %>
+          <% } %>
         <% if (section==='customers' ) { %>
             <section class="content-section" id="customers-content">
 
@@ -512,7 +516,6 @@
             </section>
         <% } %>
         <script src="/js/main.js"></script>
-        <script src="/lib/node_modules/chart.js/dist/chart.umd.js"></script>
         <script src="/js/darkmode.js"></script>
         <script src="/js/dashboard.js"></script>
         <% const scripts = { 

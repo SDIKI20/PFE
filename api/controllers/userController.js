@@ -211,12 +211,12 @@ const deleteuser = async (req, res) => {
       const resultuser = await pool.query("DELETE FROM users WHERE id = $1", [userId]);
   
       if (resultuser.rowCount === 0) {
-        return res.status(404).json({ message: "Vehicle not found" });
+        return res.status(404).json({ message: "user not found" });
       }
   
-      res.status(200).json({ message: "Vehicle deleted successfully" });
+      res.status(200).json({ message: "user deleted successfully" });
     } catch (error) {
-      console.error("Error deleting vehicle:", error);
+      console.error("Error deleting user:", error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   };
