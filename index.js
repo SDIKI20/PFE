@@ -598,9 +598,9 @@ app.post("/addvehicle",
 
         // Upload images (assuming uploadImage is a working function)
         const mainImage = req.files?.["image"] ? await uploadImage(req.files["image"][0]) : "/assets/cars/default.png";
-        const prevImage1 = req.files?.["prev_image1"] ? await uploadImage(req.files["prevImage1"][0]) : "/assets/cars/default_prev.png";
-        const prevImage2 = req.files?.["prev_image2"] ? await uploadImage(req.files["prevImage2"][0]) : "/assets/cars/default_prev.png";
-        const prevImage3 = req.files?.["prev_image3"] ? await uploadImage(req.files["prevImage3"][0]) : "/assets/cars/default_prev.png";
+        const prevImage1 = req.files?.["prevImage1"] ? await uploadImage(req.files["prevImage1"][0]) : "/assets/cars/default_prev.png";
+        const prevImage2 = req.files?.["prevImage2"] ? await uploadImage(req.files["prevImage2"][0]) : "/assets/cars/default_prev.png";
+        const prevImage3 = req.files?.["prevImage3"] ? await uploadImage(req.files["prevImage3"][0]) : "/assets/cars/default_prev.png";
 
         const query = `
             INSERT INTO vehicles (
