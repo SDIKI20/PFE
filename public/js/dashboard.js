@@ -137,7 +137,7 @@ function fetchVehicles() {
                     <td>${vehicle.fab_year}</td>
                     <td>${vehicle.model}</td>
                     <td>
-                        <button class="delete-btn">Delete</button>
+                        <button type="button" class="delete-btn">Delete</button>
                     </td>
                 `;
 
@@ -148,3 +148,33 @@ function fetchVehicles() {
 }
 document.addEventListener("DOMContentLoaded", function () {
     fetchVehicles()});
+
+
+    document.getElementById("vehiclesTableBody").addEventListener("click", function (e) {
+        if (e.target.classList.contains("delete-btn")) {
+            e.preventDefault();
+    
+            const row = e.target.closest("tr");
+            const vehicleId = row.querySelector("td").textContent.trim();
+    
+            
+          
+            fetch(`http://localhost:4000/api/vehicles/delete/${vehicleId}`, {
+                method: "DELETE",
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message);
+                        row.remove(); // نحذف السطر من الجدول
+                    } else {
+                        alert("Error to delete");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error to delete", error);
+                    alert("error to delete");
+                });
+        }
+    });
+    

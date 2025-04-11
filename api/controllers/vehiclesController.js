@@ -111,6 +111,24 @@ const addVehicle = async (req, res) => {
   }
 };
 
+const deleteVehicle = async (req, res) => {
+  const vehicleId = req.params.id;
+
+  try {
+    const result = await pool.query("DELETE FROM vehicles WHERE id = $1", [vehicleId]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+
+    res.status(200).json({ message: "Vehicle deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting vehicle:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
 //Check availability of a vehicle by ID
 const checkAvailability = async (req, res) => {
   const { id } = req.params;
@@ -196,6 +214,7 @@ const getFilteredVehicles = async (req, res) => {
 module.exports = {
   getVehicles,
   addVehicle,
+  deleteVehicle,
   checkAvailability,
   getFilteredVehicles,
   getBrands,
