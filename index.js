@@ -538,8 +538,34 @@ app.get("/logout", (req, res, next) => {
             res.status(500).render("p404");
         }
 });
+
+
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only .png, .jpg and .jpeg formats are allowed!'), false);
+    }
+  };
   
-app.post("/addvehicle", async (req, res) => {
+const upload = multer({ storage: storage, fileFilter: fileFilter });
+app.post('/upload', upload.single('image'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded or invalid file type' });
+    }
+
+    return res.status(200).json({ imageUrl: req.file.path });
+});
+
+app.post("/addvehicle", 
+    upload.fields([
+        { name: "image", maxCount: 1 },
+        { name: "prevImage1", maxCount: 1 },
+        { name: "prevImage2", maxCount: 1 },
+        { name: "prevImage3", maxCount: 1 }
+    ])
+    ,async (req, res) => {
     try {
         const {
             brand_id,
@@ -560,7 +586,7 @@ app.post("/addvehicle", async (req, res) => {
             description
         } = req.body;
             console.log(req.body)
-/*
+
         // Defaults
         const vehicleUnits = units || 0;
         const vehicleSpeed = speed || 0;
@@ -611,30 +637,11 @@ app.post("/addvehicle", async (req, res) => {
 
         const result = await pool.query(query, values);
         res.status(201).json(result.rows[0]);
-*/
+
     } catch (error) {
         console.error("Error adding vehicle:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
-});
-
-
-const fileFilter = (req, file, cb) => {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    if (allowedTypes.includes(file.mimetype)) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only .png, .jpg and .jpeg formats are allowed!'), false);
-    }
-  };
-  
-const upload = multer({ storage: storage, fileFilter: fileFilter });
-app.post('/upload', upload.single('image'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded or invalid file type' });
-    }
-
-    return res.status(200).json({ imageUrl: req.file.path });
 });
 
 app.post('/reg', upload.single("image"), async (req, res) => {

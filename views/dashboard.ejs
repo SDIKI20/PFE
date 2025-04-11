@@ -87,8 +87,9 @@
 
         <section class="content-section active-section" id="vehicules-content">
 
-            <form class="form-container" action="/addvehicle" method="post" autocomplete="off" enctype="multipart/form-data">
-                <h3>Ajouter un Véhicule</h3>
+
+            <form class="form-container" action="/addvehicle" method="post" autocomplete="off" enctype="multipart/form-data"            >
+                <h3>Add Vehicule</h3>
                 <!-- Marque -->
                 <div class="form-group">
                   <label for="brand">Brand</label>
@@ -143,10 +144,10 @@
               
                 <!-- Disponibilité -->
                 <div class="form-group">
-                  <label for="availability">availability</label>
-                  <select id="availability" name="availability" required>
-                    <option value="true">Disponible</option>
-                    <option value="false">Indisponible</option>
+                  <label for="rental_type">Rental type</label>
+                  <select id="rental_type" name="rental_type" required>
+                    <option value="d">Days</option>
+                    <option value="h">Hours</option>
                   </select>
                 </div>
               
@@ -218,14 +219,19 @@
                   
                   <!-- Image Secondaire -->
                   <div class="image-block">
-                    <input type="file" id="secondaryImage" name="secondaryImage" accept="image/*">
-                    <img id="secondaryImagePreview" />
+                    <input type="file" id="prevImage1Inp" name="prevImage1" accept="image/*">
+                    <img id="prevImage1" />
                   </div>
                   
                   <!-- Image supplémentaire -->
                   <div class="image-block">
-                    <input type="file" id="extraImage" name="extraImage" accept="image/*">
-                    <img id="extraImagePreview" />
+                    <input type="file" id="prevImage2Inp" name="prevImage2" accept="image/*">
+                    <img id="prevImage2" />
+                  </div>
+
+                  <div class="image-block">
+                    <input type="file" id="prevImage3Inp" name="prevImage3" accept="image/*">
+                    <img id="prevImage3" />
                   </div>
                 </div>
                 
@@ -244,8 +250,9 @@
                   }
               
                   previewImage("image", "mainImagePreview");
-                  previewImage("secondaryImage", "secondaryImagePreview");
-                  previewImage("extraImage", "extraImagePreview");
+                  previewImage("prevImage1Inp", "prevImage1");
+                  previewImage("prevImage2Inp", "prevImage2");
+                  previewImage("prevImage3Inp", "prevImage3");
                 </script>
               
                 <!-- زر إضافة المركبة -->
@@ -258,7 +265,7 @@
               
               <!-- نموذج تعديل المركبة -->
               <h3>Modifier un Véhicule</h3>
-              <form class="form-container" action="/addvehicle" method="POST">
+              <form class="form-container" action="/" method="POST">
                 <!-- حقل معرف المركبة -->
                 <div class="form-group">
                   <label for="vehicleId">ID de Véhicule</label>
