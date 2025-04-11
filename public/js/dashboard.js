@@ -137,28 +137,40 @@ function fetchVehicles() {
                     <td>${vehicle.fab_year}</td>
                     <td>${vehicle.model}</td>
                     <td>
-                        <button type="button" class="delete-btn">Delete</button>
+                        <button 
+                            type="button" 
+                            class="delete-btn" 
+                            data-id="${vehicle.id}" 
+                            data-model="${vehicle.model}">
+                            Delete
+                        </button>
                     </td>
                 `;
 
                 tableBody.appendChild(row);
             });
+
+            attachDeleteEvents(); // <--- مهم: ربط الأحداث بعد توليد الأزرار
         })
         .catch(error => console.error("Error fetching vehicles:", error));
 }
+
 document.addEventListener("DOMContentLoaded", function () {
-    fetchVehicles()});
+    fetchVehicles();
+});
 
+document.getElementById("vehiclesTableBody").addEventListener("click", function (e) {
+    if (e.target.classList.contains("delete-btn")) {
+        e.preventDefault();
 
-    document.getElementById("vehiclesTableBody").addEventListener("click", function (e) {
-        if (e.target.classList.contains("delete-btn")) {
-            e.preventDefault();
-    
-            const row = e.target.closest("tr");
-            const vehicleId = row.querySelector("td").textContent.trim();
-    
-            
-          
+        const row = e.target.closest("tr");
+        const vehicleId = row.querySelector("td").textContent.trim();
+
+        if (!vehicleId) {
+            alert("Vehicle ID is missing");
+            return;
+        }
+
             fetch(`http://localhost:4000/api/vehicles/delete/${vehicleId}`, {
                 method: "DELETE",
             })
@@ -166,15 +178,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(data => {
                     if (data.message) {
                         alert(data.message);
-                        row.remove(); // نحذف السطر من الجدول
+                        row.remove();
                     } else {
-                        alert("Error to delete");
+                        alert("Failed to delete vehicle: " + (data.error || "Unknown error"));
                     }
                 })
                 .catch(error => {
-                    console.error("Error to delete", error);
-                    alert("error to delete");
+                    console.error("Error deleting vehicle:", error);
+                    alert("An error occurred while deleting the vehicle.");
                 });
         }
-    });
-    
+    }
+);
