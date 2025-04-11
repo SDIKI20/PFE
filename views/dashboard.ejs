@@ -411,7 +411,7 @@
               <hr>
               
               <!-- نموذج حذف المركبة -->
-              <form class="form-container" action="/" method="POST">
+              <form class="form-container" action="/#" method="POST">
                 <h3>Delete Vehicle</h3>
                 <br>
                 <table>
@@ -555,29 +555,29 @@
 
                             <h1>OrdersList</h1>
                             <div class="button_order">
-                                <button class="button_ord active">AllOrders</button>
-                                <button class="button_ord">Pending</button>
-                                <button class="button_ord">InProgress</button>
-                                <button class="button_ord">Completed</button>
+                              <button class="button_ord active" data-role="all">AllOrders</button>
+                              <button class="button_ord" data-role="pending">Pending</button>
+                              <button class="button_ord" data-role="active">Active</button>
+                              <button class="button_ord" data-role="completed">Completed</button>
+                              <button class="button_ord" data-role="canceled">Canceled</button>
                             </div>
-
+                          
                             <table>
-                                <thead>
-                                    <tr>
-                                        <th>USER_ID</th>
-                                        <th>VEHICULE_ID</th>
-                                        <th>START_DATE</th>
-                                        <th>END_DATE</th>
-                                        <th>STATUS</th>
-                                        <th>PRICE</th>
-                                    </tr>
-                                </thead>
+                              <thead>
+                                <tr>
+                                  <th>USER_ID</th>
+                                  <th>VEHICULE_ID</th>
+                                  <th>START_DATE</th>
+                                  <th>END_DATE</th>
+                                  <th>STATUS</th>
+                                  <th>TOTAL_PRICE</th>
+                                </tr>
+                              </thead>
                               <tbody id="rentalsTableBody">
                                 <!-- سيتم إدخال البيانات هنا ديناميكيًا -->
                               </tbody>
                             </table>
-
-                        </section>
+                          </section>
                         <% } %>
 
                             <% if (section==='customers' ) { %>

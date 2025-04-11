@@ -221,6 +221,37 @@ const deleteuser = async (req, res) => {
     }
   };
 
+  const getClients = async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM users WHERE role = 'Client'");
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error("Error fetching clients:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+const getAdmins = async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM users WHERE role = 'Admin'");
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error("Error fetching admins:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+const getEmployees = async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM users WHERE role = 'Employe'");
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error("Error fetching employees:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+
 module.exports = { 
     getUsers,
     confirmPhone, 
@@ -229,5 +260,8 @@ module.exports = {
     confirmAccount,
     getRentals,
     addFav,
-    deleteuser
+    deleteuser,
+    getClients,
+    getAdmins,
+    getEmployees
 };

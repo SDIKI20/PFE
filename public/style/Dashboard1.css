@@ -224,7 +224,7 @@ body:not(:has(:target)) #dash-content {
 h1 {
     text-align: center;
     color: #333;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
 h2{
   display: flex;
@@ -238,6 +238,7 @@ table {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     margin-left: 5px;
     margin-right: 5px;
+    
 }
 
 th, td {
@@ -631,4 +632,21 @@ tr:hover {
 
 .delete-btn:hover {
   background-color: #e53935;
+}
+
+.status-completed {
+  color: green;
+  font-weight: bold;
+}
+.status-pending {
+  color: orange;
+  font-weight: bold;
+}
+.status-canceled {
+  color: red;
+  font-weight: bold;
+}
+.status-active {
+  color: blue;
+  font-weight: bold;
 }

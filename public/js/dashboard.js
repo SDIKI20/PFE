@@ -22,101 +22,189 @@ new Chart(ctx, {
 
 
 // جلب جميع الطلبات من السيرفر
-function fetchrentals() {
-    fetch("http://localhost:4000/orders/getOrders") // استبدل هذا بالرابط الصحيح لواجهة برمجة التطبيقات الخاصة بك
+// عند الضغط على عنصر "Orders" في الـ navbar
+document.addEventListener("DOMContentLoaded", function () {
+    fetchOrders(); // أول تحميل يعرض جميع الطلبات
+  });
+  
+  // مستمع لزر "Orders"
+document.getElementById("orders-menu-item").addEventListener("click", function () {
+    // منع الانتقال الافتراضي
+    // إزالة active من كل الأزرار
+    document.querySelectorAll(".button_ord").forEach(btn => btn.classList.remove("active"));
+  
+    // تفعيل زر AllOrders (الافتراضي)
+    const allOrdersButton = document.querySelector('.button_ord[data-role="all"]');
+    if (allOrdersButton) {
+      allOrdersButton.classList.add("active");
+    }
+  
+    // جلب كل الطلبات
+    fetchOrders();
+  });
+  
+  // مستمع للأزرار الأخرى حسب role
+  document.querySelectorAll(".button_ord").forEach(button => {
+    button.addEventListener("click", function () {
+      // تفعيل الزر المحدد فقط
+      document.querySelectorAll(".button_ord").forEach(btn => btn.classList.remove("active"));
+      this.classList.add("active");
+  
+      const role = this.dataset.role;
+      let url;
+  
+      switch (role) {
+        case "pending":
+          url = "http://localhost:4000/api/orders/getOrders/pending";
+          break;
+        case "completed":
+          url = "http://localhost:4000/api/orders/getOrders/completed";
+          break;
+        case "canceled":
+          url = "http://localhost:4000/api/orders/getOrders/canceled";
+          break;
+        case "active":
+          url = "http://localhost:4000/api/orders/getOrders/active";
+          break;
+        default:
+          url = "http://localhost:4000/api/orders/getOrders";
+      }
+  
+      fetch(url)
         .then(response => response.json())
-        .then( rentals=> { 
-            allrentals = rentals; // حفظ جميع الطلبات في متغير عالمي
-            displayrentals(allrentals); // عرض جميع الطلبات افتراضيًا
+        .then(rentals => {
+          displayOrders(rentals);
         })
-        .catch(error => console.error("Error fetching rentals:", error));
+        .catch(error => console.error("Error fetching orders:", error));
+    });
+  });
+  
+  // جلب كل الطلبات
+  function fetchOrders() {
+    fetch("http://localhost:4000/api/orders/getOrders")
+      .then(response => response.json())
+      .then(rentals => {
+        displayOrders(rentals);
+      })
+      .catch(error => console.error("Error fetching orders:", error));
+  }
+  
+  
+  // عرض الطلبات في الجدول
+  function displayOrders(rentals) {
+    const tableBody = document.getElementById("rentalsTableBody");
+    tableBody.innerHTML = "";
+  
+    rentals.forEach(rental => {
+      const row = document.createElement("tr");
+  
+      let statusClass = "";
+      let statusIcon = "";
+  
+      switch (rental.status.toLowerCase()) {
+        case "completed":
+          statusClass = "status-completed";
+          statusIcon = "✅";
+          break;
+        case "pending":
+          statusClass = "status-pending";
+          statusIcon = "⏳";
+          break;
+        case "canceled":
+          statusClass = "status-canceled";
+          statusIcon = "❌";
+          break;
+        case "active":
+          statusClass = "status-active";
+          statusIcon = "🟢";
+          break;
+      }
+  
+      row.innerHTML = `
+        <td>${rental.user_id}</td>
+        <td>${rental.vehicle_id}</td>
+        <td>${rental.start_date}</td>
+        <td>${rental.end_date}</td>
+        <td class="${statusClass}">${statusIcon} ${rental.status}</td>
+        <td>${rental.total_price}</td>
+      `;
+  
+      tableBody.appendChild(row);
+    });
+  }
+  
+    
+//get all users
+
+let allcustomers = [];
+
+document.addEventListener("DOMContentLoaded", function () {
+    fetchCustomers("all"); // أول تحميل يعرض الجميع
+});
+
+document.getElementById("customers-menu-item").addEventListener("click", function () {
+    fetchCustomers("all");
+});
+
+document.querySelectorAll(".button_cust").forEach(button => {
+    button.addEventListener("click", function () {
+        document.querySelectorAll(".button_cust").forEach(btn => btn.classList.remove("active"));
+        this.classList.add("active");
+        
+        const selectedRole = this.getAttribute("data-role");
+        fetchCustomers(selectedRole);
+    });
+});
+
+function fetchCustomers(role) {
+    let url;
+
+    switch (role) {
+        case "Client":
+            url = "http://localhost:4000/api/Users/getClients";
+            break;
+        case "Admin":
+            url = "http://localhost:4000/api/Users/getAdmins";
+            break;
+        case "Employe":
+            url = "http://localhost:4000/api/Users/getEmployees";
+            break;
+        default:
+            url = "http://localhost:4000/api/Users/getUsers";
+    }
+
+    fetch(url)
+        .then(response => response.json())
+        .then(customers => {
+            if (role === "all") {
+                allcustomers = customers; // نخزنهم مرة واحدة
+            }
+            displayCustomers(customers);
+        })
+        .catch(error => console.error("Error fetching customers:", error));
 }
 
-// عرض الطلبات في الجدول
-function displayrentals(rentals) {
-    const tableBody = document.getElementById("rentalsTableBody");
-    tableBody.innerHTML = ""; // تفريغ الجدول
+function displayCustomers(customers) {
+    const tableBody = document.getElementById("customersTableBody");
+    tableBody.innerHTML = "";
 
-    rentals.forEach(rentals => {
+    customers.forEach(customer => {
         const row = document.createElement("tr");
 
-        // إضافة فئة (class) للحالة لتغيير اللون
-        let statusClass = "";
-        if (rentals.status === "Completed") statusClass = "status-active";
-        else if (rentals.status === "Pending") statusClass = "status-pending";
-        else if (rentals.status === "In Progress") statusClass = "status-in-progress";
-
         row.innerHTML = `
-            <td>${rentals.user_id}</td>
-            <td>${rentals.vehicle_id}</td>
-            <td>${rentals.start_date}</td>
-            <td>${rentals.end_date}</td>
-            <td class="${statusClass}">${rentals.status}</td>
-            <td>${rentals.price || "N/A"}</td>
+            <td>${customer.id}</td>
+            <td>${customer.fname}</td>
+            <td>${customer.lname}</td>
+            <td>${customer.email}</td>
+            <td>${customer.phone}</td>
+            <td>${customer.country}</td>
+            <td>${customer.role}</td>
+            <td><button class="delete-btn">Delete</button></td>
         `;
 
         tableBody.appendChild(row);
     });
 }
-
-//get all users
-
-document.getElementById("customers-menu-item").addEventListener("click", function () {
-    fetchCustomers(); 
-});
-
-function fetchCustomers() {
-    fetch("http://localhost:4000/api/Users/getUsers") 
-        .then(response => response.json())
-        .then(customers => {
-            const tableBody = document.getElementById("customersTableBody");
-            tableBody.innerHTML = ""; 
-
-            customers.forEach(customer => {
-                const row = document.createElement("tr");
-
-                row.innerHTML = `
-                    <td>${customer.id}</td>
-                    <td>${customer.fname}</td>
-                    <td>${customer.lname}</td>
-                    <td>${customer.email}</td>
-                    <td>${customer.phone}</td>
-                    <td>${customer.country}</td>
-                    <td>${customer.role}</td>
-                     <td>
-                        <button class="edit-btn">Edit</button>
-                        <button class="delete-btn">Delete</button>
-                    </td>
-                `;
-
-                tableBody.appendChild(row);
-            });
-        })
-        .catch(error => console.error("Error fetching customers:", error));
-}
-let allcustomers = []; // تخزين جميع الطلبات
-
-document.addEventListener("DOMContentLoaded", function () {
-    fetchCustomers(); // جلب الطلبات عند تحميل الصفحة
-
-    // إضافة مستمع للأزرار
-    document.querySelectorAll(".button_cust").forEach(button => {
-        button.addEventListener("click", function () {
-            document.querySelectorAll(".button_cust").forEach(btn => btn.classList.remove("active"));
-            this.classList.add("active");
-            const role = this.textContent.trim();
-
-            const selectedRole = this.getAttribute("data-role");
-
-            if (selectedRole === "all") {
-                displayCustomers(allcustomers);
-            } else {
-                const filtered = allcustomers.filter(user => user.role.toLowerCase() === selectedRole);
-                displayCustomers(filtered);
-            }
-        });
-    });
-});
 
 document.getElementById("customersTableBody").addEventListener("click", function (e) {
     if (e.target.classList.contains("delete-btn")) {
@@ -152,7 +240,9 @@ document.getElementById("customersTableBody").addEventListener("click", function
 });
 
 
-
+document.addEventListener("DOMContentLoaded", function () {
+    fetchVehicles();
+});
 
 document.getElementById("vehicles-menu-item").addEventListener("click", function () {
     fetchVehicles(); 
@@ -190,7 +280,6 @@ function fetchVehicles() {
         })
         .catch(error => console.error("Error fetching vehicles:", error));
 }
-
 document.addEventListener("DOMContentLoaded", function () {
     fetchVehicles();
 });
