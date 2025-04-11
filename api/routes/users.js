@@ -6,7 +6,8 @@ const {
     checkAccountStat,
     confirmAccount,
     getRentals,
-    addFav
+    addFav,
+    deleteuser
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -21,5 +22,6 @@ router.post("/add/favorite", addFav);
 router.get("/checkphone", checkPhone);
 router.get("/rentals", getRentals);
 router.get("/checkaccountstat", checkAccountStat);
+router.delete("/deleteuser/:id", deleteuser);
 
 module.exports = router;

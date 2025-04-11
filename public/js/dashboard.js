@@ -118,6 +118,42 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+document.getElementById("customersTableBody").addEventListener("click", function (e) {
+    if (e.target.classList.contains("delete-btn")) {
+        e.preventDefault();
+
+        const row = e.target.closest("tr");
+        const userId = row.querySelector("td").textContent.trim();
+
+        if (!userId) {
+            alert("User ID is missing");
+            return;
+        }
+
+      
+
+        fetch(`http://localhost:4000/api/Users/deleteuser/${userId}`, {
+            method: "DELETE",
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert(data.message);
+                row.remove();
+            } else {
+                alert("Failed to delete user: " + (data.error || "Unknown error"));
+            }
+        })
+        .catch(error => {
+            console.error("Error deleting user:", error);
+            alert("An error occurred while deleting the user.");
+        });
+    }
+});
+
+
+
+
 document.getElementById("vehicles-menu-item").addEventListener("click", function () {
     fetchVehicles(); 
 });
