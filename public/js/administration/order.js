@@ -59,9 +59,11 @@ document.getElementById("orders-menu-item").addEventListener("click", function (
     fetch("http://localhost:4000/api/orders/getOrders")
       .then(response => response.json())
       .then(rentals => {
+        closeLoader()
         displayOrders(rentals);
       })
-      .catch(error => console.error("Error fetching orders:", error));
+      .catch(pushNotif("e",`Error fetching orders:${error}`))
+      
   }
 
   

@@ -22,6 +22,9 @@ function fetchVehicles() {
                     <td>${vehicle.id}</td>
                     <td>${vehicle.fab_year}</td>
                     <td>${vehicle.model}</td>
+                    <td>${vehicle.color}</td>
+                    <td>${vehicle.fuel}</td>
+                    <td>${vehicle.price}<span class="currence">DZD</span></td>
                     <td>
                         <button 
                             type="button" 
@@ -36,7 +39,6 @@ function fetchVehicles() {
                 tableBody.appendChild(row);
             });
 
-            attachDeleteEvents(); // <--- مهم: ربط الأحداث بعد توليد الأزرار
         })
         .catch(error =>{
             pushNotif("e",`Error fetching vehicles:${error}`)
@@ -52,26 +54,23 @@ document.getElementById("vehiclesTableBody").addEventListener("click", function 
         const row = e.target.closest("tr");
         const vehicleId = row.querySelector("td").textContent.trim();
 
-        if (!vehicleId) {
-            alert("Vehicle ID is missing");
-            return;
-        }
-
+       
+          
             fetch(`http://localhost:4000/api/vehicles/delete/${vehicleId}`, {
                 method: "DELETE",
             })
                 .then(response => response.json())
                 .then(data => {
                     if (data.message) {
-                        alert(data.message);
+                        pushNotif("i", data.message)
                         row.remove();
                     } else {
-                        alert("Failed to delete vehicle: " + (data.error || "Unknown error"));
-                    }
+                        pushNotif("e",`Error deleting vehicles:${error}`)
+                        closeLoader()                    }
                 })
                 .catch(error => {
-                    console.error("Error deleting vehicle:", error);
-                    alert("An error occurred while deleting the vehicle.");
+                    pushNotif("e",`Error deleting vehicles:${error}`)
+                    closeLoader()
                 });
         }
     }

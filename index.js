@@ -782,7 +782,7 @@ app.get('/vehicles', async (req, res) => {
     try{
         res.render("dashboard",{
             user: req.user, 
-            section:"addvehicle",
+            section:"vehicles",
         })
     }catch(error){
         console.error(error);

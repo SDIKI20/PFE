@@ -46,7 +46,7 @@
                             <span>Customers</span>
                         </a>
                     </li>
-                    <li class="flex-row center-start <%= section == "vehicles"?"nav-selected":section == "addvehicle"?"nav-selected":"" %>" id="vehicles-menu-item">
+                    <li class="flex-row center-start <%= section == "vehicles"?"nav-selected":section == "vehicles"?"nav-selected":"" %>" id="vehicles-menu-item">
                         <a href="/vehicles" title="Vehicles">
                             <i class="fa-solid fa-car"></i>
                             <span>Vehicles</span>
@@ -91,161 +91,187 @@
                 </li>
             </ul>
         </nav>
-        <% if (section==='addvehicle' ){ %>
+        <% if (section==='vehicles' ){ %>
             <section class="content-section flex-col" id="vehicles-content">
-                <form class="form-container add-vehicle-form" action="/addvehicle" method="post" autocomplete="off" enctype="multipart/form-data">
-                    <p class="title" style="margin-bottom: 10px;">
-                        <a style="color: var(--text);" href="/vehicles">Vehicles</a>
-                        <i class="fa-solid fa-chevron-right" style="font-size: var(--font-sml);"></i> 
-                        <span>Add</span>
-                    </p>
-                    <div class="flex-row">
-                        <div class="flex-col" style="width: 50%;">
-                            <div class="form-group">
-                                <label class="form-label" for="location">location</label>
-                                <select id="location" name="location">
-                                    <% offices.forEach(office => { %>
-                                        <option value="<%= office.id %>"><%= office.wilaya %>, <%= office.city %>, <%= office.address %></option>
-                                    <% }) %>
-                                </select>
-                            </div>
-                            <div class="flex-row" style="gap: 5px;">
-                                <div class="form-group" style="width: calc(30% - 5px);">
-                                    <label class="form-label" for="brand">Brand</label>
-                                    <select id="brand" name="brand_id" required>
-                                        <% if(brands) %> <% brands.forEach(f => { %>
-                                            <option value="<%= f.id %>"><%= f.name %></option>
-                                        <% }) %>
-                                    </select>
-                                </div>
-                                <div class="form-group" style="width: 50%;">
-                                    <label class="form-label" for="model">Model</label>
-                                    <input type="text" id="model" name="model" placeholder="Ex: Yaris" required>
-                                </div>
-                                <div class="form-group" style="width: calc(20% - 5px);">
-                                    <label class="form-label" for="fab_year">Year</label>
-                                    <input type="text" id="fab_year" name="fab_year" placeholder="Ex: 2023" required>
-                                </div>
-                            </div>
-                            <div class="flex-row" style="gap: 5px;">
-                                <div class="form-group" style="width: 20%;">
-                                    <label class="form-label" for="Units">Units</label>
-                                    <input type="number" id="Units" name="Units" min="1" placeholder="Ex: 3" required>
-                                </div>
-                                <div class="form-group" style="width: calc(50% - 5px);">
-                                    <label class="form-label" for="price">Price <span class="currence">(DZD)</span></label>
-                                    <input type="number" id="price" name="price" min="0" step="0.01" placeholder="Ex: 25000.00" required>
-                                </div>
-                                <div class="form-group" style="width: calc(30% - 5px);">
-                                    <label class="form-label" for="rental_type">Rental type</label>
-                                    <select id="rental_type" name="rental_type" required>
-                                        <option value="d">Days</option>
-                                        <option value="h">Hours</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="flex-row" style="gap: 5px;">
-                                <div class="form-group" style="width: calc(60% - 5px);">
-                                    <label class="form-label" for="body">body</label>
-                                    <select id="body" name="body" required>
-                                        <% if(bodyTypes) %> <% bodyTypes.forEach(f => { %>
-                                            <option value="<%= f.unnest %>"><%= f.unnest %></option>
-                                        <% }) %>
-                                    </select>
-                                </div> 
-                                <div class="form-group" style="width: 40%;">
-                                    <label class="form-label" for="color">Color</label>
-                                    <input type="text" id="color" name="color" placeholder="Ex: Noir" list="css-colors" required>
-                                    <datalist id="css-colors">
-                                        <% if (colors) %> <% colors.forEach(color => { %>
-                                            <option value="<%= color.unnest %>"></option>
-                                        <% }) %>
-                                    </datalist>
-                                </div> 
-                            </div>
-        
-                            <div class="flex-row" style="gap: 5px;">
-                                <div class="form-group" style="width: 70%;">
-                                    <label class="form-label" for="engine_type">Engine type</label>
-                                    <input type="text" id="engine_type" name="engine_type" placeholder="Ex: V6" required>
-                                </div>
-                                <div class="form-group" style="width: calc(15%-5px);">
-                                    <label class="form-label" for="horspower">Horspower <span class="currence">(HP)</span></label>
-                                    <input type="number" id="horspower" name="horspower" placeholder="Ex: 200" required>
-                                </div>
-                                <div class="form-group" style="width: calc(15%-5px);">
-                                    <label class="form-label" for="Speed">Speed <span class="currence">(KM/H)</span></label>
-                                    <input type="number" id="Speed" name="Speed" placeholder="Ex: 180" required>
-                                </div>
-                            </div>
-        
-                            <div class="flex-row" style="gap: 5px;">
-                                <div class="form-group" style="width: calc(50% - 5px);">
-                                    <label class="form-label" for="capacity">Capacity</label>
-                                    <input type="number" id="capacity" name="capacity" min="1" placeholder="Ex: 4" required>
-                                </div>
-                                <div class="form-group" style="width: 50%;">
-                                    <label class="form-label" for="doors">Doors</label>
-                                    <input type="number" id="doors" name="doors" placeholder="Ex: 4" required>
-                                </div>
-                            </div>
-        
-                            <div class="flex-row" style="gap: 5px;">
-                                <div class="form-group" style="width: calc(50% - 5px);">
-                                    <label class="form-label" for="fuel">Fuel Type</label>
-                                    <select id="fuel" name="fuel" required>
-                                    <% if(fuelTypes) %> <% fuelTypes.forEach(f => { %>
-                                        <option value="<%= f.unnest %>"><%= f.unnest %></option>
-                                    <% }) %>
-                                    </select>
-                                </div>
-                                <div class="form-group" style="width: 50%;">
-                                    <label class="form-label" for="transmission">Transmission</label>
-                                    <select id="transmission" name="transmission" required>
-                                        <% if(transTypes) %> <% transTypes.forEach(f => { %>
-                                            <option value="<%= f.unnest %>"><%= f.unnest %></option>
-                                        <% }) %>
-                                    </select>
-                                </div>                                                           
-                            </div>
-                        </div>
-                        <div class="flex-col" style="width: 50%; padding-left: 1rem;">
-                            <div class="form-group" style="width: 100%; height: 50%;">
-                                <div class="flex-row" style="width: 100%; height:100%; gap:10px;">
-                                    <div class="flex-col" style="width: calc(70% - 10px);">
-                                        <label for="image" class="image-block flex-row flex-center">
-                                            <input type="file" id="image" name="image" accept="image/*" hidden>
-                                            <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                                        </label>
-                                    </div>
-                                    <div class="flex-col" style="width: 30%; height: 100%; gap: 10px;">
-                                        <label for="prevImage1Inp" class="image-block-prev flex-row flex-center">
-                                            <input type="file" id="prevImage1Inp" name="prevImage1" accept="image/*" hidden>
-                                            <i class="fa-regular fa-images"></i>
-                                        </label>
-                                        <label for="prevImage2Inp" class="image-block-prev flex-row flex-center">
-                                            <i class="fa-regular fa-images"></i>
-                                            <input type="file" id="prevImage2Inp" name="prevImage2" accept="image/*" hidden>
-                                        </label>
-                                        <label for="prevImage3Inp" class="image-block-prev flex-row flex-center">
-                                            <i class="fa-regular fa-images"></i>
-                                            <input type="file" id="prevImage3Inp" name="prevImage3" accept="image/*" hidden>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group" style="height: 50%;">
-                                <label class="form-label" for="description">Description</label>
-                                <textarea id="description" name="description" placeholder="Description..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn bt-primary" id="addVehicleBut">Ajouter</button>
-                    </div>
-                </form>
+                <h1>Vehicles List</h1>
+                <div class="button">
+                    <a href="/Addvehicle"><button class="bn632-hover bn26">AddVehicle</button></a>
+                    </button>
+                </div>                
+                <table>
+                    <thead>
+                        <tr>
+                        <th>ID</th>
+                        <th>fab_year</th>
+                        <th>Model</th>
+                        <th>color</th>
+                        <th>fuel</th>
+                        <th>price</th>
+                        <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="vehiclesTableBody">
+                        <!-- سيتم إدخال البيانات هنا ديناميكيًا -->
+                    </tbody>
+                </table>     
+                   
             </section>
+            
         <% } %>
+        <% if (section === 'addvehicle') {%>
+        <form class="form-container add-vehicle-form" action="/addvehicle" method="post" autocomplete="off" enctype="multipart/form-data">
+            <p class="title" style="margin-bottom: 10px;">
+                <a style="color: var(--text);" href="/vehicles">Vehicles</a>
+                <i class="fa-solid fa-chevron-right" style="font-size: var(--font-sml);"></i> 
+                <span>Add</span>
+            </p>
+            <div class="flex-row">
+                <div class="flex-col" style="width: 50%;">
+                    <div class="form-group">
+                        <label class="form-label" for="location">location</label>
+                        <select id="location" name="location">
+                            <% offices.forEach(office => { %>
+                                <option value="<%= office.id %>"><%= office.wilaya %>, <%= office.city %>, <%= office.address %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="flex-row" style="gap: 5px;">
+                        <div class="form-group" style="width: calc(30% - 5px);">
+                            <label class="form-label" for="brand">Brand</label>
+                            <select id="brand" name="brand_id" required>
+                                <% if(brands) %> <% brands.forEach(f => { %>
+                                    <option value="<%= f.id %>"><%= f.name %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                        <div class="form-group" style="width: 50%;">
+                            <label class="form-label" for="model">Model</label>
+                            <input type="text" id="model" name="model" placeholder="Ex: Yaris" required>
+                        </div>
+                        <div class="form-group" style="width: calc(20% - 5px);">
+                            <label class="form-label" for="fab_year">Year</label>
+                            <input type="text" id="fab_year" name="fab_year" placeholder="Ex: 2023" required>
+                        </div>
+                    </div>
+                    <div class="flex-row" style="gap: 5px;">
+                        <div class="form-group" style="width: 20%;">
+                            <label class="form-label" for="Units">Units</label>
+                            <input type="number" id="Units" name="Units" min="1" placeholder="Ex: 3" required>
+                        </div>
+                        <div class="form-group" style="width: calc(50% - 5px);">
+                            <label class="form-label" for="price">Price <span class="currence">(DZD)</span></label>
+                            <input type="number" id="price" name="price" min="0" step="0.01" placeholder="Ex: 25000.00" required>
+                        </div>
+                        <div class="form-group" style="width: calc(30% - 5px);">
+                            <label class="form-label" for="rental_type">Rental type</label>
+                            <select id="rental_type" name="rental_type" required>
+                                <option value="d">Days</option>
+                                <option value="h">Hours</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex-row" style="gap: 5px;">
+                        <div class="form-group" style="width: calc(60% - 5px);">
+                            <label class="form-label" for="body">body</label>
+                            <select id="body" name="body" required>
+                                <% if(bodyTypes) %> <% bodyTypes.forEach(f => { %>
+                                    <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                                <% }) %>
+                            </select>
+                        </div> 
+                        <div class="form-group" style="width: 40%;">
+                            <label class="form-label" for="color">Color</label>
+                            <input type="text" id="color" name="color" placeholder="Ex: Noir" list="css-colors" required>
+                            <datalist id="css-colors">
+                                <% if (colors) %> <% colors.forEach(color => { %>
+                                    <option value="<%= color.unnest %>"></option>
+                                <% }) %>
+                            </datalist>
+                        </div> 
+                    </div>
+
+                    <div class="flex-row" style="gap: 5px;">
+                        <div class="form-group" style="width: 70%;">
+                            <label class="form-label" for="engine_type">Engine type</label>
+                            <input type="text" id="engine_type" name="engine_type" placeholder="Ex: V6" required>
+                        </div>
+                        <div class="form-group" style="width: calc(15%-5px);">
+                            <label class="form-label" for="horspower">Horspower <span class="currence">(HP)</span></label>
+                            <input type="number" id="horspower" name="horspower" placeholder="Ex: 200" required>
+                        </div>
+                        <div class="form-group" style="width: calc(15%-5px);">
+                            <label class="form-label" for="Speed">Speed <span class="currence">(KM/H)</span></label>
+                            <input type="number" id="Speed" name="Speed" placeholder="Ex: 180" required>
+                        </div>
+                    </div>
+
+                    <div class="flex-row" style="gap: 5px;">
+                        <div class="form-group" style="width: calc(50% - 5px);">
+                            <label class="form-label" for="capacity">Capacity</label>
+                            <input type="number" id="capacity" name="capacity" min="1" placeholder="Ex: 4" required>
+                        </div>
+                        <div class="form-group" style="width: 50%;">
+                            <label class="form-label" for="doors">Doors</label>
+                            <input type="number" id="doors" name="doors" placeholder="Ex: 4" required>
+                        </div>
+                    </div>
+
+                    <div class="flex-row" style="gap: 5px;">
+                        <div class="form-group" style="width: calc(50% - 5px);">
+                            <label class="form-label" for="fuel">Fuel Type</label>
+                            <select id="fuel" name="fuel" required>
+                            <% if(fuelTypes) %> <% fuelTypes.forEach(f => { %>
+                                <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                            <% }) %>
+                            </select>
+                        </div>
+                        <div class="form-group" style="width: 50%;">
+                            <label class="form-label" for="transmission">Transmission</label>
+                            <select id="transmission" name="transmission" required>
+                                <% if(transTypes) %> <% transTypes.forEach(f => { %>
+                                    <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                                <% }) %>
+                            </select>
+                        </div>                                                           
+                    </div>
+                </div>
+                <div class="flex-col" style="width: 50%; padding-left: 1rem;">
+                    <div class="form-group" style="width: 100%; height: 50%;">
+                        <div class="flex-row" style="width: 100%; height:100%; gap:10px;">
+                            <div class="flex-col" style="width: calc(70% - 10px);">
+                                <label for="image" class="image-block flex-row flex-center">
+                                    <input type="file" id="image" name="image" accept="image/*" hidden>
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                </label>
+                            </div>
+                            <div class="flex-col" style="width: 30%; height: 100%; gap: 10px;">
+                                <label for="prevImage1Inp" class="image-block-prev flex-row flex-center">
+                                    <input type="file" id="prevImage1Inp" name="prevImage1" accept="image/*" hidden>
+                                    <i class="fa-regular fa-images"></i>
+                                </label>
+                                <label for="prevImage2Inp" class="image-block-prev flex-row flex-center">
+                                    <i class="fa-regular fa-images"></i>
+                                    <input type="file" id="prevImage2Inp" name="prevImage2" accept="image/*" hidden>
+                                </label>
+                                <label for="prevImage3Inp" class="image-block-prev flex-row flex-center">
+                                    <i class="fa-regular fa-images"></i>
+                                    <input type="file" id="prevImage3Inp" name="prevImage3" accept="image/*" hidden>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="height: 50%;">
+                        <label class="form-label" for="description">Description</label>
+                        <textarea id="description" name="description" placeholder="Description..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn bt-primary" id="addVehicleBut">Ajouter</button>
+            </div>
+        </form> 
+        <% } %>
+
         <% if (section==='dashboard' ) { %>
             <section class="content-section" id="dash-content">
                 <div class="title">
@@ -309,48 +335,26 @@
                             <canvas id="myChart"></canvas>
                         </div>
                     </div>
-                    <div class="table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>CostumerName</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>TOYOTA</td>
-                                    <td>10/12/2024</td>
-                                    <td>completed</td>
-                                    <td>$5.234.33</td>
-                                </tr>
-                                <tr>
-                                    <td>FORD</td>
-                                    <td>02/4/2023</td>
-                                    <td>inited</td>
-                                    <td>$6.254.88</td>
-                                </tr>
-                                <tr>
-                                    <td>SUZUKI</td>
-                                    <td>09/8/2025</td>
-                                    <td>pending</td>
-                                    <td>$7.365.89</td>
-                                </tr>
-                                <tr>
-                                    <td>KIA MOTORS</td>
-                                    <td>08/6/2019</td>
-                                    <td>completed</td>
-                                    <td>$3.568.123</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="flex-col">
-                          <div class="flex-row"></div>
-                        </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>USER_ID</th>
+                                <th>VEHICULE_ID</th>
+                                <th>START_DATE</th>
+                                <th>END_DATE</th>
+                                <th>STATUS</th>
+                                <th>TOTAL_PRICE</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rentalsTableBody">
+                            <!-- سيتم إدخال البيانات هنا ديناميكيًا -->
+                        </tbody>
+                    </table>
+                    <div class="flex-col">
+                        <div class="flex-row"></div>
                     </div>
-                </div>
+                
+                    </div>
             </section>
         <% } %>
         <% if (section==='order' ) { %>
@@ -495,11 +499,7 @@
                         </div>
                     </div>
 
-                    <div class="button">
-                        <a href="/"><button class="bn632-hover bn26">Save</button></a>
-
-                        </button>
-                    </div>
+                    
                 </div>
             </section>
         <% } %>
