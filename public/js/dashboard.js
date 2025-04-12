@@ -61,3 +61,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
+function toggleNav() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("active");
+}

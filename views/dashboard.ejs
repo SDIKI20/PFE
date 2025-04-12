@@ -18,7 +18,12 @@
     </head>
 
     <body class="flex-row">
-        <nav class="flex-col">
+        <!-- Hamburger icon for mobile -->
+<div class="mobile-menu-icon" onclick="toggleNav()">
+    <i class="fa fa-bars"></i>
+</div>
+
+        <nav id="sidebar" class="flex-col">
             <ul class="dashboard-menu flex-col start-center" style="width: 100%;">
                 <li class="nav-logo flex-row center-start">
                     <div class="img-box">
@@ -304,6 +309,8 @@
                     </div>
                     <script src="/lib/node_modules/chart.js/dist/chart.umd.js"></script>
                     <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+
                         const ctx = document.getElementById('myChart');
                         new Chart(ctx, {
                             type: 'line',
@@ -325,6 +332,7 @@
                                 }
                             }
                         })
+                    });
                     </script>
                     <div class="boxe flex-row" style="flex-wrap: wrap;">
                         <i class="fa-solid fa-database"></i>
@@ -449,37 +457,37 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="country">Your Wilaya</label>
+                                <label for="wilaya">Your Wilaya</label>
                                 <div class="input-wrapper">
-                                    <input id="country" type="text">
+                                    <input id="wilaya" type="text">
                                     <i class="fas fa-globe icon"></i>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="country">Your City</label>
+                                <label for="city">Your City</label>
                                 <div class="input-wrapper">
-                                    <input id="country" type="text">
+                                    <input id="city" type="text">
                                     <i class="fas fa-city icon"></i>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="country">Your Phone number</label>
+                                <label for="phone">Your Phone number</label>
                                 <div class="input-wrapper">
-                                    <input id="country" type="number">
+                                    <input id="phone" type="number">
                                     <i class="fas fa-phone icon"></i>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="country">Your Birthdate</label>
+                                <label for="birthday">Your Birthdate</label>
                                 <div class="input-wrapper">
-                                    <input id="country" type="Date">
+                                    <input id="birthday" type="Date">
                                     <i class="fas fa-calendar-days icon"></i>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="country">Your Zipcode</label>
+                                <label for="zipcode">Your Zipcode</label>
                                 <div class="input-wrapper">
-                                    <input id="country" type="text">
+                                    <input id="zipcode" type="text">
                                     <i class="fas fa-code icon"></i>
                                 </div>
 

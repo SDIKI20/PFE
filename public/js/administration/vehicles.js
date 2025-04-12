@@ -55,23 +55,27 @@ document.getElementById("vehiclesTableBody").addEventListener("click", function 
         const vehicleId = row.querySelector("td").textContent.trim();
 
        
-          
-            fetch(`http://localhost:4000/api/vehicles/delete/${vehicleId}`, {
-                method: "DELETE",
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message) {
-                        pushNotif("i", data.message)
-                        row.remove();
-                    } else {
-                        pushNotif("e",`Error deleting vehicles:${error}`)
-                        closeLoader()                    }
+        confirm(true, "Confirm Action", "Are you sure you want to delete this vehicle?").then((result) => {
+            if (result) {
+                fetch(`http://localhost:4000/api/vehicles/delete/${vehicleId}`, {
+                    method: "DELETE",
                 })
-                .catch(error => {
-                    pushNotif("e",`Error deleting vehicles:${error}`)
-                    closeLoader()
-                });
-        }
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message) {
+                            pushNotif("i", data.message)
+                            row.remove();
+                        } else {
+                            pushNotif("e", `Error deleting vehicles:${error}`)
+                            closeLoader()
+                        }
+                    })
+                    .catch(error => {
+                        pushNotif("e", `Error deleting vehicles:${error}`)
+                        closeLoader()
+                    });
+            }
+        });
     }
+}
 );
