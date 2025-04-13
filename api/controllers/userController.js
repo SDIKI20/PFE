@@ -252,7 +252,6 @@ const getEmployees = async (req, res) => {
     }
 };
 
-
 module.exports = { 
     getUsers,
     confirmPhone, 
@@ -264,5 +263,5 @@ module.exports = {
     deleteuser,
     getClients,
     getAdmins,
-    getEmployees
+    getEmployees,
 };

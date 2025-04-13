@@ -219,7 +219,7 @@ button{
 .content-section {
   width: calc(100vw - var(--nav-width));
   height: 100vh;
-  overflow: hidden;
+  overflow: auto;
 }
 
 /*           Vehicles Content             */
@@ -328,7 +328,9 @@ h1 {
 h2{
   display: flex;
   justify-content: center;
+  margin-bottom: 0px;
 }
+
 
 /*----------------------------------------*/
 
@@ -534,8 +536,8 @@ tr:hover {
     -o-transition: all .4s ease-in-out;
     -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
-    position: absolute;
-    bottom: 0;
+    position:static ;
+    top: 0px;
     right: 0;
   }
   
@@ -660,3 +662,5 @@ tr:hover {
   color: blue;
   font-weight: bold;
 }
+
+

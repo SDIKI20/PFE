@@ -176,6 +176,7 @@
         height: 100% !important;
     }
     @media (max-width: 768px) {
+    
         thead {
             display: none;
         }
@@ -184,7 +185,7 @@
             display: block;
             margin-bottom: 10px;
             border: 1px solid #333;
-            background: #1a1d27;
+            background: white;
             padding: 10px;
         }
     
@@ -1000,3 +1001,64 @@
     /*-------------------------------------------------------*/
 
 }
+
+/*----------sidebar-----------*/
+.mobile-menu-icon {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    z-index: 1100;
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 250px;
+        background-color: #fff;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #sidebar.active {
+        transform: translateX(0);
+    }
+
+    .mobile-menu-icon {
+        display: block;
+    }
+}
+/*----------------------------------*/
+
+
+
+/*--------------------section account--------------------*/
+@media (max-width: 768px) {
+    .containeraccount {
+        padding: 10px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr; 
+    }
+
+    .input-wrapper input {
+        font-size: 16px;
+    }
+
+    .section h2 {
+        font-size: 18px;
+    }
+}
+/*-------------------------------*/

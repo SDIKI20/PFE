@@ -19,6 +19,7 @@ document.querySelectorAll(".button_cust").forEach(button => {
 });
 
 function fetchCustomers(role) {
+    openLoader()
     let url;
 
     switch (role) {
@@ -38,12 +39,13 @@ function fetchCustomers(role) {
     fetch(url)
         .then(response => response.json())
         .then(customers => {
+            closeLoader()
             if (role === "all") {
                 allcustomers = customers; // نخزنهم مرة واحدة
             }
             displayCustomers(customers);
         })
-        .catch(error => console.error("Error fetching customers:", error));
+        .catch(pushNotif("e",`Error fetching Customers:${error}`))
 }
 
 function displayCustomers(customers) {
@@ -87,6 +89,7 @@ document.getElementById("customersTableBody").addEventListener("click", function
                 })
                 .then(response => response.json())
                 .then(data => {
+                    closeLoader()
                     if (data.message) {
                         pushNotif("i", data.message)
                         row.remove();
