@@ -204,6 +204,7 @@ const getRentals = async (req, res) => {
         res.status(500).send("Server Error");
     }
 };
+
 const deleteuser = async (req, res) => {
     const userId = req.params.id;
   
@@ -219,9 +220,9 @@ const deleteuser = async (req, res) => {
       console.error("Error deleting user:", error);
       res.status(500).json({ error: "Internal Server Error" });
     }
-  };
+};
 
-  const getClients = async (req, res) => {
+const getClients = async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM users WHERE role = 'Client'");
         res.status(200).json(result.rows);

@@ -77,6 +77,29 @@ p,span{
     cursor: default;
 }
 
+.pagination{
+    position: fixed;
+    bottom: 1em;
+    left: calc(50% - var(--nav-width));
+    transform: translateX(-50%);
+    background-color: var(--bg-lower);
+    color: var(--text);
+    padding: 0.5em;
+    border-radius: 5px;
+    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.064);
+}
+
+.page-icn{
+    font-size: var(--font-sml);
+    font-weight: bolder;
+    color: var(--color-second);
+    padding: 0 5px;
+}
+
+span.disabled i{
+    color: var(--text-low) !important;
+}
+
 .currence{
     font-size: var(--font-tag);
     color: var(--text);
@@ -825,35 +848,65 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 /*-------------Loader---------------*/
 
 .loader {
-    width: 80px;
-    aspect-ratio: 1;
-    display: grid;
-    border: 5px solid #0000;
-    border-radius: 50%;
-    border-right-color: var(--color-main);
-    animation: l15 1s infinite linear;
-}
-.loader::before,
-.loader::after {    
-    content: "";
-    grid-area: 1/1;
-    margin: 6px;
-    border: inherit;
-    border-radius: 50%;
-    animation: l15 2s infinite;
-}
-.loader::after {
-    margin: 15px;
-    animation-duration: 3s;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-.loader::before{
-    border-right-color: var(--color-second);
+.car__body {
+	animation: shake 0.2s ease-in-out infinite alternate;
 }
 
-@keyframes l15{ 
-    100%{transform: rotate(1turn)}
+.car__line {
+	transform-origin: center right;
+	stroke-dasharray: 22;
+	animation: line 0.8s ease-in-out infinite;
+	animation-fill-mode: both;
 }
+
+.car__line--top {
+	animation-delay: 0s;
+}
+
+.car__line--middle {
+	animation-delay: 0.2s;
+}
+
+.car__line--bottom {
+	animation-delay: 0.4s;
+}
+
+@keyframes shake {
+	0% {
+		transform: translateY(-1%);
+	}
+	100% {
+		transform: translateY(3%);
+	}
+}
+
+@keyframes line {
+	0% {
+		stroke-dashoffset: 22;
+	}
+	25% {
+		stroke-dashoffset: 22;
+	}
+	50% {
+		stroke-dashoffset: 0;
+	}
+	51% {
+		stroke-dashoffset: 0;
+	}
+	80% {
+		stroke-dashoffset: -22;
+	}
+	100% {
+		stroke-dashoffset: -22;
+	}
+}
+
 
 .loading{
     width: 100svw;
@@ -871,3 +924,5 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 }
 
 /*---------------------------------*/
+
+/**/

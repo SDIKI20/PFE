@@ -71,54 +71,206 @@ gsap.from(".plat-car-container", {
     }
 });
 
-document.querySelectorAll(".plat-car-image").forEach(carContainer=>{
-carContainer.addEventListener('click', ()=>{
-    targetCar = carContainer.parentElement
-    var carId = null
-    carInfo = getCarInfo(carId)
-    openCarDetail(carInfo)
-})
-})
-
-function getCarInfo(carId){
-    var info = null
-    return info
+async function fetchVehicle(id, uid) {
+    try {
+        openLoader()
+        const response = await fetch(`/api/vehicles/get/${id}/${uid}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.message === "No Vehicle Found!") {
+            closeLoader()
+            console.warn("Vehicle not found.");
+            pushNotif("w", "Vehicle not found.")
+            return null
+        } else {
+            closeLoader()
+            return data
+        }
+    } catch (error) {
+        closeLoader()
+        console.error("Error fetching vehicle:", error);
+        pushNotif('e', "Somthing went wrong!")
+    }
 }
+
+function closeCarDetail(){
+    if(screen.width > 820){
+        carsContainerSec.style.width = "100%"
+        carDetailSec.style.minWidth = "unset"
+        carDetailSec.style.width = "0"
+    }else{
+        carDetailSec.style.top = "150%"
+    }
+    setTimeout(() => {
+        Array.from(carDetailSec.children).forEach(ch=>{ ch.remove })
+        carDetailSec.style.display = "none"
+    }, 200);
+}
+
+document.querySelectorAll(".plat-car-image").forEach(carContainer=>{
+    carContainer.addEventListener('click', ()=>{
+        targetCar = carContainer.parentElement
+        uid = targetCar.children[targetCar.children.length-2].value
+        carId = targetCar.children[targetCar.children.length-1].value
+        openCarDetail(carId, uid)
+    })
+})
 
 const carDetailSec = document.getElementById('carDetail')
 const carsContainerSec = document.getElementById('carSecBody')
 
-function openCarDetail(carInfo){
-carDetailSec.style.display = "flex"
-if(screen.width > 820){
-    carsContainerSec.style.width = "50%"
-    carDetailSec.style.width = "50%"
-    carDetailSec.style.minWidth = "500px"
-}else{
-    setTimeout(() => {
-    carDetailSec.style.top = "50%"
-    }, 100);
+async function openCarDetail(id, uid){
+    result = await fetchVehicle(id, uid)
+    if(result){
+        const favlab = uid<=0?"<span></span>":`
+            <label class="icn-bt fav-lab flex-row center-start">
+                <label class="fav-lab flex-row center-start">
+                    <input class="heart-anim" id="toggle-heart-${result.id}" type="checkbox" hidden disabled ${result.is_favorite? 'checked' : ''}/>
+                    <label for="toggle-heart-${result.id}" aria-label="like" class="animated-heart" id="v${result.id}u${uid}"><i class="fa-solid fa-heart"></i></label>
+                </label>                                    
+                <input type="checkbox" class="fav-check" hidden>
+            </label>
+        `
+        carDetailSec.innerHTML = `
+            <button class="bt bt-hover" id="detailsClose" onclick="closeCarDetail()">
+                <i class="fa-solid fa-xmark bt-hover" id="detailsClose"></i>
+            </button>
+            <header class="car-detail-head flex-row center-spacebet">
+                <button class="bt bt-hover icn-bt" id="detailsClose4p" onclick="closeCarDetail()">
+                    <i class="fa-solid fa-chevron-left" style="font-size: var(--font-med);"></i>
+                </button>
+                <p>Car details</p>
+                ${favlab}
+            </header>
+            <div class="plat-images-detail flex-row center-start">
+                <div class="detail-image">
+                    <img class="prevable" src="${result.previmage1}" alt="Image">
+                </div>
+                <div class="detail-image">
+                    <img class="prevable" src="${result.previmage2}" alt="Image">
+                </div>
+                <div class="detail-image">
+                    <img class="prevable" src="${result.previmage3}" alt="Image">
+                </div>
+            </div>
+            <div class="flex-row center-spacebet r-car-inf">
+                <p class="car-inf-name">${result.model} ${result.fab_year}</p>
+                <p class="car-inf-price">${result.price}<span class="currence">DZD</span><span class="price-tag">/${result.rental_type == "h"?"hour":"day"}</span></p>
+            </div>
+            <div class="car-det-info flex-col center-spacebet"> 
+                <div class="car-det-bod">
+                    <div class="car-det-sec flex-col">
+                        <input type="radio" class="displayRad" name="sec-rad" id="specs" hidden checked>
+                        <div class="flex-row car-rate-stars center-spacebet">
+                            <div class="flex-row">
+                                <img src="${result.logo}" alt="Logo">
+                                <div class="flex-col start-center">
+                                    <p class="spec-log">${result.brand_name}</p>
+                                    <h6 class="spec-para">${result.model} ${result.fab_year}</h6>
+                                </div>
+                            </div>
+                            <div class="flex-row center-start">
+                                <h6 class="spec-tit">${result.stars}</h6>
+                                <h6 style="
+                                    margin: 0 0.7em;
+                                    background:linear-gradient(90deg, yellow ${result.stars*100/5}%, var(--text)0%);
+                                    -webkit-background-clip: text;
+                                    -webkit-text-fill-color: transparent;
+                                    background-clip: text;
+                                ">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </h6>
+                                <h6 class="spec-para">(${result.reviews} RATE)</h6>
+                            </div>
+                        </div>     
+                        <div class="car-specs-det flex-col">
+                            <div class="flex-row center-spacebet">
+                                <div class="flex-col" style="width: 33%;">
+                                    <h5 class="spec-tit">Company</h5>
+                                    <p class="spec-para">${result.brand_name}</p>
+                                </div>
+                                <div class="flex-col" style="width: 33%;">
+                                    <h5 class="spec-tit">Model</h5>
+                                    <p class="spec-para">${result.model}</p>
+                                </div>
+                                <div class="flex-col" style="width: 33%;">
+                                    <h5 class="spec-tit">Color</h5>
+                                    <div class="flex-row center-start">
+                                        <div class="color-box-circle" style="background-color: ${result.color};"></div>
+                                        <p class="spec-para">${result.color.toString().toUpperCase()}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-row center-spacebet">
+                                <div class="flex-col" style="width: 33%;">
+                                    <h5 class="spec-tit">Doors</h5>
+                                    <p class="spec-para">${result.doors}</p>
+                                </div>
+                                <div class="flex-col" style="width: 33%;">
+                                    <h5 class="spec-tit">Power</h5>
+                                    <p class="spec-para">${result.horsepower} <span class="currence">HP</span></p>
+                                </div>
+                                <div class="flex-col" style="width: 33%;">
+                                    <h5 class="spec-tit">Seating Capacity</h5>
+                                    <p class="spec-para">${result.capacity} seats</p>
+                                </div>
+                            </div>
+                            <div class="flex-row center-spacebet">
+                                <div class="flex-col" style="width: 33%;">
+                                    <h5 class="spec-tit">Year</h5>
+                                    <p class="spec-para">${result.fab_year}</p>
+                                </div>
+                                <div class="flex-col" style="width: 33%;">
+                                    <h5 class="spec-tit">Max Speed</h5>
+                                    <p class="spec-para">${result.speed} <span class="currence">KM/H</span></p>
+                                </div>
+                                <div class="flex-col" style="width: 33%;">
+                                    <h5 class="spec-tit">Drive</h5>
+                                    <p class="spec-para">All-wheel</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="specs-more flex-row flex-center">
+                            <a href="/car/${result.id}" class="exploare-but bt bt-hover" title="See more about this vehicle"><i class="fa-solid fa-circle-info"></i> More About Vehicle</a>
+                        </div>                  
+                    </div>
+                </div>
+            </div>
+            <a href="/payment" class="plat-rdetail-foot flex-row flex-center">
+                <button class="bt bt-hover rent-but" id="rentBut">Rent Now</button>
+                <div class="bookbuts flex-row center-spacebet">
+                    <div class="flex-col">
+                        <p style="font-size: var(--font-sml);color:var(--txt-black);">BOOK VEHICLE</p>
+                        <p style="font-size: var(--font-tag);color:var(--txt-black);">Hyundai FOCUS</p>
+                    </div>
+                    <div class="flex-col">
+                        <p style="font-size: var(--font-sml);color:var(--txt-black);">FREE BOOKING</p>
+                        <p style="font-size: var(--font-tag);color:var(--txt-black);">10 minutes</p>
+                    </div>
+                    <div class="bt bt-hover rent-but4p flex-row flex-center" id="rentBut4pc">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+            </a>
+        `
+        carDetailSec.style.display = "flex"
+        if(screen.width > 820){
+            carsContainerSec.style.width = "60%"
+            carDetailSec.style.width = "40%"
+            carDetailSec.style.minWidth = "400px"
+        }else{
+            setTimeout(() => {
+                carDetailSec.style.top = "50%"
+            }, 100);
+        }
+    }
 }
-}
-
-function closeCarDetail(){
-if(screen.width > 820){
-    carsContainerSec.style.width = "100%"
-    carDetailSec.style.minWidth = "unset"
-    carDetailSec.style.width = "0"
-}else{
-    carDetailSec.style.top = "150%"
-}
-setTimeout(() => {
-    /*Array.from(carDetailSec.children).forEach(ch=>{
-    ch.parentElement.removeChild(ch)
-    })*/
-    carDetailSec.style.display = "none"
-}, 200);
-}
-
-document.getElementById('detailsClose').addEventListener('click', closeCarDetail)
-document.getElementById('detailsClose4p').addEventListener('click', closeCarDetail)
 
 document.querySelectorAll('.car-det-info-head label').forEach(label => {
   label.addEventListener('click', () => {
@@ -135,6 +287,7 @@ document.querySelectorAll('.car-det-info-head label').forEach(label => {
 try {
     document.getElementById('applyFilter').addEventListener('click', () => {
         let search = document.getElementById('filterSearch').value.trim();
+        let search4p = document.getElementById('search4p').value.trim();
         let rentalType = "";
         let availableOnly = document.getElementById('stch').checked ? '1' : "";
         let Pricem = document.getElementById("pricem").value.trim();
@@ -185,6 +338,7 @@ try {
         const params = new URLSearchParams();
 
         if (search) params.append("search", search);
+        if (search4p) params.append("search", search4p);
         if (rentalType) params.append("rtype", rentalType);
         if (availableOnly) params.append("availability", availableOnly);
         if (Pricem) params.append("pricem", Pricem);
@@ -205,16 +359,24 @@ try {
 } catch (error) {}
 
 try {
-    const searchInput = document.querySelectorAll('.filter-search-inp');
-    searchInput.forEach(inp=>{
-        inp.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                let search = inp.value.trim();
-                const params = new URLSearchParams();
-                if (search) params.append("search", search);
-                const finalUrl = `/cars?${params.toString()}`;
-                window.location.href = finalUrl;
-            }
-        });
+    const searchInput = document.getElementById('filterSearch');
+    searchInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            let search = searchInput.value.trim();
+            const params = new URLSearchParams();
+            if (search) params.append("search", search);
+            const finalUrl = `/cars?${params.toString()}`;
+            window.location.href = finalUrl;
+        }
     })
 } catch (error) {}
+
+try {
+    document.getElementById('search4p').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            openFilter()
+            document.getElementById('filterBut4p').click()
+        }
+    })
+} catch (error) {}
+  

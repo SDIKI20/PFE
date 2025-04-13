@@ -50,7 +50,7 @@
                 <div class="upload-input-container flex-row flex-center">
                     <div class="doc-inp flex-col flex-center">
                         <div class="doc-image-container">
-                            <img src="../assets/images/idfront.png" id="idFront" alt="Doc">
+                            <img loading="lazy" src="../assets/images/idfront.png" id="idFront" alt="Doc">
                         </div>
                         <label class="bt bt-hover" for="upFront">Upload Front</label>
                         <p>Supported formates: JPEG, PNG, JPG</p>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="doc-inp flex-col flex-center">
                         <div class="doc-image-container">
-                            <img src="../assets/images/idback.png" id="idBack" alt="Doc">
+                            <img loading="lazy" src="../assets/images/idback.png" id="idBack" alt="Doc">
                         </div>
                         <label class="bt bt-hover" for="upback">Upload Back</label>
                         <p>Supported formates: JPEG, PNG, JPG</p>
@@ -71,7 +71,7 @@
     <% } %>
     <nav class="plat-main-navigator flex-col center-start" id="platMainNavigator">
         <a href="/" class="plat-logo flex-row flex-center">
-            <img src="../assets/logo.png" alt="LOGO" width="80%">
+            <img loading="lazy" src="../assets/logo.png" alt="LOGO" width="80%">
         </a>
         <ul class="plat-navigator flex-col center-start">
             <a id="navHome" href="/home" data-section="home" class="plat-nav-element <%= section==="home"?"plat-nav-selected":"" %>" title="Home" >
@@ -86,7 +86,7 @@
                 <label for="sectMain">
                     <div class="flex-col">
                         <i class="fa-solid fa-car"></i>
-                        <p class="nav-label">Cars</p>
+                        <p class="nav-label">Vehicles</p>
                     </div>
                 </label>
             </a>
@@ -106,18 +106,10 @@
                     </div>
                 </label>
             </a>
-            <a id="navRencent" href="/recent" data-section="recent" class="plat-nav-element <%= section==="recent"?"plat-nav-selected":"" %>" id="navRecent" title="Recent" >
-                <label for="sectRecent">
-                    <div class="flex-col">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                        <p class="nav-label">Recent</p>
-                    </div>
-                </label>
-            </a>
-            <a id="navProfile" href="/profile" data-section="profile" class="plat-nav-element <%= section==="profile"?"plat-nav-selected":"" %> flex-row flex-center" title="Profile">
+            <a id="navProfile" href="/docs" data-section="profile" class="plat-nav-element <%= section==="profile"?"plat-nav-selected":"" %> flex-row flex-center" title="Profile">
                 <label for="sectProfile">
                     <div class="plat-profile">
-                        <img src="<%= user?user.image:"/assets/images/user.jpg"%>" alt="Profile" style="width: 100%;">
+                        <img loading="lazy" src="<%= user?user.image:"/assets/images/user.jpg"%>" alt="Profile" style="width: 100%;">
                     </div>
                 </label>
             </a>
@@ -133,11 +125,11 @@
                     </label>
                 </a>
             <% } %>
-            <a id="navDocs" href="/docs" data-section="docs" class="plat-nav-element <%= section==="docs"?"plat-nav-selected":"" %>" title="My Documents">
+            <a id="navDocs" href="/docs" data-section="docs" class="plat-nav-element <%= section==="docs"?"plat-nav-selected":"" %>" title="My Profile">
                 <label for="sectDocs">
                     <div class="flex-col">
                         <i class="fa-regular fa-id-card"></i>
-                        <p class="nav-label">Documents</p>
+                        <p class="nav-label">Profile</p>
                     </div>
                 </label>
             </a>
@@ -159,1177 +151,1108 @@
             </a>
         <% } %>
     </nav>
-    <img class="map-img" src="/assets/images/map.png" alt="Maps">
+    <img loading="lazy" class="map-img" src="/assets/images/map.png" alt="Maps">
     <% if (section === 'cars') { %>
-    <section class="plat-main-doc" id="mainDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectMain">
-        <div class="plat-user-loc flex-row center-start">
-            <div class="logo4p flex-col flex-center" style="margin-right: auto;">
-                <a href="/"><img src="../assets/logo.png" alt=""></a>
+        <section class="plat-main-doc" id="mainDoc">
+            <input type="radio" class="sectRad" hidden name="sectRad" id="sectMain">
+            <div class="plat-user-loc flex-row center-start">
+                <div class="logo4p flex-col flex-center" style="margin-right: auto;">
+                    <a href="/"><img loading="lazy" src="../assets/logo.png" alt=""></a>
+                </div>
+                <div class="today-date flex-row center-start" id="todayDate">
+                    <i class="fa-regular fa-clock tm-icn"></i>
+                    <p class="user-locate-date">
+                        <script>
+                            days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+                            mnts = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
+                            today = new Date;
+                            document.write(`
+                            ${days[today.getDay()]}, 
+                            ${today.getDate()} 
+                            ${mnts[today.getMonth()]} 
+                            ${today.getFullYear()}`);
+                        </script>
+                    </p>
+                </div>
+                <div class="user-locate flex-row center-start" id="userLocate">
+                    <i class="fa-solid fa-location-dot tm-icn"></i>
+                    <p class="user-locate-date" id="userIp">
+                        <script>
+                            try {
+                                fetch('https://api64.ipify.org?format=json')
+                                .then(response => response.json())
+                                .then(data => {return fetch(`http://ip-api.com/json/${data.ip}`);})
+                                .then(response => response.json())
+                                .then(data => {
+                                    document.getElementById("userIp").innerHTML = `${data.country}, ${data.city}`
+                                })
+                                .catch(error => console.error('Error:', error));
+                            }catch(error){document.getElementById("userLocate").style.display = "none"}
+                        </script>
+                    </p>
+                </div>
+                <a href="/docs">
+                    <div class="plat-user-profile">
+                        <img loading="lazy" src="<%= user?user.image:"/assets/images/user.jpg"%>" alt="Use">
+                    </div>
+                </a>
             </div>
-            <div class="today-date flex-row center-start" id="todayDate">
-                <i class="fa-regular fa-clock tm-icn"></i>
-                <p class="user-locate-date">
-                    <script>
-                        days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-                        mnts = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
-                        today = new Date;
-                        document.write(`
-                        ${days[today.getDay()]}, 
-                        ${today.getDate()} 
-                        ${mnts[today.getMonth()]} 
-                        ${today.getFullYear()}`);
-                    </script>
-                </p>
-            </div>
-            <div class="user-locate flex-row center-start" id="userLocate">
-                <i class="fa-solid fa-location-dot tm-icn"></i>
-                <p class="user-locate-date" id="userIp">
-                    <script>
-                        try {
-                            fetch('https://api64.ipify.org?format=json')
-                            .then(response => response.json())
-                            .then(data => {return fetch(`http://ip-api.com/json/${data.ip}`);})
-                            .then(response => response.json())
-                            .then(data => {
-                                document.getElementById("userIp").innerHTML = `${data.country}, ${data.city}`
-                            })
-                            .catch(error => console.error('Error:', error));
-                        }catch(error){document.getElementById("userLocate").style.display = "none"}
-                    </script>
-                </p>
-            </div>
-            <a href="/profile">
-                <div class="plat-user-profile">
-                    <img src="<%= user?user.image:"/assets/images/user.jpg"%>" alt="Use">
-                </div>
-            </a>
-        </div>
-        <div class="plat-filter-sec flex-col center-start" id="filterSec">
-            <header class="plat-filter-head flex-col center-start">
-                <div class="flex-row center-spacebet" style="width: 100%; padding: 10px 16px;">
-                    <h1 class="title-sml">Filter by</h1>
-                    <a class="reset-but" href="/cars"> <i class="fa-solid fa-xmark"></i> <span>Rest All</span></a>
-                </div>
-                <div class="input-holder flex-row" style="width: 90%;">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input class="filter-search-inp" type="search" id="filterSearch" placeholder="Search..." value="<%= filters.search || '' %>">
-                </div>
-            </header>
-            <section class="plat-filter-body flex-col">
-                <div class="filter-close-mob flex-row center-spacebet">
-                    <p class="title-med">Filter</p>
-                    <i class="fa-solid fa-xmark" id="platCloseFilter"></i>
-                </div>
-                <details class="rental-type" open>
-                    <summary class="bt-hover">RENTAL TYPE</summary>
-                    <div class="flex-row rental-types">
-                        <input type="radio" name="rnt" id="rentalA" class="r-type" hidden <%= filters.rtype=="d"?"":filters.rtype=="h"?"":"checked"%> >
-                        <label for="rentalA" class="rnt bt-hover">Any</label>
-                        <input type="radio" name="rnt" id="rentalD" class="r-type" hidden <%= filters.rtype=="d"?"checked":"" %>>
-                        <label for="rentalD" class="rnt bt-hover">Per day</label>
-                        <input type="radio" name="rnt" id="rentalH" class="r-type" hidden <%= filters.rtype=="h"?"checked":"" %>>
-                        <label for="rentalH" class="rnt bt-hover">Per hour</label>
+            <div class="plat-filter-sec flex-col center-start" id="filterSec">
+                <header class="plat-filter-head flex-col center-start">
+                    <div class="flex-row center-spacebet" style="width: 100%; padding: 10px 16px;">
+                        <h1 class="title-sml">Filter by</h1>
+                        <a class="reset-but" href="/cars"> <i class="fa-solid fa-xmark"></i> <span>Rest All</span></a>
                     </div>
-                </details>
-                <div class="break-line"></div>
-                <div class="flex-row center-spacebet available">
-                    <label for="stch" class="bt-hover">AVAILABLE ONLY</label>
-                    <label class="switch">
-                        <input id="stch" type="checkbox" hidden <% if(filters.availability) %> <%= filters.availability=="1"?"checked":"" %>>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="break-line"></div>
-                <details class="filter-price" open>
-                    <summary class="bt-hover"><span>PRICE RANGE <span id="priceBy">/HOUR</span></span></summary>
-                    <div class="range flex-col">
-                        <div class="range-slider">
-                            <span class="range-selected" <% if(filters.pricem && filters.priceM ) %> style="left:<%= (parseInt(filters.pricem) / 50000) * 100 %>%; right:<%= 100 - (parseInt(filters.priceM )/ 50000) * 100 %>%;"></span>
-                        </div>
-                        <div class="range-input">
-                            <input type="range" class="min" min="0" max="50000" value="<%= filters.pricem || '0' %>" step="10">
-                            <input type="range" class="max" min="0" max="50000" value="<%= filters.priceM || '50000' %>" step="10">
-                        </div>
-                        <div class="range-price flex-row">
-                            <div class="flex-row center-start range-price-contanier">
-                                <label for="min">From</label>
-                                <input type="number" name="min" id="pricem" value="<%= filters.pricem || '0' %>" disabled>      
-                            </div>
-                            <div class="flex-row center-start range-price-contanier">
-                                <label for="max">To</label>
-                                <input type="number" name="max" id="priceM" value="<%= filters.priceM || '50000' %>" disabled>      
-                            </div>
-                        </div>
-                        </div>
-                </details>
-                <div class="break-line"></div>
-                <details class="filter-brand" open>
-                    <summary class="bt-hover">CAR BRAND</summary>
-                    <div class="flex-row flex-wrap">
-                        <% if (brands) brands.forEach(brand=>{%>
-                            <div class="flex-row check-holder checkbox-wrapper-13">
-                                <input type="checkbox" class="filter-brand-inp" id="brand<%= brand.name %>" <%= filters.brand?Array.from(filters.brand.toUpperCase().split(",")).includes(brand.name.toUpperCase())?"checked":"":"" %>>
-                                <label class="flex-row flex-center" for="brand<%= brand.name %>"> <%= brand.name.toUpperCase() %> <img src="<%= brand.logo %>" class="brandCImg" alt=""></label>
-                            </div>
-                        <%})%>
-                    </div>
-                </details>
-                <div class="break-line"></div>
-                <details class="filter-modal" open>
-                    <summary class="bt-hover">CAPACITY</summary>
-                    <div class="flex-col transms">
-                        <label class="radio-holder bt-hover">
-                            <input type="radio" id="personeA" name="cap" value="personeA" <%= filters.capacity?"":"checked"%>/>
-                            <p class="text">Any</p>
-                        </label>
-                        <label class="radio-holder bt-hover">
-                            <input type="radio" id="persone2" name="cap" value="persone2" <%= filters.capacity==2?"checked":""%>/>
-                            <p class="text">2 PERSON</p>
-                        </label>
-                        <label class="radio-holder bt-hover">
-                            <input type="radio" id="persone4" name="cap" value="persone4" <%= filters.capacity==4?"checked":""%>/>
-                            <p class="text">4 PERSON</p>
-                        </label>
-                        <label class="radio-holder bt-hover">
-                            <input type="radio" id="persone6" name="cap" value="persone6" <%= filters.capacity>4?"checked":""%>/>
-                            <p class="text">+5 PERSON</p>
-                        </label>
-                    </div>
-                </details>
-                <div class="break-line"></div>
-                <details class="filter-style" open>
-                    <summary class="bt-hover">BODY STYLE</summary>
-                    <div class="flex-row flex-wrap">
-                        <% if (bodyTypes) bodyTypes.forEach(body=>{%>
-                            <div class="flex-row check-holder checkbox-wrapper-13">
-                                <input class="filter-body-style" type="checkbox" id="bodyType<%= body.unnest %>" <%= filters.body?Array.from(filters.body.toUpperCase().split(",")).includes(body.unnest.toUpperCase())?"checked":"":"" %>>
-                                <label for="bodyType<%= body.unnest %>"><%= body.unnest %></label>
-                            </div>
-                        <%})%>
-                    </div>
-                </details>
-                <div class="break-line"></div>
-                <details class="filter-transmission" open>
-                    <summary class="bt-hover">TRANSMISSION</summary>
-                    <div class="flex-col transms">
-                        <label class="radio-holder bt-hover">
-                            <input type="radio" id="transAny" name="transm" value="transAny" <%= filters.trans=="Automatic"?"":filters.trans=="Manual"?"":"checked"%>/>
-                            <p class="text">Any</p>
-                        </label>
-                        <label class="radio-holder bt-hover">
-                            <input type="radio" id="transAut" name="transm" value="Automatic" <%= filters.trans=="Automatic"?"checked":""%>/>
-                            <p class="text">Automatic</p>
-                        </label>
-                        <label class="radio-holder bt-hover">
-                            <input type="radio" id="transMan" name="transm" value="Manual" <%= filters.trans=="Manual"?"checked":""%>/>
-                            <p class="text">Manuel</p>
-                        </label>
-                    </div>
-                </details>
-                <div class="break-line"></div>
-                <details class="filter-fuel" open>
-                    <summary class="bt-hover">FUEL TYPE</summary>
-                    <div class="flex-row flex-wrap">
-                        <% if (fuelTypes) fuelTypes.forEach(fuel=>{%>
-                            <div class="flex-row check-holder checkbox-wrapper-13">
-                                <input class="filter-fuel-type" type="checkbox" id="fuelType<%= fuel.unnest %>" <%= filters.fuel?Array.from(filters.fuel.toUpperCase().split(",")).includes(fuel.unnest.toUpperCase())?"checked":"":"" %>>
-                                <label for="fuelType<%= fuel.unnest %>"><%= fuel.unnest %></label>
-                            </div>
-                        <%})%>
-                    </div>
-                </details>                
-            </section>
-            <footer class="plat-filter-foot flex-row flex-center">
-                <button class="bt bt-hover apply-filter" id="applyFilter">Apply Filter</button>
-            </footer>
-        </div>
-        <div class="plat-cars-sec flex-row" id="carsSec">
-            <div class="flex-row flex-wrap carsec-body" id="carSecBody">
-                <header class="carsec-head flex-row">
-                    <h1 class="title-sml plat-car-name"><span id="rentalResult" style="color:var(--text-low); font-size:11.2px;">99</span> Vehicles results</h1>
-                    <div class="searchbar-4p flex-row center-start">
+                    <div class="input-holder flex-row" style="width: 90%;">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input class="filter-search-inp" type="search" id="search4p" placeholder="Search...">
-                        <i class="fa-solid fa-filter bt-hover" id="filterBut4p"></i>
+                        <input class="filter-search-inp" type="search" id="filterSearch" placeholder="Search..." value="<%= filters.search || '' %>">
                     </div>
                 </header>
-                <div class="plat-cars-container flex-row flex-wrap start-center">
-                    <% if (cars) cars.forEach(car=>{%>
-                        <div class="plat-car-container">
-                            <header class="flex-row center-start">
-                                <div class="car-locate flex-row flex-center">
-                                    <i class="fa-solid fa-location-dot tm-icn"></i>
-                                    <p class="text-eclip"><%= car.wilaya %></p>
-                                </div>
-                                <div class="car-available flex-row center-start <%= car.availability?'av':'nav' %>">
-                                    <%= car.availability?'Available':'Booked' %>
-                                </div>
-                                <div class="car-rate flex-row center-start">
-                                    <i class="fa-solid fa-star"></i>
-                                    <p class="para-detail"><%= car.stars %> <span class="car-s-rates">(<%= formatNumber(car.orders) %>)</span></p>
-                                </div>
-                                <% if (user){%>
-                                <label class="fav-lab flex-row center-start">
-                                    <label class="fav-lab flex-row center-start">
-                                        <input class="heart-anim" id="toggle-heart<%= car.id %>" type="checkbox" hidden <%= car.is_favorite ? 'checked disabled' : '' %>/>
-                                        <label for="toggle-heart<%= car.id %>" aria-label="like" class="animated-heart" id="v<%= car.id %>u<%= user.id %>">❤</label>
-                                    </label>                                    
-                                    <input type="checkbox" class="fav-check" hidden>
-                                </label>
-                                <% } %>
-                            </header>
-                            <div class="plat-car-image flex-col flex-center">
-                                <img src="<%= car.image %>" alt="Car">
-                            </div>
-                            <div class="plat-car-info flex-col start-center">
-                                <span class="plat-car-name text-eclip"><%= car.brand_name %> <%= car.model %> <%= car.fab_year %></span>
-                                <div class="plat-car-card flex-row center-spacebet">
-                                    <p class="plat-car-model text-eclip"><%= car.engine_type %></p>
-                                    <p class="plat-car-price"><%= car.price %><span class="currence">DZD</span> <span class="price-tag">/<%= car.rental_type %></span></p>
-                                </div>
-                            </div>
-                            <div class="car-foot flex-row center-spacebet">
-                                <div class="flex-row flex-center">
-                                    <i class="fa-solid fa-car-rear plat-icn"></i>
-                                    <p class="plat-car-model"><%= car.body %></p>
-                                </div>
-                                <div class="flex-row flex-center">
-                                    <i class="fa-solid fa-gears plat-icn"></i>
-                                    <p class="plat-car-model"><%= car.transmission %></p>
-                                </div>
-                                <div class="flex-row flex-center">
-                                    <i class="fa-solid fa-gas-pump plat-icn"></i>
-                                    <p class="plat-car-model"><%= car.fuel %></p>
-                                </div>
-                                <div class="flex-row flex-center">
-                                    <i class="fa-solid fa-user plat-icn"></i>
-                                    <p class="plat-car-model"><%= car.capacity %></p>
-                                </div>
-                            </div>
+                <section class="plat-filter-body flex-col">
+                    <div class="filter-close-mob flex-row center-spacebet">
+                        <p class="title-med">Filter</p>
+                        <i class="fa-solid fa-xmark" id="platCloseFilter"></i>
+                    </div>
+                    <details class="rental-type" open>
+                        <summary class="bt-hover">RENTAL TYPE</summary>
+                        <div class="flex-row rental-types">
+                            <input type="radio" name="rnt" id="rentalA" class="r-type" hidden <%= filters.rtype=="d"?"":filters.rtype=="h"?"":"checked"%> >
+                            <label for="rentalA" class="rnt bt-hover">Any</label>
+                            <input type="radio" name="rnt" id="rentalD" class="r-type" hidden <%= filters.rtype=="d"?"checked":"" %>>
+                            <label for="rentalD" class="rnt bt-hover">Per day</label>
+                            <input type="radio" name="rnt" id="rentalH" class="r-type" hidden <%= filters.rtype=="h"?"checked":"" %>>
+                            <label for="rentalH" class="rnt bt-hover">Per hour</label>
                         </div>
-                    <%})%>
-                </div>
-            </div>
-            <div class="plat-car-detail flex-col center-start" id="carDetail">
-                <i class="fa-solid fa-xmark bt-hover" id="detailsClose"></i>
-                <header class="car-detail-head flex-row center-spacebet">
-                    <i class="fa-solid fa-chevron-left icn-bt bt-hover" id="detailsClose4p"></i>
-                    <p>Car details</p>
-                    <label class="icn-bt fav-lab flex-row flex-center">
-                        <i class="fa-regular fa-heart bt-hover"></i>
-                        <input type="checkbox" hidden>
-                    </label>
-                </header>
-                <div class="plat-images-detail flex-row center-start">
-                    <div class="detail-image">
-                        <img class="prevable" src="../assets/car/ibiza1.jpg" alt="Image">
+                    </details>
+                    <div class="break-line"></div>
+                    <div class="flex-row center-spacebet available">
+                        <label for="stch" class="bt-hover">AVAILABLE ONLY</label>
+                        <label class="switch">
+                            <input id="stch" type="checkbox" hidden <% if(filters.availability) %> <%= filters.availability=="1"?"checked":"" %>>
+                            <span class="slider"></span>
+                        </label>
                     </div>
-                    <div class="detail-image">
-                        <img class="prevable" src="../assets/car/ibiza2.jpg" alt="Image">
-                    </div>
-                    <div class="detail-image">
-                        <img class="prevable" src="../assets/car/ibiza3.jpg" alt="Image">
-                    </div>
-                </div>
-                <div class="flex-row center-spacebet r-car-inf">
-                    <p class="car-inf-name">EcoBlue 120 Zetec</p>
-                    <p class="car-inf-price">750<span class="currence">DZD</span><span class="price-tag">/hour</span></p>
-                </div>
-                <div class="car-det-info"> 
-                    <div class="car-det-bod">
-                        <div class="car-det-sec flex-col">
-                            <input type="radio" class="displayRad" name="sec-rad" id="specs" hidden checked>
-                            <div class="flex-row car-rate-stars center-spacebet">
-                                <div class="flex-row">
-                                    <img src="../assets/cars/seat.png" alt="Logo">
-                                    <div class="flex-col start-center">
-                                        <p class="spec-log">SEAT</p>
-                                        <h6 class="spec-para">Ibiza 2018</h6>
-                                    </div>
+                    <div class="break-line"></div>
+                    <details class="filter-price" open>
+                        <summary class="bt-hover"><span>PRICE RANGE <span id="priceBy">/HOUR</span></span></summary>
+                        <div class="range flex-col">
+                            <div class="range-slider">
+                                <span class="range-selected" <% if(filters.pricem && filters.priceM ) %> style="left:<%= (parseInt(filters.pricem) / 50000) * 100 %>%; right:<%= 100 - (parseInt(filters.priceM )/ 50000) * 100 %>%;"></span>
+                            </div>
+                            <div class="range-input">
+                                <input type="range" class="min" min="0" max="50000" value="<%= filters.pricem || '0' %>" step="10">
+                                <input type="range" class="max" min="0" max="50000" value="<%= filters.priceM || '50000' %>" step="10">
+                            </div>
+                            <div class="range-price flex-row">
+                                <div class="flex-row center-start range-price-contanier">
+                                    <label for="min">From</label>
+                                    <input type="number" name="min" id="pricem" value="<%= filters.pricem || '0' %>" disabled>      
                                 </div>
-                                <div class="flex-row center-start">
-                                    <h6 class="spec-tit">4.7</h6>
-                                    <h6 class="clp" style="margin: 0 0.7em;">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </h6>
-                                    <h6 class="spec-para">(109 RATE)</h6>
-                                </div>
-                            </div>     
-                            <div class="car-specs-det flex-col">
-                                <div class="flex-row center-spacebet">
-                                    <div class="flex-col" style="width: 33%;">
-                                        <h5 class="spec-tit">Company</h5>
-                                        <p class="spec-para">Seat</p>
-                                    </div>
-                                    <div class="flex-col" style="width: 33%;">
-                                        <h5 class="spec-tit">Model</h5>
-                                        <p class="spec-para">IBIZA 2018</p>
-                                    </div>
-                                    <div class="flex-col" style="width: 33%;">
-                                        <h5 class="spec-tit">Color</h5>
-                                        <div class="flex-row center-start">
-                                            <div class="color-box-circle" style="background-color: red;"></div>
-                                            <p class="spec-para">Red</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex-row center-spacebet">
-                                    <div class="flex-col" style="width: 33%;">
-                                        <h5 class="spec-tit">Driving Range</h5>
-                                        <p class="spec-para">429 <span class="currence">KM</span></p>
-                                    </div>
-                                    <div class="flex-col" style="width: 33%;">
-                                        <h5 class="spec-tit">Power</h5>
-                                        <p class="spec-para">280 <span class="currence">KW</span></p>
-                                    </div>
-                                    <div class="flex-col" style="width: 33%;">
-                                        <h5 class="spec-tit">Seating Capacity</h5>
-                                        <p class="spec-para">4 seats</p>
-                                    </div>
-                                </div>
-                                <div class="flex-row center-spacebet">
-                                    <div class="flex-col" style="width: 33%;">
-                                        <h5 class="spec-tit">Year</h5>
-                                        <p class="spec-para">2018</p>
-                                    </div>
-                                    <div class="flex-col" style="width: 33%;">
-                                        <h5 class="spec-tit">Max Speed</h5>
-                                        <p class="spec-para">230 <span class="currence">KM/H</span></p>
-                                    </div>
-                                    <div class="flex-col" style="width: 33%;">
-                                        <h5 class="spec-tit">Drive</h5>
-                                        <p class="spec-para">All-wheel</p>
-                                    </div>
+                                <div class="flex-row center-start range-price-contanier">
+                                    <label for="max">To</label>
+                                    <input type="number" name="max" id="priceM" value="<%= filters.priceM || '50000' %>" disabled>      
                                 </div>
                             </div>
-                            <div class="specs-more flex-row flex-center">
-                                <button class="exploare-but bt bt-hover" title="See more about this vehicle"><i class="fa-solid fa-circle-info"></i> More About Vehicle</button>
-                            </div>                  
-                         </div>
-                    </div>
-                </div>
-                <footer class="plat-rdetail-foot flex-row flex-center">
-                    <button class="bt bt-hover rent-but" id="rentBut">Rent Now</button>
-                    <div class="bookbuts flex-row center-spacebet">
-                        <div class="flex-col">
-                            <p style="font-size: var(--font-sml);color:var(--txt-black);">BOOK VEHICLE</p>
-                            <p style="font-size: var(--font-tag);color:var(--txt-black);">Hyundai FOCUS</p>
+                            </div>
+                    </details>
+                    <div class="break-line"></div>
+                    <details class="filter-brand" open>
+                        <summary class="bt-hover">CAR BRAND</summary>
+                        <div class="flex-row flex-wrap">
+                            <% if (brands) brands.forEach(brand=>{%>
+                                <div class="flex-row check-holder checkbox-wrapper-13">
+                                    <input type="checkbox" class="filter-brand-inp" id="brand<%= brand.name %>" <%= filters.brand?Array.from(filters.brand.toUpperCase().split(",")).includes(brand.name.toUpperCase())?"checked":"":"" %>>
+                                    <label class="flex-row flex-center" for="brand<%= brand.name %>"> <%= brand.name.toUpperCase() %> <img loading="lazy" src="<%= brand.logo %>" class="brandCImg" alt=""></label>
+                                </div>
+                            <%})%>
                         </div>
-                        <div class="flex-col">
-                            <p style="font-size: var(--font-sml);color:var(--txt-black);">FREE BOOKING</p>
-                            <p style="font-size: var(--font-tag);color:var(--txt-black);">10 minutes</p>
+                    </details>
+                    <div class="break-line"></div>
+                    <details class="filter-modal" open>
+                        <summary class="bt-hover">CAPACITY</summary>
+                        <div class="flex-col transms">
+                            <label class="radio-holder bt-hover">
+                                <input type="radio" id="personeA" name="cap" value="personeA" <%= filters.capacity?"":"checked"%>/>
+                                <p class="text">Any</p>
+                            </label>
+                            <label class="radio-holder bt-hover">
+                                <input type="radio" id="persone2" name="cap" value="persone2" <%= filters.capacity==2?"checked":""%>/>
+                                <p class="text">2 PERSON</p>
+                            </label>
+                            <label class="radio-holder bt-hover">
+                                <input type="radio" id="persone4" name="cap" value="persone4" <%= filters.capacity==4?"checked":""%>/>
+                                <p class="text">4 PERSON</p>
+                            </label>
+                            <label class="radio-holder bt-hover">
+                                <input type="radio" id="persone6" name="cap" value="persone6" <%= filters.capacity>4?"checked":""%>/>
+                                <p class="text">+5 PERSON</p>
+                            </label>
                         </div>
-                        <button class="bt bt-hover rent-but4p flex-row flex-center" id="rentBut4pc">
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </button>
-                    </div>
+                    </details>
+                    <div class="break-line"></div>
+                    <details class="filter-style" open>
+                        <summary class="bt-hover">BODY STYLE</summary>
+                        <div class="flex-row flex-wrap">
+                            <% if (bodyTypes) bodyTypes.forEach(body=>{%>
+                                <div class="flex-row check-holder checkbox-wrapper-13">
+                                    <input class="filter-body-style" type="checkbox" id="bodyType<%= body.unnest %>" <%= filters.body?Array.from(filters.body.toUpperCase().split(",")).includes(body.unnest.toUpperCase())?"checked":"":"" %>>
+                                    <label for="bodyType<%= body.unnest %>"><%= body.unnest %></label>
+                                </div>
+                            <%})%>
+                        </div>
+                    </details>
+                    <div class="break-line"></div>
+                    <details class="filter-transmission" open>
+                        <summary class="bt-hover">TRANSMISSION</summary>
+                        <div class="flex-col transms">
+                            <label class="radio-holder bt-hover">
+                                <input type="radio" id="transAny" name="transm" value="transAny" <%= filters.trans=="Automatic"?"":filters.trans=="Manual"?"":"checked"%>/>
+                                <p class="text">Any</p>
+                            </label>
+                            <label class="radio-holder bt-hover">
+                                <input type="radio" id="transAut" name="transm" value="Automatic" <%= filters.trans=="Automatic"?"checked":""%>/>
+                                <p class="text">Automatic</p>
+                            </label>
+                            <label class="radio-holder bt-hover">
+                                <input type="radio" id="transMan" name="transm" value="Manual" <%= filters.trans=="Manual"?"checked":""%>/>
+                                <p class="text">Manuel</p>
+                            </label>
+                        </div>
+                    </details>
+                    <div class="break-line"></div>
+                    <details class="filter-fuel" open>
+                        <summary class="bt-hover">FUEL TYPE</summary>
+                        <div class="flex-row flex-wrap">
+                            <% if (fuelTypes) fuelTypes.forEach(fuel=>{%>
+                                <div class="flex-row check-holder checkbox-wrapper-13">
+                                    <input class="filter-fuel-type" type="checkbox" id="fuelType<%= fuel.unnest %>" <%= filters.fuel?Array.from(filters.fuel.toUpperCase().split(",")).includes(fuel.unnest.toUpperCase())?"checked":"":"" %>>
+                                    <label for="fuelType<%= fuel.unnest %>"><%= fuel.unnest %></label>
+                                </div>
+                            <%})%>
+                        </div>
+                    </details>                
+                </section>
+                <footer class="plat-filter-foot flex-row flex-center">
+                    <button class="bt bt-hover apply-filter" id="applyFilter">Apply Filter</button>
                 </footer>
             </div>
-        </div>
-    </section>
+            <div class="plat-cars-sec flex-row" id="carsSec">
+                <div class="flex-row flex-wrap carsec-body" id="carSecBody">
+                    <header class="carsec-head flex-row">
+                        <h1 class="title-sml plat-car-name"><span id="rentalResult" style="color:var(--text-low); font-size:11.2px;"><% if(pagination) %> <%= pagination.total %></span> Vehicles results</h1>
+                        <div class="searchbar-4p flex-row center-start">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input class="filter-search-inp" type="search" id="search4p" placeholder="Search..." value="<% if(filters) %> <%= filters.search %>">
+                            <i class="fa-solid fa-filter bt-hover" id="filterBut4p"></i>
+                        </div>
+                    </header>
+                    <div class="plat-cars-container flex-row flex-wrap start-center">
+                        <% if (cars) cars.forEach(car=>{%>
+                            <div class="plat-car-container">
+                                <header class="flex-row center-start">
+                                    <div class="car-locate flex-row flex-center">
+                                        <i class="fa-solid fa-location-dot tm-icn"></i>
+                                        <p class="text-eclip"><%= car.wilaya %></p>
+                                    </div>
+                                    <div class="car-available flex-row center-start <%= car.availability?'av':'nav' %>">
+                                        <%= car.availability?'Available':'Booked' %>
+                                    </div>
+                                    <div class="car-rate flex-row center-start">
+                                        <i class="fa-solid fa-star"></i>
+                                        <p class="para-detail"><%= car.stars %> <span class="car-s-rates">(<%= formatNumber(car.orders) %>)</span></p>
+                                    </div>
+                                    <% if (user){%>
+                                    <label class="fav-lab flex-row center-start">
+                                        <label class="fav-lab flex-row center-start">
+                                            <input class="heart-anim" id="toggle-heart<%= car.id %>" type="checkbox" hidden <%= car.is_favorite ? 'checked disabled' : '' %>/>
+                                            <label for="toggle-heart<%= car.id %>" aria-label="like" class="animated-heart" id="v<%= car.id %>u<%= user.id %>"><i class="fa-solid fa-heart"></i></label>
+                                        </label>                                    
+                                        <input type="checkbox" class="fav-check" hidden>
+                                    </label>
+                                    <% } %>
+                                </header>
+                                <div class="plat-car-image flex-col flex-center">
+                                    <img loading="lazy" src="<%= car.image %>" alt="Car">
+                                </div>
+                                <div class="plat-car-info flex-col start-center">
+                                    <span class="plat-car-name text-eclip"><%= car.brand_name %> <%= car.model %> <%= car.fab_year %></span>
+                                    <div class="plat-car-card flex-row center-spacebet">
+                                        <p class="plat-car-model text-eclip"><%= car.engine_type %></p>
+                                        <p class="plat-car-price"><%= car.price %><span class="currence">DZD</span> <span class="price-tag">/<%= car.rental_type %></span></p>
+                                    </div>
+                                </div>
+                                <div class="car-foot flex-row center-spacebet">
+                                    <div class="flex-row flex-center">
+                                        <i class="fa-solid fa-car-rear plat-icn"></i>
+                                        <p class="plat-car-model"><%= car.body %></p>
+                                    </div>
+                                    <div class="flex-row flex-center">
+                                        <i class="fa-solid fa-gears plat-icn"></i>
+                                        <p class="plat-car-model"><%= car.transmission %></p>
+                                    </div>
+                                    <div class="flex-row flex-center">
+                                        <i class="fa-solid fa-gas-pump plat-icn"></i>
+                                        <p class="plat-car-model"><%= car.fuel %></p>
+                                    </div>
+                                    <div class="flex-row flex-center">
+                                        <i class="fa-solid fa-user plat-icn"></i>
+                                        <p class="plat-car-model"><%= car.capacity %></p>
+                                    </div>
+                                </div>
+                                <input type="number" value="<%= user?user.id:"0" %>" hidden>
+                                <input type="number" value="<%= car.id %>" hidden>
+                            </div>
+                        <%})%>
+                        <% if (pagination.totalPages > 1) { %>
+                            <div class="pagination">
+                                <% 
+                                    const buildQuery = (page) => {
+                                        const params = new URLSearchParams();
+                        
+                                        // Preserve all filters from req.query
+                                        for (const key in filters) {
+                                            if (Array.isArray(filters[key])) {
+                                                filters[key].forEach(val => params.append(key, val));
+                                            } else {
+                                                params.set(key, filters[key]);
+                                            }
+                                        }
+                        
+                                        // Update offset and limit
+                                        params.set('offset', (page - 1) * pagination.limit);
+                                        params.set('limit', pagination.limit);
+                        
+                                        return `?${params.toString()}`;
+                                    };
+                        
+                                    const hasPrevious = pagination.currentPage > 1;
+                                    const hasNext = pagination.currentPage < pagination.totalPages;
+                                %>
+                                            
+                                <% if (hasPrevious) { %>
+                                    <a href="<%= buildQuery(pagination.currentPage - 1) %>"><i class="page-icn fa-solid fa-chevron-left"></i></a>
+                                <% } else { %>
+                                    <span class="disabled"><i class="page-icn fa-solid fa-chevron-left"></i></span>
+                                <% } %>
+                        
+                                <span class="para-sml">Page <span class="plat-text"><%= pagination.currentPage %></span> of <%= pagination.totalPages %></span>
+
+                                <% if (hasNext) { %>
+                                    <a href="<%= buildQuery(pagination.currentPage + 1) %>"><i class="page-icn fa-solid fa-chevron-right"></i></a>
+                                <% } else { %>
+                                    <span class="disabled"><i class="page-icn fa-solid fa-chevron-right"></i></span>
+                                <% } %>
+                            </div>
+                        <% } %>
+                                        
+                    </div>
+                </div>
+                <div class="plat-car-detail flex-col" id="carDetail">
+                </div>
+            </div>
+        </section>
     <% } %>
     <% if (section === 'home') { %>
-    <section class="plat-main-doc flex-col center-start" id="homeDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectHome">
-        <div class="head">
-            <h1 class="title" style="margin-bottom: 10px;">Drive the Car of your dreams</h1>
-            <div class="flex-row center-start filter-opt">
-                <div class="flex-row center-spacearound options">
-                    <label for="carBrand" class="flex-col start-center">
-                        CAR BRAND
-                        <select name="select-opt-brand" class="select-opt plat-text">
-                            <option value="any">Any</option>
-                            <% brands.forEach(brand => { %>
-                                <option value="<%= brand.id %>"><%= brand.name %></li>
-                            <% }); %>
-                        </select>
-                    </label>
-                    <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
-                    <label for="carModel" class="flex-col start-center">
-                        CAR MODEL
-                        <select name="select-opt-model" class="select-opt plat-text">
-                            <option value="any">Any</option>
-                        </select>
-                    </label>
-                    <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
-                    <label for="location" class="flex-col start-center">
-                        PICKUP LOCATION  
-                        <div class="flex-row center-start">
-                            <i class="fa-solid fa-location-crosshairs" style="margin-right: 5px;"></i>
+        <section class="plat-main-doc flex-col center-start" id="homeDoc">
+            <input type="radio" class="sectRad" hidden name="sectRad" id="sectHome">
+            <div class="head">
+                <h1 class="title" style="margin-bottom: 10px;">Drive the Car of your dreams</h1>
+                <div class="flex-row center-start filter-opt only-pc">
+                    <div class="flex-row center-spacearound options">
+                        <label for="carBrand" class="flex-col start-center">
+                            CAR BRAND
                             <select name="select-opt-brand" class="select-opt plat-text">
                                 <option value="any">Any</option>
-                                <option value="any">My Location</option>
-                                <% offices.forEach(office => { %>
-                                    <option value="<%= office.id %>"><%= office.wilaya %>, <%=office.city%></li>
+                                <% brands.forEach(brand => { %>
+                                    <option value="<%= brand.id %>"><%= brand.name %></li>
                                 <% }); %>
                             </select>
-                        </div>
-                    </label>
-                    <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
-                    <label for="pickup" class="flex-col start-center">
-                        PICK UP & RETURN DATE
-                        <div class="flex-row center-start">
-                            <i class="fa-regular fa-calendar" style="margin-right: 5px;"></i>
-                            <input class="plat-text" type="text" id="dateRange">
-                        </div>
-                    </label>
-                </div>
-                <button id="searchOpt" class="bt bt-hover"><i class="fa-solid fa-magnifying-glass"></i><span style="margin-right: 10px;"></span>Search</button>
-            </div>
-        </div>
-        <div class="popular-cars flex-col start-center">
-            <div class="pop-head flex-row center-spacebet">
-                <p class="title"><i class="fa-solid fa-fire"></i> Popular Cars</p>
-                <a href="/cars" class="link">See All Collection <i class="fa-solid fa-chevron-right"></i></a>
-            </div>
-            <div class="flex-row flex-center pop-cars-container">
-                <div class="pop-car-container flex-col start-center" style="background-color: rgba(255, 147, 147, 0.08);">
-                    <div class="pop-car-head flex-row start-spacebet">
-                        <div class="flex-row center-start car-info">
-                            <div class="brand-icon">
-                                <img src="./assets/cars/nissan.png" width="35" alt="ICON">
+                        </label>
+                        <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
+                        <label for="carModel" class="flex-col start-center">
+                            CAR MODEL
+                            <select name="select-opt-model" class="select-opt plat-text">
+                                <option value="any">Any</option>
+                            </select>
+                        </label>
+                        <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
+                        <label for="location" class="flex-col start-center">
+                            PICKUP LOCATION  
+                            <div class="flex-row center-start">
+                                <i class="fa-solid fa-location-crosshairs" style="margin-right: 5px;"></i>
+                                <select name="select-opt-brand" class="select-opt plat-text">
+                                    <option value="any">Any</option>
+                                    <option value="any">My Location</option>
+                                    <% offices.forEach(office => { %>
+                                        <option value="<%= office.id %>"><%= office.wilaya %>, <%=office.city%></li>
+                                    <% }); %>
+                                </select>
                             </div>
-                            <div class="flex-col pop-car-name">
-                                <p class="title">911</p>
-                                <p class="plat-text">Turbo S - 2021</p>
+                        </label>
+                        <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
+                        <label for="pickup" class="flex-col start-center">
+                            PICK UP & RETURN DATE
+                            <div class="flex-row center-start">
+                                <i class="fa-regular fa-calendar" style="margin-right: 5px;"></i>
+                                <input class="plat-text" type="text" id="dateRange">
                             </div>
-                        </div>
-                        <div class="pop-avilability flex-row flex-center">
-                            <p>2 Unit available</p>
-                        </div>
+                        </label>
                     </div>
-                    <div class="pop-car-img flex-col flex-center">
-                        <img src="./assets/cars/ford_.png" alt="CAR">
-                    </div>
-                    <div class="foot flex-row center-spacebet">
-                        <div class="pop-car-brand">Porshe</div>
-                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                    </div>
-                </div>
-                <div class="pop-car-container flex-col start-center" style="background-color: rgba(147, 230, 255, 0.08);">
-                    <div class="pop-car-head flex-row start-spacebet">
-                        <div class="flex-row center-start car-info">
-                            <div class="brand-icon">
-                                <img src="./assets/cars/bmw.png" width="35" alt="ICON">
-                            </div>
-                            <div class="flex-col pop-car-name">
-                                <p class="title">C8</p>
-                                <p class="plat-text">Corvette Stingray</p>
-                            </div>
-                        </div>
-                        <div class="pop-avilability flex-row flex-center">
-                            <p class="reserved">Reserved</p>
-                        </div>
-                    </div>
-                    <div class="pop-car-img flex-col flex-center">
-                        <img src="./assets/cars/hyundai_.png" alt="CAR">
-                    </div>
-                    <div class="foot flex-row center-spacebet">
-                        <div class="pop-car-brand">Chevrolet</div>
-                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                    </div>
-                </div>
-                <div class="pop-car-container flex-col start-center" style="background-color: rgba(233, 147, 255, 0.08);">
-                    <div class="pop-car-head flex-row start-spacebet">
-                        <div class="flex-row center-start car-info">
-                            <div class="brand-icon">
-                                <img src="./assets/cars/volkswagen.png" width="35" alt="ICON">
-                            </div>
-                            <div class="flex-col pop-car-name">
-                                <p class="title">GT-R 2023</p>
-                                <p class="plat-text">Nismo 3.8 V6</p>
-                            </div>
-                        </div>
-                        <div class="pop-avilability flex-row flex-center">
-                            <p>Arriving Soon</p>
-                        </div>
-                    </div>
-                    <div class="pop-car-img flex-col flex-center">
-                        <img src="./assets/cars/seat_.png" alt="CAR">
-                    </div>
-                    <div class="foot flex-row center-spacebet">
-                        <div class="pop-car-brand">Nissan</div>
-                        <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                    </div>
+                    <button id="searchOpt" class="bt bt-hover"><i class="fa-solid fa-magnifying-glass"></i><span style="margin-right: 10px;"></span>Search</button>
                 </div>
             </div>
-        </div>
-        <div class="collection-cars flex-col start-center" id="collectionCars">
-            <div class="pop-head flex-row center-spacebet">
-                <p class="title">
-                    <i class="fa-solid fa-warehouse" style="margin-right: 10px;"></i> Collection
-                </p>
-                <a href="/cars" class="link">See All Collection <i class="fa-solid fa-chevron-right"></i></a>
-            </div>
-        
-            <% vehicles.forEach(v => { 
-                if (Array.isArray(v[0]) && v[0].length > 0) { 
-            %>
-                <% if (v[1] && v[1].logo) { %>
-                    <div class="break-line" style="height: 8px; width: 60%; margin:1em auto;"></div>
-                    <div class="clc-brands-head flex-row center-start">
-                        <div class="image-container clc-brand-logo" style="margin-left: 10px;">
-                            <img src="<%= v[1].logo %>" alt="LOGO">
-                        </div>
-                        <p class="title" style="margin-left: 10px;"><%= v[1].name %></p>
-                    </div>
-                <% } %>
-                <div id="clcCars" class="flex-row pop-cars-container" style="margin-top: 40px; height: 15em;">
-                    <% v[0].forEach(vehicle => { %>
-                        <div class="clc-car-container bt-hover cI<%= vehicle.id %> flex-col">
-                            <div class="pop-car-name clc-head flex-col">
-                                <p class="title"><%= vehicle.brand_name %> <%= vehicle.model %> <%= vehicle.fab_year %></p>
-                                <p class="plat-text"><%= vehicle.body %></p>
-                            </div>
-                            <div class="clc-car-img flex-col flex-center">
-                                <img src="<%= vehicle.image %>" alt="CAR">
-                            </div>
-                            <div class="clc-foot flex-row center-spacebet">
-                                <div class="flex-row center-spacearound">
-                                    <div class="clc-icon flex-row flex-center">
-                                        <i class="fa-regular fa-user"></i>
-                                        <p><%= vehicle.capacity %></p>
-                                    </div>
-                                    <div class="clc-icon flex-row flex-center">
-                                        <i class="fa-solid fa-repeat"></i>
-                                        <p><%= vehicle.transmission.substring(0,1) %></p>
-                                    </div>
-                                    <div class="clc-icon flex-row flex-center">
-                                        <i class="fa-solid fa-gauge-high"></i>
-                                        <p><%= vehicle.speed %>KM/s</p>
-                                    </div>
+            <div class="popular-cars flex-col start-center">
+                <div class="pop-head flex-row center-spacebet">
+                    <p class="title"><i class="fa-solid fa-fire"></i> Popular Cars</p>
+                    <a href="/cars" class="link">See All Collection <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+                <div class="flex-row flex-center pop-cars-container">
+                    <div class="pop-car-container flex-col start-center" style="background-color: rgba(255, 147, 147, 0.08);">
+                        <div class="pop-car-head flex-row start-spacebet">
+                            <div class="flex-row center-start car-info">
+                                <div class="brand-icon">
+                                    <img loading="lazy" src="./assets/cars/nissan.png" width="35" alt="ICON">
                                 </div>
-                                <p class="plat-car-price"><%= vehicle.price %><span class="currence">DZD</span> <span class="price-tag">/<%= vehicle.rental_type %></span></p>
+                                <div class="flex-col pop-car-name">
+                                    <p class="title">911</p>
+                                    <p class="plat-text">Turbo S - 2021</p>
+                                </div>
+                            </div>
+                            <div class="pop-avilability flex-row flex-center">
+                                <p>2 Unit available</p>
                             </div>
                         </div>
-                        <script>
-                            carCont = document.querySelector('.cI<%= vehicle.id %>')
-                            carCont.addEventListener('click', ()=>{
-                                window.location.href = '/car/<%= vehicle.id %>'
-                            })
-                        </script>
+                        <div class="pop-car-img flex-col flex-center">
+                            <img loading="lazy" src="./assets/cars/ford_.png" alt="CAR">
+                        </div>
+                        <div class="foot flex-row center-spacebet">
+                            <div class="pop-car-brand">Porshe</div>
+                            <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                        </div>
+                    </div>
+                    <div class="pop-car-container flex-col start-center" style="background-color: rgba(147, 230, 255, 0.08);">
+                        <div class="pop-car-head flex-row start-spacebet">
+                            <div class="flex-row center-start car-info">
+                                <div class="brand-icon">
+                                    <img loading="lazy" src="./assets/cars/bmw.png" width="35" alt="ICON">
+                                </div>
+                                <div class="flex-col pop-car-name">
+                                    <p class="title">C8</p>
+                                    <p class="plat-text">Corvette Stingray</p>
+                                </div>
+                            </div>
+                            <div class="pop-avilability flex-row flex-center">
+                                <p class="reserved">Reserved</p>
+                            </div>
+                        </div>
+                        <div class="pop-car-img flex-col flex-center">
+                            <img loading="lazy" src="./assets/cars/hyundai_.png" alt="CAR">
+                        </div>
+                        <div class="foot flex-row center-spacebet">
+                            <div class="pop-car-brand">Chevrolet</div>
+                            <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                        </div>
+                    </div>
+                    <div class="pop-car-container flex-col start-center" style="background-color: rgba(233, 147, 255, 0.08);">
+                        <div class="pop-car-head flex-row start-spacebet">
+                            <div class="flex-row center-start car-info">
+                                <div class="brand-icon">
+                                    <img loading="lazy" src="./assets/cars/volkswagen.png" width="35" alt="ICON">
+                                </div>
+                                <div class="flex-col pop-car-name">
+                                    <p class="title">GT-R 2023</p>
+                                    <p class="plat-text">Nismo 3.8 V6</p>
+                                </div>
+                            </div>
+                            <div class="pop-avilability flex-row flex-center">
+                                <p>Arriving Soon</p>
+                            </div>
+                        </div>
+                        <div class="pop-car-img flex-col flex-center">
+                            <img loading="lazy" src="./assets/cars/seat_.png" alt="CAR">
+                        </div>
+                        <div class="foot flex-row center-spacebet">
+                            <div class="pop-car-brand">Nissan</div>
+                            <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="collection-cars flex-col start-center" id="collectionCars">
+                <div class="pop-head flex-row center-spacebet">
+                    <p class="title">
+                        <i class="fa-solid fa-warehouse" style="margin-right: 10px;"></i> Collection
+                    </p>
+                    <a href="/cars" class="link">See All Collection <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+            
+                <% vehicles.forEach(v => { 
+                    if (Array.isArray(v[0]) && v[0].length > 0) { 
+                %>
+                    <% if (v[1] && v[1].logo) { %>
+                        <div class="break-line" style="height: 8px; width: 60%; margin:1em auto;"></div>
+                        <div class="clc-brands-head flex-row center-start">
+                            <div class="image-container clc-brand-logo" style="margin-left: 10px;">
+                                <img loading="lazy" src="<%= v[1].logo %>" alt="LOGO">
+                            </div>
+                            <p class="title" style="margin-left: 10px;"><%= v[1].name %></p>
+                        </div>
+                    <% } %>
+                    <div id="clcCars" class="flex-row pop-cars-container" style="margin-top: 40px; height: 15em;">
+                        <% v[0].forEach(vehicle => { %>
+                            <div class="clc-car-container bt-hover cI<%= vehicle.id %> flex-col">
+                                <div class="pop-car-name clc-head flex-col">
+                                    <p class="title"><%= vehicle.brand_name %> <%= vehicle.model %> <%= vehicle.fab_year %></p>
+                                    <p class="plat-text"><%= vehicle.body %></p>
+                                </div>
+                                <div class="clc-car-img flex-col flex-center">
+                                    <img loading="lazy" src="<%= vehicle.image %>" alt="CAR">
+                                </div>
+                                <div class="clc-foot flex-row center-spacebet">
+                                    <div class="flex-row center-spacearound">
+                                        <div class="clc-icon flex-row flex-center">
+                                            <i class="fa-regular fa-user"></i>
+                                            <p><%= vehicle.capacity %></p>
+                                        </div>
+                                        <div class="clc-icon flex-row flex-center">
+                                            <i class="fa-solid fa-repeat"></i>
+                                            <p><%= vehicle.transmission.substring(0,1) %></p>
+                                        </div>
+                                        <div class="clc-icon flex-row flex-center">
+                                            <i class="fa-solid fa-gauge-high"></i>
+                                            <p><%= vehicle.speed %>KM/s</p>
+                                        </div>
+                                    </div>
+                                    <p class="plat-car-price"><%= vehicle.price %><span class="currence">DZD</span> <span class="price-tag">/<%= vehicle.rental_type %></span></p>
+                                </div>
+                            </div>
+                            <script>
+                                carCont = document.querySelector('.cI<%= vehicle.id %>')
+                                carCont.addEventListener('click', ()=>{
+                                    window.location.href = '/car/<%= vehicle.id %>'
+                                })
+                            </script>
+                        <% }); %>
+                    </div>
+                <% }}); %>
+            </div>
+            <div class="reviews flex-col flex-center" id="reviews">
+                <div class="pop-head flex-row center-spacebet">
+                    <p class="title"><i class="fa-solid fa-star-half-stroke"></i> Reviews</p>
+                </div>
+                <div class="reviews-container flex-row center-start">
+                    <% reviews.forEach(review => { %>
+                        <div class="review-container flex-col">
+                            <i class="fa-solid fa-quote-right"></i>
+                            <p class="plat-text vehicle-name"><%=review.brand%> <%=review.model%> <%=review.fab_year%></p>
+                            <div class="review-para flex-col">
+                                <p class="review-desc"><%= review.review %></p>
+                            </div>
+                            <div class="flex-row center-start" style="margin-top: auto;">
+                                <h6>
+                                    <% for( let i = 0; i < 6; i++ ) { %>
+                                        <i class="fa-solid fa-star <%= review.stars >= i?'active-start':'inactive-start' %>"></i>
+                                    <% } %>
+                                </h6>
+                            </div>
+                            <div class="review-user flex-row">
+                                <div class="profile-image image-container">
+                                    <img loading="lazy" src="<%= review.image %>" alt="User">
+                                </div>
+                                <div class="flex-col" style="margin-left: 10px;">
+                                    <p class="user-name"><%= review.fname %> <%= review.lname %></p>
+                                    <p class="user-username">@<%=review.username%></p>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                    <% reviews.forEach(review => { %>
+                        <div class="review-container flex-col">
+                            <i class="fa-solid fa-quote-right"></i>
+                            <p class="plat-text vehicle-name"><%=review.brand%> <%=review.model%> <%=review.fab_year%></p>
+                            <div class="review-para flex-col">
+                                <p class="review-desc"><%= review.review %></p>
+                            </div>
+                            <div class="flex-row center-start" style="margin-top: auto;">
+                                <h6>
+                                    <% for( let i = 0; i < 6; i++ ) { %>
+                                        <i class="fa-solid fa-star <%= review.stars >= i?'active-start':'inactive-start' %>"></i>
+                                    <% } %>
+                                </h6>
+                            </div>
+                            <div class="review-user flex-row">
+                                <div class="profile-image image-container">
+                                    <img loading="lazy" src="<%= review.image %>" alt="User">
+                                </div>
+                                <div class="flex-col" style="margin-left: 10px;">
+                                    <p class="user-name"><%= review.fname %> <%= review.lname %></p>
+                                    <p class="user-username">@<%=review.username%></p>
+                                </div>
+                            </div>
+                        </div>
                     <% }); %>
                 </div>
-            <% }}); %>
-        </div>
-        <div class="reviews flex-col flex-center" id="reviews">
-            <div class="pop-head flex-row center-spacebet">
-                <p class="title"><i class="fa-solid fa-star-half-stroke"></i> Reviews</p>
             </div>
-            <div class="reviews-container flex-row center-start">
-                <% reviews.forEach(review => { %>
-                    <div class="review-container flex-col">
-                        <i class="fa-solid fa-quote-right"></i>
-                        <p class="plat-text vehicle-name"><%=review.brand%> <%=review.model%> <%=review.fab_year%></p>
-                        <div class="review-para flex-col">
-                            <p class="review-desc"><%= review.review %></p>
-                        </div>
-                        <div class="flex-row center-start" style="margin-top: auto;">
-                            <h6>
-                                <% for( let i = 0; i < 6; i++ ) { %>
-                                    <i class="fa-solid fa-star <%= review.stars >= i?'active-start':'inactive-start' %>"></i>
-                                <% } %>
-                            </h6>
-                        </div>
-                        <div class="review-user flex-row">
-                            <div class="profile-image image-container">
-                                <img src="<%= review.image %>" alt="User">
-                            </div>
-                            <div class="flex-col" style="margin-left: 10px;">
-                                <p class="user-name"><%= review.fname %> <%= review.lname %></p>
-                                <p class="user-username">@<%=review.username%></p>
-                            </div>
-                        </div>
-                    </div>
-                <% }); %>
-                <% reviews.forEach(review => { %>
-                    <div class="review-container flex-col">
-                        <i class="fa-solid fa-quote-right"></i>
-                        <p class="plat-text vehicle-name"><%=review.brand%> <%=review.model%> <%=review.fab_year%></p>
-                        <div class="review-para flex-col">
-                            <p class="review-desc"><%= review.review %></p>
-                        </div>
-                        <div class="flex-row center-start" style="margin-top: auto;">
-                            <h6>
-                                <% for( let i = 0; i < 6; i++ ) { %>
-                                    <i class="fa-solid fa-star <%= review.stars >= i?'active-start':'inactive-start' %>"></i>
-                                <% } %>
-                            </h6>
-                        </div>
-                        <div class="review-user flex-row">
-                            <div class="profile-image image-container">
-                                <img src="<%= review.image %>" alt="User">
-                            </div>
-                            <div class="flex-col" style="margin-left: 10px;">
-                                <p class="user-name"><%= review.fname %> <%= review.lname %></p>
-                                <p class="user-username">@<%=review.username%></p>
-                            </div>
-                        </div>
-                    </div>
-                <% }); %>
-            </div>
-        </div>
-        
-    </section>
+            
+        </section>
     <% } %>
     <% if (section === 'rentals') { %>
-    <section class="plat-main-doc flex-col center-start" id="ordersDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectOrders">
-        <div class="rentals-filter phd flex-row flex-center" style="margin-top: 10px;">
-            <ul class="orders-type-f flex-row center-spacebet">
-                <label class="ordTf 0"><span>All Rentals</span><input type="radio" name="ordTf" value="" hidden></label>
-                <label class="ordTf 1"><span>Pending</span><input type="radio" name="ordTf" value="pending" hidden></label>
-                <label class="ordTf 2"><span>Active</span><input type="radio" name="ordTf" value="active" hidden></label>
-                <label class="ordTf 3"><span>Completed</span><input type="radio" name="ordTf" value="completed" hidden></label>
-                <label class="ordTf 4"><span>Canceled</span><input type="radio" name="ordTf" value="canceled" hidden></label>
-            </ul>
-        </div>
-        <div class="searchbar-4p flex-row center-start">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="search" id="search4p" placeholder="Search..." value="">
-            <i class="fa-solid fa-filter bt-hover" id="rentsFilterBut4p"></i>
-        </div>
-        <div class="rentals-filter phd flex-row center-spacebet" style="padding: 0 1em;">
-            <div class="flex-row" style="gap: .7em;">
-                <div class="input-holder flex-row" style="height: 50%;">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" id="search4pp" placeholder="Search..." value="">
-                </div>
-                <div class="input-holder flex-row">
-                    <i class="fa-solid fa-arrow-up-wide-short"></i>
-                    <select class="bt rental-fltr">
-                        <option value="">Order</option>
-                        <option value="date">Date</option>
-                        <option value="price">Price</option>
-                    </select>
-                </div>
-                <div class="input-holder flex-row" style="max-width: 12em;">
-                    <i class="fa-regular fa-calendar"></i>
-                    <input type="text" id="dateRange" class="bt">
-                    <input type="date" id="filterStartDate" hidden>
-                    <input type="date" id="filterEndDate" hidden>                   
-                </div>
+        <section class="plat-main-doc flex-col center-start" id="ordersDoc">
+            <input type="radio" class="sectRad" hidden name="sectRad" id="sectOrders">
+            <div class="rentals-filter flex-row flex-center" style="margin-top: 10px;">
+                <ul class="orders-type-f flex-row center-spacebet">
+                    <label class="ordTf 0"><span>All</span><input type="radio" name="ordTf" value="" hidden></label>
+                    <label class="ordTf 1"><span>Pending</span><input type="radio" name="ordTf" value="pending" hidden></label>
+                    <label class="ordTf 2"><span>Active</span><input type="radio" name="ordTf" value="active" hidden></label>
+                    <label class="ordTf 3"><span>Completed</span><input type="radio" name="ordTf" value="completed" hidden></label>
+                    <label class="ordTf 4"><span>Canceled</span><input type="radio" name="ordTf" value="canceled" hidden></label>
+                </ul>
             </div>
-            <button class="data-download bt bt-hover text-eclip"><i class="fa-solid fa-file-arrow-down" style="margin-right: .3125rem;"></i>CSV</button>
-            <script>
-                document.querySelector('.data-download').addEventListener('click', function() {
-                    const rentals = <%- JSON.stringify(rentals) %>; 
-            
-                    const headers = ['ID', 'Brand Name', 'Model', 'Fabrication Year', 'Start Date', 'End Date', 'Period', 'Payment Status', 'Status', 'Price'];
-            
-                    let csvContent = headers.join(',') + '\n'; 
-            
-                    rentals.forEach(rental => {
-                        const startDate = new Date(rental.start_date).toISOString().split('T')[0];
-                        const endDate = new Date(rental.end_date).toISOString().split('T')[0];
-                        const period = calculatePeriod(rental.start_date, rental.end_date, rental.rental_type);
-                        const paymentStatus = rental.payment_status || 'Not Paid';
-                        const status = rental.status || 'Unknown';
-                        const price = rental.total_price || 'N/A';
-            
-                        const row = [
-                            rental.id,
-                            rental.brand_name,
-                            rental.model,
-                            rental.fab_year,
-                            startDate,
-                            endDate,
-                            period,
-                            paymentStatus,
-                            status,
-                            price
-                        ];
-            
-                        csvContent += row.join(',') + '\n';
-                    });
-            
-                    const link = document.createElement('a');
-                    link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent);
-                    link.target = '_blank';
-                    link.download = 'rentals.csv';
-                    link.click();
-                });
-            
-                function calculatePeriod(startDate, endDate, rentalType) {
-                    const start = new Date(startDate);
-                    const end = new Date(endDate);
-                    const diffMs = end - start;
-                    let diff;
-            
-                    if (rentalType === 'h') {
-                        diff = Math.round(diffMs / (1000 * 60 * 60)) + ' HOURS';
-                    } else if (rentalType === 'd') {
-                        diff = Math.round(diffMs / (1000 * 60 * 60 * 24)) + ' DAYS';
-                    } else {
-                        diff = 'UNKNOWN TYPE';
-                    }
-            
-                    return diff;
-                }
-            </script>
-            <input type="number" id="uIR" value="<%= user.id %>" hidden>
-            <input type="number" id="filterLimit" value="10" hidden>
-            <input type="number" id="filterOffset" value="0" hidden>
-        </div>
-        <div class="rentals-main">
-            <ul class="rentals-head rental-order">
-                <li class="flex-row flex-center phd">
-                    <div class="checkbox-wrapper-13">
-                        <input type="checkbox" id="rentsSelectAll">
-                    </div>
-                </li>
-                <li class="flex-row center-start">Rentals</li>
-                <li class="flex-row center-start">Date</li>
-                <li class="flex-row center-start phd">Period</li>
-                <li class="flex-row center-start phd">Payment</li>
-                <li class="flex-row center-start phd">Status</li>
-                <li class="flex-row center-start">Price</li>
-                <div class="flex-row center-start">
-                    <i class="fa-solid fa-ellipsis-vertical bt bt-hover"></i>
-                </div>
-            </ul>
-            <ul class="rentals-container flex-col center-start">
-            </ul>
-        </div>
-    </section>
-    <% } %>
-    <% if (section === 'fav') { %>
-    <section class="plat-main-doc" id="favoriteDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectFavorite">
-    </section>
-    <% } %>
-    <% if (section === 'detail') { %>
-    <section class="plat-main-doc flex-col center-start" id="carDetail">
-        <div class="prev-images flex-row flex-center">
-            <label class="flex-row flex-center prev-img">
-                <input type="radio" name="same-check" hidden>
-                <img src="<%= car.previmage1 %>" alt="Preview">
-            </label>
-            <label class="flex-row flex-center prev-img">
-                <input type="radio" name="same-check" hidden>
-                <img src="<%= car.previmage2 %>" alt="Preview">
-            </label>
-            <label class="flex-row flex-center prev-img">
-                <input type="radio" name="same-check" hidden>
-                <img src="<%= car.previmage3 %>" alt="Preview">
-            </label>
-            <label class="flex-row flex-center prev-img only-pc">
-                <input type="radio" name="same-check" checked hidden>
-                <img src="<%= car.image %>" alt="Preview">
-            </label>
-        </div>
-        <div class="car-det-details">
-            <div class="head flex-col start-center">
-                <h1 class="car-det-name"><%= car.brand_name %> <%= car.model %> <%= car.fab_year%></h1>
-                <div class="flex-row center-spacebet" style="width: 100%;">
-                    <div class="s-details flex-row center-start" style="height: 1.5em;">
-                        <div class="flex-row det-brand center-start">
-                            <img src="<%= car.logo %>" width="25" style="margin-right: 5px;" alt="Logo" class="brand-logo">
-                            <p class="para-sml"><%= car.brand_name %></p>
-                        </div>
-                        <div class="h-break-line" style="height: 50%;"></div>
-                        <p class="para-sml flex-row center-start">
-                            <i class="fa-solid fa-location-dot" style="color: var(--color-main); margin-right:5px;"></i>
-                            <span class="text-eclip" style="font-size: var(--font-sml); max-width: 30vw;"><%= car.wilaya %>, <%= car.city %>, <%= car.address %></span>
-                        </p>
-                        <div class="h-break-line" style="height: 50%;"></div>
-                        <div class="flex-row center-start">
-                            <i class="fa-solid fa-star"></i>
-                            <span class="para-sml"><%= formatNumber(car.stars) %> </span>
-                            <span class="para-sml plat-text only-pc">(<%= formatNumber(car.reviews) %> reviews)</span>
-                        </div>
-                    </div>
-                    <div class="fav-share flex-row">
-                        <% if (user) { %>
-                            <button class="bt bt-hover bt-regular">
-                                <input class="heart-anim" id="toggle-heart<%= car.id %>" type="checkbox" hidden <%= car.is_favorite ? 'checked disabled' : '' %>/>
-                                <label for="toggle-heart<%= car.id %>" aria-label="like" class="animated-heart" id="v<%= car.id %>u<%= user.id %>">❤</label>
-                            </button>
-                        <% } %>
-                        <button class="bt bt-hover bt-regular flex-row center-start"><i class="fa-solid fa-share" style="margin-right: 5px;"></i> <span class="only-pc"> Share this car</span></button>
-                    </div>
-                </div>
-            </div>       
-        </div>
-        <div class="car-rent-details flex-row flex-wrap">
-            <div class="car-det-det-info flex-col">
-                <div class="det-features-engine flex-col">
-                    <p class="title-lrg">Engine Informations</p>
-                    <div class="flex-row center-spacebet" style="margin-bottom: 5px;">
-                        <p class="det-feature-icn para-sml plat-text">Engine: <span class="para-sml" style="font-size: 0.7rem;"><%= car.engine_type %></span></p>
-                        <p class="det-feature-icn para-sml plat-text">Max Speed: <span class="para-sml" style="font-size: 0.7rem;"><%= car.speed %> <span class="currence plat-text" style="font-size: 0.7rem;">KM/H</span></span></p>
-                        <p class="det-feature-icn para-sml plat-text">Power: <span class="para-sml" style="font-size: 0.7rem;"><%= car.horsepower %> <span class="currence plat-text"style="font-size: 0.7rem;">HP</span></span></p>
-                    </div>
-                </div>
-                <div class="break-line" style="height: 3px; width: 70%;"></div>
-                <div class="det-features flex-col">
-                    <p class="title-lrg">Features</p>
-                    <div class="flex-row center-spacebet det-feature-container flex-wrap">
-                        <p class="det-feature-icn"><i class="fa-solid fa-person"></i><span><%= car.capacity %> Persone</span></p>
-                        <p class="det-feature-icn"><i class="fa-solid fa-door-open"></i><span><%= car.doors %> Doors</span></p>
-                        <p class="det-feature-icn"><i class="fa-solid fa-droplet" style='color: <%= car.color %>;'></i><%= car.color %></p>
-                        <p class="det-feature-icn"><i class="fa-solid fa-retweet"></i><span><%= car.transmission %></span></p>
-                        <p class="det-feature-icn"><i class="fa-solid fa-car-rear"></i><span><%= car.body %></span></p>
-                        <p class="det-feature-icn"><i class="fa-solid fa-gas-pump"></i><span><%= car.fuel %></span></p>
-                    </div>
-                    <div class="det-features-row flex-row flex-wrap flex-center">
-                        <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>Android Auto</span> </p>
-                        <p class="det-feature"><i class="fa-solid fa-xmark" style="color: rgb(173, 59, 59); margin-right:5px;"></i> <span>Auto Pilot</span> </p>
-                        <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>GPS Nav System</span> </p>
-                        <p class="det-feature"><i class="fa-solid fa-xmark" style="color: rgb(173, 59, 59); margin-right:5px;"></i> <span>Air Conditioner</span> </p>
-                        <p class="det-feature"><i class="fa-solid fa-xmark" style="color: rgb(173, 59, 59); margin-right:5px;"></i> <span>Heated Seats</span> </p>
-                        <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>Sunroof</span> </p>
-                        <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>Backup Camera</span> </p>
-                        <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>Cruise Control</span> </p>
-                    </div>
-                </div>
-                <div class="break-line" style="height: 3px; width: 70%;"></div>
-                <div class="det-description flex-col">
-                    <p class="title-lrg">Description</p>
-                    <p class="para-sml" style="margin: 10px 0;"><%= car.description %></p>
-                </div>
-                <div class="break-line" style="height: 3px; width: 70%;"></div>
-                <div class="det-locaiton flex-col">
-                    <p class="title-lrg">Location</p>
-                    <div class="cord-map" id="cordMap"></div>
-                    <script src="/lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
-                    <script>
-                        mapboxgl.accessToken = ''; 
-                        const coords = ['<%= car.longitude %>','<%= car.latitude %>'];
-                        const map = new mapboxgl.Map({
-                            container: 'cordMap',
-                            style: 'mapbox://styles/mapbox/streets-v12',
-                            center: coords,
-                            attributionControl: false,
-                            zoom: 12
-                        });
-                        const customMarkerEl = document.createElement('div');
-                        customMarkerEl.className = 'logo-map-mark';
-                        new mapboxgl.Marker(customMarkerEl)
-                        .setLngLat(coords)
-                        .setPopup(new mapboxgl.Popup().setHTML('<h3>DZRentCar</h3><p>The car is available at this office..</p>'))
-                        .addTo(map);
-                    </script>
-                </div>
+            <div class="searchbar-4p flex-row center-start">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" id="search4p" placeholder="Search..." value="">
+                <i class="fa-solid fa-filter bt-hover" id="rentsFilterBut4p"></i>
             </div>
-            <button id="showContSec" class="only-mobile bt bt-hover">Book Now</button>
-            <div class="car-det-rentprice">
-                <i class="fa-solid fa-xmark only-mobile" id="detCloseBut"></i>
-                <p class="title-lrg" style="font-weight: bolder;">Book information</p>
-                <p class="para-sml max-dur">Duration maximum to rent this car is <strong>1 mounth</strong>.</p>
-                <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
-                <div class="pickinfo flex-col">
-                    <h3>Pickup Location</h3>
-                    <div class="flex-row holder" style="position: relative;">
-                        <i class="fa-solid fa-location-dot float-icon"></i>
-                        <select class="para-sml plat-text">
-                            <option value="loc1"><%= car.wilaya %>, <%= car.city %>, <%= car.address %></option>
-                            <option value="myLoc">My Location</option>
+            <div class="rentals-filter flex-row center-spacebet only-pc" style="padding: 0 1em;">
+                <div class="flex-row" style="gap: .7em;">
+                    <div class="input-holder flex-row" style="height: 50%;">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" id="search4pp" placeholder="Search..." value="">
+                    </div>
+                    <div class="input-holder flex-row">
+                        <i class="fa-solid fa-arrow-up-wide-short"></i>
+                        <select class="bt rental-fltr">
+                            <option value="">Order</option>
+                            <option value="date">Date</option>
+                            <option value="price">Price</option>
                         </select>
                     </div>
+                    <div class="input-holder flex-row" style="max-width: 12em;">
+                        <i class="fa-regular fa-calendar"></i>
+                        <input type="text" id="dateRange" class="bt">
+                        <input type="date" id="filterStartDate" hidden>
+                        <input type="date" id="filterEndDate" hidden>                   
+                    </div>
                 </div>
-                <!-- Pickup Date -->
-                <div class="pickinfo flex-col">
-                  <h3>Pickup Date</h3>
-                  <div class="flex-row center-start holder">
-                    <input id="pickupInput" type="<%= car.rental_type === 'h' ? 'time' : 'date' %>" style="position: absolute; left:0;z-index:-1;">
-                    <p class="para-mid" id="pickupText">Sat 4 Apr 2025, 21:00</p>
-                    <i class="fa-regular fa-calendar bt-hover" id="pickupIcon"></i>
-                  </div>
-                </div>
+                <button class="data-download bt bt-hover text-eclip"><i class="fa-solid fa-file-arrow-down" style="margin-right: .3125rem;"></i>CSV</button>
+                <script>
+                    document.querySelector('.data-download').addEventListener('click', function() {
+                        const rentals = <%- JSON.stringify(rentals) %>; 
                 
-                <!-- Return Date -->
-                <div class="pickinfo flex-col">
-                  <h3>Return Date</h3>
-                  <div class="flex-row center-start holder">
-                    <input id="returnInput" type="<%= car.rental_type === 'h' ? 'time' : 'date' %>" style="position: absolute; left:0;z-index:-1;">
-                    <p class="para-mid" id="returnText">Sat 4 Apr 2025, 21:00</p>
-                    <i class="fa-regular fa-calendar bt-hover" id="returnIcon"></i>
-                  </div>
-                </div>
+                        const headers = ['ID', 'Brand Name', 'Model', 'Fabrication Year', 'Start Date', 'End Date', 'Period', 'Payment Status', 'Status', 'Price'];
                 
-                <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
-                <div class="det-total">
-                    <div class="flex-row center-spacebet" style="margin: 0.5rem 0;">
-                        <p class="para-sml plat-text">Delvery fee</p>
-                        <p class="plat-car-price">800<span class="currence">DZD</span></p>
-                    </div>
-                    <div class="flex-row center-spacebet" style="margin: 0.5rem 0;">
-                        <p class="para-sml plat-text">Total Price</p>
-                        <p class="plat-car-price"><i class="fa-solid fa-tag" style="margin-right: 5px;"></i> 800<span class="currence">DZD</span></p>
-                    </div>
-                </div>
-                <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
-                <div class="foot flex-col center-start">
-                    <button id="rentProcessBut" class="bt bt-hover">Continue</button>
-                    <a class="report-car bt-hover"><i class="fa-solid fa-flag" style="color: rgb(211, 69, 69); margin-right: 5px;"></i> Report this car</a>
-                </div>
-            </div>
-        </div>
-        <div class="car-det-reviews flex-col">
-            <div class="head flex-row center-spacebet">
-                <h1 class="title-lrg">Reviews</h1>
-                <p class="rev-period only-pc"><%= car.created_at.toString().slice(0, 15) %> - <%= new Date().toDateString() %></p>
-            </div>
-            <div class="flex-row center-spacebet rev-statics">
-                <div class="flex-col center-start rev-total">
-                    <p class="para-mid">Total Reviews</p>
-                    <p class="rev-total-reviews"><%= formatNumber(car.reviews) %></p>
-                </div>
-                <div class="h-break-line" style="width: 3px; height: 60%;"></div>
-                <div class="flex-col center-start rev-avrg">
-                    <p class="para-mid">Average Rating</p>
-                    <div class="rev-total-reviews flex-row center-start">
-                        <span><%= formatNumber(car.stars) %></span>
-                        <h6 class="clp" 
-                            style="
-                                margin: 0 0.7em;
-                                background: linear-gradient(90deg, yellow <%= (car.stars * 100) / 5 %>%,var(--text) 0%);
-                                -webkit-background-clip: text;
-                                -webkit-text-fill-color: transparent;
-                                background-clip: text;
-                            "
-                        >
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        </h6>
-                    </div>
-                </div>                    
-                <div class="h-break-line only-pc" style="width: 3px; height: 60%;"></div>
-                <div class="flex-col center-start rev-strs only-pc">
-                    <ul class="flex-col rev-stars-list" style="width: 80%;">
-                        <% 
-                        function progressBar(s, smax) {
-                            const percent = (smax > 0) ? (s * 90) / smax : 0;
-                            return percent === 0 ? 5 : percent; // avoid invisible bar if 0
+                        let csvContent = headers.join(',') + '\n'; 
+                
+                        rentals.forEach(rental => {
+                            const startDate = new Date(rental.start_date).toISOString().split('T')[0];
+                            const endDate = new Date(rental.end_date).toISOString().split('T')[0];
+                            const period = calculatePeriod(rental.start_date, rental.end_date, rental.rental_type);
+                            const paymentStatus = rental.payment_status || 'Not Paid';
+                            const status = rental.status || 'Unknown';
+                            const price = rental.total_price || 'N/A';
+                
+                            const row = [
+                                rental.id,
+                                rental.brand_name,
+                                rental.model,
+                                rental.fab_year,
+                                startDate,
+                                endDate,
+                                period,
+                                paymentStatus,
+                                status,
+                                price
+                            ];
+                
+                            csvContent += row.join(',') + '\n';
+                        });
+                
+                        const link = document.createElement('a');
+                        link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent);
+                        link.target = '_blank';
+                        link.download = 'rentals.csv';
+                        link.click();
+                    });
+                
+                    function calculatePeriod(startDate, endDate, rentalType) {
+                        const start = new Date(startDate);
+                        const end = new Date(endDate);
+                        const diffMs = end - start;
+                        let diff;
+                
+                        if (rentalType === 'h') {
+                            diff = Math.round(diffMs / (1000 * 60 * 60)) + ' HOURS';
+                        } else if (rentalType === 'd') {
+                            diff = Math.round(diffMs / (1000 * 60 * 60 * 24)) + ' DAYS';
+                        } else {
+                            diff = 'UNKNOWN TYPE';
                         }
-                    
-                        const starMax = Math.max(car.s1, car.s2, car.s3, car.s4, car.s5);
-                        %>
-                    
-                        <% [5, 4, 3, 2, 1].forEach(star => { %>
-                            <li class="flex-row center-start">
-                                <div class="flex-row center-start">
-                                    <i class="fa-solid fa-circle-notch"></i>
-                                    <span><%= star %></span>
-                                </div>
-                                <div class="flex-row center-start">
-                                    <div class="rev-stars-progressbar" style="background-color: 
-                                        <%= star === 5 ? 'rgb(58, 168, 117)' :
-                                            star === 4 ? 'rgb(172, 96, 202)' :
-                                            star === 3 ? 'rgb(240, 134, 73)' :
-                                            star === 2 ? 'rgb(64, 128, 211)' :
-                                                            'rgb(194, 67, 67)' %>;
-                                        width: <%= progressBar(car['s' + star], starMax) %>%;"></div>
-                                    <span><%= formatNumber(car['s' + star]) %></span>
-                                </div>
-                            </li>
-                        <% }) %>
-                    </ul>             
-                </div>
+                
+                        return diff;
+                    }
+                </script>
+                <input type="number" id="uIR" value="<%= user.id %>" hidden>
+                <input type="number" id="filterLimit" value="10" hidden>
+                <input type="number" id="filterOffset" value="0" hidden>
             </div>
-            <ul class="flex-col rev-stars-list only-mobile" style="width: 80%;">
-                <% [5, 4, 3, 2, 1].forEach(star => { %>
-                    <li class="flex-row center-start">
-                        <div class="flex-row center-start">
-                            <i class="fa-solid fa-circle-notch"></i>
-                            <span><%= star %></span>
-                        </div>
-                        <div class="flex-row center-start">
-                            <div class="rev-stars-progressbar" style="background-color: 
-                                <%= star === 5 ? 'rgb(58, 168, 117)' :
-                                    star === 4 ? 'rgb(172, 96, 202)' :
-                                    star === 3 ? 'rgb(240, 134, 73)' :
-                                    star === 2 ? 'rgb(64, 128, 211)' :
-                                                    'rgb(194, 67, 67)' %>;
-                                width: <%= progressBar(car['s' + star], starMax) %>%;"></div>
-                            <span><%= formatNumber(car['s' + star]) %></span>
+            <div class="rentals-main">
+                <ul class="rentals-head rental-order">
+                    <li class="flex-row flex-center phd">
+                        <div class="checkbox-wrapper-13">
+                            <input type="checkbox" id="rentsSelectAll">
                         </div>
                     </li>
-                <% }) %>
-            </ul>   
-            <div class="reviews-container flex-col">
-                <% reviews.forEach(review => { %>
-                    <div class="reveiw-container">
-                        <div class="rev-profile flex-row">
-                            <div class="rev-profile-img flex-row flex-center image-container">
-                                <img src="<%= review.image %>" alt="Profile">
+                    <li class="flex-row center-start">Rentals</li>
+                    <li class="flex-row center-start phd">Date</li>
+                    <li class="flex-row center-start phd">Period</li>
+                    <li class="flex-row center-start phd">Payment</li>
+                    <li class="flex-row center-start">Price</li>
+                    <li class="flex-row center-start">Status</li>
+                    <div class="flex-row center-start">
+                    </div>
+                </ul>
+                <ul class="rentals-container flex-col center-start">
+                </ul>
+            </div>
+        </section>
+    <% } %>
+    <% if (section === 'fav') { %>
+        <section class="plat-main-doc" id="favoriteDoc">
+            <input type="radio" class="sectRad" hidden name="sectRad" id="sectFavorite">
+        </section>
+    <% } %>
+    <% if (section === 'detail') { %>
+        <section class="plat-main-doc flex-col center-start" id="carDetails">
+            <div class="prev-images flex-row flex-center">
+                <label class="flex-row flex-center prev-img">
+                    <input type="radio" name="same-check" hidden>
+                    <img loading="lazy" src="<%= car.previmage1 %>" alt="Preview">
+                </label>
+                <label class="flex-row flex-center prev-img">
+                    <input type="radio" name="same-check" hidden>
+                    <img loading="lazy" src="<%= car.previmage2 %>" alt="Preview">
+                </label>
+                <label class="flex-row flex-center prev-img">
+                    <input type="radio" name="same-check" hidden>
+                    <img loading="lazy" src="<%= car.previmage3 %>" alt="Preview">
+                </label>
+                <label class="flex-row flex-center prev-img only-pc">
+                    <input type="radio" name="same-check" checked hidden>
+                    <img loading="lazy" src="<%= car.image %>" alt="Preview">
+                </label>
+            </div>
+            <div class="car-det-details">
+                <div class="head flex-col start-center">
+                    <h1 class="car-det-name"><%= car.brand_name %> <%= car.model %> <%= car.fab_year%></h1>
+                    <div class="flex-row center-spacebet" style="width: 100%;">
+                        <div class="s-details flex-row center-start" style="height: 1.5em;">
+                            <div class="flex-row det-brand center-start">
+                                <img loading="lazy" src="<%= car.logo %>" width="25" style="margin-right: 5px;" alt="Logo" class="brand-logo">
+                                <p class="para-sml"><%= car.brand_name %></p>
                             </div>
-                            <div class="rev-profile-info flex-col">
-                                <p class="para-mid"><%= review.fname %> <%= review.lname %></p>
-                                <span class="username">@<%= review.username %></span>
-                                <div class="flex-row center-start para-sml flex-wrap only-pc">
-                                    <span class="plat-text">Total Spend: </span>
-                                    <p class="plat-car-price" style="margin-left: 5px;"><%= review.total_price %><span class="currence">DZD</span></p>
-                                </div>
+                            <div class="h-break-line" style="height: 50%;"></div>
+                            <p class="para-sml flex-row center-start">
+                                <i class="fa-solid fa-location-dot" style="color: var(--color-main); margin-right:5px;"></i>
+                                <span class="text-eclip" style="font-size: var(--font-sml); max-width: 30vw;"><%= car.wilaya %>, <%= car.city %>, <%= car.address %></span>
+                            </p>
+                            <div class="h-break-line" style="height: 50%;"></div>
+                            <div class="flex-row center-start">
+                                <i class="fa-solid fa-star"></i>
+                                <span class="para-sml"><%= formatNumber(car.stars) %> </span>
+                                <span class="para-sml plat-text only-pc">(<%= formatNumber(car.reviews) %> reviews)</span>
                             </div>
                         </div>
-                        <div class="rev-review-det flex-col">
-                            <div class="flex-row center-spacebet">
-                                <h6 style="margin-right: 0.7em; min-width: 40%;">
-                                    <% for( let i = 0; i < 5; i++ ) { %>
-                                        <i class="fa-solid fa-star <%= i< review.stars?'active-start':'inactive-start' %>"></i>
-                                    <% } %>
-                                    
-                                </h6>
-                                <p class="para-sml plat-text text-eclip"><%= review.created_at.toString().slice(0, 24) %></p>
-                            </div>
-                            <p class="para-sml" style="margin-top: 5px;"><%= review.review %></p>
+                        <div class="fav-share flex-row">
+                            <% if (user) { %>
+                                <button class="bt bt-hover bt-regular">
+                                    <input class="heart-anim" id="toggle-heart<%= car.id %>" type="checkbox" hidden <%= car.is_favorite ? 'checked disabled' : '' %>/>
+                                    <label for="toggle-heart<%= car.id %>" aria-label="like" class="animated-heart" id="v<%= car.id %>u<%= user.id %>"><i class="fa-solid fa-heart"></i></label>
+                                </button>
+                            <% } %>
+                            <button class="bt bt-hover bt-regular flex-row center-start"><i class="fa-solid fa-share" style="margin-right: 5px;"></i> <span class="only-pc"> Share this car</span></button>
                         </div>
                     </div>
-                <% }) %>
+                </div>       
             </div>
-        </div>
-    </section>
+            <div class="car-rent-details flex-row flex-wrap">
+                <div class="car-det-det-info flex-col">
+                    <div class="det-features-engine flex-col">
+                        <p class="title-lrg">Engine Informations</p>
+                        <div class="flex-row center-spacebet" style="margin-bottom: 5px;">
+                            <p class="det-feature-icn para-sml plat-text">Engine: <span class="para-sml" style="font-size: 0.7rem;"><%= car.engine_type %></span></p>
+                            <p class="det-feature-icn para-sml plat-text">Max Speed: <span class="para-sml" style="font-size: 0.7rem;"><%= car.speed %> <span class="currence plat-text" style="font-size: 0.7rem;">KM/H</span></span></p>
+                            <p class="det-feature-icn para-sml plat-text">Power: <span class="para-sml" style="font-size: 0.7rem;"><%= car.horsepower %> <span class="currence plat-text"style="font-size: 0.7rem;">HP</span></span></p>
+                        </div>
+                    </div>
+                    <div class="break-line" style="height: 3px; width: 70%;"></div>
+                    <div class="det-features flex-col">
+                        <p class="title-lrg">Features</p>
+                        <div class="flex-row center-spacebet det-feature-container flex-wrap">
+                            <p class="det-feature-icn"><i class="fa-solid fa-person"></i><span><%= car.capacity %> Persone</span></p>
+                            <p class="det-feature-icn"><i class="fa-solid fa-door-open"></i><span><%= car.doors %> Doors</span></p>
+                            <p class="det-feature-icn"><i class="fa-solid fa-droplet" style='color: <%= car.color %>;'></i><%= car.color %></p>
+                            <p class="det-feature-icn"><i class="fa-solid fa-retweet"></i><span><%= car.transmission %></span></p>
+                            <p class="det-feature-icn"><i class="fa-solid fa-car-rear"></i><span><%= car.body %></span></p>
+                            <p class="det-feature-icn"><i class="fa-solid fa-gas-pump"></i><span><%= car.fuel %></span></p>
+                        </div>
+                        <div class="det-features-row flex-row flex-wrap flex-center">
+                            <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>Android Auto</span> </p>
+                            <p class="det-feature"><i class="fa-solid fa-xmark" style="color: rgb(173, 59, 59); margin-right:5px;"></i> <span>Auto Pilot</span> </p>
+                            <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>GPS Nav System</span> </p>
+                            <p class="det-feature"><i class="fa-solid fa-xmark" style="color: rgb(173, 59, 59); margin-right:5px;"></i> <span>Air Conditioner</span> </p>
+                            <p class="det-feature"><i class="fa-solid fa-xmark" style="color: rgb(173, 59, 59); margin-right:5px;"></i> <span>Heated Seats</span> </p>
+                            <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>Sunroof</span> </p>
+                            <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>Backup Camera</span> </p>
+                            <p class="det-feature"><i class="fa-solid fa-check" style="color: rgb(36, 165, 85); margin-right:5px;"></i> <span>Cruise Control</span> </p>
+                        </div>
+                    </div>
+                    <div class="break-line" style="height: 3px; width: 70%;"></div>
+                    <div class="det-description flex-col">
+                        <p class="title-lrg">Description</p>
+                        <p class="para-sml" style="margin: 10px 0;"><%= car.description %></p>
+                    </div>
+                    <div class="break-line" style="height: 3px; width: 70%;"></div>
+                    <div class="det-locaiton flex-col">
+                        <p class="title-lrg">Location</p>
+                        <div class="cord-map" id="cordMap"></div>
+                        <script src="/lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
+                        <script>
+                            mapboxgl.accessToken = ''; 
+                            const coords = ['<%= car.longitude %>','<%= car.latitude %>'];
+                            const map = new mapboxgl.Map({
+                                container: 'cordMap',
+                                style: 'mapbox://styles/mapbox/streets-v12',
+                                center: coords,
+                                attributionControl: false,
+                                zoom: 12
+                            });
+                            const customMarkerEl = document.createElement('div');
+                            customMarkerEl.className = 'logo-map-mark';
+                            new mapboxgl.Marker(customMarkerEl)
+                            .setLngLat(coords)
+                            .setPopup(new mapboxgl.Popup().setHTML('<h3>DZRentCar</h3><p>The car is available at this office..</p>'))
+                            .addTo(map);
+                        </script>
+                    </div>
+                </div>
+                <button id="showContSec" class="only-mobile bt bt-hover">Book Now</button>
+                <div class="car-det-rentprice">
+                    <i class="fa-solid fa-xmark only-mobile" id="detCloseBut"></i>
+                    <p class="title-lrg" style="font-weight: bolder;">Book information</p>
+                    <p class="para-sml max-dur">Duration maximum to rent this car is <strong>1 mounth</strong>.</p>
+                    <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
+                    <div class="pickinfo flex-col">
+                        <h3>Pickup Location</h3>
+                        <div class="flex-row holder" style="position: relative;">
+                            <i class="fa-solid fa-location-dot float-icon"></i>
+                            <select class="para-sml plat-text">
+                                <option value="loc1"><%= car.wilaya %>, <%= car.city %>, <%= car.address %></option>
+                                <option value="myLoc">My Location</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Pickup Date -->
+                    <div class="pickinfo flex-col">
+                    <h3>Pickup Date</h3>
+                    <div class="flex-row center-start holder">
+                        <input id="pickupInput" type="<%= car.rental_type === 'h' ? 'time' : 'date' %>" style="position: absolute; left:0;z-index:-1;">
+                        <p class="para-mid" id="pickupText">Sat 4 Apr 2025, 21:00</p>
+                        <i class="fa-regular fa-calendar bt-hover" id="pickupIcon"></i>
+                    </div>
+                    </div>
+                    
+                    <!-- Return Date -->
+                    <div class="pickinfo flex-col">
+                    <h3>Return Date</h3>
+                    <div class="flex-row center-start holder">
+                        <input id="returnInput" type="<%= car.rental_type === 'h' ? 'time' : 'date' %>" style="position: absolute; left:0;z-index:-1;">
+                        <p class="para-mid" id="returnText">Sat 4 Apr 2025, 21:00</p>
+                        <i class="fa-regular fa-calendar bt-hover" id="returnIcon"></i>
+                    </div>
+                    </div>
+                    
+                    <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
+                    <div class="det-total">
+                        <div class="flex-row center-spacebet" style="margin: 0.5rem 0;">
+                            <p class="para-sml plat-text">Delvery fee</p>
+                            <p class="plat-car-price">800<span class="currence">DZD</span></p>
+                        </div>
+                        <div class="flex-row center-spacebet" style="margin: 0.5rem 0;">
+                            <p class="para-sml plat-text">Total Price</p>
+                            <p class="plat-car-price"><i class="fa-solid fa-tag" style="margin-right: 5px;"></i> 800<span class="currence">DZD</span></p>
+                        </div>
+                    </div>
+                    <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
+                    <div class="foot flex-col center-start">
+                        <button id="rentProcessBut" class="bt bt-hover">Continue</button>
+                        <a class="report-car bt-hover"><i class="fa-solid fa-flag" style="color: rgb(211, 69, 69); margin-right: 5px;"></i> Report this car</a>
+                    </div>
+                </div>
+            </div>
+            <div class="car-det-reviews flex-col">
+                <div class="head flex-row center-spacebet">
+                    <h1 class="title-lrg">Reviews</h1>
+                    <p class="rev-period only-pc"><%= car.created_at.toString().slice(0, 15) %> - <%= new Date().toDateString() %></p>
+                </div>
+                <div class="flex-row center-spacebet rev-statics">
+                    <div class="flex-col center-start rev-total">
+                        <p class="para-mid">Total Reviews</p>
+                        <p class="rev-total-reviews"><%= formatNumber(car.reviews) %></p>
+                    </div>
+                    <div class="h-break-line" style="width: 3px; height: 60%;"></div>
+                    <div class="flex-col center-start rev-avrg">
+                        <p class="para-mid">Average Rating</p>
+                        <div class="rev-total-reviews flex-row center-start">
+                            <span><%= formatNumber(car.stars) %></span>
+                            <h6 class="clp" 
+                                style="
+                                    margin: 0 0.7em;
+                                    background: linear-gradient(90deg, yellow <%= (car.stars * 100) / 5 %>%,var(--text) 0%);
+                                    -webkit-background-clip: text;
+                                    -webkit-text-fill-color: transparent;
+                                    background-clip: text;
+                                "
+                            >
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            </h6>
+                        </div>
+                    </div>                    
+                    <div class="h-break-line only-pc" style="width: 3px; height: 60%;"></div>
+                    <div class="flex-col center-start rev-strs only-pc">
+                        <ul class="flex-col rev-stars-list" style="width: 80%;">
+                            <% 
+                            function progressBar(s, smax) {
+                                const percent = (smax > 0) ? (s * 90) / smax : 0;
+                                return percent === 0 ? 5 : percent; // avoid invisible bar if 0
+                            }
+                        
+                            const starMax = Math.max(car.s1, car.s2, car.s3, car.s4, car.s5);
+                            %>
+                        
+                            <% [5, 4, 3, 2, 1].forEach(star => { %>
+                                <li class="flex-row center-start">
+                                    <div class="flex-row center-start">
+                                        <i class="fa-solid fa-circle-notch"></i>
+                                        <span><%= star %></span>
+                                    </div>
+                                    <div class="flex-row center-start">
+                                        <div class="rev-stars-progressbar" style="background-color: 
+                                            <%= star === 5 ? 'rgb(58, 168, 117)' :
+                                                star === 4 ? 'rgb(172, 96, 202)' :
+                                                star === 3 ? 'rgb(240, 134, 73)' :
+                                                star === 2 ? 'rgb(64, 128, 211)' :
+                                                                'rgb(194, 67, 67)' %>;
+                                            width: <%= progressBar(car['s' + star], starMax) %>%;"></div>
+                                        <span><%= formatNumber(car['s' + star]) %></span>
+                                    </div>
+                                </li>
+                            <% }) %>
+                        </ul>             
+                    </div>
+                </div>
+                <ul class="flex-col rev-stars-list only-mobile" style="width: 80%;">
+                    <% [5, 4, 3, 2, 1].forEach(star => { %>
+                        <li class="flex-row center-start">
+                            <div class="flex-row center-start">
+                                <i class="fa-solid fa-circle-notch"></i>
+                                <span><%= star %></span>
+                            </div>
+                            <div class="flex-row center-start">
+                                <div class="rev-stars-progressbar" style="background-color: 
+                                    <%= star === 5 ? 'rgb(58, 168, 117)' :
+                                        star === 4 ? 'rgb(172, 96, 202)' :
+                                        star === 3 ? 'rgb(240, 134, 73)' :
+                                        star === 2 ? 'rgb(64, 128, 211)' :
+                                                        'rgb(194, 67, 67)' %>;
+                                    width: <%= progressBar(car['s' + star], starMax) %>%;"></div>
+                                <span><%= formatNumber(car['s' + star]) %></span>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>   
+                <div class="reviews-container flex-col">
+                    <% reviews.forEach(review => { %>
+                        <div class="reveiw-container">
+                            <div class="rev-profile flex-row">
+                                <div class="rev-profile-img flex-row flex-center image-container">
+                                    <img loading="lazy" src="<%= review.image %>" alt="Profile">
+                                </div>
+                                <div class="rev-profile-info flex-col">
+                                    <p class="para-mid"><%= review.fname %> <%= review.lname %></p>
+                                    <span class="username">@<%= review.username %></span>
+                                    <div class="flex-row center-start para-sml flex-wrap only-pc">
+                                        <span class="plat-text">Total Spend: </span>
+                                        <p class="plat-car-price" style="margin-left: 5px;"><%= review.total_price %><span class="currence">DZD</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rev-review-det flex-col">
+                                <div class="flex-row center-spacebet">
+                                    <h6 style="margin-right: 0.7em; min-width: 40%;">
+                                        <% for( let i = 0; i < 5; i++ ) { %>
+                                            <i class="fa-solid fa-star <%= i< review.stars?'active-start':'inactive-start' %>"></i>
+                                        <% } %>
+                                        
+                                    </h6>
+                                    <p class="para-sml plat-text text-eclip"><%= review.created_at.toString().slice(0, 24) %></p>
+                                </div>
+                                <p class="para-sml" style="margin-top: 5px;"><%= review.review %></p>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </section>
     <% } %>
     <% if (section === 'recent') { %>
-    <section class="plat-main-doc" id="recentDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectRecent">
-        
-    </section>
+        <section class="plat-main-doc" id="recentDoc">
+            <input type="radio" class="sectRad" hidden name="sectRad" id="sectRecent">
+            
+        </section>
     <% } %>
     <% if (section === 'help') { %>
-    <section class="plat-main-doc" id="helpDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectHelp">   
-    </section>
+        <section class="plat-main-doc" id="helpDoc">
+            <input type="radio" class="sectRad" hidden name="sectRad" id="sectHelp">   
+        </section>
     <% } %>
     <% if (section === 'docs') { %>
-    <section class="plat-main-doc flex-col flex-center" id="docsDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectDocs" checked>
-        <div class="flex-row flex-center docsDocBody">
-            <div class="flex-col flex-center myProf">
-                <h1 class="title-med" style="color: var(--txt-black);">My Documents</h1>
-                <p class="para-sml">Check your account status and informations</p>
-                <div class="doc-accounting">
-                    <div class="flex-row">
-                        <div class="user-ac-image flex-row flex-center">
-                            <img src="<%= user.image%>" alt="PICTURE">
+        <section class="plat-main-doc flex-col flex-center" id="docsDoc">
+            <input type="radio" class="sectRad" hidden name="sectRad" id="sectDocs" checked>
+            <div class="flex-row flex-center docsDocBody">
+                <div class="flex-col flex-center myProf">
+                    <h1 class="title-med" style="color: var(--txt-black);">My Documents</h1>
+                    <p class="para-sml">Check your account status and informations</p>
+                    <div class="doc-accounting">
+                        <div class="flex-row">
+                            <div class="user-ac-image flex-row flex-center">
+                                <img loading="lazy" src="<%= user.image%>" alt="PICTURE">
+                            </div>
+                            <div class="flex-col">
+                                <p class="account-stat-p <%= user.account_status?"Ver":"notVer" %>"><i class="fa-solid <%= user.account_status?"fa-circle-check":"fa-circle-exclamation" %>" style="margin: 0 5px;" title="<%= user.account_status?"Verified":"Not verified" %>"></i> <%= user.account_status?"Verified":"Not verified" %></p>
+                                <p class="account-stat-t"><%= user.fname %> <%= user.lname %><time>#<span id="userId"><%= user.id %></span></time></p>
+                                <time><%= new Date(user.birthdate).toLocaleDateString("en-US") %></time>
+                                <time><%= user.role %></time>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="docs-doc doc-userinfos">
+                        <div class="flex-row">
+                            <div class="flex-col">
+                                <label class="para-sml">Country</label>
+                                <div class="flex-row input-holder" style="height: 2.625rem;">
+                                    <i class="fa-solid fa-globe"></i>
+                                    <input type="text" disabled value="<%= user.country %>">
+                                </div>
+                            </div>
+                            <div class="flex-col" style="margin-left: 20px;">
+                                <label class="para-sml">State</label>
+                                <div class="flex-row input-holder" style="height: 2.625rem;">
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                    <input type="text" disabled value="<%= user.wilaya %>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-row">
+                            <div class="flex-col">
+                                <label class="para-sml">City</label>
+                                <div class="flex-row input-holder" style="height: 2.625rem;">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <input type="text" disabled value="<%= user.city %>">
+                                </div>
+                            </div>
+                            <div class="flex-col" style="margin-left: 20px;">
+                                <label class="para-sml">Address</label>
+                                <div class="flex-row input-holder" style="height: 2.625rem;">
+                                    <i class="fa-solid fa-at"></i>
+                                    <input type="text" disabled value="<%= user.address %>">
+                                </div>
+                            </div>
                         </div>
                         <div class="flex-col">
-                            <p class="account-stat-p <%= user.account_status?"Ver":"notVer" %>"><i class="fa-solid <%= user.account_status?"fa-circle-check":"fa-circle-exclamation" %>" style="margin: 0 5px;" title="<%= user.account_status?"Verified":"Not verified" %>"></i> <%= user.account_status?"Verified":"Not verified" %></p>
-                            <p class="account-stat-t"><%= user.fname %> <%= user.lname %><time>#<span id="userId"><%= user.id %></span></time></p>
-                            <time><%= new Date(user.birthdate).toLocaleDateString("en-US") %></time>
-                            <time><%= user.role %></time>
+                            <label class="para-sml">Email</label>
+                            <div class="flex-row center-start">
+                                <div class="flex-row input-holder" style="height: 2.625rem; width: 65%;">
+                                    <i class="fa-solid fa-envelope-open-text"></i>
+                                    <input type="text" disabled value="<%= user.email %>">
+                                    <i class="fa-solid fa-pen-to-square editButInp bt-hover" style="margin: 0 5px;"></i>
+                                </div>
+                                <i class="fa-solid fa-check-to-slot" style="margin: 0 10px;" title="Verified"></i>
+                            </div>
+                        </div>
+                        <div class="flex-col">
+                            <label class="para-sml">Phone number</label>
+                            <div class="flex-row center-start">
+                                <div class="flex-row input-holder" style="height: 2.625rem; width: 50%;">
+                                    <i class="fa-solid fa-phone"></i>
+                                    <input type="text" id="userPhoneNum" disabled value="<%= user.phone %>">
+                                    <i class="fa-solid fa-pen-to-square editButInp bt-hover" style="margin: 0 5px;"></i>
+                                </div>
+                                <i id="phoneVerIcn" class="fa-solid <%= user.phone_status?"fa-circle-check":"fa-circle-exclamation" %> <%= user.phone_status?"VerfE":"notVerfE" %>" style="margin: 0 10px;" title="<%= user.phone_status?"Verified":"Not Verified" %>"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="docs-doc doc-userinfos">
-                    <div class="flex-row">
-                        <div class="flex-col">
-                            <label class="para-sml">Country</label>
-                            <div class="flex-row input-holder" style="height: 2.625rem;">
-                                <i class="fa-solid fa-globe"></i>
-                                <input type="text" disabled value="<%= user.country %>">
+                <div class="flex-col flex-center doc-accountstat" style="width: 50%;height:100%;">
+                    <div class="stepper">
+                        <div class="step" id="stepperStep1">
+                            <input type="checkbox" hidden>
+                            <div class="step-circle step-completed flex-row flex-center">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <h1 class="step-title">Personal Informations</h1>
+                            <div class="step-details">
+                                <p>provide your personal information, including your full name, address, email, and phone number.</p>
                             </div>
                         </div>
-                        <div class="flex-col" style="margin-left: 20px;">
-                            <label class="para-sml">State</label>
-                            <div class="flex-row input-holder" style="height: 2.625rem;">
-                                <i class="fa-solid fa-map-location-dot"></i>
-                                <input type="text" disabled value="<%= user.wilaya %>">
+                        <div class="step" id="stepperStep2">
+                            <input type="checkbox" hidden>
+                            <div id="phoneStepCercle" class="step-circle <%= user.phone_status?"step-completed":"step-canceled" %> flex-row flex-center">
+                                <i id="phoneStepCercleI" class="fa-solid <%= user.phone_status?'fa-check':'fa-xmark'%> "></i>
+                            </div>
+                            <h1 class="step-title">Phone Verification</h1>
+                            <div class="step-details">
+                                <p id="phoneVerfStepP"><%= user.phone_status?"Your phone number has been confirmed.":"Click the button below to receive a verification code on your phone. Then, enter the code to complete the verification process."%></p>
+                                <button id="verfBut" class="bt bt-hover flex-row center-start <%= user.phone_status?'hidden':' '%>">Send Verification <i class="fa-solid fa-comment-sms" style="padding: 0 5px;"></i> <p id="countdown"></p></button>
                             </div>
                         </div>
-                    </div>
-                    <div class="flex-row">
-                        <div class="flex-col">
-                            <label class="para-sml">City</label>
-                            <div class="flex-row input-holder" style="height: 2.625rem;">
-                                <i class="fa-solid fa-location-dot"></i>
-                                <input type="text" disabled value="<%= user.city %>">
+                        <div class="step step-final" id="stepperStep3">
+                            <input type="checkbox" hidden>
+                            <div class="step-circle flex-row flex-center">
                             </div>
-                        </div>
-                        <div class="flex-col" style="margin-left: 20px;">
-                            <label class="para-sml">Address</label>
-                            <div class="flex-row input-holder" style="height: 2.625rem;">
-                                <i class="fa-solid fa-at"></i>
-                                <input type="text" disabled value="<%= user.address %>">
+                            <h1 class="step-title">Upload Document</h1>
+                            <div class="step-details">
+                                <p>Upload a clear photo of the official valid documents (driving license + national ID card) from the front and back</p>
+                                <div class="custum-file-upload bt-hover">
+                                    <div class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="" viewBox="0 0 24 24"><g stroke-width="0" id="SVGRepo_bgCarrier"></g><g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g><g id="SVGRepo_iconCarrier"> <path fill="" d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z" clip-rule="evenodd" fill-rule="evenodd"></path> </g></svg>
+                                    </div>
+                                    <div class="text">
+                                    <span>Upload Documents</span>
+                                    </div>
+                                </div>    
                             </div>
-                        </div>
-                    </div>
-                    <div class="flex-col">
-                        <label class="para-sml">Email</label>
-                        <div class="flex-row center-start">
-                            <div class="flex-row input-holder" style="height: 2.625rem; width: 65%;">
-                                <i class="fa-solid fa-envelope-open-text"></i>
-                                <input type="text" disabled value="<%= user.email %>">
-                                <i class="fa-solid fa-pen-to-square editButInp bt-hover" style="margin: 0 5px;"></i>
-                            </div>
-                            <i class="fa-solid fa-check-to-slot" style="margin: 0 10px;" title="Verified"></i>
-                        </div>
-                    </div>
-                    <div class="flex-col">
-                        <label class="para-sml">Phone number</label>
-                        <div class="flex-row center-start">
-                            <div class="flex-row input-holder" style="height: 2.625rem; width: 50%;">
-                                <i class="fa-solid fa-phone"></i>
-                                <input type="text" id="userPhoneNum" disabled value="<%= user.phone %>">
-                                <i class="fa-solid fa-pen-to-square editButInp bt-hover" style="margin: 0 5px;"></i>
-                            </div>
-                            <i id="phoneVerIcn" class="fa-solid <%= user.phone_status?"fa-circle-check":"fa-circle-exclamation" %> <%= user.phone_status?"VerfE":"notVerfE" %>" style="margin: 0 10px;" title="<%= user.phone_status?"Verified":"Not Verified" %>"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="flex-col flex-center doc-accountstat" style="width: 50%;height:100%;">
-                <div class="stepper">
-                    <div class="step" id="stepperStep1">
-                        <input type="checkbox" hidden>
-                        <div class="step-circle step-completed flex-row flex-center">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                        <h1 class="step-title">Personal Informations</h1>
-                        <div class="step-details">
-                            <p>provide your personal information, including your full name, address, email, and phone number.</p>
-                        </div>
-                    </div>
-                    <div class="step" id="stepperStep2">
-                        <input type="checkbox" hidden>
-                        <div id="phoneStepCercle" class="step-circle <%= user.phone_status?"step-completed":"step-canceled" %> flex-row flex-center">
-                            <i id="phoneStepCercleI" class="fa-solid <%= user.phone_status?'fa-check':'fa-xmark'%> "></i>
-                        </div>
-                        <h1 class="step-title">Phone Verification</h1>
-                        <div class="step-details">
-                            <p id="phoneVerfStepP"><%= user.phone_status?"Your phone number has been confirmed.":"Click the button below to receive a verification code on your phone. Then, enter the code to complete the verification process."%></p>
-                            <button id="verfBut" class="bt bt-hover flex-row center-start <%= user.phone_status?'hidden':' '%>">Send Verification <i class="fa-solid fa-comment-sms" style="padding: 0 5px;"></i> <p id="countdown"></p></button>
-                        </div>
-                    </div>
-                    <div class="step step-final" id="stepperStep3">
-                        <input type="checkbox" hidden>
-                        <div class="step-circle flex-row flex-center">
-                        </div>
-                        <h1 class="step-title">Upload Document</h1>
-                        <div class="step-details">
-                            <p>Upload a clear photo of the official valid documents (driving license + national ID card) from the front and back</p>
-                            <div class="custum-file-upload bt-hover">
-                                <div class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="" viewBox="0 0 24 24"><g stroke-width="0" id="SVGRepo_bgCarrier"></g><g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g><g id="SVGRepo_iconCarrier"> <path fill="" d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z" clip-rule="evenodd" fill-rule="evenodd"></path> </g></svg>
-                                </div>
-                                <div class="text">
-                                <span>Upload Documents</span>
-                                </div>
-                            </div>    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-    </section>
+            
+        </section>
     <% } %>
     <% if (section === 'profile') { %>
-    <section class="plat-main-doc" id="profileDoc">
-        <input type="radio" class="sectRad" hidden name="sectRad" id="sectProfile">
-    </section>
+        <section class="plat-main-doc" id="profileDoc">
+            <input type="radio" class="sectRad" hidden name="sectRad" id="sectProfile">
+        </section>
     <% } %>
     <script src="/js/main.js"></script>
+     <% if ((section === 'cars') && pagination && pagination.total <= 0) { %>
+        <script>
+            pushNotif("i", "There's no results");
+        </script>
+    <% } %>    
     <script src="/js/darkmode.js"></script>
     <script src="/lib/node_modules/gsap/dist/gsap.min.js"></script>
     <script src="/lib/node_modules/gsap/dist/ScrollTrigger.min.js"></script>
