@@ -664,7 +664,9 @@
     }
 
     .carsec-head{
-        height: 8em;
+        margin-top: 3rem;
+        margin-bottom: 0;
+        height: 4em;
         align-items: center;
         justify-content: center;
     }

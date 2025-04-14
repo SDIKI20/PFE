@@ -74,6 +74,20 @@
             <img loading="lazy" src="../assets/logo.png" alt="LOGO" width="80%">
         </a>
         <ul class="plat-navigator flex-col center-start">
+            <% if(!user){%>
+                <a id="navLogin" href="/login" class="plat-nav-element flex-row flex-center" title="Login">
+                    <div class="flex-col">
+                        <lord-icon
+                            src="/json/account.json"
+                            trigger="hover"
+                            colors="primary:#b4b4b4"
+                            style="width:100%;"
+                            >
+                        </lord-icon>
+                        <p class="nav-label">Guest</p>
+                    </div>
+                </a>
+            <% } %>
             <a id="navHome" href="/home" data-section="home" class="plat-nav-element <%= section==="home"?"plat-nav-selected":"" %>" title="Home" >
                 <label for="sectHome">
                     <div class="flex-col">
@@ -90,6 +104,7 @@
                     </div>
                 </label>
             </a>
+            <% if (user) { %>
             <a id="navOrders" href="/rentals" data-section="rentals" class="plat-nav-element <%= section==="rentals"?"plat-nav-selected":"" %>" title="Rentals" >
                 <label for="sectOrders">
                     <div class="flex-col">
@@ -113,6 +128,7 @@
                     </div>
                 </label>
             </a>
+            <% }%>
         </ul>
         <ul class="plat-user-info flex-col center-start">
             <% if(user) if (user.role == "Admin") { %>
@@ -125,11 +141,12 @@
                     </label>
                 </a>
             <% } %>
+            <% if (user) { %>
             <a id="navDocs" href="/docs" data-section="docs" class="plat-nav-element <%= section==="docs"?"plat-nav-selected":"" %>" title="My Profile">
                 <label for="sectDocs">
                     <div class="flex-col">
                         <i class="fa-regular fa-id-card"></i>
-                        <p class="nav-label">Profile</p>
+                        <p class="nav-label">Account</p>
                     </div>
                 </label>
             </a>
@@ -141,6 +158,7 @@
                     </div>
                 </label>
             </a>
+            <% } %>
         </ul>
         <% if (user) { %>
             <a href="/logout" class="plat-nav-element plat-logout" title="Logout">
@@ -1254,6 +1272,7 @@
         </script>
     <% } %>    
     <script src="/js/darkmode.js"></script>
+    <script src="/lib/node_modules/@lordicon/element/release/lordicon.js"></script>
     <script src="/lib/node_modules/gsap/dist/gsap.min.js"></script>
     <script src="/lib/node_modules/gsap/dist/ScrollTrigger.min.js"></script>
     <script src="/lib/node_modules/svelte-range-slider-pips/dist/range-slider-pips.js"></script>

@@ -209,7 +209,7 @@ app.get("/car/:id", async (req, res) => {
     }
 });
 
-app.get("/home", checkNotAuth, async (req, res) => {
+app.get("/home", async (req, res) => {
     try {
         const brandsResult = await pool.query("SELECT * FROM brands ORDER BY id ASC LIMIT 3");
         const brands = brandsResult.rows;

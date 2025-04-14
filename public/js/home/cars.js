@@ -337,8 +337,7 @@ try {
         // Build query string
         const params = new URLSearchParams();
 
-        if (search) params.append("search", search);
-        if (search4p) params.append("search", search4p);
+        if (search) params.append("search", search || search4p);
         if (rentalType) params.append("rtype", rentalType);
         if (availableOnly) params.append("availability", availableOnly);
         if (Pricem) params.append("pricem", Pricem);

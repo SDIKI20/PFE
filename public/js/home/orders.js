@@ -191,7 +191,6 @@ function refreshRentals( id, name, created, payment, status, price, start_date, 
 }
 
 function updateUrlFilters() {
-  clearRentals()
   const i = document.getElementById('uIR').value;
   const limit = document.getElementById('filterLimit').value || "10";
   const offset = document.getElementById('filterOffset').value || "0";
@@ -228,6 +227,7 @@ function updateUrlFilters() {
   })
   .then(data => {
     openLoader()
+    clearRentals()
     data.rentals.forEach(rental=>{
       refreshRentals(
         rental.id,
