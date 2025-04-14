@@ -276,10 +276,10 @@ app.get("/cars", async (req, res) => {
             offset = 0
         } = req.query;
 
-        const userId = req.user ? req.user.id : null; 
-        
+        const userId = req.user ? req.user.id : null;
+
         let query = `
-        SELECT v.*, 
+            SELECT v.*, 
                 b.name AS brand_name, 
                 b.logo AS brand_logo,
                 o.wilaya, 
@@ -287,94 +287,135 @@ app.get("/cars", async (req, res) => {
                 COALESCE(r.reviews, 0) AS reviews,
                 COALESCE(rn.orders, 0) AS orders,
                 CASE WHEN f.vehicle_id IS NOT NULL THEN true ELSE false END AS is_favorite
-        FROM vehicles v
+            FROM vehicles v
+            JOIN brands b ON v.brand_id = b.id
+            JOIN office o ON v.location = o.id
+            LEFT JOIN (
+                SELECT vehicle_id, 
+                        ROUND(AVG(stars), 1) AS stars, 
+                        COUNT(*) AS reviews
+                FROM reviews
+                GROUP BY vehicle_id
+            ) r ON v.id = r.vehicle_id
+            LEFT JOIN (
+                SELECT vehicle_id, 
+                        COUNT(*) AS orders
+                FROM rentals
+                GROUP BY vehicle_id
+            ) rn ON v.id = rn.vehicle_id
+            LEFT JOIN favorites f ON f.user_id = $1 AND f.vehicle_id = v.id
+            WHERE 1=1
+        `;
+
+        let countQuery = `
+        SELECT COUNT(*) FROM vehicles v
         JOIN brands b ON v.brand_id = b.id
         JOIN office o ON v.location = o.id
-        LEFT JOIN (
-            SELECT vehicle_id, 
-                    ROUND(AVG(stars), 1) AS stars, 
-                    COUNT(*) AS reviews
-            FROM reviews
-            GROUP BY vehicle_id
-        ) r ON v.id = r.vehicle_id
-        LEFT JOIN (
-            SELECT vehicle_id, 
-                    COUNT(*) AS orders
-            FROM rentals
-            GROUP BY vehicle_id
-        ) rn ON v.id = rn.vehicle_id
-        LEFT JOIN favorites f ON f.user_id = $1 AND f.vehicle_id = v.id
         WHERE 1=1
         `;
 
         const values = [userId];
-        let index = 2; 
+        const countValues = [];
+        let index = 2;
+        let countIndex = 1;
 
         if (search) {
             query += ` AND (LOWER(b.name) LIKE $${index} OR LOWER(v.model) LIKE $${index})`;
-            values.push(`%${search.toLowerCase()}%`);
+            countQuery += ` AND (LOWER(b.name) LIKE $${countIndex} OR LOWER(v.model) LIKE $${countIndex})`;
+            const value = `%${search.toLowerCase()}%`;
+            values.push(value);
+            countValues.push(value);
             index++;
+            countIndex++;
         }
 
         if (brand) {
             const brands = Array.isArray(brand) ? brand : brand.split(',');
             const placeholders = brands.map(() => `$${index++}`);
+            const countPlaceholders = brands.map(() => `$${countIndex++}`);
             query += ` AND LOWER(b.name) IN (${placeholders.join(", ")})`;
+            countQuery += ` AND LOWER(b.name) IN (${countPlaceholders.join(", ")})`;
             values.push(...brands.map(b => b.toLowerCase()));
+            countValues.push(...brands.map(b => b.toLowerCase()));
         }
 
         if (rtype) {
             query += ` AND v.rental_type = $${index}`;
+            countQuery += ` AND v.rental_type = $${countIndex}`;
             values.push(rtype.toLowerCase());
+            countValues.push(rtype.toLowerCase());
             index++;
+            countIndex++;
         }
 
         if (trans) {
             query += ` AND LOWER(v.transmission::TEXT) = $${index}`;
+            countQuery += ` AND LOWER(v.transmission::TEXT) = $${countIndex}`;
             values.push(trans.toLowerCase());
+            countValues.push(trans.toLowerCase());
             index++;
+            countIndex++;
         }
 
         if (capacity) {
             if (capacity > 4) {
                 query += ` AND v.capacity > $${index}`;
+                countQuery += ` AND v.capacity > $${countIndex}`;
             } else {
                 query += ` AND v.capacity = $${index}`;
+                countQuery += ` AND v.capacity = $${countIndex}`;
             }
             values.push(parseInt(capacity));
+            countValues.push(parseInt(capacity));
             index++;
+            countIndex++;
         }
 
         if (body) {
             const bodies = Array.isArray(body) ? body : body.split(',');
             const placeholders = bodies.map(() => `$${index++}`);
+            const countPlaceholders = bodies.map(() => `$${countIndex++}`);
             query += ` AND LOWER(v.body::TEXT) IN (${placeholders.join(", ")})`;
+            countQuery += ` AND LOWER(v.body::TEXT) IN (${countPlaceholders.join(", ")})`;
             values.push(...bodies.map(b => b.toLowerCase()));
+            countValues.push(...bodies.map(b => b.toLowerCase()));
         }
 
         if (fuel) {
             const fuels = Array.isArray(fuel) ? fuel : fuel.split(',');
             const placeholders = fuels.map(() => `$${index++}`);
+            const countPlaceholders = fuels.map(() => `$${countIndex++}`);
             query += ` AND LOWER(v.fuel::TEXT) IN (${placeholders.join(", ")})`;
+            countQuery += ` AND LOWER(v.fuel::TEXT) IN (${countPlaceholders.join(", ")})`;
             values.push(...fuels.map(f => f.toLowerCase()));
+            countValues.push(...fuels.map(f => f.toLowerCase()));
         }
 
         if (availability !== undefined) {
             query += ` AND v.availability = $${index}`;
+            countQuery += ` AND v.availability = $${countIndex}`;
             values.push(parseInt(availability));
+            countValues.push(parseInt(availability));
             index++;
+            countIndex++;
         }
 
         if (pricem) {
             query += ` AND v.price >= $${index}`;
+            countQuery += ` AND v.price >= $${countIndex}`;
             values.push(parseFloat(pricem));
+            countValues.push(parseFloat(pricem));
             index++;
+            countIndex++;
         }
 
         if (priceM) {
             query += ` AND v.price <= $${index}`;
+            countQuery += ` AND v.price <= $${countIndex}`;
             values.push(parseFloat(priceM));
+            countValues.push(parseFloat(priceM));
             index++;
+            countIndex++;
         }
 
         query += ` ORDER BY stars DESC LIMIT $${index}`;
@@ -384,8 +425,19 @@ app.get("/cars", async (req, res) => {
         query += ` OFFSET $${index}`;
         values.push(parseInt(offset));
 
-        const carsResult = await pool.query(query, values);
+        // handle parameter mismatch safely
+        const countHasPlaceholders = countQuery.includes('$');
+        const countQueryResult = countHasPlaceholders
+            ? pool.query(countQuery, countValues)
+            : pool.query(countQuery);
+
+        const [carsResult, countResult] = await Promise.all([
+            pool.query(query, values),
+            countQueryResult
+        ]);
+
         const cars = carsResult.rows.length > 0 ? carsResult.rows : null;
+        const totalCars = parseInt(countResult.rows[0].count || 0);
 
         const brandsResult = await pool.query(`SELECT * FROM brands`);
         const brandsList = brandsResult.rows.length > 0 ? brandsResult.rows : null;
@@ -407,7 +459,14 @@ app.get("/cars", async (req, res) => {
             bodyTypes: bodyTypes,
             transTypes: transTypes,
             filters: req.query,
-            section: "cars"
+            section: "cars",
+            pagination: {
+                total: totalCars,
+                limit: parseInt(limit),
+                offset: parseInt(offset),
+                currentPage: Math.floor(offset / limit) + 1,
+                totalPages: Math.ceil(totalCars / limit)
+            }
         });
 
     } catch (error) {
@@ -782,7 +841,7 @@ app.get('/vehicles', async (req, res) => {
     try{
         res.render("dashboard",{
             user: req.user, 
-            section:"vehicles",
+            section:"addvehicle",
         })
     }catch(error){
         console.error(error);

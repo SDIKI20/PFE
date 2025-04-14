@@ -1,24 +1,4 @@
 const { pool } = require("../config/dbConfig");
-const cloudinary = require("../config/cloudinary");
-const multer = require("multer");
-
-// Multer setup to handle file uploads
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
-
-// Upload image to Cloudinary
-const uploadImage = async (file) => {
-  try {
-    const result = await cloudinary.uploader.upload(file.path, {
-      folder: "vehicles",
-      use_filename: true,
-    });
-    return result.secure_url;
-  } catch (error) {
-    console.error("Cloudinary upload error:", error);
-    throw new Error("Image upload failed");
-  }
-};
 
 // Get all brands
 const getBrands = async (req, res) => {
@@ -68,45 +48,54 @@ const getVehicles = async (req, res) => {
   }
 };
 
-// Add a new vehicle with image upload
-const addVehicle = async (req, res) => {
+// Get one vehicle by id
+const getVehicle = async (req, res) => {
   try {
-    const {
-      brand_id, model, name, color, capacity, fuel, transmission, availability, body, price, location,
-      units, speed, horsepower, engine_type, rental_type
-    } = req.body;
+    const { id, uid } = req.params;
+    const carResult = await pool.query(`
+      SELECT 
+          vehicles.*, 
+          brands.name AS brand_name, 
+          brands.logo, 
+          office.country, 
+          office.wilaya,  
+          office.address, 
+          office.city,
+          office.latitude,
+          office.longitude,
+          ROUND(COALESCE(AVG(reviews.stars), 0), 1) AS stars,
+          COUNT(DISTINCT reviews.id) AS reviews,
+          COUNT(DISTINCT rentals.id) AS orders
+          ${parseInt(uid)>0?", CASE WHEN COUNT(f.vehicle_id) > 0 THEN true ELSE false END AS is_favorite":""}
+      FROM 
+          vehicles
+      JOIN 
+          brands ON vehicles.brand_id = brands.id
+      JOIN 
+          office ON vehicles.location = office.id
+      LEFT JOIN 
+          reviews ON vehicles.id = reviews.vehicle_id
+      LEFT JOIN 
+          rentals ON vehicles.id = rentals.vehicle_id
+      ${parseInt(uid)>0?"LEFT JOIN favorites f ON f.user_id = $2 AND f.vehicle_id = vehicles.id":""}
+      WHERE 
+          vehicles.id = $1
+      GROUP BY 
+          vehicles.id, vehicles.model, vehicles.price, vehicles.rental_type, vehicles.transmission, 
+          vehicles.capacity, vehicles.fuel, vehicles.body, vehicles.availability, 
+          vehicles.location, vehicles.brand_id, vehicles.image,
+          brands.id, office.id
+      LIMIT 1;
+    `, parseInt(uid)>0?[id, uid]:[id]);
 
-    // Set default values if not provided
-    const vehicleUnits = units || 0;
-    const vehicleSpeed = speed || 0;
-    const vehicleHorsepower = horsepower || 0;
-    const vehicleEngineType = engine_type || 'unknown';
-    const vehicleRentalType = rental_type || 'h'; // Default 'h' for rental_type
-    const vehicleTransmission = transmission || 'Manual'; // Default 'Manual' for transmission
+    if (carResult.rows.length === 0) {
+      res.status(200).json({ message: "No Vehicle Found!" });
+    } else {
+      res.status(200).json(carResult.rows[0]);
+    }
 
-    // Upload images to Cloudinary
-    const mainImage = req.files["image"] ? await uploadImage(req.files["image"][0]) : "/assets/cars/default.png";
-    const prevImage1 = req.files["prev_image1"] ? await uploadImage(req.files["prev_image1"][0]) : "/assets/cars/default_prev.jpg";
-    const prevImage2 = req.files["prev_image2"] ? await uploadImage(req.files["prev_image2"][0]) : "/assets/cars/default_prev.png";
-    const prevImage3 = req.files["prev_image3"] ? await uploadImage(req.files["prev_image3"][0]) : "/assets/cars/default_prev.png";
-
-    // SQL query to insert a new vehicle
-    const query = `
-      INSERT INTO vehicles (brand_id, model, name, color, capacity, fuel, transmission, availability, body, price, location, 
-                           image, prev_image1, prev_image2, prev_image3, units, speed, horsepower, engine_type, rental_type)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
-      RETURNING *;
-    `;
-
-    const values = [
-      brand_id, model, name, color, capacity, fuel, vehicleTransmission, availability, body, price, location,
-      mainImage, prevImage1, prevImage2, prevImage3, vehicleUnits, vehicleSpeed, vehicleHorsepower, vehicleEngineType, vehicleRentalType
-    ];
-
-    const result = await pool.query(query, values);
-    res.status(201).json(result.rows[0]);
   } catch (error) {
-    console.error("Error adding vehicle:", error);
+    console.error("Database error:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -127,7 +116,6 @@ const deleteVehicle = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 
 //Check availability of a vehicle by ID
 const checkAvailability = async (req, res) => {
@@ -213,11 +201,10 @@ const getFilteredVehicles = async (req, res) => {
 
 module.exports = {
   getVehicles,
-  addVehicle,
+  getVehicle,
   deleteVehicle,
   checkAvailability,
   getFilteredVehicles,
   getBrands,
-  getBrandVehicles,
-  upload
+  getBrandVehicles
 };

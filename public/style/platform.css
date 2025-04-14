@@ -1,3 +1,7 @@
+:root{
+    --ord-filter-s: 30.1em;
+}
+
 a{
     text-decoration: none;
 }
@@ -179,6 +183,11 @@ a *{
     overflow: hidden;
     position: relative;
     display: flex;
+}
+
+#carDetails{
+    overflow-y: auto;
+    padding: 1rem 0;
 }
 
 /*----------------Cars Section------------------*/
@@ -506,6 +515,7 @@ input[type='radio']:checked + .rnt{
     padding: 1.25rem 0.8rem;
     gap: 1em;   
     padding-bottom: 4em;
+    position: relative;
     transition: all ease 0.6s;
 }
 
@@ -670,8 +680,7 @@ input[type='radio']:checked + .rnt{
     overflow: hidden;
     transition: ease 0.6s;
     background-color: var(--container);
-    padding: 0 1.25em;
-    padding-top: 4em;
+    padding: 1em;
 }
 
 .logo4p,
@@ -690,7 +699,8 @@ input[type='radio']:checked + .rnt{
 .plat-images-detail{
     width: 100%;
     height: 15rem;
-    padding: 0 0.625rem;
+    padding: 0.625rem;
+    margin-top: 2em;
     overflow: hidden;
     overflow-x: auto;
     flex-wrap: nowrap;
@@ -736,13 +746,13 @@ input[type='radio']:checked + .rnt{
 
 .fav-lab i{
     transition: all ease 0.8s;
+    font-size: var(--font-med);
 }
 
 .fav-lab, .animated-heart {
     position: relative;
     overflow: visible;
 }
-  
 
 .plat-rdetail-foot{
     width: 100%;
@@ -775,7 +785,7 @@ input[type='radio']:checked + .rnt{
 }
 
 .r-car-inf{
-    height: 2em;
+    padding: 0.625rem;
     width: 100%;
 }
 
@@ -787,46 +797,12 @@ input[type='radio']:checked + .rnt{
 
 .car-det-info{
     width: 100%;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 0.15fr 1fr;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-    flex-grow: 1;
-}
-
-.car-det-info-head{
-    grid-area: 1 / 1 / 2 / 2;
-    margin: 0 1.5rem;
-    border-bottom: 2px solid var(--border-low);
-}
-
-.car-det-info-head li{
-    font-size: var(--font-sml);
-    color: var(--text);
-    opacity: 0.8;
-    position: relative;
-    transition: ease 0.6s;
-    cursor: pointer;
-}
-
-.car-det-info-head li label:has(input[type="radio"]:checked)::after{
-    content: "";
-    position: absolute;
-    background-color: var(--color-main);
-    width: 100%;
-    height: .1875rem;
-    top: calc(100% + 0.6rem);
-    left: 0;
-    transition: ease 0.6s;
-}
-.car-det-info-head li label:has(input[type="radio"]:checked){
-    opacity: 1;
-    color: var(--color-main);
+    height: 50%;
 }
 
 .car-det-bod{
-    grid-area: 2 / 1 / 3 / 2;
+    width: 100%;
+    height: 100%;
 }
 
 .cord-map{
@@ -970,8 +946,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 
 .specs-more{
-    margin-top: auto;
-    margin-bottom: auto;
+   margin: auto;
 }
 
 .exploare-but{
@@ -996,12 +971,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 
 
 /*--------------------Car Section--------------------*/
-
-#carDetail{
-    padding: 1em 1.5em;
-    overflow: hidden;
-    overflow-y: auto;
-}
 
 .prev-images {
     display: flex;
@@ -1519,7 +1488,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 
 .review-container{
     min-height: 80%;
-    min-width: 18em;
+    width: 18em;
     border-radius: 15px;
     background-color: var(--container);
     position: relative;
@@ -1572,7 +1541,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 .inactive-start{
     color: var(--text);
 }
-
 
 /*---------------------------------------------------*/
 /*--------------------Orders Section------------------*/
@@ -1657,9 +1625,40 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     background-color: rgba(122, 122, 122, 0.041);
 }
 
+.rent-edit-but{
+    text-align: right;
+    justify-self: flex-end;
+    position: relative;
+    align-self: center;
+}
+
+.popmenu{
+    position: absolute;
+    z-index: 98;
+    height: fit-content;
+    gap: 5px;
+    padding: 0.325rem 0.625rem;
+    top: 0;
+    left: -55px;
+    background-color: var(--bg);
+    border-radius: 5px;
+}
+
+.popmenu li{
+    width: 100%;
+    text-align: left;
+}
+
+.popmenu li{
+    color: var(--txt-black);
+    font-size: var(--font-med);
+}
+
 .rentals-head li{
     color: var(--txt-black);
     font-size: var(--font-med);
+    cursor: pointer;
+    z-index: 99;
 }
 
 .rental-pay,

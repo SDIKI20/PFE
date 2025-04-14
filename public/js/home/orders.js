@@ -7,9 +7,9 @@ rentsSelectAll.addEventListener('change', ()=>{
 
 document.querySelectorAll(".ordTf").forEach(el=>{
   el.addEventListener('click', ()=>{
-    document.querySelector(".orders-type-f").style.setProperty('--after-transform', `translateY(-50%) translateX(calc((30em / 5.1)*${el.classList[1]}))`);
+    document.querySelector(".orders-type-f").style.setProperty('--after-transform', `translateY(-50%) translateX(calc((var(--ord-filter-s) / 5.1)*${el.classList[1]}))`);
   })
-  if(el.lastChild.checked) document.querySelector(".orders-type-f").style.setProperty('--after-transform', `translateY(-50%) translateX(calc((30em / 5.1)*${el.classList[1]}))`);
+  if(el.lastChild.checked) document.querySelector(".orders-type-f").style.setProperty('--after-transform', `translateY(-50%) translateX(calc((var(--ord-filter-s) / 5.1)*${el.classList[1]}))`);
 })
 
 let dtrtoday = new Date();
@@ -45,7 +45,7 @@ function clearRentals(){
   }
 }
 
-function refreshRentals( id, name, created, payment, status, price, start_date, end_date, rental_type ){
+function refreshRentals( id, name, created, payment, status, price, start_date, end_date, rental_type, uid ){
   const rentalContainer = document.createElement('li')
   rentalContainer.classList.add('rental-order', "rental-order-anm")
 
@@ -70,7 +70,7 @@ function refreshRentals( id, name, created, payment, status, price, start_date, 
         <p class="spec-tit">${name}</p>
         <p class="price-tag">#${id}</p>
     </div>
-    <div class="flex-row center-start">
+    <div class="flex-row center-start phd">
         <p class="spec-tit">${new Date(created).toDateString()}</p>
     </div>
     <div class="flex-row center-start phd">
@@ -79,18 +79,111 @@ function refreshRentals( id, name, created, payment, status, price, start_date, 
     <div class="flex-row center-start phd">
         <p class="rental-pay Paid">${payment}</p>
     </div>
-    <div class="flex-row center-start phd">
-        <p class="rental-state ${status}">${status}</p>
+    <div class="flex-row center-start">
+      <p class="rental-price">${price}<span class="currence">DZD</span></p>
     </div>
     <div class="flex-row center-start">
-        <p class="rental-price">${price}<span class="currence">DZD</span></p>
+      <p class="rental-state ${status}">${status}</p>
     </div>
   `
 
   editBut = document.createElement('div')
-  editBut.classList.add('flex-row', 'center-start')
-  editBut.addEventListener('click', ()=>{
+  editBut.classList.add('flex-row', 'rent-edit-but')
+  icn = document.createElement('i')
+  icn.classList.add("fa-solid", "fa-ellipsis-vertical", "bt", "bt-hover")
+  editBut.appendChild(icn)
+  editBut.addEventListener('click', (e)=>{
 
+    try {
+      document.querySelectorAll('.popmenu').forEach( pop => pop.remove())
+    } catch (error) {}
+
+    popmenu = document.createElement('ul')
+    popmenu.classList.add('popmenu', "flex-row")
+
+    removeBut = document.createElement('li')
+    removeBut.classList.add("rent-remove-but")
+    removeBut.innerHTML = `<i class="fa-solid fa-trash-can bt bt-hover"></i>`
+    removeBut.setAttribute("title", "Delete")
+
+    cancelBut = document.createElement('li')
+    cancelBut.classList.add("rent-cancel-but")
+    cancelBut.innerHTML = `<i class="fa-solid fa-ban bt bt-hover"></i>`
+    cancelBut.setAttribute("title", "Cancel")
+
+    removeBut.addEventListener('click', ()=>{
+      confirm(true, "Confirm Action", "Are you sure you want to delete this record?").then((result) => {
+        if(result){
+          openLoader()
+          try{
+            fetch(`${window.location.origin}/api/orders/delete`, {
+              method: "POST",
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ rid: id }),
+            })
+            .then(response => response.json())
+            .then(data => {
+              closeLoader()
+                if (data.message) {
+                    pushNotif("i", data.message)
+                    rentalContainer.remove();
+                } else {
+                    pushNotif("e", `Somthing went wrong!`)
+                }
+            })
+            .catch(error => {
+                closeLoader()
+                pushNotif("e", "Somthing went wrong!")
+            });
+          }catch(error){pushNotif('e', "Somthing went wrong!"); closeLoader()}
+        }
+      });
+    })
+
+    cancelBut.addEventListener('click', ()=>{
+      confirm(false, "Confirm Action", "Are you sure you want to proceed?").then((result) => {
+        if(result){
+          openLoader()
+          try{
+            fetch(`${window.location.origin}/api/orders/status`, {
+              method: "POST",
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ rid: id, uid: uid, status: "canceled" }),
+            })
+            .then(response => response.json())
+            .then(data => {
+              closeLoader()
+                if (data.message) {
+                    pushNotif("i", data.message)
+                } else {
+                    pushNotif("e", `Somthing went wrong!`)
+                }
+            })
+            .catch(error => {
+                closeLoader()
+                pushNotif("e", "Somthing went wrong!")
+            }); 
+          }catch(error){
+            closeLoader();
+            pushNotif("e", "Somthing went wrong!")
+          }
+        }
+      })
+    })
+
+    if(Array.from(["completed", "canceled"]).includes(status.toString().toLowerCase())) popmenu.appendChild(removeBut)
+    if(Array.from(["pending"]).includes(status.toString().toLowerCase())) popmenu.appendChild(cancelBut)
+
+    e.target.parentElement.appendChild(popmenu)
+    setTimeout(() => {
+      try {
+        document.querySelectorAll('.popmenu').forEach( pop => pop.remove())
+      } catch (error) {}
+    }, 5000);
   })
   
   rentalContainer.appendChild(editBut)
@@ -123,48 +216,49 @@ function updateUrlFilters() {
   if (start_date) params.append('start_date', start_date);
   if (end_date) params.append('end_date', end_date);
 
-  const FURL = `http://localhost:4000/api/users/rentals?${params.toString()}`
+  const FURL = `${window.location.origin}/api/users/rentals?${params.toString()}`
   openLoader()
   fetch(FURL)
-    .then(response => {
-      if (!response.ok) {
-        closeLoader()
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      openLoader()
-      data.rentals.forEach(rental=>{
-        refreshRentals(
-          rental.id,
-          `${rental.brand_name} ${rental.model} ${rental.fab_year}`,
-          rental.created_at,
-          'paid',
-          rental.status,
-          rental.total_price,
-          rental.start_date,
-          rental.end_date,
-          rental.rental_type
-        );
-      })
-      gsap.set(".rental-order-anm", {y: 100, opacity: 0})
-
-      gsap.to(".rental-order-anm", {
-          y: 0,
-          stagger: 0.1,
-          opacity: 1
-      });
+  .then(response => {
+    if (!response.ok) {
       closeLoader()
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    openLoader()
+    data.rentals.forEach(rental=>{
+      refreshRentals(
+        rental.id,
+        `${rental.brand_name} ${rental.model} ${rental.fab_year}`,
+        rental.created_at,
+        'paid',
+        rental.status,
+        rental.total_price,
+        rental.start_date,
+        rental.end_date,
+        rental.rental_type,
+        i
+      );
     })
-    .catch(error => {
-      closeLoader()
-      console.error('Failed to load rentals:', error);
+    gsap.set(".rental-order-anm", {y: 100, opacity: 0})
+    
+    gsap.to(".rental-order-anm", {
+      y: 0,
+      stagger: 0.1,
+      opacity: 1
     });
+    closeLoader()
+  })
+  .catch(error => {
+    closeLoader()
+    console.error('Failed to load rentals:', error);
+  });
+    
 }
-
-updateUrlFilters()
-
+  
+updateUrlFilters()  
 document.querySelectorAll('input[name="ordTf"]').forEach((radio) => {
   radio.addEventListener('change', updateUrlFilters);
 });

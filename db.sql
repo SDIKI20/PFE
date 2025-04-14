@@ -364,29 +364,6 @@ AFTER UPDATE OF units ON vehicles
 FOR EACH ROW
 EXECUTE FUNCTION update_vehicle_availability();
 
--- Prevent Overlapping Rentals for the Same Vehicle
-CREATE OR REPLACE FUNCTION prevent_overlapping_rentals()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF EXISTS (
-        SELECT 1 FROM rentals
-        WHERE vehicle_id = NEW.vehicle_id
-        AND status IN ('pending', 'active')
-        AND (NEW.start_date BETWEEN start_date AND end_date
-             OR NEW.end_date BETWEEN start_date AND end_date)
-    ) THEN
-        RAISE EXCEPTION 'This vehicle is already rented during the selected period.';
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER rental_overlap_trigger
-BEFORE INSERT OR UPDATE ON rentals
-FOR EACH ROW
-EXECUTE FUNCTION prevent_overlapping_rentals();
-
-
 --Inserts------------------------------------------------------------------
 
 INSERT INTO wilaya (name) VALUES 
@@ -554,6 +531,7 @@ INSERT INTO office (country, wilaya, city, address, open_time, close_time, latit
 ('Algeria', 'Constantine', 'Constantine', '789 Avenue Aissat Idir', '09:00:00', '21:00:00', 36.3650, 6.6147),
 ('Algeria', 'Annaba', 'Annaba', '101 Boulevard du 1er Novembre', '08:30:00', '21:30:00', 36.9009, 7.7567),
 ('Algeria', 'Tizi Ouzou', 'Tizi Ouzou', '202 Rue Abane Ramdane', '08:00:00', '20:00:00', 36.7167, 4.0500);
+('Algeria', 'Ghardaia', 'El Atteuf', 'El Atteuf', '08:00:00', '20:00:00', 32.3984, 3.7561);
 
 -- Insert vehicles
 INSERT INTO vehicles (brand_id, model, fab_year, color, capacity, fuel, transmission, body, price, location, units, speed, horsepower, engine_type, rental_type) VALUES
