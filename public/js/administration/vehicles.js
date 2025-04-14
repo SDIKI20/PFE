@@ -25,13 +25,22 @@ function fetchVehicles() {
                     <td>${vehicle.color}</td>
                     <td>${vehicle.fuel}</td>
                     <td>${vehicle.price}<span class="currence">DZD</span></td>
+                    
                     <td>
+                    <button 
+                            type="button" 
+                            class="edit-btn" 
+                            data-id="${vehicle.id}" 
+                            onclick="window.location.href='/editvehicle/${vehicle.id}'"
+                            data-model="${vehicle.model}">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
                         <button 
                             type="button" 
                             class="delete-btn" 
-                            data-id="${vehicle.id}" 
+                            data-id="${vehicle.id}"     
                             data-model="${vehicle.model}">
-                            Delete
+                            <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </td>
                 `;

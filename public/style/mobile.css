@@ -176,6 +176,11 @@
         height: 100% !important;
     }
     @media (max-width: 768px) {
+
+        .content-section{
+            width: 100vw;
+            padding: 1em;
+        }
     
         thead {
             display: none;
