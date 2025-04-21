@@ -217,45 +217,48 @@ function updateUrlFilters() {
 
   const FURL = `${window.location.origin}/api/users/rentals?${params.toString()}`
   openLoader()
-  fetch(FURL)
-  .then(response => {
-    if (!response.ok) {
-      closeLoader()
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then(data => {
-    openLoader()
-    clearRentals()
-    data.rentals.forEach(rental=>{
-      refreshRentals(
-        rental.id,
-        `${rental.brand_name} ${rental.model} ${rental.fab_year}`,
-        rental.created_at,
-        'paid',
-        rental.status,
-        rental.total_price,
-        rental.start_date,
-        rental.end_date,
-        rental.rental_type,
-        i
-      );
+  try {
+    fetch(FURL)
+    .then(response => {
+      if (!response.ok) {
+        closeLoader()
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
     })
-    gsap.set(".rental-order-anm", {y: 100, opacity: 0})
-    
-    gsap.to(".rental-order-anm", {
-      y: 0,
-      stagger: 0.1,
-      opacity: 1
+    .then(data => {
+      openLoader()
+      clearRentals()
+      data.rentals.forEach(rental=>{
+        refreshRentals(
+          rental.id,
+          `${rental.brand_name} ${rental.model} ${rental.fab_year}`,
+          rental.created_at,
+          'paid',
+          rental.status,
+          rental.total_price,
+          rental.start_date,
+          rental.end_date,
+          rental.rental_type,
+          i
+        );
+      })
+      gsap.set(".rental-order-anm", {y: 100, opacity: 0})
+      
+      gsap.to(".rental-order-anm", {
+        y: 0,
+        stagger: 0.1,
+        opacity: 1
+      });
+      closeLoader()
+    })
+    .catch(error => {
+      closeLoader()
+      console.error('Failed to load rentals:', error);
     });
-    closeLoader()
-  })
-  .catch(error => {
-    closeLoader()
-    console.error('Failed to load rentals:', error);
-  });
-    
+  } catch (error) {
+    pushNotif("e", "Somthing went wrong!")
+  }
 }
   
 updateUrlFilters()  

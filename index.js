@@ -19,6 +19,7 @@ const verificationRoutes = require("./api/routes/verificationRoutes");
 const emailRoutes = require('./api/routes/emailRoutes');
 const orders = require("./api/routes/orderRoutes");
 const vehicles = require("./api/routes/vehiclesRoutes");
+const { Console } = require("console");
 
 require("dotenv").config();
 
@@ -124,8 +125,10 @@ app.get("/login",checkAuth, (req, res) => {
     res.render("login")
 })
 
-app.get("/signup",checkAuth, (req, res) => {
-    res.render("signup")
+app.get("/signup",checkAuth, async (req, res) => {
+    const wilayas = await pool.query("SELECT * FROM wilaya WHERE 1=1");
+    const wilaya = wilayas.rows;
+    res.render("signup", {wilaya:wilaya})
 })
 
 app.get("/dashboard", async (req, res) => {
@@ -141,11 +144,13 @@ app.get("/settings", async (req, res) => {
 app.get("/car/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const userId = req.user ? req.user.id : null;  // Assuming the user object is attached to the request
+        const userId = req.user ? req.user.id : null;
         
-        // Query to fetch car details and review statistics
         const carResult = await pool.query(`
             SELECT 
+                vehicle_stock.stock_id,
+                vehicle_stock.units,
+                vehicle_stock.office_id,
                 vehicles.*, 
                 brands.name AS brand_name, 
                 brands.logo, 
@@ -165,11 +170,13 @@ app.get("/car/:id", async (req, res) => {
                 COUNT(reviews.id) FILTER (WHERE reviews.stars = 5) AS s5,
                 CASE WHEN COUNT(f.vehicle_id) > 0 THEN true ELSE false END AS is_favorite
             FROM 
-                vehicles
+                vehicle_stock
             JOIN 
+                vehicles ON vehicles.id = vehicle_stock.vehicle_id
+            JOIN
                 brands ON vehicles.brand_id = brands.id
             JOIN 
-                office ON vehicles.location = office.id
+                office ON vehicle_stock.office_id = office.id
             LEFT JOIN 
                 reviews ON vehicles.id = reviews.vehicle_id
             LEFT JOIN 
@@ -177,13 +184,12 @@ app.get("/car/:id", async (req, res) => {
             LEFT JOIN 
                 favorites f ON f.user_id = $1 AND f.vehicle_id = vehicles.id
             WHERE 
-                vehicles.id = $2
+                vehicle_stock.vehicle_id = $2
             GROUP BY 
-                vehicles.id, brands.id, office.id
+                vehicle_stock.stock_id, vehicles.id, brands.id, office.id
             LIMIT 1;
         `, [userId, id]);
 
-        // Query to fetch reviews for the car
         const carReviews = await pool.query(`
             SELECT 
                 reviews.*,
@@ -209,8 +215,24 @@ app.get("/car/:id", async (req, res) => {
     }
 });
 
+app.get("/city/:wilaya", async (req, res) => {
+    const { wilaya } = req.params;
+    const citiesL = await pool.query(`
+        SELECT city.*,
+                wilaya.name AS wilaya
+        FROM city 
+        JOIN wilaya ON city.wilaya_id = wilaya.id
+        WHERE LOWER(wilaya.name) = $1`
+         , [wilaya.toLocaleLowerCase()]);
+    const cities = citiesL.rows;
+    res.json(cities)
+})
+
 app.get("/home", async (req, res) => {
     try {
+
+        const userId = req.user ? req.user.id : null;
+
         const brandsResult = await pool.query("SELECT * FROM brands ORDER BY id ASC LIMIT 3");
         const brands = brandsResult.rows;
 
@@ -229,6 +251,9 @@ app.get("/home", async (req, res) => {
 
         const officesResult = await pool.query("SELECT * FROM office ORDER BY id ASC");
         const offices = officesResult.rows;
+
+        const userNewbie = await pool.query("SELECT * FROM newbie WHERE user_id = $1", [userId]);
+        const newbie = userNewbie.rows[0];
 
         const vehiclePromises = brands.map(async (b) => {
             const vehiclesResult = await pool.query(`
@@ -250,6 +275,7 @@ app.get("/home", async (req, res) => {
             reviews:reviews,
             vehicles: vehicles,
             offices: offices,
+            newbie: newbie,
             section: "home"
         });
 
@@ -277,9 +303,13 @@ app.get("/cars", async (req, res) => {
         } = req.query;
 
         const userId = req.user ? req.user.id : null;
+        const userNewbie = await pool.query("SELECT * FROM newbie WHERE user_id = $1", [userId]);
+        const newbie = userNewbie.rows[0];
 
         let query = `
-            SELECT v.*, 
+            SELECT
+                vs.*, 
+                v.*, 
                 b.name AS brand_name, 
                 b.logo AS brand_logo,
                 o.wilaya, 
@@ -287,9 +317,10 @@ app.get("/cars", async (req, res) => {
                 COALESCE(r.reviews, 0) AS reviews,
                 COALESCE(rn.orders, 0) AS orders,
                 CASE WHEN f.vehicle_id IS NOT NULL THEN true ELSE false END AS is_favorite
-            FROM vehicles v
+            FROM vehicle_stock vs
+            JOIN vehicles v ON v.id = vs.vehicle_id
             JOIN brands b ON v.brand_id = b.id
-            JOIN office o ON v.location = o.id
+            JOIN office o ON vs.office_id = o.id
             LEFT JOIN (
                 SELECT vehicle_id, 
                         ROUND(AVG(stars), 1) AS stars, 
@@ -308,10 +339,11 @@ app.get("/cars", async (req, res) => {
         `;
 
         let countQuery = `
-        SELECT COUNT(*) FROM vehicles v
-        JOIN brands b ON v.brand_id = b.id
-        JOIN office o ON v.location = o.id
-        WHERE 1=1
+            SELECT COUNT(*) FROM vehicle_stock vs
+            JOIN vehicles v ON v.id = vs.vehicle_id
+            JOIN brands b ON v.brand_id = b.id
+            JOIN office o ON vs.office_id = o.id
+            WHERE 1=1
         `;
 
         const values = [userId];
@@ -425,7 +457,6 @@ app.get("/cars", async (req, res) => {
         query += ` OFFSET $${index}`;
         values.push(parseInt(offset));
 
-        // handle parameter mismatch safely
         const countHasPlaceholders = countQuery.includes('$');
         const countQueryResult = countHasPlaceholders
             ? pool.query(countQuery, countValues)
@@ -454,6 +485,7 @@ app.get("/cars", async (req, res) => {
         res.render("home", {
             user: req.user,
             cars: cars,
+            newbie: newbie,
             brands: brandsList,
             fuelTypes: fuelTypes,
             bodyTypes: bodyTypes,
@@ -488,6 +520,9 @@ app.get("/rentals", checkNotAuth, async (req, res) => {
         const values = [req.user.id];
         const conditions = ["user_id = $1"];
         let index = values.length + 1;
+        const userId = req.user ? req.user.id : null;
+        const userNewbie = await pool.query("SELECT * FROM newbie WHERE user_id = $1", [userId]);
+        const newbie = userNewbie.rows[0];
 
         if (search) {
             conditions.push(`(
@@ -538,6 +573,7 @@ app.get("/rentals", checkNotAuth, async (req, res) => {
 
         res.render("home", {
             user: req.user,
+            newbie: newbie,
             section: "rentals",
             filters: req.query,
             rentals
@@ -557,27 +593,35 @@ app.get("/recent",checkNotAuth, (req, res) => {
     }
 })
 
-app.get("/fav",checkNotAuth, (req, res) => {
+app.get("/fav",checkNotAuth, async (req, res) => {
     try{
-        res.render("home", { user: req.user, section : "fav" });
+        const favCarsRows = await pool.query(`
+            SELECT favorites.*,
+                vehicles.*,
+                vehicle_stock.units AS units,
+                office.wilaya, office.city, office.address,
+                brands.name AS brand_name, brands.logo AS brand_logo
+            FROM favorites
+                JOIN vehicles ON vehicles.id = favorites.vehicle_id
+                JOIN vehicle_stock ON vehicles.id = vehicle_stock.vehicle_id
+                JOIN office ON office.id = vehicle_stock.office_id
+                JOIN brands ON brands.id = vehicles.brand_id
+            WHERE favorites.user_id = $1 
+        `,[req.user.id])
+        favCars = favCarsRows.rows
+        res.render("home", { user: req.user, section : "fav", favCars:favCars });
     }catch(error){
         console.error(error);
         res.status(500).render("p404");
     }
 })
 
-app.get("/profile",checkNotAuth, (req, res) => {
+app.get("/docs",checkNotAuth, async (req, res) => {
     try{
-        res.render("home", { user: req.user, section : "profile" });
-    }catch(error){
-        console.error(error);
-        res.status(500).render("p404");
-    }
-})
-
-app.get("/docs",checkNotAuth, (req, res) => {
-    try{
-        res.render("home", { user: req.user, section : "docs" });
+        const userId = req.user ? req.user.id : null;
+        const userNewbie = await pool.query("SELECT * FROM newbie WHERE user_id = $1", [userId]);
+        const newbie = userNewbie.rows[0];
+        res.render("home", { user: req.user, newbie:newbie, section : "docs" });
     }catch(error){
         console.error(error);
         res.status(500).render("p404");
@@ -703,7 +747,7 @@ app.post("/addvehicle",
 
 app.post('/reg', upload.single("image"), async (req, res) => {
     try {
-        const { fname, lname, email, address, country, wilaya, city, zipcode, phone, phone_country_code, birthdate, username, password } = req.body;
+        const { fname, lname, email, address, country, wilaya, city, zipcode, phone, phone_country_code, birthdate, username, password, sexe } = req.body;
         const role = "Client";
 
         // Get Cloudinary Image URL
@@ -712,13 +756,12 @@ app.post('/reg', upload.single("image"), async (req, res) => {
         // Hash Password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-
         // Store Data in Database
         const newUser = await pool.query(
-            `INSERT INTO users (fname, lname, image, email, address, country, wilaya, city, zipcode, phone, birthdate, username, password, role) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
+            `INSERT INTO users (fname, lname, sexe, image, email, address, country, wilaya, city, zipcode, phone, birthdate, username, password, role) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) 
              RETURNING id, email, fname, lname, role, image`,
-            [fname, lname, imageUrl, email, address, country, wilaya, city, zipcode, `+${phone_country_code}${phone}`, birthdate, username, hashedPassword, role]
+            [fname, lname, sexe, imageUrl, email, address, country, wilaya, city, zipcode, `+${phone_country_code}${phone}`, birthdate, username, hashedPassword, role]
         );
 
         // Delete the used token from the database

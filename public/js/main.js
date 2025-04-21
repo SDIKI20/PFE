@@ -39,6 +39,11 @@ function fakeLoading(t){
     }, t*1000);
 }
 
+function isMobile() {
+    return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+
 document.addEventListener("DOMContentLoaded", function () {
     openLoader()
     window.addEventListener("load", function () {
@@ -285,3 +290,205 @@ pushNotif("i", "Information Message Notification")
 pushNotif("w", "Warning Message Notification")
 pushNotif("s", "Success Message Notification")
 */
+
+function isEmail(mail) {
+    return (/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(mail);
+}
+
+function isUsername(username) {
+    return (/^[a-zA-Z][a-zA-Z0-9_]{4,}$/).test(username);
+}
+
+function isName(name) {
+    return (/^[a-zA-Z]{3,10}$/).test(name);
+}
+
+function isZip(zip) {
+    return (/^\d{3,}$/).test(zip);
+}
+
+function isValidPassword(password) {
+    return (/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{9,}$/).test(password);
+}
+
+function checkPasswordStrength(password) {
+    const errors = [];
+
+    if (password.length < 8) {
+        errors.push("Password must be at least 8 characters");
+    }
+
+    if (!/[A-Z]/.test(password)) {
+        errors.push("Password must include an uppercase letter");
+    }
+
+    if (!/\d/.test(password)) {
+        errors.push("Password must include a number");
+    }
+
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+        errors.push("Password must include a special character");
+    }
+
+    return errors;
+}
+
+function checkUsername(username) {
+    const errors = [];
+
+    if (username.length < 5) {
+        errors.push("Username must be at least 5 characters long");
+    }
+
+    if (!/^[a-zA-Z]/.test(username)) {
+        errors.push("Username must start with a letter");
+    }
+
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+        errors.push("Username can only contain letters, numbers, and underscores");
+    }
+
+    return errors;
+}
+
+function checkName(name) {
+    const errors = [];
+
+    if (name.length < 3 || name.length > 10) {
+        errors.push("Name must be between 3 and 10 characters long");
+    }
+
+    if (!/^[a-zA-Z]+$/.test(name)) {
+        errors.push("Name can only contain letters (A-Z or a-z)");
+    }
+
+    return errors;
+}
+
+function checkPhone(number) {
+    const errors = [];
+
+    if (!/^\d+$/.test(number)) {
+        errors.push("Phone number must contain only digits");
+    }
+
+    const num = number.startsWith('0') ? number.slice(1) : number;
+
+    if (num.length < 8) {
+        errors.push("Phone number must be at least 8 digits long");
+    }
+
+    return errors;
+}
+
+function checkPasswordMatch(password, confirmPassword) {
+    const errors = [];
+
+    if (password !== confirmPassword) {
+        errors.push("Passwords do not match");
+    }
+
+    return errors;
+}
+
+function isValidPhone(number) {
+    return (/^0?(\d{8,})$/).test(number); // optional leading 0, at least 8 digits
+}
+
+function formatPhone(number) {
+    return number.startsWith('0') ? number.slice(1) : number; // fixed `phone` typo
+}
+
+function inputErrors(title, errors) {
+    const validation = document.createElement('div');
+    validation.classList.add('validation');
+
+    const errAlert = document.createElement('div');
+    errAlert.classList.add('error-alert');
+
+    const flexRow = document.createElement('div');
+    flexRow.classList.add('flex-row');
+
+    const iconWrapper = document.createElement('div');
+    iconWrapper.classList.add('flex-shrink-0');
+
+    const closeBut = document.createElement('i');
+    closeBut.classList.add('error-svg', 'fa-solid', 'fa-xmark');
+    closeBut.addEventListener('click', () => {
+        validation.remove();
+    });
+
+    iconWrapper.appendChild(closeBut);
+
+    const errorPromptContainer = document.createElement('div');
+    errorPromptContainer.classList.add('error-prompt-container');
+
+    const heading = document.createElement('p');
+    heading.classList.add('error-prompt-heading');
+    heading.textContent = title;
+
+    const errorPromptWrap = document.createElement('div');
+    errorPromptWrap.classList.add('error-prompt-wrap');
+
+    const ul = document.createElement('ul');
+    ul.classList.add('error-prompt-list');
+    ul.setAttribute('role', 'list');
+
+    errors.forEach(errorText => {
+        const li = document.createElement('li');
+        li.textContent = errorText;
+        ul.appendChild(li);
+    });
+
+    errorPromptWrap.appendChild(ul);
+    errorPromptContainer.appendChild(heading);
+    errorPromptContainer.appendChild(errorPromptWrap);
+
+    flexRow.appendChild(iconWrapper);
+    flexRow.appendChild(errorPromptContainer);
+
+    errAlert.appendChild(flexRow);
+    validation.appendChild(errAlert);
+
+    
+    try {
+        document.querySelectorAll('.validation').forEach(v=>{
+            v.remove()
+        })
+    } catch (error) {}
+    
+    document.body.appendChild(validation);
+    setTimeout(() => {
+        validation.style.opacity = 1
+    }, 100);
+}
+
+function validInput(inputId, type) {
+    const input = document.getElementById(inputId);
+    input.addEventListener('input', () => {
+        let isValid = false;
+        switch (type) {
+            case "p":
+                isValid = isValidPassword(input.value);
+                break;
+            case "e":
+                isValid = isEmail(input.value);
+                break;
+            case "n":
+                isValid = isName(input.value);
+                break;
+            case "z":
+                isValid = isZip(input.value);
+                break;
+            case "u":
+                isValid = isUsername(input.value);
+                break;
+            case "ph":
+                isValid = isValidPhone(input.value);
+                break;
+        }
+        input.style.border = isValid
+            ? "2px solid var(--border-low)"
+            : "2px solid rgba(235, 34, 34, 0.586)";
+    });
+}

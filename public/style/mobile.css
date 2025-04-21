@@ -218,6 +218,10 @@
         min-height: 100%;
     }
 
+    .home-banner{
+        min-height: 8em;
+    }
+
     .main-navigator{
         position: fixed;
         height: 100svh;
@@ -230,6 +234,10 @@
         border-radius: 0 10px 10px 0;
         transition: all ease 0.6s;
         left: -130px;
+    }
+
+    .fav-cars{
+        height: calc(100vh - 4.5em);
     }
 
     .map-img{
@@ -275,6 +283,24 @@
     #homeNavIcon{
         display: inline;
     }
+
+    .pop-cars-container{
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0 0.5em;
+    }
+
+    .mini4p{
+        font-size: 0.6rem !important;
+    }
+
+    .mini4pL{
+        font-size: 0.75rem !important;
+    }
+
+    .pop-car-name .title{
+        font-size: 0.8rem;
+    }    
 
     .cars-logo{
         width: 100%;
@@ -874,12 +900,13 @@
     }
 
     .docsDocBody{
-        flex-direction: column;
         width: 100%;
         height: 100%;
         overflow-y: auto;
-        align-items: center;
+        align-items: flex-start;
         justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 1.5em;
         padding: 1rem;
     }
 
@@ -1006,6 +1033,34 @@
     }
 
     /*-------------------------------------------------------*/
+
+    /*--------------------Help Section------------------*/
+
+    .help-sec{
+        width: 100%;
+        height: calc(100% - 4.5em);
+    }
+
+    .help-sec-head{
+        width: 100%;
+        text-align: center;
+        margin: 0;
+    }
+
+    .help-sec-head .fa-handshake-angle{
+        font-size: 1.5rem;
+    }
+
+    .help-sec-head h1{
+        font-size: 1.4rem;
+    }
+
+    .help-questions{
+        width: 100%;
+        margin-top: 0.5em;
+    }
+
+    /*---------------------------------------------------*/
 
 }
 

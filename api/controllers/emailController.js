@@ -72,8 +72,23 @@ exports.sendLoginLink = async (req, res) => {
             from: process.env.EMAIL_USER,
             to: email,
             subject: "Login Link",
-            html: `<p>Click <a href="${loginLink}">here</a> to log in. This link is valid for 30 minutes.</p>`
-        };
+            html: `
+                  <h1>DZRentCars</h1>
+                  <br/>
+                  <img src="https://i.ibb.co/NnZVzj1T/logo.png" alt="Picture" width="100" style="margin: 10px 0;" />
+                  <br/>
+                  <p style="max-width: 500px; margin: 10px 0;">
+                      This link will expire in 30 minutes for your security. If you did not create an account or request this verification, please ignore this message.<br><br>
+                      If you have any questions or need help, feel free to contact our support team.
+                  </p>
+                  <br/>
+                  <a href="${loginLink}" style="border: none; padding: 0.5em 1em; background-color: orange; color: white; border-radius: 8px; text-decoration: none; margin: 15px 0;">Click Here</a>
+                  <br/>
+                  <p style="color: red; opacity: 0.6; align-self: flex-start; font-size: 0.8rem; margin-top: 25px;">
+                      Do not share this message with anyone.
+                  </p>
+            `
+          };          
 
         await transporter.sendMail(mailOptions);
         res.json({ message: "Login link sent successfully" });

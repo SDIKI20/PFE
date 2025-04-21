@@ -166,7 +166,7 @@
                     
                 </div>
             </div>
-            <a href="/cars" class="explore-linl bt-hover">Explore more →</a>
+            <a href="/home" class="explore-linl bt-hover">Explore more →</a>
         </section>
         <section class="doc-section features-section flex-col" id="featuresSection">
             <div class="features-desc flex-col">
@@ -203,7 +203,7 @@
         
             <script src="/lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
             <script>
-                mapboxgl.accessToken = '';
+                mapboxgl.accessToken = '<%= process.env.MAPBOX_TOKEN %>';
         
                 const map = new mapboxgl.Map({
                     container: 'cordMap',

@@ -269,3 +269,100 @@ input:disabled{
     z-index: 0;
     opacity: 0.1;
 }
+
+.tips {
+    font-size: var(--font-sml);
+    display: flex;
+    align-items: center;
+}
+
+.tips p {
+    margin-bottom: 0;
+    margin-top: 0;
+    margin-right: 60px;
+}
+
+#passEye:has(input[type="checkbox"]:checked) .fa-eye {
+    display: flex;
+}
+
+#passEye:has(input[type="checkbox"]:checked) .fa-eye-slash {
+    display: none;
+}
+
+#passEye:has(input[type="checkbox"]:not(:checked)) .fa-eye {
+    display: none;
+}
+
+#passEye:has(input[type="checkbox"]:not(:checked)) .fa-eye-slash {
+    display: flex;
+}
+
+#passEye{
+    position: absolute;
+    top: 62%;
+    right: 15px;
+    transform: translateY(-50%);
+}
+  
+#passEye i{
+    font-size: var(--font-med);
+    color: var(--text);
+    opacity: 0.8;
+    cursor: pointer;
+    transition: ease-in-out 0.6s;
+}
+
+#passEye i:hover{
+    scale: 1.05;
+    opacity: 1;
+}
+
+.sxlb{
+    font-size: var(--text);
+    font-size: var(--font-sml);
+    gap: 0.5rem;
+}
+
+.sxlb input[type=radio] {
+    --s: 1em;    
+    --c: var(--color-main);
+    
+    height: var(--s);
+    aspect-ratio: 1;
+    border: calc(var(--s)/8) solid #939393;
+    padding: calc(var(--s)/8);
+    background: 
+       radial-gradient(farthest-side,var(--c) 94%,#0000) 
+       50%/0 0 no-repeat content-box;
+    border-radius: 50%;
+    outline-offset: calc(var(--s)/10);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    font-size: inherit;
+    transition: .3s;
+}
+
+.sxlb input[type=radio]:checked {
+    border-color: var(--c);
+    background-size: 100% 100%;
+}
+  
+@media print {
+    .sxlb input[type=radio] {
+      -webkit-appearance: auto;
+      -moz-appearance: auto;
+      appearance: auto;
+      background: none;
+    }
+}
+  
+.sxlb label {
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    margin:5px 0;
+    cursor: pointer;
+}

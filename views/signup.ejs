@@ -20,7 +20,7 @@
 <body class="flex-col flex-center">
     <img class="map-img" src="../assets/images/map.png" alt="Maps">
     <main class="doc">
-        <form class="signupForm" id="signupForm" action="/reg" method="post" autocomplete="off" enctype="multipart/form-data">
+        <form class="signupForm" id="signupForm" action="/reg" method="post" enctype="multipart/form-data">
             <div class="form flex-col">
                 <h1 class="formTitle">Create Account</h1>
                 <div class="formBody flex-col flex-center">
@@ -33,9 +33,14 @@
                         <label class="label-important" for="username">Username</label>
                         <input type="text" name="username" id="username" class="input-info" placeholder="Username" required>
                     </div>
-                    <div class="input-container">
+                    <div class="flex-col input-container" style="position: relative;">
                         <label class="label-important" for="password">Password</label>
                         <input type="password" name="password" id="password" class="input-info" placeholder="password" required>
+                        <label id="passEye">
+                            <i class="fa-regular fa-eye"></i>
+                            <i class="fa-regular fa-eye-slash"></i>
+                            <input type="checkbox" hidden id="passHide">
+                        </label>
                     </div>
                     <div class="input-container">
                         <label class="label-important" for="rePassword">Repeat Password</label>
@@ -48,7 +53,7 @@
                         <label for="agreeTerms">Agree Terms</label>
                     </div>
                 </div>
-                <button type="submit" onclick="openLoader()" class="bt bt-hover" name="Registre" id="Registre">Signup <i class="fa-solid fa-user-plus" style="color: white; margin-left: 5px;"></i></button>
+                <button type="submit" class="bt bt-hover" name="Registre" id="Registre">Signup <i class="fa-solid fa-user-plus" style="color: white; margin-left: 5px;"></i></button>
             </div>
             <div class="sidel flex-col">
                 <div class="pictureConainer" id="pictureConainer">
@@ -78,13 +83,21 @@
                         <div class="hold">
                             <div class="input-container hold1">
                                 <label class="label-important" for="country">Country</label>
-                                <input type="text" name="country" id="country" class="input-info" placeholder="Country" required>
+                                <input list="countries" type="text" name="country" id="country" class="input-info" placeholder="Country" required>
+                                <datalist id="countries">
+                                    <option value="Algeria">Algeria</option>
+                                </datalist>
                             </div>
                         </div>
                         <div class="hold">
                             <div class="input-container hold1">
-                                <label for="state" class="label-important">State</label>
-                                <input type="text" name="wilaya" id="state" class="input-info" placeholder="State" required>
+                                <label for="state" class="label-important">Wilaya</label>
+                                <input list="wilayas" type="text" name="wilaya" id="state" class="input-info" placeholder="State" required>
+                                <datalist id="wilayas">
+                                    <% if (wilaya) wilaya.forEach(w => { %>                                     
+                                        <option value="<%= w.name  %>"><%= w.id  %></option>
+                                    <% }) %>
+                                </datalist>
                             </div>
                         </div>
                     </div>
@@ -92,7 +105,9 @@
                         <div class="hold">
                             <div class="input-container hold1">
                                 <label for="city" class="label-important">City</label>
-                                <input type="text" name="city" id="city" class="input-info" placeholder="City" required>
+                                <input list="cities" type="text" name="city" id="city" class="input-info" placeholder="City" required>
+                                <datalist id="cities">
+                                </datalist>
                             </div>
                         </div>
                         <div class="hold">
@@ -102,9 +117,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="input-container inpth">
-                        <label for="dateN" class="label-important">Birth Day</label>
-                        <input type="date" name="birthdate" id="birthdate" class="input-info" style="width: 45%;" required>
+                    <div class="flex-row center-start" style="width: 90%; padding: 5px">
+                        <div class="input-container inpth">
+                            <label for="dateN" class="label-important">Birth Day</label>
+                            <input type="date" name="birthdate" id="birthdate" class="input-info" style="width: 45%;" required>
+                        </div>
+                        <div class="flex-row center-start sxlb">
+                            <input value="M" type="radio" name="sexe" id="sM" checked>
+                            <label for="sM" class="para-mid">Male</label>
+                            <input value="F" type="radio" name="sexe" id="sF">
+                            <label for="sF" class="para-mid">Female</label>
+                        </div>
                     </div>
                     <div class="input-container inpth">
                         <label class="label-important" for="phone">Phone</label>
