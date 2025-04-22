@@ -44,7 +44,7 @@
     function formatDate(dateString) {
         const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        const date = new Date(dateString);
+        const date = new Date(dateString)
         const day = String(date.getDate()).padStart(2, '0');
         const month = months[date.getMonth()];
         return `${day} ${month}`;
@@ -95,6 +95,15 @@
                     </div>
                 </a>
             <% } %>
+            <% if(user) if (user.role == "Admin") { %>
+                <a id="navDash" href="/dashboard" data-section="dashboard" class="plat-nav-element" title="Administration">
+                    <label for="sectDocs">
+                        <div class="flex-col">
+                            <i class="fa-solid fa-user-tie"></i>
+                        </div>
+                    </label>
+                </a>
+            <% } %>
             <a id="navHome" href="/home" data-section="home" class="plat-nav-element <%= section==="home"?"plat-nav-selected":"" %>" title="Home" >
                 <label for="sectHome">
                     <div class="flex-col">
@@ -138,16 +147,6 @@
             <% }%>
         </ul>
         <ul class="plat-user-info flex-col center-start">
-            <% if(user) if (user.role == "Admin") { %>
-                <a id="navDash" href="/dashboard" data-section="dashboard" class="plat-nav-element" title="Administration">
-                    <label for="sectDocs">
-                        <div class="flex-col">
-                            <i class="fa-solid fa-user-tie"></i>
-                            <p class="nav-label">Admin</p>
-                        </div>
-                    </label>
-                </a>
-            <% } %>
             <% if (user) { %>
                 <a id="navDocs" href="/docs" data-section="docs" class="plat-nav-element <%= section==="docs"?"plat-nav-selected":"" %>" title="My Profile">
                     <label for="sectDocs">
@@ -1233,8 +1232,9 @@
     <% } %>
     <% if (section === 'help') { %>
         <section class="plat-main-doc flex-col center-start" id="helpDoc">
+            <img loading="lazy" class="map-img" src="/assets/images/map.png" alt="Maps" style="z-index: 1;">
             <input type="radio" class="sectRad" hidden name="sectRad" id="sectHelp">   
-            <div class="flex-col center-start help-sec">
+            <div class="flex-col center-start help-sec" style="z-index: 3;">
                 <div class="flex-col flex-center help-sec-head">
                     <i class="fa-solid fa-handshake-angle"></i>
                     <h1>Frequently asked questions</h1>

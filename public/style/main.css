@@ -665,11 +665,31 @@ option{
     cursor: pointer;
 }
 
-.bt-hover:hover{
+.bt-hover:hover,
+.bt-hover:hover *{
     opacity: 0.8;
     transform: scale(1.015);
     transition: ease 0.5s;
     cursor: pointer;
+}
+
+.bt-reg,
+.bt-solid{
+    border-radius: 8px;
+    padding: 0.325em 0.625em;
+    height: 3.5em;
+    margin: 0;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    font-size: 0.7rem !important;
+    color: var(--text);
+    min-width: 3em;
+}
+
+.bt-solid{
+    background-color: black;
+    color: white;
+    border: none;
 }
 
 .bt-primary{
