@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
   // جلب كل الطلبات
   function fetchOrders() {
+    openLoader()
     fetch("http://localhost:4000/api/orders/getOrders")
       .then(response => response.json())
       .then(rentals => {
