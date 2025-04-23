@@ -224,11 +224,42 @@ const deleteuser = async (req, res) => {
 
 const getClients = async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM users WHERE role = 'Client'");
-        res.status(200).json(result.rows);
+      const { limit = 5, offset = 0, order = "id", dire = "DESC" } = req.query;
+  
+      const allowedOrders = ['id', 'created_at']; 
+      const allowedDirections = ['ASC', 'DESC'];
+  
+      const safeOrder = allowedOrders.includes(order) ? order : 'id';
+      const safeDire = allowedDirections.includes(dire.toUpperCase()) ? dire.toUpperCase() : 'DESC';
+  
+      const countResult = await pool.query(`
+        SELECT 
+            count(u.id) 
+        FROM users u 
+        WHERE role = 'Client'
+      `);
+  
+      const total = parseInt(countResult.rows[0].count, 10);
+  
+      const result = await pool.query(
+        `
+            SELECT * 
+            FROM users u
+            WHERE role = 'Client' 
+            ORDER BY u.${safeOrder} ${safeDire}
+            LIMIT $1 OFFSET $2
+        `,
+        [limit, offset]
+      );
+  
+      res.status(200).json({
+        total,
+        clients: result.rows
+      });
+  
     } catch (error) {
-        console.error("Error fetching clients:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+      console.error("Error fetching clients:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
 };
 
@@ -244,12 +275,48 @@ const getAdmins = async (req, res) => {
 
 const getEmployees = async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM users WHERE role = 'Employe'");
-        res.status(200).json(result.rows);
-    } catch (error) {
+        const { limit = 5, offset = 0, order = "id", dire = "DESC" } = req.query;
+    
+        const allowedOrders = ['id', 'created_at']; 
+        const allowedDirections = ['ASC', 'DESC'];
+    
+        const safeOrder = allowedOrders.includes(order) ? order : 'id';
+        const safeDire = allowedDirections.includes(dire.toUpperCase()) ? dire.toUpperCase() : 'DESC';
+    
+        const countResult = await pool.query(`
+            SELECT 
+                count(u.id)
+            FROM 
+                users u
+                JOIN office o ON o.id = u.office_id
+            WHERE role = 'Employe' 
+        `);
+    
+        const total = parseInt(countResult.rows[0].count, 10);
+    
+        const result = await pool.query(`
+            SELECT 
+                u.*,
+                o.country AS office_country, o.wilaya AS office_wilaya, o.city AS office_city, o.address AS office_address
+            FROM 
+                users u
+                JOIN office o ON o.id = u.office_id
+            WHERE role = 'Employe'
+            ORDER BY u.${safeOrder} ${safeDire}
+            LIMIT $1 OFFSET $2
+          `,
+          [limit, offset]
+        );
+    
+        res.status(200).json({
+          total,
+          employees: result.rows
+        });
+    
+      } catch (error) {
         console.error("Error fetching employees:", error);
         res.status(500).json({ error: "Internal Server Error" });
-    }
+      }
 };
 
 module.exports = { 

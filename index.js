@@ -845,35 +845,6 @@ app.get('/settings',checkNotAuth, async (req, res) => {
 
 app.get('/dbm',checkNotAuth, async (req, res) => {
     try{
-        const clientsRows = await pool.query(`
-            SELECT * 
-            FROM users 
-            WHERE role = 'Client' 
-            ORDER BY id LIMIT 5
-        `)
-        const employeesRows = await pool.query(`
-            SELECT 
-                u.*,
-                o.country, o.wilaya, o.city, o.address
-            FROM 
-                users u
-                JOIN office o ON o.id = u.office_id
-            WHERE role = 'Employe' 
-            ORDER BY id LIMIT 5
-        `)
-        const vehiclesRows = await pool.query(`
-            SELECT  vs.units,
-                v.*,
-                b.name AS brand_name, b.logo,
-                o.country, o.wilaya, o.city, o.address
-            FROM
-                vehicle_stock vs
-                JOIN vehicles v ON v.id = vs.vehicle_id
-                JOIN brands b ON b.id = v.brand_id
-                JOIN office o ON o.id = vs.office_id
-            ORDER BY v.id
-            LIMIT 5
-        `)
         const ordersRows = await pool.query(`
             SELECT  r.*,
                 u.username,
@@ -888,36 +859,10 @@ app.get('/dbm',checkNotAuth, async (req, res) => {
                 JOIN vehicle_stock vs ON vs.vehicle_id = v.id
                 JOIN office o ON o.id = vs.office_id
             ORDER BY r.id
-            LIMIT 5
+            LIMIT 10
         `)
 
         const orders =  ordersRows.rows
-        const vehicles =  vehiclesRows.rows
-        const employees =  employeesRows.rows
-        const clients =  clientsRows.rows
-
-        const clientsTRows = await pool.query(`
-            SELECT 
-                count(u.id) 
-            FROM users u 
-            WHERE role = 'Client'
-        `)
-        const employeesTRows = await pool.query(`
-            SELECT 
-            count(u.id)
-            FROM 
-            users u
-            JOIN office o ON o.id = u.office_id
-            WHERE role = 'Employe' 
-        `)
-        const vehiclesTRows = await pool.query(`
-            SELECT count(vs.stock_id)
-            FROM
-            vehicle_stock vs
-            JOIN vehicles v ON v.id = vs.vehicle_id
-            JOIN brands b ON b.id = v.brand_id
-            JOIN office o ON o.id = vs.office_id
-        `)
         const ordersTRows = await pool.query(`
             SELECT  count(r.id)
             FROM
@@ -928,13 +873,9 @@ app.get('/dbm',checkNotAuth, async (req, res) => {
             JOIN vehicle_stock vs ON vs.vehicle_id = v.id
             JOIN office o ON o.id = vs.office_id
         `)
-
         const To =  ordersTRows.rows[0].count
-        const Te =  employeesTRows.rows[0].count
-        const Tc =  clientsTRows.rows[0].count
-        const Tv =  vehiclesTRows.rows[0].count
 
-        res.render("dashboard",{user: req.user, clients:clients, vehicles:vehicles, orders:orders, employees:employees, Tc:Tc, Te:Te, Tv:Tv, To:To, section:"dbm"})
+        res.render("dashboard",{user: req.user, orders:orders, To:To, section:"dbm"})
     }catch(error){
         console.error(error);
         res.status(500).render("p404");

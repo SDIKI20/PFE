@@ -654,6 +654,18 @@ option{
     color: rgb(12, 28, 63);
 }
 
+.gap-min{
+    gap: 0.325em;
+}
+
+.h100{
+    height: 100%;
+}
+
+.w100{
+    width: 100%;
+}
+
 /*--------------------*/
 
 /*          buttons           */
@@ -674,7 +686,8 @@ option{
 }
 
 .bt-reg,
-.bt-solid{
+.bt-solid,
+.input-reg{
     border-radius: 8px;
     padding: 0.325em 0.625em;
     height: 3.5em;
@@ -684,6 +697,7 @@ option{
     font-size: 0.7rem !important;
     color: var(--text);
     min-width: 3em;
+    background-color: transparent;
 }
 
 .bt-solid{
@@ -942,6 +956,39 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     opacity: 0;
     display: none;
     z-index: 9999;
+}
+
+.sloader {
+    border: 3px solid var(--text);
+    border-left-color: transparent;
+    border-radius: 50%;
+    align-self: center;
+    margin: 0 0.325em;
+}
+  
+.sloader {
+    border: 3px solid var(--text);
+    border-left-color: transparent;
+    width: 20px;
+    height: 20px;
+}
+  
+.sloader {
+    border: 3px solid var(--text);
+    border-left-color: transparent;
+    width: 20px;
+    height: 20px;
+    animation: spin89345 1s linear infinite;
+}
+  
+@keyframes spin89345 {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
 }
 
 /*---------------------------------*/

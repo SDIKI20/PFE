@@ -1,3 +1,4 @@
+const { Query } = require("pg");
 const { pool } = require("../config/dbConfig");
 
 // Get all brands
@@ -35,13 +36,45 @@ const getBrandVehicles = async (req, res) => {
 // Get all vehicles
 const getVehicles = async (req, res) => {
   try {
-    const result = await pool.query(`
-      SELECT vehicles.*, brands.name AS brand_name, brands.logo AS brand_logo
-      FROM vehicles
-      JOIN brands ON vehicles.brand_id = brands.id
-      ORDER BY vehicles.id ASC
+    const { limit = 5, offset = 0, order = "id", dire = "DESC" } = req.query;
+
+    const allowedOrders = ['id', 'created_at']; 
+    const allowedDirections = ['ASC', 'DESC'];
+
+    const safeOrder = allowedOrders.includes(order) ? order : 'id';
+    const safeDire = allowedDirections.includes(dire.toUpperCase()) ? dire.toUpperCase() : 'DESC';
+
+    // Get the total count (without limit/offset)
+    const countResult = await pool.query(`
+      SELECT COUNT(*) FROM vehicle_stock vs
+      JOIN vehicles v ON v.id = vs.vehicle_id
     `);
-    res.status(200).json(result.rows);
+
+    const total = parseInt(countResult.rows[0].count, 10);
+
+    // Get paginated data
+    const result = await pool.query(
+      `
+      SELECT  vs.units,
+              v.*,
+              b.name AS brand_name, b.logo AS brand_logo,
+              o.country, o.wilaya, o.city, o.address
+      FROM
+          vehicle_stock vs
+          JOIN vehicles v ON v.id = vs.vehicle_id
+          JOIN brands b ON b.id = v.brand_id
+          JOIN office o ON o.id = vs.office_id
+      ORDER BY v.${safeOrder} ${safeDire}
+      LIMIT $1 OFFSET $2
+      `,
+      [limit, offset]
+    );
+
+    res.status(200).json({
+      total,
+      vehicles: result.rows
+    });
+
   } catch (error) {
     console.error("Error fetching vehicles:", error);
     res.status(500).json({ error: "Internal Server Error" });
