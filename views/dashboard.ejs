@@ -144,7 +144,7 @@
             </section>
         <% } %>
         <% if (section === 'addvehicle') {%>
-            <form class="form-container add-vehicle-form" action="/addvehicle" method="post" autocomplete="off" enctype="multipart/form-data">
+            <form class="form-container add-vehicle-form" action="/addvehicle" method="post" autocomplete="off" enctype="multipart/form-data" style="height: 100vh; width: 100%;">
                 <p class="title" style="margin-bottom: 10px;">
                     <a style="color: var(--text);" href="/vehicles">Vehicles</a>
                     <i class="fa-solid fa-chevron-right" style="font-size: var(--font-sml);"></i> 
@@ -292,9 +292,40 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn bt-primary" id="addVehicleBut">Ajouter</button>
+                    <button type="submit" class="btn bt-primary" id="addVehicleBut">Add</button>
                 </div>
+                <h3>Add New Car Model</h3>
+                <div class="flex-row" style="gap: 5px;">
+                    <div class="form-group" style="width: calc(30% - 5px);">
+                        <label class="form-label" for="brand">Brand</label>
+                        <input type="text" id="brand" name="brand_id" placeholder="Ex:Suzuki" required>
+                    </div>
+                    <div class="form-group" style="width: 50%;">
+                        <label class="form-label" for="model">Model</label>
+                        <input type="text" id="model" name="model" placeholder="Ex: Yaris" required>
+                    </div>
+                    <div class="form-group" style="width: calc(50% - 5px);">
+                        <label class="form-label" for="fuel">Fuel Type</label>
+                        <input type="text" id="fuel" name="fuel" placeholder="Ex: petrol" required>
+                    </div>
+                    <div class="form-group" style="width: calc(20% - 5px);">
+                        <label class="form-label" for="fab_year">Year</label>
+                        <input type="text" id="fab_year" name="fab_year" placeholder="Ex: 2023" required>
+                    </div>
+                    <div class="flex-col" style="width: calc(70% - 10px);">
+                        <label for="image" class="image-block flex-row flex-center">
+                            <input type="file" id="image" name="image" accept="image/*" hidden>
+                            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn bt-primary" id="addVehicleBut">Add</button>
+                    </div>
+                </div>
+               
             </form> 
+  
+              
         <% } %>
         <% if (section==='dashboard' ) { %>
             <section class="content-section" id="dash-content">
