@@ -30,5 +30,4 @@ router.get("/getClients", getClients);
 router.get("/getAdmins", getAdmins);
 router.get("/getEmployees", getEmployees);
 
-
 module.exports = router;
