@@ -705,11 +705,11 @@ app.post("/addvehicle",
 
         const query = `
             INSERT INTO vehicles (
-                brand_id, model, color, capacity, fuel, transmission, availability, body, price, location,
-                image, prevImage1, prevImage2, prevImage3, units, speed, horsepower, engine_type, rental_type,description
+                brand_id, model, color, capacity, fuel, transmission, availability, body, price,
+                image, prevImage1, prevImage2, prevImage3, speed, horsepower, engine_type, rental_type, description
             )
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 
-                    $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
+                    $11, $12, $13, $14, $15, $16, $17, $18)
             RETURNING *;
         `;
 
@@ -723,20 +723,25 @@ app.post("/addvehicle",
             isAvailable,
             body,
             price,
-            location,
             mainImage,
             prevImage1,
             prevImage2,
             prevImage3,
-            vehicleUnits,
             vehicleSpeed,
             vehicleHorsepower,
             vehicleEngineType,
             vehicleRentalType,
-            description
+            description?description:"No description"
         ];
 
-        await pool.query(query, values);
+        const result = await pool.query(query, values);
+        console.log(result.rows)
+        await pool.query(`
+            INSERT INTO vehicle_stock (
+                vehicle_id, office_id, units
+            )
+            VALUES ($1, $2, $3);
+        `,[result.rows[0].id, location, vehicleUnits])
         res.redirect('/vehicles');
 
     } catch (error) {
@@ -845,37 +850,7 @@ app.get('/settings',checkNotAuth, async (req, res) => {
 
 app.get('/dbm',checkNotAuth, async (req, res) => {
     try{
-        const ordersRows = await pool.query(`
-            SELECT  r.*,
-                u.username,
-                v.model, v.fab_year,
-                b.name AS brand_name,
-                o.country, o.wilaya, o.city, o.address
-            FROM
-                rentals r
-                JOIN users u ON u.id = r.user_id
-                JOIN vehicles v ON v.id = r.vehicle_id
-                JOIN brands b ON b.id = v.brand_id
-                JOIN vehicle_stock vs ON vs.vehicle_id = v.id
-                JOIN office o ON o.id = vs.office_id
-            ORDER BY r.id
-            LIMIT 10
-        `)
-
-        const orders =  ordersRows.rows
-        const ordersTRows = await pool.query(`
-            SELECT  count(r.id)
-            FROM
-            rentals r
-            JOIN users u ON u.id = r.user_id
-            JOIN vehicles v ON v.id = r.vehicle_id
-            JOIN brands b ON b.id = v.brand_id
-            JOIN vehicle_stock vs ON vs.vehicle_id = v.id
-            JOIN office o ON o.id = vs.office_id
-        `)
-        const To =  ordersTRows.rows[0].count
-
-        res.render("dashboard",{user: req.user, orders:orders, To:To, section:"dbm"})
+        res.render("dashboard",{user: req.user, section:"dbm"})
     }catch(error){
         console.error(error);
         res.status(500).render("p404");

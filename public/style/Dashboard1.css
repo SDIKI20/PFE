@@ -919,8 +919,7 @@ tr:hover {
   height: 30px;
   overflow: hidden;
   border-radius: 8px;
-  border: 1px solid var(--color-main);
-  box-shadow: 0 0 30px var(--color-second);
+  box-shadow: 0 0 5px var(--color-second);
 }
 
 .dbm-profile img{
