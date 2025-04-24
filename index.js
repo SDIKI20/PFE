@@ -750,6 +750,89 @@ app.post("/addvehicle",
     }
 });
 
+app.post("/addnewmodel", 
+    upload.fields([
+        { name: "image", maxCount: 1 },
+        { name: "prevImage1", maxCount: 1 },
+        { name: "prevImage2", maxCount: 1 },
+        { name: "prevImage3", maxCount: 1 }
+    ])
+    ,async (req, res) => {
+    try {
+        const {
+            brand_id,
+            model,
+            color,
+            capacity,
+            fuel,
+            transmission,
+            availability,
+            body,
+            price,
+            location,
+            units,
+            speed,
+            horsepower,
+            engine_type,
+            rental_type,
+            description
+        } = req.body;
+
+        // Defaults
+        const vehicleUnits = units || 0;
+        const vehicleSpeed = speed || 0;
+        const vehicleHorsepower = horsepower || 0;
+        const vehicleEngineType = engine_type || 'unknown';
+        const vehicleRentalType = rental_type || 'h';
+        const vehicleTransmission = transmission || 'Manual';
+        const isAvailable = availability !== undefined ? availability : true;
+
+        // Upload images (assuming uploadImage is a working function)
+        const mainImage = req.files?.["image"] ? await uploadImage(req.files["image"][0]) : "/assets/cars/default.png";
+        const prevImage1 = req.files?.["prevImage1"] ? await uploadImage(req.files["prevImage1"][0]) : "/assets/cars/default_prev.png";
+        const prevImage2 = req.files?.["prevImage2"] ? await uploadImage(req.files["prevImage2"][0]) : "/assets/cars/default_prev.png";
+        const prevImage3 = req.files?.["prevImage3"] ? await uploadImage(req.files["prevImage3"][0]) : "/assets/cars/default_prev.png";
+
+        const query = `
+            INSERT INTO vehicles (
+                brand_id, model, color, capacity, fuel, transmission,  body, price, location,
+                image, prevImage1, prevImage2, prevImage3, units, speed, horsepower, engine_type, rental_type,description
+            )
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 
+                    $11, $12, $13, $14, $15, $16, $17, $18, $19)
+            RETURNING *;
+        `;
+
+        const values = [
+            brand_id,
+            model,
+            color,
+            capacity,
+            fuel,
+            vehicleTransmission,
+            body,
+            price,
+            location,
+            mainImage,
+            prevImage1,
+            prevImage2,
+            prevImage3,
+            vehicleUnits,
+            vehicleSpeed,
+            vehicleHorsepower,
+            vehicleEngineType,
+            vehicleRentalType,
+            description
+        ];
+
+        await pool.query(query, values);
+        res.redirect('/vehicles');
+
+    } catch (error) {
+        console.error("Error adding new car vehicle:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
 app.post('/reg', upload.single("image"), async (req, res) => {
     try {
         const { fname, lname, email, address, country, wilaya, city, zipcode, phone, phone_country_code, birthdate, username, password, sexe } = req.body;
@@ -847,7 +930,20 @@ app.get('/settings',checkNotAuth, async (req, res) => {
         res.status(500).render("p404");
     }
 })
-
+app.get('/Addnewmodel',checkNotAuth, async (req, res) => {
+    try{
+        const colorsResult = await pool.query(`SELECT unnest(enum_range(NULL::css_color))`);
+        const colors = colorsResult.rows.length > 0 ? colorsResult.rows : null;
+        const transResult = await pool.query(`SELECT unnest(enum_range(NULL::transmission_type))`);
+        const transTypes = transResult.rows.length > 0 ? transResult.rows : null;
+    res.render("dashboard",{user: req.user, section:"Addnewmodel",transTypes:transTypes,
+        colors:colors,
+    })
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
 app.get('/dbm',checkNotAuth, async (req, res) => {
     try{
         res.render("dashboard",{user: req.user, section:"dbm"})
