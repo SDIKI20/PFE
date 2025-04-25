@@ -119,7 +119,22 @@ function navTour() {
                 position: 'right'
             }
         }
-    ]
+    ],
+    onDestroyed: async()=>{
+        try {
+            openLoader()
+            user_id = document.getElementById('bodyTitle').value
+            await fetch(`${window.location.origin}/api/users/newbie`, {
+                    method: "POST",
+                    headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ user_id: user_id, page: "navbar" }),
+            })
+            closeLoader()
+            homeTour()
+        } catch (error) {console.error(error); closeLoader()}
+    }
   });
 
   tour.drive();
@@ -174,8 +189,24 @@ function homeTour() {
                 position: 'right'
             }
         }
-    ]
+    ],
+    onDestroyed: async()=>{
+        try {
+            openLoader()
+            user_id = document.getElementById('bodyTitle').value
+            await fetch(`${window.location.origin}/api/users/newbie`, {
+                    method: "POST",
+                    headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ user_id: user_id, page: "home" }),
+            })
+            closeLoader()
+        } catch (error) {console.error(error); closeLoader()}
+    }
   });
+
+
 
   tour.drive();
 }
@@ -244,7 +275,21 @@ function carsTour() {
                 position: 'right'
             }
         }
-    ]
+    ],
+    onDestroyed: async()=>{
+        try {
+            openLoader()
+            user_id = document.getElementById('bodyTitle').value
+            await fetch(`${window.location.origin}/api/users/newbie`, {
+                    method: "POST",
+                    headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ user_id: user_id, page: "vehicles" }),
+            })
+            closeLoader()
+        } catch (error) {console.error(error); closeLoader()}
+    }
   });
 
   tour.drive();
@@ -307,7 +352,21 @@ function rentalsTour() {
                 position: 'right'
             }
         }
-    ]
+    ],
+    onDestroyed: async()=>{
+        try {
+            openLoader()
+            user_id = document.getElementById('bodyTitle').value
+            await fetch(`${window.location.origin}/api/users/newbie`, {
+                    method: "POST",
+                    headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ user_id: user_id, page: "orders" }),
+            })
+            closeLoader()
+        } catch (error) {console.error(error); closeLoader()}
+    }
   });
 
   tour.drive();
@@ -352,7 +411,21 @@ function profileTour() {
                 position: 'center'
             }
         }
-      ]
+      ],
+      onDestroyed: async()=>{
+        try {
+            openLoader()
+            user_id = document.getElementById('bodyTitle').value
+            await fetch(`${window.location.origin}/api/users/newbie`, {
+                    method: "POST",
+                    headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ user_id: user_id, page: "profile" }),
+            })
+            closeLoader()
+        } catch (error) {console.error(error); closeLoader()}
+    }
   });
 
   tour.drive();

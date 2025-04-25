@@ -72,7 +72,7 @@ document.getElementById("signUpForm").addEventListener("submit", async function 
             throw new Error(data.error || "Failed to send email");
         }
     } catch (error) {
-        pushNotif("e", "Somthing went wrong! Try again later")
+        pushNotif("e", error=="Error: Email already exists"?"Email already exists":"Somthing went wrong!")
         closeLoader()
     }
   } else {
@@ -85,3 +85,6 @@ const passwordInp = document.getElementById('logPass')
 const emailInp = document.getElementById('logMail')
 const logBut = document.getElementById('signinBut')
 
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.getElementById('userplatdesc').value = platform.description
+})

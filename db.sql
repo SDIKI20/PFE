@@ -1,3 +1,5 @@
+
+
 -- ENUM types
 CREATE TYPE fuel_type AS ENUM ('Petrol', 'Diesel', 'Electric', 'Hybrid', 'Gasoline', 'Natural', 'LGP', 'E85');
 CREATE TYPE transmission_type AS ENUM ('Manual', 'Automatic');
@@ -156,6 +158,20 @@ CREATE TYPE css_color AS ENUM (
 
 -- Tabels------------------------------------------------------------------------------
 
+-- Office
+CREATE TABLE office (
+  id SERIAL PRIMARY KEY,
+  country VARCHAR(20) NOT NULL,
+  wilaya VARCHAR(30) NOT NULL,
+  city VARCHAR(30) NOT NULL,
+  address VARCHAR(50) NOT NULL,
+  open_time TIME DEFAULT '08:00:00',
+  close_time TIME DEFAULT '22:00:00',
+  created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  latitude DOUBLE PRECISION NOT NULL,
+  longitude DOUBLE PRECISION NOT NULL
+);
+
 -- Users table
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
@@ -164,7 +180,7 @@ CREATE TABLE users (
 	password VARCHAR(255) NOT NULL,
 	fname VARCHAR(20) NOT NULL,
 	lname VARCHAR(20) NOT NULL,
-  sexe CHAR(1) NOT NULL,
+  	sexe CHAR(1) NOT NULL,
 	address VARCHAR(30) NOT NULL,
 	country VARCHAR(30) NOT NULL DEFAULT 'Algeria',
 	wilaya VARCHAR(30) NOT NULL,
@@ -176,7 +192,7 @@ CREATE TABLE users (
 	phone_status BOOLEAN NOT NULL DEFAULT FALSE,
 	birthdate DATE NOT NULL,
 	role user_roles NOT NULL DEFAULT 'Client',
-  office_id INT REFERENCES office(id) ON DELETE SET NULL DEFAULT NULL,
+  	office_id INT REFERENCES office(id) ON DELETE SET NULL DEFAULT NULL,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -204,20 +220,6 @@ CREATE TABLE brands (
   name VARCHAR(50) UNIQUE NOT NULL,
   logo VARCHAR(255) NOT NULL DEFAULT '/assets/cars/default_logo.png',
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Office
-CREATE TABLE office (
-  id SERIAL PRIMARY KEY,
-  country VARCHAR(20) NOT NULL,
-  wilaya VARCHAR(30) NOT NULL,
-  city VARCHAR(30) NOT NULL,
-  address VARCHAR(50) NOT NULL,
-  open_time TIME DEFAULT '08:00:00',
-  close_time TIME DEFAULT '22:00:00',
-  created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  latitude DOUBLE PRECISION NOT NULL,
-  longitude DOUBLE PRECISION NOT NULL
 );
 
 -- Vehicles
@@ -302,21 +304,28 @@ CREATE TABLE favorites (
 );
 
 CREATE TABLE vehicle_stock (
-  id SERIAL PRIMARY KEY,
+  stock_id SERIAL PRIMARY KEY,
   vehicle_id INT NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE,
   office_id INT NOT NULL REFERENCES office(id) ON DELETE CASCADE,
-  units SMALLINT NOT NULL CHECK (units >= 0),
-  UNIQUE(vehicle_id, office_id)
+  units SMALLINT NOT NULL CHECK (units >= 0)
 );
 
-CREATE TABLE newbie (
-  id SERIAL NOT NULL PRIMARY KEY,
-  user_id INT NOT NULL REFERENCES users(id),
-  navbar BOOLEAN DEFAULT FALSE,
-  home BOOLEAN DEFAULT FALSE,
-  orders BOOLEAN DEFAULT FALSE,
-  profile BOOLEAN DEFAULT FALSE,
-  vehicles BOOLEAN DEFAULT FALSE
+  CREATE TABLE newbie (
+    id SERIAL NOT NULL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(id),
+    navbar BOOLEAN DEFAULT FALSE,
+    home BOOLEAN DEFAULT FALSE,
+    orders BOOLEAN DEFAULT FALSE,
+    profile BOOLEAN DEFAULT FALSE,
+    vehicles BOOLEAN DEFAULT FALSE
+  );
+
+  CREATE TABLE log_login (
+    id SERIAL PRIMARY KEY,             
+    email VARCHAR(255) NOT NULL,
+    status BOOLEAN NOT NULL,  
+    platform VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Indexes--------------------------------------------------------------
@@ -327,7 +336,6 @@ CREATE INDEX idx_rentals_vehicle ON rentals(vehicle_id);
 CREATE INDEX idx_rentals_user ON rentals(user_id);
 CREATE INDEX idx_vehicles_brand ON vehicles(brand_id);
 CREATE INDEX idx_vehicles_model ON vehicles(model);
-CREATE INDEX idx_vehicles_location ON vehicles(location);
 CREATE INDEX idx_vehicles_engine_type ON vehicles(engine_type);
 CREATE INDEX idx_vehicles_speed ON vehicles(speed);
 CREATE INDEX idx_vehicles_horsepower ON vehicles(horsepower);
@@ -487,29 +495,6 @@ INSERT INTO features (name) VALUES
 ('Backup Camera'),
 ('Cruise Control');
 
-INSERT INTO users (email, username, password, fname, lname, sexe, address, wilaya, city, zipcode, phone, account_status, phone_status, birthdate, role) VALUES
-('admin@rental.com', 'admin', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Admin', 'User', 'M', '123 Main St', 'Algiers', 'Algiers', '16000', '+213550123456', TRUE, TRUE, '1980-01-15', 'Admin'),
-('employee1@rental.com', 'emp1', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Karim', 'Benzema', 'M', '456 Oak Ave', 'Oran', 'Oran', '31000', '+213551123456', TRUE, TRUE, '1985-05-20', 'Employe'),
-('client1@example.com', 'client1', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Mohamed', 'Zidane', 'M', '789 Pine Rd', 'Constantine', 'Constantine', '25000', '+213552123456', TRUE, TRUE, '1990-08-10', 'Client'),
-('client2@example.com', 'client2', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Ali', 'Messi', 'M', '321 Elm St', 'Annaba', 'Annaba', '23000', '+213553123456', TRUE, FALSE, '1992-11-25', 'Client'),
-('client3@example.com', 'client3', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Fatima', 'Ronaldo', 'M', '654 Maple Ave', 'Tizi Ouzou', 'Tizi Ouzou', '15000', '+213554123456', FALSE, FALSE, '1995-03-30', 'Client');
-
-INSERT INTO users (email, username, password, fname, lname, sexe, address, wilaya, city, zipcode, phone, account_status, phone_status, birthdate, role, image) VALUES
-('odaydid002@gmail.com', 'odaydid002', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Oudai', 'Oulhadj', 'M', '110 Logement', 'El Menia', 'El Menia', '58001', '+213553728440', FALSE, FALSE, '2002-04-29', 'Admin', 'https://res.cloudinary.com/dnzuqdajo/image/upload/v1743722872/profile_images/image-1743722869237.png');
-
--- Insert car brands
-INSERT INTO brands (name, logo) VALUES
-('Volkswagen', '/assets/cars/volkswagen.png'),
-('Seat', '/assets/cars/seat.png'),
-('BMW', '/assets/cars/bmw.png'),
-('Audi', '/assets/cars/audi.png'),
-('Skoda', '/assets/cars/skoda.png'),
-('Peugeot', '/assets/cars/peugeot.png'),
-('Hyundai', '/assets/cars/hyundai.png'),
-('Kia', '/assets/cars/kia.png'),
-('Ford', '/assets/cars/ford.png'),
-('Chevrolet', '/assets/cars/chevrolet.png');
-
 -- Insert office locations
 INSERT INTO office (country, wilaya, city, address, open_time, close_time, latitude, longitude) VALUES
 ('Algeria', 'Algiers', 'Algiers', '123 Rue Didouche Mourad', '08:00:00', '22:00:00', 36.7538, 3.0588),
@@ -519,68 +504,131 @@ INSERT INTO office (country, wilaya, city, address, open_time, close_time, latit
 ('Algeria', 'Tizi Ouzou', 'Tizi Ouzou', '202 Rue Abane Ramdane', '08:00:00', '20:00:00', 36.7167, 4.0500),
 ('Algeria', 'Ghardaia', 'El Atteuf', 'El Atteuf', '08:00:00', '20:00:00', 32.3984, 3.7561);
 
+INSERT INTO users (email, username, password, fname, lname, sexe, address, wilaya, city, zipcode, phone, account_status, phone_status, birthdate, role) VALUES
+('admin@rental.com', 'admin', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Admin', 'User', 'M', '123 Main St', 'Algiers', 'Algiers', '16000', '+213550123456', TRUE, TRUE, '1980-01-15', 'Client'),
+('employee1@rental.com', 'emp1', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Karim', 'Benzema', 'M', '456 Oak Ave', 'Oran', 'Oran', '31000', '+213551123456', TRUE, TRUE, '1985-05-20', 'Client'),
+('client1@example.com', 'client1', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Mohamed', 'Zidane', 'M', '789 Pine Rd', 'Constantine', 'Constantine', '25000', '+213552123456', TRUE, TRUE, '1990-08-10', 'Client'),
+('client2@example.com', 'client2', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Ali', 'Messi', 'M', '321 Elm St', 'Annaba', 'Annaba', '23000', '+213553123456', TRUE, FALSE, '1992-11-25', 'Client'),
+('client3@example.com', 'client3', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Fatima', 'Ronaldo', 'M', '654 Maple Ave', 'Tizi Ouzou', 'Tizi Ouzou', '15000', '+213554123456', FALSE, FALSE, '1995-03-30', 'Client');
+
+INSERT INTO users (email, username, password, fname, lname, sexe, address, wilaya, city, zipcode, phone, account_status, phone_status, birthdate, role, image) VALUES
+('odaydid002@gmail.com', 'odaydid002', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Oudai', 'Oulhadj', 'M', '110 Logement', 'El Menia', 'El Menia', '58001', '+213553728440', FALSE, FALSE, '2002-04-29', 'Admin', 'https://res.cloudinary.com/dnzuqdajo/image/upload/v1743722872/profile_images/image-1743722869237.png');
+
+INSERT INTO users (email, username, password, fname, lname, sexe, address, wilaya, city, zipcode, phone, account_status, phone_status, birthdate, office_id, role) VALUES
+('emp1@rental.com', 'emp1', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Admin', 'User', 'M', '123 Main St', 'Algiers', 'Algiers', '16000', '+213123456789', TRUE, TRUE, '1980-01-15', 1, 'Employe'),
+('emp2@rental.com', 'emp2', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Karim', 'Benzema', 'M', '456 Oak Ave', 'Oran', 'Oran', '31000', '+213123456788', TRUE, TRUE, '1985-05-20', 2, 'Employe'),
+('emp3@rental.com', 'emp3', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Mohamed', 'Zidane', 'M', '789 Pine Rd', 'Constantine', 'Constantine', '25000', '+213123456787', TRUE, TRUE, '1990-08-10',3, 'Employe'),
+('emp4@rental.com', 'emp4', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Ali', 'Messi', 'M', '321 Elm St', 'Annaba', 'Annaba', '23000', '+213123456786', TRUE, FALSE, '1992-11-25', 4, 'Employe'),
+('emp5@rental.com', 'emp5', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Fatima', 'Ronaldo', 'F', '654 Maple Ave', 'Tizi Ouzou', 'Tizi Ouzou', '15000', '+213123456785', FALSE, FALSE, '1995-03-30', 5, 'Employe');
+
+-- Insert car brands
+INSERT INTO brands (name, logo) VALUES
+('Volkswagen', '/assets/cars/volkswagen.png'),
+('Seat', '/assets/cars/seat.png'),
+('BMW', '/assets/cars/bmw.png'),
+('Audi', '/assets/cars/audi.png'),
+('Dacia', '/assets/cars/dacia.png'),
+('Tesla', '/assets/cars/tesla.png'),
+('Skoda', '/assets/cars/skoda.png'),
+('Peugeot', '/assets/cars/peugeot.png'),
+('Hyundai', '/assets/cars/hyundai.png'),
+('Kia', '/assets/cars/kia.png'),
+('Mazda', '/assets/cars/mazda.png'),
+('Mitsubishi', '/assets/cars/mitsubishi.png'),
+('Opel', '/assets/cars/opel.png'),
+('Ford', '/assets/cars/ford.png'),
+('Nissan', '/assets/cars/nissan.png'),
+('Renault', '/assets/cars/renault.png'),
+('Citroen', '/assets/cars/citroen.png'),
+('Chevrolet', '/assets/cars/chevrolet.png'),
+('Mercedes', '/assets/cars/mercedes.png'),
+('Porsche', '/assets/cars/porsche.png'),
+('Aplfa romeo', '/assets/cars/aplfa romeo.png');
+
+
 -- Insert vehicles
-INSERT INTO vehicles (brand_id, model, fab_year, color, capacity, fuel, transmission, body, price, location, units, speed, horsepower, engine_type, rental_type) VALUES
-(1, 'Corolla', '2022', 'White', 5, 'Petrol', 'Automatic', 'Sedan', 3500.00, 1, 3, 180, 140, '4-Cylinder', 'd'),
-(2, 'C-Class', '2020', 'Black', 5, 'Petrol', 'Automatic', 'Sedan', 8000.00, 1, 2, 230, 197, '4-Cylinder Turbo', 'h'),
-(3, 'X5', '2024', 'Blue', 5, 'Petrol', 'Automatic', 'SUV', 12000.00, 2, 1, 250, 335, '6-Cylinder Turbo', 'd'),
-(4, 'A4', '2010', 'Gray', 5, 'Petrol', 'Automatic', 'Sedan', 7500.00, 2, 2, 240, 190, '4-Cylinder Turbo', 'd'),
-(5, 'Clio', '2018', 'Red', 5, 'Petrol', 'Manual', 'Hatchback', 2500.00, 3, 5, 185, 90, '3-Cylinder', 'h'),
-(6, '3008', '2011', 'White', 5, 'Diesel', 'Automatic', 'SUV', 6000.00, 3, 2, 210, 180, '4-Cylinder Diesel', 'h'),
-(7, 'Tucson', '2025', 'Silver', 5, 'Hybrid', 'Automatic', 'SUV', 5500.00, 4, 3, 195, 180, 'Hybrid', 'd'),
-(8, 'Sportage', '1999', 'Black', 5, 'Diesel', 'Automatic', 'SUV', 5000.00, 4, 2, 200, 185, '4-Cylinder Diesel', 'h'),
-(9, 'Mustang', '2002', 'Red', 4, 'Petrol', 'Automatic', 'Coupe', 15000.00, 5, 1, 250, 450, 'V8', 'd'),
-(10, 'Spark', '2020', 'Yellow', 4, 'Petrol', 'Manual', 'Hatchback', 2000.00, 5, 4, 155, 98, '4-Cylinder', 'd'),
-(1, 'Corolla', '2022', 'White', 5, 'Petrol', 'Automatic', 'Sedan', 3500.00, 1, 3, 180, 140, '4-Cylinder', 'd'),
-(2, 'C-Class', '2020', 'Black', 5, 'Petrol', 'Automatic', 'Sedan', 8000.00, 1, 2, 230, 197, '4-Cylinder Turbo', 'h'),
-(3, 'X5', '2024', 'Blue', 5, 'Petrol', 'Automatic', 'SUV', 12000.00, 2, 1, 250, 335, '6-Cylinder Turbo', 'd'),
-(4, 'A4', '2010', 'Gray', 5, 'Petrol', 'Automatic', 'Sedan', 7500.00, 2, 2, 240, 190, '4-Cylinder Turbo', 'd'),
-(5, 'Clio', '2018', 'Red', 5, 'Petrol', 'Manual', 'Hatchback', 2500.00, 3, 5, 185, 90, '3-Cylinder', 'h'),
-(6, '3008', '2011', 'White', 5, 'Diesel', 'Automatic', 'SUV', 6000.00, 3, 2, 210, 180, '4-Cylinder Diesel', 'h'),
-(7, 'Tucson', '2025', 'Silver', 5, 'Hybrid', 'Automatic', 'SUV', 5500.00, 4, 3, 195, 180, 'Hybrid', 'd'),
-(8, 'Sportage', '1999', 'Black', 5, 'Diesel', 'Automatic', 'SUV', 5000.00, 4, 2, 200, 185, '4-Cylinder Diesel', 'h'),
-(9, 'Mustang', '2002', 'Red', 4, 'Petrol', 'Automatic', 'Coupe', 15000.00, 5, 1, 250, 450, 'V8', 'd'),
-(10, 'Spark', '2020', 'Yellow', 4, 'Petrol', 'Manual', 'Hatchback', 2000.00, 5, 4, 155, 98, '4-Cylinder', 'd'),
-(1, 'Corolla', '2022', 'White', 5, 'Petrol', 'Automatic', 'Sedan', 3500.00, 1, 3, 180, 140, '4-Cylinder', 'd'),
-(2, 'C-Class', '2020', 'Black', 5, 'Petrol', 'Automatic', 'Sedan', 8000.00, 1, 2, 230, 197, '4-Cylinder Turbo', 'h'),
-(3, 'X5', '2024', 'Blue', 5, 'Petrol', 'Automatic', 'SUV', 12000.00, 2, 1, 250, 335, '6-Cylinder Turbo', 'd'),
-(4, 'A4', '2010', 'Gray', 5, 'Petrol', 'Automatic', 'Sedan', 7500.00, 2, 2, 240, 190, '4-Cylinder Turbo', 'd'),
-(5, 'Clio', '2018', 'Red', 5, 'Petrol', 'Manual', 'Hatchback', 2500.00, 3, 5, 185, 90, '3-Cylinder', 'h'),
-(6, '3008', '2011', 'White', 5, 'Diesel', 'Automatic', 'SUV', 6000.00, 3, 2, 210, 180, '4-Cylinder Diesel', 'h'),
-(7, 'Tucson', '2025', 'Silver', 5, 'Hybrid', 'Automatic', 'SUV', 5500.00, 4, 3, 195, 180, 'Hybrid', 'd'),
-(8, 'Sportage', '1999', 'Black', 5, 'Diesel', 'Automatic', 'SUV', 5000.00, 4, 2, 200, 185, '4-Cylinder Diesel', 'h'),
-(9, 'Mustang', '2002', 'Red', 4, 'Petrol', 'Automatic', 'Coupe', 15000.00, 5, 1, 250, 450, 'V8', 'd'),
-(10, 'Spark', '2020', 'Yellow', 4, 'Petrol', 'Manual', 'Hatchback', 2000.00, 5, 4, 155, 98, '4-Cylinder', 'd'),
-(1, 'Corolla', '2022', 'White', 5, 'Petrol', 'Automatic', 'Sedan', 3500.00, 1, 3, 180, 140, '4-Cylinder', 'd'),
-(2, 'C-Class', '2020', 'Black', 5, 'Petrol', 'Automatic', 'Sedan', 8000.00, 1, 2, 230, 197, '4-Cylinder Turbo', 'h'),
-(3, 'X5', '2024', 'Blue', 5, 'Petrol', 'Automatic', 'SUV', 12000.00, 2, 1, 250, 335, '6-Cylinder Turbo', 'd'),
-(4, 'A4', '2010', 'Gray', 5, 'Petrol', 'Automatic', 'Sedan', 7500.00, 2, 2, 240, 190, '4-Cylinder Turbo', 'd'),
-(5, 'Clio', '2018', 'Red', 5, 'Petrol', 'Manual', 'Hatchback', 2500.00, 3, 5, 185, 90, '3-Cylinder', 'h'),
-(6, '3008', '2011', 'White', 5, 'Diesel', 'Automatic', 'SUV', 6000.00, 3, 2, 210, 180, '4-Cylinder Diesel', 'h'),
-(7, 'Tucson', '2025', 'Silver', 5, 'Hybrid', 'Automatic', 'SUV', 5500.00, 4, 3, 195, 180, 'Hybrid', 'd'),
-(8, 'Sportage', '1999', 'Black', 5, 'Diesel', 'Automatic', 'SUV', 5000.00, 4, 2, 200, 185, '4-Cylinder Diesel', 'h'),
-(9, 'Mustang', '2002', 'Red', 4, 'Petrol', 'Automatic', 'Coupe', 15000.00, 5, 1, 250, 450, 'V8', 'd'),
-(10, 'Spark', '2020', 'Yellow', 4, 'Petrol', 'Manual', 'Hatchback', 2000.00, 5, 4, 155, 98, '4-Cylinder', 'd'),
-(1, 'Corolla', '2022', 'White', 5, 'Petrol', 'Automatic', 'Sedan', 3500.00, 1, 3, 180, 140, '4-Cylinder', 'd'),
-(2, 'C-Class', '2020', 'Black', 5, 'Petrol', 'Automatic', 'Sedan', 8000.00, 1, 2, 230, 197, '4-Cylinder Turbo', 'h'),
-(3, 'X5', '2024', 'Blue', 5, 'Petrol', 'Automatic', 'SUV', 12000.00, 2, 1, 250, 335, '6-Cylinder Turbo', 'd'),
-(4, 'A4', '2010', 'Gray', 5, 'Petrol', 'Automatic', 'Sedan', 7500.00, 2, 2, 240, 190, '4-Cylinder Turbo', 'd'),
-(5, 'Clio', '2018', 'Red', 5, 'Petrol', 'Manual', 'Hatchback', 2500.00, 3, 5, 185, 90, '3-Cylinder', 'h'),
-(6, '3008', '2011', 'White', 5, 'Diesel', 'Automatic', 'SUV', 6000.00, 3, 2, 210, 180, '4-Cylinder Diesel', 'h'),
-(7, 'Tucson', '2025', 'Silver', 5, 'Hybrid', 'Automatic', 'SUV', 5500.00, 4, 3, 195, 180, 'Hybrid', 'd'),
-(8, 'Sportage', '1999', 'Black', 5, 'Diesel', 'Automatic', 'SUV', 5000.00, 4, 2, 200, 185, '4-Cylinder Diesel', 'h'),
-(9, 'Mustang', '2002', 'Red', 4, 'Petrol', 'Automatic', 'Coupe', 15000.00, 5, 1, 250, 450, 'V8', 'd'),
-(10, 'Spark', '2020', 'Yellow', 4, 'Petrol', 'Manual', 'Hatchback', 2000.00, 5, 4, 155, 98, '4-Cylinder', 'd'),
-(1, 'Corolla', '2022', 'White', 5, 'Petrol', 'Automatic', 'Sedan', 3500.00, 1, 3, 180, 140, '4-Cylinder', 'd'),
-(2, 'C-Class', '2020', 'Black', 5, 'Petrol', 'Automatic', 'Sedan', 8000.00, 1, 2, 230, 197, '4-Cylinder Turbo', 'h'),
-(3, 'X5', '2024', 'Blue', 5, 'Petrol', 'Automatic', 'SUV', 12000.00, 2, 1, 250, 335, '6-Cylinder Turbo', 'd'),
-(4, 'A4', '2010', 'Gray', 5, 'Petrol', 'Automatic', 'Sedan', 7500.00, 2, 2, 240, 190, '4-Cylinder Turbo', 'd'),
-(5, 'Clio', '2018', 'Red', 5, 'Petrol', 'Manual', 'Hatchback', 2500.00, 3, 5, 185, 90, '3-Cylinder', 'h'),
-(6, '3008', '2011', 'White', 5, 'Diesel', 'Automatic', 'SUV', 6000.00, 3, 2, 210, 180, '4-Cylinder Diesel', 'h'),
-(7, 'Tucson', '2025', 'Silver', 5, 'Hybrid', 'Automatic', 'SUV', 5500.00, 4, 3, 195, 180, 'Hybrid', 'd'),
-(8, 'Sportage', '1999', 'Black', 5, 'Diesel', 'Automatic', 'SUV', 5000.00, 4, 2, 200, 185, '4-Cylinder Diesel', 'h'),
-(9, 'Mustang', '2002', 'Red', 4, 'Petrol', 'Automatic', 'Coupe', 15000.00, 5, 1, 250, 450, 'V8', 'd'),
-(10, 'Spark', '2020', 'Yellow', 4, 'Petrol', 'Manual', 'Hatchback', 2000.00, 5, 4, 155, 98, '4-Cylinder', 'd');
+INSERT INTO vehicles (image, prevImage1, prevImage2, prevImage3, brand_id, model, fab_year, color, capacity, doors, fuel, transmission, availability, body, price, speed, horsepower, engine_type, rental_type, description) VALUES
+('/assets/car/Astra.png', '/assets/car/Astra (1).jpg', '/assets/car/Astra (2).jpg', '/assets/car/Astra (3).jpg', 13, 'Astra', 2018, 'Silver', 5, 4, 'Gasoline', 'Manual', TRUE, 'Hatchback', 12500.00, 185, 140, '1.4L Turbo', 'h', 'Practical hatchback with good fuel economy'),
+('/assets/car/Insignia.png', '/assets/car/Insignia (1).jpg', '/assets/car/Insignia (2).jpg', '/assets/car/Insignia (3).jpg', 13, 'Insignia', 2019, 'Black', 5, 4, 'Diesel', 'Automatic', TRUE, 'Sedan', 18900.00, 210, 170, '2.0L Turbo', 'd', 'Comfortable executive sedan'),
+('/assets/car/Corsa.png', '/assets/car/Corsa (1).jpg', '/assets/car/Corsa (2).jpg', '/assets/car/Corsa (3).jpg', 13, 'Corsa', 2020, 'Blue', 5, 4, 'Petrol', 'Manual', TRUE, 'Hatchback', 9500.00, 165, 75, '1.2L', 'h', 'Economical city car'),
+('/assets/car/Mokka.png', '/assets/car/Mokka (1).jpg', '/assets/car/Mokka (2).jpg', '/assets/car/Mokka (3).jpg', 13, 'Mokka', 2021, 'White', 5, 4, 'Hybrid', 'Automatic', FALSE, 'SUV', 22500.00, 180, 136, '1.6L Hybrid', 'd', 'Compact SUV with hybrid option'),
+('/assets/car/Clio.png', '/assets/car/Clio (1).jpg', '/assets/car/Clio (2).jpg', '/assets/car/Clio (3).jpg', 16, 'Clio', 2020, 'Red', 5, 4, 'Petrol', 'Manual', TRUE, 'Hatchback', 14900.00, 175, 90, '1.2L', 'h', 'Popular city car with agile handling'),
+('/assets/car/Megane.png', '/assets/car/Megane (1).jpg', '/assets/car/Megane (2).jpg', '/assets/car/Megane (3).jpg', 16, 'Megane', 2019, 'Gray', 5, 4, 'Diesel', 'Automatic', TRUE, 'Sedan', 17900.00, 205, 110, '1.5L Turbo', 'd', 'Stylish family sedan'),
+('/assets/car/Captur.png', '/assets/car/Captur (1).jpg', '/assets/car/Captur (2).jpg', '/assets/car/Captur (3).jpg', 16, 'Captur', 2021, 'Orange', 5, 4, 'Gasoline', 'Manual', TRUE, 'SUV', 19900.00, 185, 130, '1.3L Turbo', 'h', 'Compact crossover SUV'),
+('/assets/car/Zoe.png', '/assets/car/Zoe (1).jpg', '/assets/car/Zoe (2).jpg', '/assets/car/Zoe (3).jpg', 16, 'Zoe', 2022, 'Green', 5, 4, 'Electric', 'Automatic', TRUE, 'Hatchback', 24900.00, 135, 136, 'Electric', 'h', 'All-electric city car'),
+('/assets/car/Leaf.png', '/assets/car/Leaf (1).jpg', '/assets/car/Leaf (2).jpg', '/assets/car/Leaf (3).jpg', 15, 'Leaf', 2021, 'Blue', 5, 4, 'Electric', 'Automatic', TRUE, 'Hatchback', 25900.00, 150, 150, 'Electric', 'h', 'Pioneering electric vehicle'),
+('/assets/car/Qashqai.png', '/assets/car/Qashqai (1).jpg', '/assets/car/Qashqai (2).jpg', '/assets/car/Qashqai (3).jpg', 15, 'Qashqai', 2019, 'Gray', 5, 4, 'Hybrid', 'Automatic', TRUE, 'SUV', 28900.00, 180, 190, '1.5L Hybrid', 'd', 'Popular crossover with hybrid option'),
+('/assets/car/Micra.png', '/assets/car/Micra (1).jpg', '/assets/car/Micra (2).jpg', '/assets/car/Micra (3).jpg', 15, 'Micra', 2020, 'Yellow', 5, 4, 'Petrol', 'Manual', TRUE, 'Hatchback', 12900.00, 165, 90, '1.0L Turbo', 'h', 'Compact city car with personality'),
+('/assets/car/X-Trail.png', '/assets/car/X-Trail (1).jpg', '/assets/car/X-Trail (2).jpg', '/assets/car/X-Trail (3).jpg', 15, 'X-Trail', 2018, 'White', 7, 4, 'Diesel', 'Automatic', FALSE, 'SUV', 24500.00, 195, 177, '2.0L Turbo', 'd', 'Seven-seat family SUV'),
+('/assets/car/MX-5.png', '/assets/car/MX-5 (1).jpg', '/assets/car/MX-5 (2).jpg', '/assets/car/MX-5 (3).jpg', 11, 'MX-5', 2017, 'Red', 2, 2, 'Petrol', 'Manual', TRUE, 'Sport', 22500.00, 220, 160, '2.0L', 'h', 'Iconic roadster for driving enthusiasts'),
+('/assets/car/CX-5.png', '/assets/car/CX-5 (1).jpg', '/assets/car/CX-5 (2).jpg', '/assets/car/CX-5 (3).jpg', 11, 'CX-5', 2019, 'Black', 5, 4, 'Diesel', 'Automatic', TRUE, 'SUV', 27500.00, 200, 184, '2.2L Turbo', 'd', 'Premium midsize SUV'),
+('/assets/car/3.png', '/assets/car/3 (1).jpg', '/assets/car/3 (2).jpg', '/assets/car/3 (3).jpg', 11, '3', 2020, 'Blue', 5, 4, 'Gasoline', 'Automatic', TRUE, 'Sedan', 19900.00, 195, 122, '1.5L Turbo', 'h', 'Sporty compact sedan'),
+('/assets/car/2.png', '/assets/car/2 (1).jpg', '/assets/car/2 (2).jpg', '/assets/car/2 (3).jpg', 11, '2', 2018, 'White', 4, 4, 'Petrol', 'Manual', TRUE, 'Hatchback', 11500.00, 170, 75, '1.5L', 'h', 'Economical supermini'),
+('/assets/car/A3.png', '/assets/car/A3 (1).jpg', '/assets/car/A3 (2).jpg', '/assets/car/A3 (3).jpg', 4, 'A3', 2019, 'Silver', 5, 4, 'Gasoline', 'Automatic', TRUE, 'Sedan', 22900.00, 210, 150, '1.5L Turbo', 'h', 'Premium compact sedan'),
+('/assets/car/Q5.png', '/assets/car/Q5 (1).jpg', '/assets/car/Q5 (2).jpg', '/assets/car/Q5 (3).jpg', 4, 'Q5', 2020, 'Black', 5, 4, 'Diesel', 'Automatic', TRUE, 'SUV', 34900.00, 220, 190, '2.0L Turbo', 'd', 'Luxury midsize SUV'),
+('/assets/car/e-tron.png', '/assets/car/e-tron (1).jpg', '/assets/car/e-tron (2).jpg', '/assets/car/e-tron (3).jpg', 4, 'e-tron', 2021, 'Blue', 5, 4, 'Electric', 'Automatic', FALSE, 'SUV', 45900.00, 200, 355, 'Electric', 'd', 'Premium electric SUV'),
+('/assets/car/TT.png', '/assets/car/TT (1).jpg', '/assets/car/TT (2).jpg', '/assets/car/TT (3).jpg', 4, 'TT', 2018, 'Red', 2, 2, 'Petrol', 'Automatic', TRUE, 'Coupe', 32500.00, 250, 230, '2.0L Turbo', 'h', 'Sporty two-door coupe'),
+('/assets/car/1 Series.png', '/assets/car/1 Series (1).jpg', '/assets/car/1 Series (2).jpg', '/assets/car/1 Series (3).jpg', 3, '1 Series', 2019, 'White', 5, 4, 'Gasoline', 'Manual', TRUE, 'Hatchback', 21500.00, 205, 140, '1.5L Turbo', 'h', 'Premium compact hatchback'),
+('/assets/car/X3.png', '/assets/car/X3 (1).jpg', '/assets/car/X3 (2).jpg', '/assets/car/X3 (3).jpg', 3, 'X3', 2020, 'Black', 5, 4, 'Diesel', 'Automatic', TRUE, 'SUV', 38900.00, 215, 190, '2.0L Turbo', 'd', 'Sporty midsize SUV'),
+('/assets/car/i3.png', '/assets/car/i3 (1).jpg', '/assets/car/i3 (2).jpg', '/assets/car/i3 (3).jpg', 3, 'i3', 2021, 'Blue', 4, 4, 'Electric', 'Automatic', TRUE, 'Hatchback', 32900.00, 150, 170, 'Electric', 'h', 'Innovative electric city car'),
+('/assets/car/Z4.png', '/assets/car/Z4 (1).jpg', '/assets/car/Z4 (2).jpg', '/assets/car/Z4 (3).jpg', 3, 'Z4', 2019, 'Red', 2, 2, 'Petrol', 'Automatic', TRUE, 'Sport', 42500.00, 250, 197, '2.0L Turbo', 'h', 'Roadster with sporty performance'),
+('/assets/car/A-Class.png', '/assets/car/A-Class (1).jpg', '/assets/car/A-Class (2).jpg', '/assets/car/A-Class (3).jpg', 19, 'A-Class', 2020, 'Silver', 5, 4, 'Gasoline', 'Automatic', TRUE, 'Sedan', 28500.00, 210, 163, '1.3L Turbo', 'h', 'Premium compact sedan'),
+('/assets/car/GLC.png', '/assets/car/GLC (1).jpg', '/assets/car/GLC (2).jpg', '/assets/car/GLC (3).jpg', 19, 'GLC', 2019, 'Black', 5, 4, 'Diesel', 'Automatic', TRUE, 'SUV', 42900.00, 220, 194, '2.0L Turbo', 'd', 'Luxury midsize SUV'),
+('/assets/car/EQC.png', '/assets/car/EQC (1).jpg', '/assets/car/EQC (2).jpg', '/assets/car/EQC (3).jpg', 19, 'EQC', 2021, 'Blue', 5, 4, 'Electric', 'Automatic', FALSE, 'SUV', 49900.00, 180, 408, 'Electric', 'd', 'Mercedes electric SUV'),
+('/assets/car/C-Class.png', '/assets/car/C-Class (1).jpg', '/assets/car/C-Class (2).jpg', '/assets/car/C-Class (3).jpg', 19, 'C-Class', 2018, 'White', 5, 4, 'Gasoline', 'Automatic', TRUE, 'Sedan', 29500.00, 230, 184, '2.0L Turbo', 'h', 'Executive business sedan'),
+('/assets/car/911.png', '/assets/car/911 (1).jpg', '/assets/car/911 (2).jpg', '/assets/car/911 (3).jpg', 20, '911', 2019, 'Red', 2, 2, 'Petrol', 'Automatic', TRUE, 'Sport', 49900.00, 293, 385, '3.0L Turbo', 'h', 'Iconic sports car'),
+('/assets/car/Cayenne.png', '/assets/car/Cayenne (1).jpg', '/assets/car/Cayenne (2).jpg', '/assets/car/Cayenne (3).jpg', 20, 'Cayenne', 2020, 'Black', 5, 4, 'Hybrid', 'Automatic', TRUE, 'SUV', 48900.00, 240, 340, '3.0L Hybrid', 'd', 'Performance SUV with hybrid option'),
+('/assets/car/Taycan.png', '/assets/car/Taycan (1).jpg', '/assets/car/Taycan (2).jpg', '/assets/car/Taycan (3).jpg', 20, 'Taycan', 2021, 'Blue', 4, 4, 'Electric', 'Automatic', TRUE, 'Sedan', 49900.00, 230, 408, 'Electric', 'h', 'High-performance electric sedan'),
+('/assets/car/Macan.png', '/assets/car/Macan (1).jpg', '/assets/car/Macan (2).jpg', '/assets/car/Macan (3).jpg', 20, 'Macan', 2019, 'White', 5, 4, 'Gasoline', 'Automatic', TRUE, 'SUV', 42900.00, 230, 252, '2.0L Turbo', 'd', 'Compact luxury SUV'),
+('/assets/car/Giulia.png', '/assets/car/Giulia (1).jpg', '/assets/car/Giulia (2).jpg', '/assets/car/Giulia (3).jpg', 21, 'Giulia', 2020, 'Red', 5, 4, 'Gasoline', 'Automatic', TRUE, 'Sedan', 34900.00, 240, 200, '2.0L Turbo', 'h', 'Italian sport sedan'),
+('/assets/car/Stelvio.png', '/assets/car/Stelvio (1).jpg', '/assets/car/Stelvio (2).jpg', '/assets/car/Stelvio (3).jpg', 21, 'Stelvio', 2019, 'Black', 5, 4, 'Diesel', 'Automatic', TRUE, 'SUV', 39900.00, 215, 210, '2.2L Turbo', 'd', 'Performance-oriented SUV'),
+('/assets/car/MiTo.png', '/assets/car/MiTo (1).jpg', '/assets/car/MiTo (2).jpg', '/assets/car/MiTo (3).jpg', 21, 'MiTo', 2018, 'Blue', 4, 4, 'Petrol', 'Manual', TRUE, 'Hatchback', 14900.00, 190, 120, '1.4L Turbo', 'h', 'Sporty compact hatchback'),
+('/assets/car/Giulietta.png', '/assets/car/Giulietta (1).jpg', '/assets/car/Giulietta (2).jpg', '/assets/car/Giulietta (3).jpg', 21, 'Giulietta', 2017, 'White', 5, 4, 'Gasoline', 'Manual', FALSE, 'Hatchback', 16500.00, 205, 170, '1.8L Turbo', 'h', 'Performance hatchback'),
+('/assets/car/Duster.png', '/assets/car/Duster (1).jpg', '/assets/car/Duster (2).jpg', '/assets/car/Duster (3).jpg', 5, 'Duster', 2020, 'Orange', 5, 4, 'Diesel', 'Manual', TRUE, 'Off-Road', 18900.00, 175, 115, '1.5L Turbo', 'd', 'Affordable off-road capable SUV'),
+('/assets/car/Sandero.png', '/assets/car/Sandero (1).jpg', '/assets/car/Sandero (2).jpg', '/assets/car/Sandero (3).jpg', 5, 'Sandero', 2021, 'Red', 5, 4, 'Petrol', 'Manual', TRUE, 'Hatchback', 9500.00, 165, 90, '1.0L', 'h', 'Budget-friendly city car'),
+('/assets/car/Logan.png', '/assets/car/Logan (1).jpg', '/assets/car/Logan (2).jpg', '/assets/car/Logan (3).jpg', 5, 'Logan', 2019, 'Gray', 5, 4, 'Gasoline', 'Manual', TRUE, 'Sedan', 11500.00, 170, 90, '1.2L', 'h', 'Practical budget sedan'),
+('/assets/car/Jogger.png', '/assets/car/Jogger (1).jpg', '/assets/car/Jogger (2).jpg', '/assets/car/Jogger (3).jpg', 5, 'Jogger', 2022, 'Blue', 7, 4, 'Hybrid', 'Manual', TRUE, 'Van', 19900.00, 165, 140, '1.6L Hybrid', 'd', 'Seven-seat family hybrid');
+
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (1, 1, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (2, 2, 1);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (3, 3, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (4, 4, 5);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (5, 5, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (6, 6, 3);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (7, 1, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (8, 2, 1);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (9, 3, 4);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (10, 4, 3);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (11, 5, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (12, 6, 1);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (13, 1, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (14, 2, 5);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (15, 3, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (16, 4, 3);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (17, 5, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (18, 6, 1);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (19, 1, 4);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (20, 2, 3);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (21, 3, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (22, 4, 1);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (23, 5, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (24, 6, 5);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (25, 1, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (26, 2, 3);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (27, 3, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (28, 4, 1);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (29, 5, 4);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (30, 6, 3);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (31, 1, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (32, 2, 1);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (33, 3, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (34, 4, 5);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (35, 5, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (36, 6, 3);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (37, 1, 2);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (38, 2, 1);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (39, 3, 4);
+INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (40, 4, 3);
 
 -- Insert rentals
 INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, total_price, status) VALUES

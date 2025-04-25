@@ -11,6 +11,7 @@ const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("./cloudinaryConfig");
 const passport = require("passport")
+const jwt = require("jsonwebtoken");
 
 const initializePassport = require("./passportConfig.js")
 
@@ -19,7 +20,9 @@ const verificationRoutes = require("./api/routes/verificationRoutes");
 const emailRoutes = require('./api/routes/emailRoutes');
 const orders = require("./api/routes/orderRoutes");
 const vehicles = require("./api/routes/vehiclesRoutes");
+const { sendEmail } = require('./api/controllers/emailController');
 const { Console } = require("console");
+const { platform } = require("os");
 
 require("dotenv").config();
 
@@ -233,7 +236,7 @@ app.get("/home", async (req, res) => {
 
         const userId = req.user ? req.user.id : null;
 
-        const brandsResult = await pool.query("SELECT * FROM brands ORDER BY id ASC LIMIT 3");
+        const brandsResult = await pool.query("SELECT * FROM brands ORDER BY id ASC");
         const brands = brandsResult.rows;
 
         const reviewsResult = await pool.query(`
@@ -246,7 +249,7 @@ app.get("/home", async (req, res) => {
                 JOIN vehicles ON reviews.vehicle_id = vehicles.id
                 JOIN brands ON vehicles.brand_id = brands.id
                 ORDER BY reviews.created_at LIMIT 10;
-            `);
+        `);
         const reviews = reviewsResult.rows;
 
         const officesResult = await pool.query("SELECT * FROM office ORDER BY id ASC");
@@ -637,6 +640,33 @@ app.get("/help",checkNotAuth, (req, res) => {
     }
 })
 
+app.get("/recover",checkNotAuth, async (req, res) => {
+    try{
+        const { t } = req.query;
+
+        if (!t) res.status(500).render("p404");
+        const result = await pool.query(
+            `SELECT email, expires_at FROM user_tokens WHERE token = $1`,
+            [t]
+        );
+
+        if (result.rows.length === 0) {
+            res.status(500).render("p404");
+        }
+
+        const { email, expires_at } = result.rows[0];
+
+        if (new Date() > new Date(expires_at)) {
+            res.status(500).render("p404");
+        }
+
+        res.render("recover", {email:email});
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
+
 app.get("/logout", (req, res, next) => {
     try{
         req.logout((err) => {
@@ -833,6 +863,7 @@ app.post("/addnewmodel",
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
 app.post('/reg', upload.single("image"), async (req, res) => {
     try {
         const { fname, lname, email, address, country, wilaya, city, zipcode, phone, phone_country_code, birthdate, username, password, sexe } = req.body;
@@ -866,11 +897,68 @@ app.post('/reg', upload.single("image"), async (req, res) => {
     }
 });
 
-app.post("/login", passport.authenticate("local", {
-    successRedirect: "/home",
-    failureRedirect: "/login",
-    failureFlash: true
-}))
+app.post('/login', async (req, res, next) => {
+    const { email, userplatdesc } = req.body;
+    const prodUrl = process.env.PROD_URL || `http://localhost:${process.env.PORT}`;
+
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "30m" });
+    const expiresAt = new Date(Date.now() + 30 * 60 * 1000);
+
+    await pool.query(
+        `INSERT INTO user_tokens (email, token, expires_at) VALUES ($1, $2, $3)`,
+        [email, token, expiresAt]
+    );
+
+    passport.authenticate('local', async (err, user, info) => {
+        if (err) return next(err);
+        att = !user
+
+        if (att) {
+            sendEmail({
+                to: email,
+                subject: "Login Attempt",
+                html: `
+                <p>There was a failed login attempt from: <strong>${userplatdesc}</strong>.</p> '`
+            }).catch(console.error);
+
+            try {
+                await pool.query(`
+                    INSERT INTO log_login (email, status, platform) VALUES ($1, $2, $3)
+                `, [email, att, userplatdesc])
+            } catch (error) {
+                console.log(error)
+            }
+
+            return res.redirect('/login');
+        }
+
+        req.logIn(user, async (err) => {
+            if (err) return next(err);
+
+            sendEmail({
+                to: email,
+                subject: "Login Successful",
+                html: `
+                    <p>Successful login from platform: <strong>${userplatdesc}</strong>.</p>
+                    <br> 
+                    <a style="color: red;" href="${prodUrl}/recover?t=${token}">Not you?<a>
+                `
+            }).catch(console.error);
+
+            att = true
+
+            try {
+                await pool.query(`
+                    INSERT INTO log_login (email, status, platform) VALUES ($1, $2, $3)
+                `, [email, att, userplatdesc])
+            } catch (error) {
+                console.log(error)
+            }
+
+            return res.redirect('/home');
+        });
+    })(req, res, next);
+});
 
 /*-----------dashboard.ejs----------------*/
 
@@ -930,6 +1018,7 @@ app.get('/settings',checkNotAuth, async (req, res) => {
         res.status(500).render("p404");
     }
 })
+
 app.get('/Addnewmodel',checkNotAuth, async (req, res) => {
     try{
         const colorsResult = await pool.query(`SELECT unnest(enum_range(NULL::css_color))`);
@@ -944,6 +1033,7 @@ app.get('/Addnewmodel',checkNotAuth, async (req, res) => {
         res.status(500).render("p404");
     }
 })
+
 app.get('/dbm',checkNotAuth, async (req, res) => {
     try{
         res.render("dashboard",{user: req.user, section:"dbm"})

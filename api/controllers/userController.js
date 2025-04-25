@@ -319,6 +319,29 @@ const getEmployees = async (req, res) => {
       }
 };
 
+const newbie = async (req, res) => {
+    const { page, user_id } = req.body;
+    const allowedPages = ["navbar", "home", "orders", "profile", "vehicles"]
+
+    if (!user_id || !allowedPages.includes(page)) {
+        return res.status(400).json({ error: "Somthing went wrong!" });
+    }
+
+    try {
+        const result = await pool.query(`SELECT ${page} FROM newbie WHERE user_id = $1`, [user_id])
+        if(!JSON.parse(result.rows[0][page])){
+            await pool.query(`UPDATE newbie SET ${page}=TRUE WHERE user_id = $1`, [user_id])
+            return res.status(200).json({message: "Updated succesfully"})
+        }else{
+            return res.status(200).json({message: "Already updated!"})
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
 module.exports = { 
     getUsers,
     confirmPhone, 
@@ -331,4 +354,5 @@ module.exports = {
     getClients,
     getAdmins,
     getEmployees,
+    newbie
 };

@@ -11,6 +11,7 @@ const {
     getClients,
     getAdmins,
     getEmployees,
+    newbie
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -29,5 +30,6 @@ router.delete("/deleteuser/:id", deleteuser);
 router.get("/getClients", getClients);
 router.get("/getAdmins", getAdmins);
 router.get("/getEmployees", getEmployees);
+router.post("/newbie", newbie);
 
 module.exports = router;

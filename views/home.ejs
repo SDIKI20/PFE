@@ -28,6 +28,9 @@
     </title>
 </head>
 <body class="flex-row" id="platContent">
+    <% if (user) { %>
+        <input type="number" id="bodyTitle" value="<%= user.id %>" hidden>
+    <% } %>
     <%
     function formatNumber (num) {
         if (num >= 1e9) {
@@ -401,7 +404,7 @@
                                     <% } %>
                                 </header>
                                 <div class="plat-car-image flex-col flex-center">
-                                    <img loading="lazy" src="<%= car.image %>" alt="Car">
+                                    <img src="<%= car.image %>" alt="Car">
                                 </div>
                                 <div class="plat-car-info flex-col start-center">
                                     <span class="plat-car-name text-eclip"><%= car.brand_name %> <%= car.model %> <%= car.fab_year %></span>
@@ -1472,9 +1475,6 @@
         <script>
             <% if ( (section === 'home' || section === 'cars' || section === 'rentals' || section === 'docs') && !newbie.navbar) { %>
                 navTour();
-            <% } %>
-            <% if (section === 'home' && !newbie.home) { %>
-                homeTour();
             <% } %>
             <% if (section === 'cars' && !newbie.vehicles) { %>
                 carsTour();

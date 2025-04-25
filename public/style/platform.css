@@ -526,7 +526,7 @@ input[type='radio']:checked + .rnt{
 }
 
 .plat-car-container{
-    width: 18em;
+    width: 20em;
     height: 280px;
     background-color: var(--container);
     border-radius: 0.7rem;
@@ -1461,7 +1461,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     overflow: hidden;
     border-radius: 15px;
     margin: 0 10px;
-    background-color: var(--container);
+    background-color: var(--bg);
     box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.02);
 }
 

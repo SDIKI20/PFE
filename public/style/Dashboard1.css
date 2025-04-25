@@ -971,6 +971,10 @@ tr:hover {
   object-fit: cover;
 }
 
+.dbm-table-row:nth-child(2n){
+  background-color: var(--bg-lower);
+}
+
 /*-------------------------------------------------------*/
 
 
