@@ -1334,14 +1334,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
 }
 
-.plat-text{
-    color: rgb(102, 102, 102);
-    font-weight: 500;
-    background-color: transparent;
-    border: none;
-    cursor: default;
-}
-
 #searchOpt{
     flex-grow: 1;
     background-color: var(--color-second);
@@ -1636,15 +1628,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 
 .help-detail p{
     margin-top: 0.325em;
-}
-
-details[open] summary ~ * {
-    animation: fadeIn 0.3s ease-in;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 /*---------------------------------------------------*/

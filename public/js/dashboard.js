@@ -1,69 +1,28 @@
-document.addEventListener("DOMContentLoaded", function () {
-    fetchOrders(); // أول تحميل يعرض جميع الطلبات
-  });
-  
-  // جلب كل الطلبات
-  function fetchOrders() {
-    openLoader()
-    fetch("http://localhost:4000/api/orders/getOrders")
-      .then(response => response.json())
-      .then(rentals => {
-        closeLoader()
-        displayOrders(rentals);
-      })
-      .catch(pushNotif("e",`Error fetching orders:${error}`))
-      
-  }
-
-  
-  // عرض الطلبات في الجدول
-  function displayOrders(rentals) {
-    const tableBody = document.getElementById("rentalsTableBody");
-    tableBody.innerHTML = "";
-  
-    rentals.forEach(rental => {
-      const row = document.createElement("tr");
-  
-      let statusClass = "";
-      let statusIcon = "";
-  
-      switch (rental.status.toLowerCase()) {
-        case "completed":
-          statusClass = "status-completed";
-          statusIcon = "✅";
-          break;
-        case "pending":
-          statusClass = "status-pending";
-          statusIcon = "⏳";
-          break;
-        case "canceled":
-          statusClass = "status-canceled";
-          statusIcon = "❌";
-          break;
-        case "active":
-          statusClass = "status-active";
-          statusIcon = "🟢";
-          break;
-      }
-  
-      row.innerHTML = `
-        <td>${rental.user_id}</td>
-        <td>${rental.vehicle_id}</td>
-        <td>${new Date(rental.start_date).toDateString()}</td>
-        <td>${new Date(rental.end_date).toDateString()}</td>
-        <td class="${statusClass}">${statusIcon} ${rental.status}</td>
-        <td>${rental.total_price} <span class="currence">DZD</span></td>
-      `;
-  
-      tableBody.appendChild(row);
-    });
-  }
-
-
-
-
-
 function toggleNav() {
     const sidebar = document.getElementById("sidebar");
     sidebar.classList.toggle("active");
 }
+
+document.querySelectorAll('.nav-element-head').forEach(n=>{
+  n.addEventListener('click', ()=>{
+    isActive = n.classList.contains("nes")
+    navBod = n.parentElement.children[1]
+    console.log(navBod.children.length)
+    document.querySelectorAll('.nav-element-head').forEach(nn=>{
+      nn.classList.remove("nes")
+      nn.parentElement.children[1].style.height = `0`
+      nn.parentElement.children[1].style.visibility = `hidden`
+      nn.parentElement.children[1].style.padding = `0`
+    })
+    if(isActive){
+      navBod.style.height = `0`
+    }else{
+      n.classList.add('nes')
+      navBod.style.visibility = "visible"
+      navBod.style.padding = "0.5em 0.325em 0.325em 1em"
+      setTimeout(() => {
+        navBod.style.height = `calc(${navBod.children.length} * 2em)`
+      }, 10);
+    }
+  })
+})

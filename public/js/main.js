@@ -502,3 +502,58 @@ function validInput(inputId, type) {
             : "2px solid rgba(235, 34, 34, 0.586)";
     });
 }
+
+function animateNumber(targetElement, start, end, period) {
+    const element = document.getElementById(targetElement);
+    const range = end - start;
+    const stepTime = Math.abs(Math.floor(period / range));
+    let currentValue = start; 
+
+    function updateCounter() {
+        if (currentValue < end) {
+        currentValue++;
+        element.innerText = currentValue; 
+        } else {
+        clearInterval(interval);
+        }
+    }
+    const interval = setInterval(updateCounter, stepTime);
+}  
+
+function formatMoney(amount, decimals = 2) {
+    amount = parseFloat(amount);
+  
+    const fixedAmount = amount.toFixed(decimals);
+  
+    const parts = fixedAmount.split('.');
+    let integerPart = parts[0];
+    const decimalPart = parts[1];
+  
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  
+    return `${integerPart}.${decimalPart}`;
+}
+
+function animateMoney(targetElement, start, end, period) {
+    const element = document.getElementById(targetElement);
+    const range = end - start;
+    let currentValue = start;
+    const startTime = performance.now();
+  
+    function updateCounter(timestamp) {
+      const elapsedTime = timestamp - startTime;
+  
+      const progress = Math.min(elapsedTime / period, 1);
+      currentValue = start + range * progress;
+  
+      element.innerText = formatMoney(Math.floor(currentValue), 2);
+  
+      if (progress < 1) {
+        requestAnimationFrame(updateCounter); 
+      } else {
+        element.innerText = formatMoney(end, 2);
+      }
+    }
+  
+    requestAnimationFrame(updateCounter);
+}

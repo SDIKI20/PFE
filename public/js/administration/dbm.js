@@ -664,7 +664,7 @@ const refrechOrdersTable = (limit = parseInt(ordersLimit.value), offset = parseI
             }
         })
         .catch(error => {
-            employeesLoader.style.opacity = "0";
+            ordersLoader.style.opacity = "0";
             pushNotif("e", "Something went wrong!");
             console.error(error);
         });

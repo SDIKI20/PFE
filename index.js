@@ -1,4 +1,7 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+/*---------------------------------------------------------*/
+
 var path = require("path");
 const express = require("express");
 const app = express();
@@ -12,30 +15,27 @@ const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("./cloudinaryConfig");
 const passport = require("passport")
 const jwt = require("jsonwebtoken");
-
 const initializePassport = require("./passportConfig.js")
-
 const userRoutes = require("./api/routes/users");
 const verificationRoutes = require("./api/routes/verificationRoutes");
 const emailRoutes = require('./api/routes/emailRoutes');
 const orders = require("./api/routes/orderRoutes");
 const vehicles = require("./api/routes/vehiclesRoutes");
 const { sendEmail } = require('./api/controllers/emailController');
-const { Console } = require("console");
-const { platform } = require("os");
+
+/*---------------------------------------------------------*/
 
 require("dotenv").config();
-
 initializePassport(passport);
-
 const PORT = process.env.PORT || 4000;
+
+/*---------------------------------------------------------*/
 
 app.use(express.json());
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', "ejs");
 app.use(express.urlencoded({ extended: false}));
-
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(session({
@@ -43,11 +43,18 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
-
 app.use(passport.initialize())
 app.use(passport.session())
 
-// Configure Multer with Cloudinary Storage
+app.use(cors({
+    origin: ["http://127.0.0.1:5500", "http://localhost:5000", "https://pfe-server-sandy.vercel.app", "https://pjr.vercel.app"],
+    credentials: true
+}));
+
+app.use(flash());
+
+/*---------------------------------------------------------*/
+
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
@@ -55,7 +62,6 @@ const storage = new CloudinaryStorage({
         public_id: (req, file) => file.fieldname + "-" + Date.now(),
     },
 });
-
 const uploadImage = async (file) => {
   try {
     const result = await cloudinary.uploader.upload(file.path, {
@@ -68,21 +74,6 @@ const uploadImage = async (file) => {
     throw new Error("Image upload failed");
   }
 };
-
-app.use(cors({
-    origin: ["http://127.0.0.1:5500", "http://localhost:5000", "https://pfe-server-sandy.vercel.app", "https://pjr.vercel.app"],
-    credentials: true
-}));
-
-// API Routes
-app.use("/api/users", userRoutes);
-app.use('/api/email', emailRoutes);
-app.use("/api/sms", verificationRoutes);
-app.use('/api/orders', orders);
-app.use('/api/vehicles', vehicles);
-
-app.use(flash());
-
 const fileFilter = (req, file, cb) => {
     const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     if (allowedTypes.includes(file.mimetype)) {
@@ -91,8 +82,33 @@ const fileFilter = (req, file, cb) => {
         cb(new Error('Only .png, .jpg and .jpeg formats are allowed!'), false);
     }
 };
-
 const upload = multer({ storage: storage, fileFilter: fileFilter });
+
+/*---------------------------------------------------------*/
+
+function checkAuth(req, res, next){
+    if(req.isAuthenticated()){
+        return res.redirect("/home")
+    }
+    next();
+}
+
+function checkNotAuth(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login")
+}
+
+/*---------------------------------------------------------*/
+
+app.use("/api/users", userRoutes);
+app.use('/api/email', emailRoutes);
+app.use("/api/sms", verificationRoutes);
+app.use('/api/orders', orders);
+app.use('/api/vehicles', vehicles);
+
+/*---------------------------------------------------------*/
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
@@ -124,112 +140,15 @@ app.get("/p404", (req, res) => {
     res.render("p404");
 })
 
-app.get("/login",checkAuth, (req, res) => {
-    res.render("login")
-})
-
-app.get("/signup",checkAuth, async (req, res) => {
-    const wilayas = await pool.query("SELECT * FROM wilaya WHERE 1=1");
-    const wilaya = wilayas.rows;
-    res.render("signup", {wilaya:wilaya})
-})
-
-app.get("/dashboard", async (req, res) => {
-    const rentalsResult = await pool.query("SELECT sum(total_price) AS total FROM rentals");
-    const rentals = rentalsResult.rows[0];
-    res.render("dashboard", {section:"dashboard", o:rentals})
-})
-
-app.get("/settings", async (req, res) => {
-    res.render("dashboard", {section:"settings"})
-})
-
-app.get("/car/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const userId = req.user ? req.user.id : null;
-        
-        const carResult = await pool.query(`
-            SELECT 
-                vehicle_stock.stock_id,
-                vehicle_stock.units,
-                vehicle_stock.office_id,
-                vehicles.*, 
-                brands.name AS brand_name, 
-                brands.logo, 
-                office.country, 
-                office.wilaya,  
-                office.address, 
-                office.city,
-                office.latitude,
-                office.longitude,
-                ROUND(COALESCE(AVG(reviews.stars), 0), 1) AS stars,
-                COUNT(DISTINCT reviews.id) AS reviews,
-                COUNT(DISTINCT rentals.id) AS orders,
-                COUNT(reviews.id) FILTER (WHERE reviews.stars = 1) AS s1,
-                COUNT(reviews.id) FILTER (WHERE reviews.stars = 2) AS s2,
-                COUNT(reviews.id) FILTER (WHERE reviews.stars = 3) AS s3,
-                COUNT(reviews.id) FILTER (WHERE reviews.stars = 4) AS s4,
-                COUNT(reviews.id) FILTER (WHERE reviews.stars = 5) AS s5,
-                CASE WHEN COUNT(f.vehicle_id) > 0 THEN true ELSE false END AS is_favorite
-            FROM 
-                vehicle_stock
-            JOIN 
-                vehicles ON vehicles.id = vehicle_stock.vehicle_id
-            JOIN
-                brands ON vehicles.brand_id = brands.id
-            JOIN 
-                office ON vehicle_stock.office_id = office.id
-            LEFT JOIN 
-                reviews ON vehicles.id = reviews.vehicle_id
-            LEFT JOIN 
-                rentals ON vehicles.id = rentals.vehicle_id
-            LEFT JOIN 
-                favorites f ON f.user_id = $1 AND f.vehicle_id = vehicles.id
-            WHERE 
-                vehicle_stock.vehicle_id = $2
-            GROUP BY 
-                vehicle_stock.stock_id, vehicles.id, brands.id, office.id
-            LIMIT 1;
-        `, [userId, id]);
-
-        const carReviews = await pool.query(`
-            SELECT 
-                reviews.*,
-                users.id AS user_id, users.fname, users.lname, users.username, users.image,
-                rentals.id AS rental_id, rentals.total_price
-            FROM reviews
-            JOIN users ON reviews.user_id = users.id
-            JOIN rentals ON reviews.rental_id = rentals.id
-            WHERE reviews.vehicle_id = $1
-        `, [id]);
-
-        if (carResult.rows.length === 0) {
-            return res.status(404).render("p404");
-        } else {
-            const car = carResult.rows[0];
-            const reviews = carReviews.rows;
-            res.render("home", { car: car, reviews: reviews, user: req.user, section: "detail" });
-        }
-
-    } catch (error) {
-        console.error("Database error:", error);
-        res.status(500).render("p404");
+app.post('/upload', upload.single('image'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded or invalid file type' });
     }
+
+    return res.status(200).json({ imageUrl: req.file.path });
 });
 
-app.get("/city/:wilaya", async (req, res) => {
-    const { wilaya } = req.params;
-    const citiesL = await pool.query(`
-        SELECT city.*,
-                wilaya.name AS wilaya
-        FROM city 
-        JOIN wilaya ON city.wilaya_id = wilaya.id
-        WHERE LOWER(wilaya.name) = $1`
-         , [wilaya.toLocaleLowerCase()]);
-    const cities = citiesL.rows;
-    res.json(cities)
-})
+/*---------------------------------------------------------*/
 
 app.get("/home", async (req, res) => {
     try {
@@ -510,6 +429,93 @@ app.get("/cars", async (req, res) => {
     }
 });
 
+app.get("/car/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user ? req.user.id : null;
+        
+        const carResult = await pool.query(`
+            SELECT 
+                vehicle_stock.stock_id,
+                vehicle_stock.units,
+                vehicle_stock.office_id,
+                vehicles.*, 
+                brands.name AS brand_name, 
+                brands.logo, 
+                office.country, 
+                office.wilaya,  
+                office.address, 
+                office.city,
+                office.latitude,
+                office.longitude,
+                ROUND(COALESCE(AVG(reviews.stars), 0), 1) AS stars,
+                COUNT(DISTINCT reviews.id) AS reviews,
+                COUNT(DISTINCT rentals.id) AS orders,
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 1) AS s1,
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 2) AS s2,
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 3) AS s3,
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 4) AS s4,
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 5) AS s5,
+                CASE WHEN COUNT(f.vehicle_id) > 0 THEN true ELSE false END AS is_favorite
+            FROM 
+                vehicle_stock
+            JOIN 
+                vehicles ON vehicles.id = vehicle_stock.vehicle_id
+            JOIN
+                brands ON vehicles.brand_id = brands.id
+            JOIN 
+                office ON vehicle_stock.office_id = office.id
+            LEFT JOIN 
+                reviews ON vehicles.id = reviews.vehicle_id
+            LEFT JOIN 
+                rentals ON vehicles.id = rentals.vehicle_id
+            LEFT JOIN 
+                favorites f ON f.user_id = $1 AND f.vehicle_id = vehicles.id
+            WHERE 
+                vehicle_stock.vehicle_id = $2
+            GROUP BY 
+                vehicle_stock.stock_id, vehicles.id, brands.id, office.id
+            LIMIT 1;
+        `, [userId, id]);
+
+        const carReviews = await pool.query(`
+            SELECT 
+                reviews.*,
+                users.id AS user_id, users.fname, users.lname, users.username, users.image,
+                rentals.id AS rental_id, rentals.total_price
+            FROM reviews
+            JOIN users ON reviews.user_id = users.id
+            JOIN rentals ON reviews.rental_id = rentals.id
+            WHERE reviews.vehicle_id = $1
+        `, [id]);
+
+        if (carResult.rows.length === 0) {
+            return res.status(404).render("p404");
+        } else {
+            const car = carResult.rows[0];
+            const reviews = carReviews.rows;
+            res.render("home", { car: car, reviews: reviews, user: req.user, section: "detail" });
+        }
+
+    } catch (error) {
+        console.error("Database error:", error);
+        res.status(500).render("p404");
+    }
+});
+
+app.get("/city/:wilaya", async (req, res) => {
+    const { wilaya } = req.params;
+    const citiesL = await pool.query(`
+        SELECT city.*,
+                wilaya.name AS wilaya
+        FROM city 
+        JOIN wilaya ON city.wilaya_id = wilaya.id
+        WHERE LOWER(wilaya.name) = $1`
+         , [wilaya.toLocaleLowerCase()]);
+    const cities = citiesL.rows;
+    res.json(cities)
+})
+
 app.get("/rentals", checkNotAuth, async (req, res) => {
     try {
         const {
@@ -587,15 +593,6 @@ app.get("/rentals", checkNotAuth, async (req, res) => {
     }
 });
 
-app.get("/recent",checkNotAuth, (req, res) => {
-    try{
-        res.render("home", { user: req.user, section : "recent" });
-    }catch(error){
-        console.error(error);
-        res.status(500).render("p404");
-    }
-})
-
 app.get("/fav",checkNotAuth, async (req, res) => {
     try{
         const favCarsRows = await pool.query(`
@@ -640,55 +637,131 @@ app.get("/help",checkNotAuth, (req, res) => {
     }
 })
 
-app.get("/recover",checkNotAuth, async (req, res) => {
+/*---------------------------------------------------------*/
+
+app.get('/rental/list', (req, res) => {
     try{
-        const { t } = req.query;
-
-        if (!t) res.status(500).render("p404");
-        const result = await pool.query(
-            `SELECT email, expires_at FROM user_tokens WHERE token = $1`,
-            [t]
-        );
-
-        if (result.rows.length === 0) {
-            res.status(500).render("p404");
-        }
-
-        const { email, expires_at } = result.rows[0];
-
-        if (new Date() > new Date(expires_at)) {
-            res.status(500).render("p404");
-        }
-
-        res.render("recover", {email:email});
+    res.render("dashboard",{user: req.user, section:"rental", subsection:"listrental"})
     }catch(error){
         console.error(error);
         res.status(500).render("p404");
     }
 })
 
-app.get("/logout", (req, res, next) => {
+app.get('/rental/orders', (req, res) => {
     try{
-        req.logout((err) => {
-            if (err) {
-                return next(err);
-            }
-            req.flash("info_msg", "You have logged out");
-            res.redirect("/login");
-        });
+    res.render("dashboard",{user: req.user, section:"rental", subsection:"ordersrentals"})
     }catch(error){
-            console.error(error);
-            res.status(500).render("p404");
-        }
-});
-
-app.post('/upload', upload.single('image'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded or invalid file type' });
+        console.error(error);
+        res.status(500).render("p404");
     }
+})
 
-    return res.status(200).json({ imageUrl: req.file.path });
-});
+app.get('/rental/return', (req, res) => {
+    try{
+    res.render("dashboard",{user: req.user, section:"rental", subsection:"returnrentals"})
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
+
+app.get('/account',checkNotAuth,(req, res) => {
+    try{
+    res.render("dashboard",{user: req.user, section:"account"})
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
+
+app.get('/report',checkNotAuth,(req, res) => {
+    try{
+    res.render("dashboard",{user: req.user, section:"report", subsection:"report"})
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
+
+app.get("/settings", async (req, res) => {
+    res.render("dashboard", {section:"settings"})
+})
+
+app.get('/dbm', checkNotAuth, async (req, res) => {
+    try{
+        res.render("dashboard",{user: req.user, section:"dbm", subsection:""})
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
+
+app.get("/dashboard", async (req, res) => {
+    res.render("dashboard", {section:"dashboard", subsection:"rentals", user:req.user})
+})
+
+app.get("/dashboard/rentals", async (req, res) => {
+    res.render("dashboard", {section:"dashboard", subsection:"rentals", user:req.user})
+})
+
+app.get("/dashboard/clients", async (req, res) => {
+    res.render("dashboard", {section:"dashboard", subsection:"dashboardclients", user:req.user})
+})
+
+app.get("/dashboard/vehicles", async (req, res) => {
+    res.render("dashboard", {section:"dashboard", subsection:"dashboardvehicles", user:req.user})
+})
+
+app.get('/vehicles', async (req, res) => {
+    try{
+        res.render("dashboard",{user: req.user, 
+            section:"vehicles", 
+            subsection:"listvehicles"
+        })
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
+
+app.get('/vehicles/add', async (req, res) => {
+    try{
+        const fuelResult = await pool.query(`SELECT unnest(enum_range(NULL::fuel_type))`);
+        const fuelTypes = fuelResult.rows.length > 0 ? fuelResult.rows : null;
+
+        const bodyResult = await pool.query(`SELECT unnest(enum_range(NULL::body_type))`);
+        const bodyTypes = bodyResult.rows.length > 0 ? bodyResult.rows : null;
+
+        const transResult = await pool.query(`SELECT unnest(enum_range(NULL::transmission_type))`);
+        const transTypes = transResult.rows.length > 0 ? transResult.rows : null;
+
+        const colorsResult = await pool.query(`SELECT unnest(enum_range(NULL::css_color))`);
+        const colors = colorsResult.rows.length > 0 ? colorsResult.rows : null;
+
+        const brandsResult = await pool.query(`SELECT * FROM brands`);
+        const brandsList = brandsResult.rows.length > 0 ? brandsResult.rows : null;
+
+        const officeRows = await pool.query(`
+            SELECT * FROM office WHERE 1 = 1
+        `)
+        offices = officeRows.rows.length === 0?null:officeRows.rows
+
+        res.render("dashboard",{user: req.user, 
+            section:"vehicles", 
+            fuelTypes:fuelTypes, 
+            bodyTypes:bodyTypes, 
+            transTypes:transTypes,
+            brands:brandsList,
+            colors:colors,
+            subsection:"addvehicle",
+            offices:offices
+        })
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
 
 app.post("/addvehicle", 
     upload.fields([
@@ -780,89 +853,77 @@ app.post("/addvehicle",
     }
 });
 
-app.post("/addnewmodel", 
-    upload.fields([
-        { name: "image", maxCount: 1 },
-        { name: "prevImage1", maxCount: 1 },
-        { name: "prevImage2", maxCount: 1 },
-        { name: "prevImage3", maxCount: 1 }
-    ])
-    ,async (req, res) => {
-    try {
-        const {
-            brand_id,
-            model,
-            color,
-            capacity,
-            fuel,
-            transmission,
-            availability,
-            body,
-            price,
-            location,
-            units,
-            speed,
-            horsepower,
-            engine_type,
-            rental_type,
-            description
-        } = req.body;
-
-        // Defaults
-        const vehicleUnits = units || 0;
-        const vehicleSpeed = speed || 0;
-        const vehicleHorsepower = horsepower || 0;
-        const vehicleEngineType = engine_type || 'unknown';
-        const vehicleRentalType = rental_type || 'h';
-        const vehicleTransmission = transmission || 'Manual';
-        const isAvailable = availability !== undefined ? availability : true;
-
-        // Upload images (assuming uploadImage is a working function)
-        const mainImage = req.files?.["image"] ? await uploadImage(req.files["image"][0]) : "/assets/cars/default.png";
-        const prevImage1 = req.files?.["prevImage1"] ? await uploadImage(req.files["prevImage1"][0]) : "/assets/cars/default_prev.png";
-        const prevImage2 = req.files?.["prevImage2"] ? await uploadImage(req.files["prevImage2"][0]) : "/assets/cars/default_prev.png";
-        const prevImage3 = req.files?.["prevImage3"] ? await uploadImage(req.files["prevImage3"][0]) : "/assets/cars/default_prev.png";
-
-        const query = `
-            INSERT INTO vehicles (
-                brand_id, model, color, capacity, fuel, transmission,  body, price, location,
-                image, prevImage1, prevImage2, prevImage3, units, speed, horsepower, engine_type, rental_type,description
-            )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 
-                    $11, $12, $13, $14, $15, $16, $17, $18, $19)
-            RETURNING *;
-        `;
-
-        const values = [
-            brand_id,
-            model,
-            color,
-            capacity,
-            fuel,
-            vehicleTransmission,
-            body,
-            price,
-            location,
-            mainImage,
-            prevImage1,
-            prevImage2,
-            prevImage3,
-            vehicleUnits,
-            vehicleSpeed,
-            vehicleHorsepower,
-            vehicleEngineType,
-            vehicleRentalType,
-            description
-        ];
-
-        await pool.query(query, values);
-        res.redirect('/vehicles');
-
-    } catch (error) {
-        console.error("Error adding new car vehicle:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+app.get('/vehicles/list', async (req, res) => {
+    try{
+        res.render("dashboard",{
+            user: req.user, 
+            section:"vehicles",
+            subsection:"listvehicles"
+        })
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
     }
-});
+})
+
+app.get('/vehicles/brands/add', async (req, res) => {
+    try{
+        res.render("dashboard",{user: req.user, 
+            section:"vehicles", 
+            subsection:"addbrand"
+        })
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
+
+app.get('/vehicles/types/add', async (req, res) => {
+    try{
+        res.render("dashboard",{user: req.user, 
+            section:"vehicles", 
+            subsection:"addtype"
+        })
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
+
+app.get('/clients',(req, res) => {
+    try{
+      res.render("dashboard",{user: req.user, section:"clients", subsection:""})
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
+
+app.get('/clients/list',(req, res) => {
+    try{
+      res.render("dashboard",{user: req.user, section:"clients", subsection:"listclients"})
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
+
+app.get('/clients/verification',(req, res) => {
+    try{
+      res.render("dashboard",{user: req.user, section:"clients", subsection:"listverification"})
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
+
+/*-------------------------------------------------------------*/ 
+
+app.get("/signup",checkAuth, async (req, res) => {
+    const wilayas = await pool.query("SELECT * FROM wilaya WHERE 1=1");
+    const wilaya = wilayas.rows;
+    res.render("signup", {wilaya:wilaya})
+})
 
 app.post('/reg', upload.single("image"), async (req, res) => {
     try {
@@ -896,6 +957,10 @@ app.post('/reg', upload.single("image"), async (req, res) => {
         res.status(500).render("p404");
     }
 });
+
+app.get("/login",checkAuth, (req, res) => {
+    res.render("login")
+})
 
 app.post('/login', async (req, res, next) => {
     const { email, userplatdesc } = req.body;
@@ -960,153 +1025,49 @@ app.post('/login', async (req, res, next) => {
     })(req, res, next);
 });
 
-/*-----------dashboard.ejs----------------*/
-
-app.get('/order', (req, res) => {
+app.get("/recover",checkNotAuth, async (req, res) => {
     try{
-    res.render("dashboard",{user: req.user, section:"order"})
+        const { t } = req.query;
+
+        if (!t) res.status(500).render("p404");
+        const result = await pool.query(
+            `SELECT email, expires_at FROM user_tokens WHERE token = $1`,
+            [t]
+        );
+
+        if (result.rows.length === 0) {
+            res.status(500).render("p404");
+        }
+
+        const { email, expires_at } = result.rows[0];
+
+        if (new Date() > new Date(expires_at)) {
+            res.status(500).render("p404");
+        }
+
+        res.render("recover", {email:email});
     }catch(error){
         console.error(error);
         res.status(500).render("p404");
     }
 })
 
-app.get('/dashboard',checkNotAuth,(req, res) => {
+app.get("/logout", (req, res, next) => {
     try{
-    res.render("dashboard",{user: req.user, section:"dashboard"})
+        req.logout((err) => {
+            if (err) {
+                return next(err);
+            }
+            req.flash("info_msg", "You have logged out");
+            res.redirect("/login");
+        });
     }catch(error){
-        console.error(error);
-        res.status(500).render("p404");
-    }
-})
+            console.error(error);
+            res.status(500).render("p404");
+        }
+});
 
-app.get('/customers',checkNotAuth,(req, res) => {
-        try{
-          res.render("dashboard",{user: req.user, section:"customers"}    
-    )
-    
-    
-    }catch(error){
-        console.error(error);
-        res.status(500).render("p404");
-    }
-})
-
-app.get('/account',checkNotAuth,(req, res) => {
-    try{
-    res.render("dashboard",{user: req.user, section:"account"})
-    }catch(error){
-        console.error(error);
-        res.status(500).render("p404");
-    }
-})
-
-app.get('/report',checkNotAuth,(req, res) => {
-    try{
-    res.render("dashboard",{user: req.user, section:"report"})
-    }catch(error){
-        console.error(error);
-        res.status(500).render("p404");
-    }
-})
-
-app.get('/settings',checkNotAuth, async (req, res) => {
-    try{
-    res.render("dashboard",{user: req.user, section:"settings"})
-    }catch(error){
-        console.error(error);
-        res.status(500).render("p404");
-    }
-})
-
-app.get('/Addnewmodel',checkNotAuth, async (req, res) => {
-    try{
-        const colorsResult = await pool.query(`SELECT unnest(enum_range(NULL::css_color))`);
-        const colors = colorsResult.rows.length > 0 ? colorsResult.rows : null;
-        const transResult = await pool.query(`SELECT unnest(enum_range(NULL::transmission_type))`);
-        const transTypes = transResult.rows.length > 0 ? transResult.rows : null;
-    res.render("dashboard",{user: req.user, section:"Addnewmodel",transTypes:transTypes,
-        colors:colors,
-    })
-    }catch(error){
-        console.error(error);
-        res.status(500).render("p404");
-    }
-})
-
-app.get('/dbm',checkNotAuth, async (req, res) => {
-    try{
-        res.render("dashboard",{user: req.user, section:"dbm"})
-    }catch(error){
-        console.error(error);
-        res.status(500).render("p404");
-    }
-})
-
-app.get('/addvehicle', async (req, res) => {
-    try{
-        const fuelResult = await pool.query(`SELECT unnest(enum_range(NULL::fuel_type))`);
-        const fuelTypes = fuelResult.rows.length > 0 ? fuelResult.rows : null;
-
-        const bodyResult = await pool.query(`SELECT unnest(enum_range(NULL::body_type))`);
-        const bodyTypes = bodyResult.rows.length > 0 ? bodyResult.rows : null;
-
-        const transResult = await pool.query(`SELECT unnest(enum_range(NULL::transmission_type))`);
-        const transTypes = transResult.rows.length > 0 ? transResult.rows : null;
-
-        const colorsResult = await pool.query(`SELECT unnest(enum_range(NULL::css_color))`);
-        const colors = colorsResult.rows.length > 0 ? colorsResult.rows : null;
-
-        const brandsResult = await pool.query(`SELECT * FROM brands`);
-        const brandsList = brandsResult.rows.length > 0 ? brandsResult.rows : null;
-
-        const officeRows = await pool.query(`
-            SELECT * FROM office WHERE 1 = 1
-        `)
-        offices = officeRows.rows.length === 0?null:officeRows.rows
-
-        res.render("dashboard",{user: req.user, 
-            section:"addvehicle", 
-            fuelTypes:fuelTypes, 
-            bodyTypes:bodyTypes, 
-            transTypes:transTypes,
-            brands:brandsList,
-            colors:colors,
-            offices:offices
-        })
-    }catch(error){
-        console.error(error);
-        res.status(500).render("p404");
-    }
-})
-
-app.get('/vehicles', async (req, res) => {
-    try{
-        res.render("dashboard",{
-            user: req.user, 
-            section:"vehicles",
-        })
-    }catch(error){
-        console.error(error);
-        res.status(500).render("p404");
-    }
-})
-
-/*--------*/ 
-
-function checkAuth(req, res, next){
-    if(req.isAuthenticated()){
-        return res.redirect("/home")
-    }
-    next();
-}
-
-function checkNotAuth(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect("/login")
-}
+/*---------------------------------------------------------*/
 
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);

@@ -66,6 +66,15 @@ body{
     background-color: var(--bg);
 }
 
+details[open] summary ~ * {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 ul{
     list-style: none;
 }
@@ -560,6 +569,14 @@ option{
     color: var(--txt-black);
 }
 
+.plat-text{
+    color: rgb(102, 102, 102) !important;
+    font-weight: 500;
+    background-color: transparent;
+    border: none;
+    cursor: default;
+}
+
 .title-min,
 .title-min span{
     font-size: 0.9rem;
@@ -611,6 +628,8 @@ option{
     color: var(--txt-black);
 }
 
+.para-med,
+.para-med span,
 .para-mid,
 .para-mid span{
     font-size: 0.9rem;
@@ -658,6 +677,10 @@ option{
     gap: 0.325em;
 }
 
+.gap-lrg{
+    gap: 1em;
+}
+
 .h100{
     height: 100%;
 }
@@ -681,7 +704,7 @@ option{
 .bt-hover:hover *{
     opacity: 0.8;
     transform: scale(1.015);
-    transition: ease 0.5s;
+    transition: ease-in-out 0.5s;
     cursor: pointer;
 }
 
