@@ -1683,14 +1683,19 @@ tr:hover {
 
 .rent-progress-container{
   transition: ease-in-out 1s;
+  min-width: fit-content;
 }
 
 .cld{
-  background-color: rgba(190, 78, 255, 0.9);
+  background-color: rgba(72, 139, 76, 0.9);
 }
 
 .atv{
   background-color: rgba(94, 126, 202, 0.9);
+}
+
+.ccd{
+  background-color: rgba(220, 74, 61, 0.9);
 }
 
 .pdg{
@@ -1782,8 +1787,13 @@ tr:hover {
 }
 
 .rt-completed{
-  background-color: rgba(190, 78, 255, 0.1);
-  color: rgb(190, 78, 255) !important;
+  background-color: rgba(119, 225, 115, 0.1);
+  color: rgb(49, 157, 96) !important;
+}
+
+.rt-canceled{
+  background-color: rgba(204, 56, 56, 0.1);
+  color: rgb(207, 54, 54) !important;
 }
 
 .rt-row-el:nth-child(2n){

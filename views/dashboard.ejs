@@ -750,30 +750,37 @@
                             <button class="bt bt-hover bt-reg gap-lrg"><i class="fa-solid fa-arrow-up-z-a"></i> Order</button>
                             <button class="bt bt-hover bt-reg"><i class="fa-solid fa-calendar"></i> Period</button>
                             <div class="nah-break"></div>
-                            <button class="bt bt-hover bt-solid gap-lrg"><i class="fa-solid fa-file-csv"></i> Export</button>
+                            <button class="bt bt-hover bt-solid gap-lrg" id="oDownload"><i class="fa-solid fa-file-csv"></i> Export</button>
                         </div>
                     </div>
 
                     <div class="lst-rental-progressbar flex-row center-start gap-min">
-                        <div class="rent-progress-container flex-col start-center" id="rntPgsC" style="width: 33%;">
+                        <div class="rent-progress-container flex-col start-center" id="rntPgsC" style="width: 25%;">
                             <div class="prog-stat cld"></div>
                             <div class="flex-row center-start gap-lrg">
                                 <div class="prog-stat-c cld"></div>
                                 <h4>Completed: <span id="statCld">0</span></h4>
                             </div>
                         </div>
-                        <div class="rent-progress-container flex-col start-center" id="rntPgsA" style="width: 33%;">
+                        <div class="rent-progress-container flex-col start-center" id="rntPgsA" style="width: 25%;">
                             <div class="prog-stat atv"></div>
                             <div class="flex-row center-start gap-lrg">
                                 <div class="prog-stat-c atv"></div>
                                 <h4>Active: <span id="statAtv">0</span></h4>
                             </div>
                         </div>
-                        <div class="rent-progress-container flex-col start-center" id="rntPgsP" style="width: 33%;">
+                        <div class="rent-progress-container flex-col start-center" id="rntPgsP" style="width: 25%;">
                             <div class="prog-stat pdg"></div>
                             <div class="flex-row center-start gap-lrg">
                                 <div class="prog-stat-c pdg"></div>
                                 <h4>Pending: <span id="statPdg">0</span></h4>
+                            </div>
+                        </div>
+                        <div class="rent-progress-container flex-col start-center" id="rntPgsCc" style="width: 25%;">
+                            <div class="prog-stat ccd"></div>
+                            <div class="flex-row center-start gap-lrg">
+                                <div class="prog-stat-c ccd"></div>
+                                <h4>Canceled: <span id="statCcd">0</span></h4>
                             </div>
                         </div>
                     </div>
@@ -803,7 +810,8 @@
                                         </select>
                                         <p class="para-sml">Show per page: </p>
                                         <input class="select-reg" type="number" min="0" max="50" value="10" id="ordersLimit" style="width: 4em; padding-right: 0; height: 2.5em; text-align: center;">
-                                        <input type="number" value="0" id="ordersOffset">
+                                        <p class="para-sml">Offset: </p>
+                                        <input type="number" value="0" id="ordersOffset" style="width: 4em; padding-right: 0; height: 2.5em; text-align: center;">
                                     </div>
                                     <div class="flex-row center-start gap-lrg" id="orderTableFoot">
                                         <p class="para-sml" id="tpageInfo">1-5 of 99</p>

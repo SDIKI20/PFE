@@ -10,7 +10,8 @@ const getStats = async (limit, offset) => {
             total,
             pending,
             active,
-            completed
+            completed,
+            canceled
 
         } = await response.json();
 
@@ -20,7 +21,8 @@ const getStats = async (limit, offset) => {
             total,
             pending,
             active,
-            completed
+            completed,
+            canceled
          };
     } catch (error) {
         closeLoader()
@@ -34,6 +36,8 @@ const statTot = document.getElementById('statTot')
 const statCld = document.getElementById('statCld')
 const statAtv = document.getElementById('statAtv')
 const statPdg = document.getElementById('statPdg')
+const statCcd = document.getElementById('statCcd')
+const rntPgsCc = document.getElementById('rntPgsCc')
 const rntPgsC = document.getElementById('rntPgsC')
 const rntPgsA = document.getElementById('rntPgsA')
 const rntPgsP = document.getElementById('rntPgsP')
@@ -45,15 +49,20 @@ const updateStats = async() => {
             pending = data.pending
             active = data.active
             completed = data.completed
+            canceled = data.canceled
+
+            console.log(data)
 
             animateNumber('statTot', parseInt(statTot.innerText), parseInt(total), 1000);
             animateNumber('statCld', parseInt(statCld.innerText), parseInt(completed), 1000);
             animateNumber('statAtv', parseInt(statAtv.innerText), parseInt(active), 1000);
             animateNumber('statPdg', parseInt(statPdg.innerText), parseInt(pending), 1000);
+            animateNumber('statCcd', parseInt(statCcd.innerText), parseInt(canceled), 1000);
 
             rntPgsC.style.width = `${ completed * 100 / total}%`
             rntPgsA.style.width = `${ active * 100 / total}%`
             rntPgsP.style.width = `${ pending * 100 / total}%`
+            rntPgsCc.style.width = `${ canceled * 100 / total}%`
 
         })
     }catch(error){
@@ -83,7 +92,8 @@ const getData = async (limit, offset) => {
             total,
             pending,
             active,
-            completed
+            completed,
+            canceled
 
          } = await response.json();
         return { 
@@ -91,7 +101,8 @@ const getData = async (limit, offset) => {
             total,
             pending,
             active,
-            completed
+            completed,
+            canceled
 
          };
     } catch (error) {
@@ -107,7 +118,7 @@ const ordersLimit = document.getElementById('ordersLimit')
 const ordersOffset = document.getElementById('ordersOffset')
 const ordersCurrentPage = document.getElementById('ordersCurrentPage')
 
-const refrechRentals = async (limit = parseInt(ordersLimit.value), offset = parseInt(ordersOffset.value)) => {
+const refrechRentals = async (limit = parseInt(document.getElementById('ordersLimit').value), offset = parseInt(document.getElementById('ordersOffset').value)) => {
     try {
         ordersLoader.style.opacity = "1";
         Array.from(ordersTableBody.children).forEach(child => child.remove());
@@ -120,6 +131,14 @@ const refrechRentals = async (limit = parseInt(ordersLimit.value), offset = pars
                 orders.forEach(order => {
                     const tRow = document.createElement("div");
                     tRow.classList.add("rt-row", "rt-row-el");
+                    let diffMs = new Date(new Date(order.end_date) - new Date(order.start_date))
+                    console.log(order.start_date)
+
+                    if (order.rental_type === "d") {
+                        period = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+                      } else if (order.rental_type === "h") {
+                        period = Math.floor(diffMs / (1000 * 60 * 60))
+                      }
                     tRow.innerHTML = `
                         <p>${order.id}</p>
                         <div class="flex-row center-start gap-lrg">
@@ -135,7 +154,7 @@ const refrechRentals = async (limit = parseInt(ordersLimit.value), offset = pars
                         </div>
                         <p>${formatDate(order.created_at)}</p>
                         <p>${formatDate(order.start_date)}</p>
-                        <p>5 Days</p>
+                        <p>${period} ${order.rental_type == "d"?"Days":"Hours"}</p>
                         <p>${formatMoney(order.total_price + order.fees + order.insurance, 2)} <span class="currence">DZD</span></p>
                         <p class="rt-status rt-${order.status}">${capitalizeFirstChar(order.status)}</p>
                     `
@@ -161,7 +180,8 @@ const refrechRentals = async (limit = parseInt(ordersLimit.value), offset = pars
                         </select>
                         <p class="para-sml">Show per page: </p>
                         <input class="select-reg" type="number" min="0" max="50" value="${limit}" id="ordersLimit" style="width: 4em; padding-right: 0; height: 2.5em; text-align: center;">
-                        <input type="number" value="${offset}" id="ordersOffset" hidden>
+                        <p class="para-sml">Offset: </p>
+                        <input class="select-reg" type="number" value="${offset}" id="ordersOffset" style="width: 4em; padding-right: 0; height: 2.5em; text-align: center;">
                     </div>
                     <div class="flex-row center-start gap-lrg" id="orderTableFoot">
                         <p class="para-sml">${offset + 1}-${Math.min(offset + limit, total)} of ${total} Orders</p>
@@ -171,6 +191,9 @@ const refrechRentals = async (limit = parseInt(ordersLimit.value), offset = pars
                         </div>
                     </div>
                 `;
+
+                document.getElementById('ordersLimit').addEventListener('change', ()=> {refrechRentals()})
+                document.getElementById('ordersOffset').addEventListener('change', ()=> {refrechRentals()})
     
                 const newOrdersCurrentPage = document.getElementById('ordersCurrentPage');
     
@@ -214,5 +237,69 @@ const refrechContent = async () => {
     updateStats()
     refrechRentals()
 }
+
+const downBut = document.getElementById('oDownload')
+
+downBut.addEventListener('click', ()=>{
+    try {
+        openLoader()
+        getData(999999999, 0).then(data => {
+            if (!data || !data.orders || data.orders.length === 0) return;
+            const headers = [
+                "Order ID",
+                "Client",
+                "Vehicle",
+                "Created at",
+                "Start at",
+                "Period",
+                "Total price (dzd)",
+                "Status"
+            ];
+        
+            const csvRows = [
+                headers.join(",")
+            ];
+
+            data.orders.forEach(order => {
+
+                let diffMs = new Date(new Date(order.end_date) - new Date(order.start_date))
+
+                if (order.rental_type === "d") {
+                    period = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+                } else if (order.rental_type === "h") {
+                    period = Math.floor(diffMs / (1000 * 60 * 60))
+                }
+
+                const row = [
+                    order.id,
+                    `${order.fname} ${order.lname}`,
+                    `${order.brand_name} ${order.model} ${order.fab_year}`,
+                    formatDate(order.created_at),
+                    formatDate(order.start_date),
+                    `${period} ${order.rental_type == "d"?"Days":"Hours"}`,
+                    order.total_price,
+                    order.status
+                ];
+                csvRows.push(row.map(val => `"${val}"`).join(",")); // Escape values in quotes
+            });
+
+            const csvContent = csvRows.join("\n");
+            const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+            const url = URL.createObjectURL(blob);
+            closeLoader()
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", `rentals_${Date.now()}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        })
+        .finally(()=>{closeLoader()})
+    } catch (error) {
+        closeLoader()
+        pushNotif("e", "Something went wrong!")
+        console.error(error)
+    }
+})
 
 document.addEventListener('DOMContentLoaded', refrechContent)

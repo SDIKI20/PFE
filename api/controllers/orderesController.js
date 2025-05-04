@@ -27,12 +27,19 @@ const getCounts = async (req, res) => {
         rentals r
       WHERE status = 'completed'
     `)
+    const canceledCount = await pool.query(`
+      SELECT  count(r.id)
+      FROM
+        rentals r
+      WHERE status = 'canceled'
+    `)
 
     res.status(200).json({
       total: parseInt(countResult.rows[0].count),
       pending: parseInt(pendingCount.rows[0].count),
       active: parseInt(activeCount.rows[0].count),
-      completed: parseInt(completedCount.rows[0].count)
+      completed: parseInt(completedCount.rows[0].count),
+      canceled: parseInt(canceledCount.rows[0].count)
     });
 
   } catch (error) {
@@ -70,7 +77,7 @@ const getOrders = async (req, res) => {
             u.fname,
             u.lname,
             u.image,
-            v.model, v.fab_year, v.image AS vimage,
+            v.model, v.fab_year, v.image AS vimage, v.rental_type,
             b.name AS brand_name, b.logo,
             o.country, o.wilaya, o.city, o.address
           FROM
