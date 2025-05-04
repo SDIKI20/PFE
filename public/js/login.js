@@ -54,7 +54,7 @@ document.getElementById("signUpForm").addEventListener("submit", async function 
     if(!validateEmail(email)){pushNotif("e", "invalid email")}else
     try {
         openLoader()
-        const response = await fetch("http://localhost:4000/api/email/send-login-link", {
+        const response = await fetch(`${window.location.origin}/api/email/send-login-link`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

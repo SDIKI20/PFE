@@ -689,6 +689,47 @@ option{
     width: 100%;
 }
 
+.w50{
+    width: 50%;
+}
+
+.v-fit{
+    height: fit-content;
+}
+
+.h-fit{
+    width: fit-content;
+}
+
+.hl{
+    border: 2px solid red;
+}
+
+.pd1{
+    padding: 1em;
+}
+
+.pdb05{
+    padding-bottom: 0.5em
+}
+
+.sexe{
+    font-size: var(--font-sml);
+    padding: 0.2em 0.5rem;
+    border-radius: 5px;
+    margin-left: 0.325em ;
+}
+
+.female{
+    color: rgb(255, 29, 142);
+    background-color: rgba(255, 93, 228, 0.099);
+}
+
+.male{
+    color: rgb(90, 153, 230);
+    background-color: rgba(93, 174, 255, 0.099);
+}
+
 /*--------------------*/
 
 /*          buttons           */
@@ -711,7 +752,7 @@ option{
 .bt-reg,
 .bt-solid,
 .input-reg{
-    border-radius: 8px;
+    border-radius: 5px;
     padding: 0.325em 0.625em;
     height: 3.5em;
     margin: 0;
@@ -899,6 +940,18 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 .switch input[type="checkbox"]:checked:active + .slider::after {
     transform: translateX(calc(var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)));
 }
+
+.select-reg{
+    background-color: var(--bg-lower);
+    border-radius: 5px;
+    padding: 0.325em 1em;
+    border: none;
+    color: var(--text);
+    font-size: var(--font-sml);
+    max-height: 2em;
+}
+
+
    
 /*---------------------------------*/
 

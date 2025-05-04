@@ -261,8 +261,8 @@ async function openCarDetail(id, uid){
         `
         carDetailSec.style.display = "flex"
         if(screen.width > 820){
-            carsContainerSec.style.width = "60%"
-            carDetailSec.style.width = "40%"
+            carsContainerSec.style.width = "64%"
+            carDetailSec.style.width = "36%"
             carDetailSec.style.minWidth = "400px"
         }else{
             setTimeout(() => {

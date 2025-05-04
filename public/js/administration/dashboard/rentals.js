@@ -5,6 +5,8 @@ const clientsOffset = document.getElementById('clientsOffset')
 const ordersLimit = document.getElementById('ordersLimit')
 const ordersOffset = document.getElementById('ordersOffset')
 const ordersCurrentPage = document.getElementById('ordersCurrentPage')
+let graph1;
+
 
 const getOrders = async (limit, offset) => {
     try {
@@ -223,15 +225,25 @@ const getStatsMonthly = async (period) => {
 
 const drawGraph1 = async (period) => {
     try {
-        const {stats, total} = await getStatsDaily(period)
-        const days = []
-        const incomes = []
-        stats.forEach(stat=>{
-            days.push(stat.day_name)
-            incomes.push(stat.income)
-        })
+        const { stats, total } = await getStatsDaily(period);
+
+        const days = [];
+        const incomes = [];
+
+        stats.forEach(stat => {
+            days.push(stat.day_name);
+            incomes.push(stat.income);
+        });
+
         const chart1 = document.getElementById('chart1').getContext('2d');
-        const myLineChart = new Chart(chart1, {
+
+        // ✅ Destroy previous chart instance if it exists
+        if (graph1) {
+            graph1.destroy();
+        }
+
+        // ✅ Assign to existing 'graph1', don't redeclare it
+        graph1 = new Chart(chart1, {
             type: 'line',
             data: {
                 labels: days,
@@ -243,26 +255,25 @@ const drawGraph1 = async (period) => {
                 }]
             },
             options: {
-            plugins: {
-                legend: {
-                display: false
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
-            },
-            options: {
-              responsive: true,
-              scales: {
-                y: {
-                  beginAtZero: true, 
-                }
-              }
-            }
             }
         });
-     } catch (error) {
-        console.error(error)
-        pushNotif("e", "something went wrong!")
+
+    } catch (error) {
+        console.error(error);
+        pushNotif("e", "something went wrong!");
     }
-}
+};
 
 const drawGraph2 = async (period) => {
     try {
@@ -319,10 +330,10 @@ const refrechStats = async (period) => {
         const returnsInp = document.getElementById('dashReturns')
         const rentalsInp = document.getElementById('dashRentals')
         
-        animateNumber('dashReturns', parseInt(returnsInp.innerText), parseInt(stats.returns), 500);
-        animateNumber('dashRentals', parseInt(rentalsInp.innerText), parseInt(total.total), 500);
-        animateMoney('dashIncome', parseInt(incomeInp.innerText), parseInt(stats.icomme), 500);
-        animateMoney('dashInsurance', parseInt(insuranceInp.innerText), parseInt(stats.insurance), 500);
+        animateNumber('dashReturns', parseInt(returnsInp.innerText), parseInt(stats.returns), 1000);
+        animateNumber('dashRentals', parseInt(rentalsInp.innerText), parseInt(total.total), 1000);
+        animateMoney('dashIncome', parseInt(incomeInp.innerText), parseInt(stats.icomme), 1000);
+        animateMoney('dashInsurance', parseInt(insuranceInp.innerText), parseInt(stats.insurance), 1000);
 
     } catch (error) {
         console.error(error)
@@ -335,8 +346,15 @@ const refrechContent =  ()=>{
     refrechOrdersTable()
     drawGraph1(30)
     drawGraph2(5)
-    refrechStats(30)
+    refrechStats(365)
 }
+
+document.getElementById('revLM').addEventListener('click', ()=> { 
+    drawGraph1(30)
+ })
+document.getElementById('revLW').addEventListener('click', ()=> { 
+    drawGraph1(7)
+ })
 
 ordersLimit.addEventListener('change', ()=> {refrechOrdersTable()})
 ordersOffset.addEventListener('change', ()=> {refrechOrdersTable()})

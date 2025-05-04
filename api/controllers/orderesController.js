@@ -1,8 +1,49 @@
 const { pool } = require("../config/dbConfig")
 
+const getCounts = async (req, res) => {
+  try {
+
+    const countResult = await pool.query(`
+      SELECT  
+        count(r.id)
+      FROM 
+        rentals r
+    `);
+    const pendingCount = await pool.query(`
+      SELECT  count(r.id)
+      FROM
+        rentals r
+      WHERE status = 'pending'
+    `)
+    const activeCount = await pool.query(`
+      SELECT  count(r.id)
+      FROM
+        rentals r
+      WHERE status = 'active'
+    `)
+    const completedCount = await pool.query(`
+      SELECT  count(r.id)
+      FROM
+        rentals r
+      WHERE status = 'completed'
+    `)
+
+    res.status(200).json({
+      total: parseInt(countResult.rows[0].count),
+      pending: parseInt(pendingCount.rows[0].count),
+      active: parseInt(activeCount.rows[0].count),
+      completed: parseInt(completedCount.rows[0].count)
+    });
+
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const getOrders = async (req, res) => {
   try {
-    const { limit = 5, offset = 0, order = "id", dire = "DESC" } = req.query;
+    const { limit = 5, offset = 0, order = "id", dire = "DESC", status="" } = req.query;
 
     const allowedOrders = ['id', 'created_at']; 
     const allowedDirections = ['ASC', 'DESC'];
@@ -28,8 +69,9 @@ const getOrders = async (req, res) => {
             u.username,
             u.fname,
             u.lname,
-            v.model, v.fab_year,
-            b.name AS brand_name,
+            u.image,
+            v.model, v.fab_year, v.image AS vimage,
+            b.name AS brand_name, b.logo,
             o.country, o.wilaya, o.city, o.address
           FROM
             rentals r
@@ -38,14 +80,37 @@ const getOrders = async (req, res) => {
             JOIN brands b ON b.id = v.brand_id
             JOIN vehicle_stock vs ON vs.vehicle_id = v.id
             JOIN office o ON o.id = vs.office_id
+          WHERE status LIKE '%${status}%'
         ORDER BY r.${safeOrder} ${safeDire}
         LIMIT $1 OFFSET $2
       `,
       [limit, offset]
     );
 
+    const pendingCount = await pool.query(`
+      SELECT  count(r.id)
+      FROM
+        rentals r
+      WHERE status = 'pending'
+    `)
+    const activeCount = await pool.query(`
+      SELECT  count(r.id)
+      FROM
+        rentals r
+      WHERE status = 'active'
+    `)
+    const completedCount = await pool.query(`
+      SELECT  count(r.id)
+      FROM
+        rentals r
+      WHERE status = 'completed'
+    `)
+
     res.status(200).json({
       total,
+      pending: parseInt(pendingCount.rows[0].count),
+      active: parseInt(activeCount.rows[0].count),
+      completed: parseInt(completedCount.rows[0].count),
       orders: result.rows
     });
 
@@ -128,46 +193,6 @@ const changeStat = async (req, res) => {
     res.status(500).send("Server Error");
 }
 }
-
-const getPendingOrders = async (req, res) => {
-  try {
-    const orders = await pool.query("SELECT * FROM rentals WHERE status = 'pending';");
-    res.json(orders.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-};
-
-const getCompletedOrders = async (req, res) => {
-  try {
-    const orders = await pool.query("SELECT * FROM rentals WHERE status = 'completed';");
-    res.json(orders.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-};
-
-const getCanceledOrders = async (req, res) => {
-  try {
-    const orders = await pool.query("SELECT * FROM rentals WHERE status = 'canceled';");
-    res.json(orders.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-};
-
-const getActiveOrders = async (req, res) => {
-  try {
-    const orders = await pool.query("SELECT * FROM rentals WHERE status = 'active';");
-    res.json(orders.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-};
 
 const removeOrder = async (req, res) => {
   try {
@@ -398,12 +423,9 @@ const getStatsMonthly = async (req, res) => {
   
 module.exports = {
   getOrders,
-  getPendingOrders,
-  getCompletedOrders,
-  getCanceledOrders,
-  getActiveOrders,
   getOrdersbyOffice,
   getStats,
+  getCounts,
   getStatsDaily,
   getStatsMonthly,
   changeStat,

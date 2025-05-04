@@ -54,7 +54,7 @@
     }%>
     <% if (section === 'docs') { %>
         <div class="overtop-conf flex-row flex-center" id="upDocsContainer">
-            <div class="nid-upload-container flex-col">
+            <form class="nid-upload-container flex-col" id="upDocForm" method="post" action="/updocs" autocomplete="off" enctype="multipart/form-data">
                 <i class="fa-solid fa-xmark bt-hover" id="uploadDocsClose"></i>
                 <label class="label-important">Upload your documents</label>
                 <div class="upload-input-container flex-row flex-center">
@@ -64,7 +64,7 @@
                         </div>
                         <label class="bt bt-hover" for="upFront">Upload Front</label>
                         <p>Supported formates: JPEG, PNG, JPG</p>
-                        <input type="file" id="upFront" accept=".jpg, .jpeg, .png " capture="environment" hidden>
+                        <input type="file" id="upFront" name="image_front" accept=".jpg, .jpeg, .png " capture="environment" hidden>
                     </div>
                     <div class="doc-inp flex-col flex-center">
                         <div class="doc-image-container">
@@ -72,11 +72,11 @@
                         </div>
                         <label class="bt bt-hover" for="upback">Upload Back</label>
                         <p>Supported formates: JPEG, PNG, JPG</p>
-                        <input type="file" id="upback" accept=".jpg, .jpeg, .png" capture="environment" hidden>
+                        <input type="file" id="upback" name="image_back" accept=".jpg, .jpeg, .png" capture="environment" hidden>
                     </div>
                 </div>
                 <button class="bt bt-hover" id="uploadDocs"><i class="fa-solid fa-upload"></i> Upload</button>
-            </div>
+            </form>
         </div>
     <% } %>
     <nav class="plat-main-navigator flex-col center-start" id="platMainNavigator">
@@ -1067,7 +1067,6 @@
                             <i class="fa-solid fa-location-dot float-icon"></i>
                             <select class="para-sml plat-text">
                                 <option value="loc1"><%= car.wilaya %>, <%= car.city %>, <%= car.address %></option>
-                                <option value="myLoc">My Location</option>
                             </select>
                         </div>
                     </div>
@@ -1448,6 +1447,23 @@
             pushNotif("i", "There's no results");
         </script>
     <% } %>    
+    <% if (success_msg != "") { %>
+        <script>
+            pushNotif("s", "<%= success_msg %>");
+        </script>
+    <% } %>
+    
+    <% if (error_msg != "") { %>
+        <script>
+            pushNotif("e", "<%= error_msg %>");
+        </script>
+    <% } %>
+    
+    <% if (info_msg != "") { %>
+        <script>
+            pushNotif("i", "<%= info_msg %>");
+        </script>
+    <% } %>
     <script src="/js/darkmode.js"></script>
     <script src="/lib/node_modules/@lordicon/element/release/lordicon.js"></script>
     <script src="/lib/node_modules/gsap/dist/gsap.min.js"></script>

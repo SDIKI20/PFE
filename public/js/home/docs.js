@@ -202,3 +202,7 @@ document.getElementById("upback").addEventListener('change', function() {
     };
     reader.readAsDataURL(upfileback);
 });
+
+document.getElementById('upDocForm').addEventListener('submit', ()=> {
+  openLoader()
+})

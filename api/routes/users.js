@@ -11,7 +11,11 @@ const {
     getClients,
     getAdmins,
     getEmployees,
-    newbie
+    newbie,
+    verifications,
+    updateStat,
+    getStatics,
+    getVerClients
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -31,5 +35,9 @@ router.get("/getClients", getClients);
 router.get("/getAdmins", getAdmins);
 router.get("/getEmployees", getEmployees);
 router.post("/newbie", newbie);
+router.get("/verfications", verifications);
+router.get("/clients/statics", getStatics);
+router.get("/clients/verified", getVerClients);
+router.post("/verfications/update", updateStat);
 
 module.exports = router;

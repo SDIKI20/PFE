@@ -19,6 +19,7 @@ const initializePassport = require("./passportConfig.js")
 const userRoutes = require("./api/routes/users");
 const verificationRoutes = require("./api/routes/verificationRoutes");
 const emailRoutes = require('./api/routes/emailRoutes');
+const docRoutes = require('./api/routes/documentsRoutes.js');
 const orders = require("./api/routes/orderRoutes");
 const vehicles = require("./api/routes/vehiclesRoutes");
 const { sendEmail } = require('./api/controllers/emailController');
@@ -107,6 +108,7 @@ app.use('/api/email', emailRoutes);
 app.use("/api/sms", verificationRoutes);
 app.use('/api/orders', orders);
 app.use('/api/vehicles', vehicles);
+app.use('/api/docs', docRoutes);
 
 /*---------------------------------------------------------*/
 
@@ -121,6 +123,13 @@ app.use((err, req, res, next) => {
         return res.status(400).json({ error: err.message });
     }
     res.status(500).json({ error: 'Internal Server Error' });
+});
+
+app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('success_msg') || "";
+    res.locals.error_msg = req.flash('error_msg') || "";
+    res.locals.info_msg = req.flash('info_msg') || "";
+    next();
 });
 
 app.get("/", async (req, res) => {
@@ -698,6 +707,10 @@ app.get('/dbm', checkNotAuth, async (req, res) => {
 })
 
 app.get("/dashboard", async (req, res) => {
+    res.render("dashboard", {section:"dashboard", subsection:"overview", user:req.user})
+})
+
+app.get("/dashboard/overview", async (req, res) => {
     res.render("dashboard", {section:"dashboard", subsection:"rentals", user:req.user})
 })
 
@@ -838,18 +851,18 @@ app.post("/addvehicle",
         ];
 
         const result = await pool.query(query, values);
-        console.log(result.rows)
+
         await pool.query(`
             INSERT INTO vehicle_stock (
                 vehicle_id, office_id, units
             )
             VALUES ($1, $2, $3);
         `,[result.rows[0].id, location, vehicleUnits])
-        res.redirect('/vehicles');
+        res.redirect('/vehicles/list');
 
     } catch (error) {
         console.error("Error adding vehicle:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(500).render("p404")
     }
 });
 
@@ -917,6 +930,46 @@ app.get('/clients/verification',(req, res) => {
     }
 })
 
+app.post('/updocs', upload.fields([
+    { name: "image_front", maxCount: 1 },
+    { name: "image_back", maxCount: 1 },
+]), async (req, res) => {
+    try {
+        if (!req.user) {
+            req.flash('error_msg', 'Unauthorized');
+            return res.redirect('/login');
+        }
+
+        const image_front = req.files?.["image_front"]
+            ? await uploadImage(req.files["image_front"][0])
+            : "/assets/images/idfront.png";
+
+        const image_back = req.files?.["image_back"]
+            ? await uploadImage(req.files["image_back"][0])
+            : "/assets/images/idback.png";
+
+        const docResult = await pool.query(`
+            INSERT INTO users_documents (user_id, image_front, image_back)
+            VALUES ($1, $2, $3)
+            RETURNING id
+        `, [req.user.id, image_front, image_back]);
+
+        await pool.query(`
+            INSERT INTO users_verification (user_id, user_doc, status)
+            VALUES ($1, $2, $3)
+        `, [req.user.id, docResult.rows[0].id, "pending"]);
+
+        req.flash('success_msg', 'Documents uploaded successfully!');
+        req.flash('info_msg', 'A verification request has been sent');
+        res.redirect('/docs');
+    } catch (error) {
+        console.error("Upload Error:", error);
+        req.flash('error_msg', 'Failed to upload documents. Please try again.');
+        res.redirect('/docs');
+    }
+});
+
+
 /*-------------------------------------------------------------*/ 
 
 app.get("/signup",checkAuth, async (req, res) => {
@@ -976,22 +1029,25 @@ app.post('/login', async (req, res, next) => {
 
     passport.authenticate('local', async (err, user, info) => {
         if (err) return next(err);
-        att = !user
 
-        if (att) {
+        if (!user) {
+            // Flash a message and redirect to login
+            req.flash('error', info?.message || 'Invalid email or password.');
+
+            // Send failed login email
             sendEmail({
                 to: email,
                 subject: "Login Attempt",
                 html: `
-                <p>There was a failed login attempt from: <strong>${userplatdesc}</strong>.</p> '`
+                <p>There was a failed login attempt from: <strong>${userplatdesc}</strong>.</p>`
             }).catch(console.error);
 
             try {
                 await pool.query(`
                     INSERT INTO log_login (email, status, platform) VALUES ($1, $2, $3)
-                `, [email, att, userplatdesc])
+                `, [email, false, userplatdesc]);
             } catch (error) {
-                console.log(error)
+                console.error(error);
             }
 
             return res.redirect('/login');
@@ -1006,18 +1062,16 @@ app.post('/login', async (req, res, next) => {
                 html: `
                     <p>Successful login from platform: <strong>${userplatdesc}</strong>.</p>
                     <br> 
-                    <a style="color: red;" href="${prodUrl}/recover?t=${token}">Not you?<a>
+                    <a style="color: red;" href="${prodUrl}/recover?t=${token}">Not you?</a>
                 `
             }).catch(console.error);
-
-            att = true
 
             try {
                 await pool.query(`
                     INSERT INTO log_login (email, status, platform) VALUES ($1, $2, $3)
-                `, [email, att, userplatdesc])
+                `, [email, true, userplatdesc]);
             } catch (error) {
-                console.log(error)
+                console.error(error);
             }
 
             return res.redirect('/home');

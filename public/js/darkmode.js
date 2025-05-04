@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
     var root = document.documentElement;
 
@@ -65,3 +66,4 @@ document.addEventListener("DOMContentLoaded", () => {
         root.style.setProperty('--select-4dark', 'white');
     }
 });
+

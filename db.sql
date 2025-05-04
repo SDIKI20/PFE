@@ -173,28 +173,6 @@ CREATE TABLE office (
 );
 
 -- Users table
-CREATE TABLE users (
-	id SERIAL PRIMARY KEY,
-	email VARCHAR(100) UNIQUE NOT NULL,
-	username VARCHAR(255) NOT NULL,
-	password VARCHAR(255) NOT NULL,
-	fname VARCHAR(20) NOT NULL,
-	lname VARCHAR(20) NOT NULL,
-  sexe CHAR(1) NOT NULL,
-	address VARCHAR(30) NOT NULL,
-	country VARCHAR(30) NOT NULL DEFAULT 'Algeria',
-	wilaya VARCHAR(30) NOT NULL,
-	city VARCHAR(30) NOT NULL,
-	zipcode VARCHAR(10) NOT NULL,
-	image VARCHAR(255) NOT NULL DEFAULT '/assets/images/user.jpg',
-	phone VARCHAR(20) UNIQUE NOT NULL,
-	account_status BOOLEAN NOT NULL DEFAULT FALSE,
-	phone_status BOOLEAN NOT NULL DEFAULT FALSE,
-	birthdate DATE NOT NULL,
-	role user_roles NOT NULL DEFAULT 'Client',
-  	office_id INT REFERENCES office(id) ON DELETE SET NULL DEFAULT NULL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
 -- Users documents
 CREATE TABLE users_documents (
@@ -203,6 +181,16 @@ CREATE TABLE users_documents (
 	image_front VARCHAR(255) NOT NULL,
 	image_back VARCHAR(255) NOT NULL,
 	upload_datetime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE users_verification (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  user_doc INTEGER NOT NULL REFERENCES users_documents(id) ON DELETE CASCADE,
+  status VARCHAR(20) NOT NULL DEFAULT 'pending',
+  reason VARCHAR(100),
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- User tokens
@@ -360,6 +348,20 @@ CREATE TRIGGER after_user_insert
 AFTER INSERT ON users
 FOR EACH ROW
 EXECUTE FUNCTION insert_new_user_into_newbie();
+
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = CURRENT_TIMESTAMP;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER set_updated_at
+BEFORE UPDATE ON users_verification
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at_column();
+
 
 --Inserts------------------------------------------------------------------
 

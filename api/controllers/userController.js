@@ -342,6 +342,197 @@ const newbie = async (req, res) => {
     }
 }
 
+const verifications = async (req, res) => {
+    try {
+        const {limit = 5, offset = 0, orderby = 'created_at'} = req.query
+    
+        const usersPending = await pool.query(`
+            SELECT  
+                uv.id AS uvid, uv.created_at AS date,
+                u.*,
+                ud.image_front AS front,
+                ud.image_back AS back
+            FROM
+                users_verification uv
+                JOIN users u ON uv.user_id = u.id
+                JOIN users_documents ud ON ud.id = uv.user_doc
+            WHERE status = 'pending'
+            ORDER BY $1 DESC
+            LIMIT $2
+            OFFSET $3
+        `, [orderby, limit, offset])
+    
+        const approvedCount = await pool.query(`
+            SELECT  
+                count(uv.id)
+            FROM
+                users_verification uv
+            WHERE uv.status = 'approved'
+        `)
+    
+        const pendingCount = await pool.query(`
+            SELECT  
+                count(uv.id)
+            FROM
+                users_verification uv
+            WHERE uv.status = 'pending'
+        `)
+    
+        const rejectedCount = await pool.query(`
+            SELECT  
+                count(uv.id)
+            FROM
+                users_verification uv
+            WHERE uv.status = 'rejected'
+        `)
+    
+        const total = await pool.query(`
+            SELECT  
+                count(uv.id)
+            FROM
+                users_verification uv
+        `)
+
+        res.status(200).json({
+            data: usersPending.rows,
+            approved: approvedCount.rows[0].count,
+            pending: pendingCount.rows[0].count,
+            rejected: rejectedCount.rows[0].count,
+            total: total.rows[0].count,
+        });
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
+const updateStat = async (req, res) => {
+    try {
+        const { uid, stat='pending', reason = null } = req.body;
+
+        if (!uid) return res.status(400).json({ error: "User ID is required" });
+
+        user_id = await pool.query(`UPDATE users_verification SET status = $2 WHERE id = $1 RETURNING users_verification.user_id`, [uid, stat]);
+        
+        if(stat === "approved"){
+            await pool.query(`UPDATE users SET account_status = TRUE WHERE id = $1;`, [user_id.rows[0].user_id]);
+            await pool.query(`DELETE FROM users_verification WHERE user_id = $1 AND status != 'approved' ;`, [user_id.rows[0].user_id]);
+        }
+        
+        if(stat === "rejected" && reason){
+            user_id = await pool.query(`UPDATE users_verification SET reason = $2 WHERE id = $1 RETURNING users_verification.user_id`, [uid, reason]);
+        }
+
+        res.json({ message: "Request status updated" });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+}
+
+const getStatics = async (req, res) => {
+    try {
+
+        const total = await pool.query(`
+            SELECT count(u.id) FROM users u WHERE u.role = 'Client'
+        `)
+
+        const verified = await pool.query(`
+            SELECT count(u.id) FROM users u WHERE u.role = 'Client' AND u.account_status = TRUE
+        `)
+
+        const newClients = await pool.query(`
+            SELECT count(u.id) FROM users u WHERE u.role = 'Client' AND u.created_at >= NOW() - INTERVAL '7 DAYS'
+        `)
+
+        const population = await pool.query(`
+            SELECT w.id, w.name AS wilaya, COUNT(u.id) AS user_count
+            FROM wilaya w
+            LEFT JOIN users u ON u.wilaya = w.name
+            GROUP BY w.id, w.name
+            ORDER BY w.id;
+        `)
+
+        const genders = await pool.query(`
+            SELECT 
+                sexe AS gender, COUNT(*) AS count
+            FROM users
+            GROUP BY sexe;
+        `)
+
+        const ages = await pool.query(`
+            WITH age_ranges AS (
+                SELECT '19-29' AS age_range, 19 AS min_age, 29 AS max_age
+                UNION ALL
+                SELECT '30-39', 30, 39
+                UNION ALL
+                SELECT '40-49', 40, 49
+                UNION ALL
+                SELECT '50-59', 50, 59
+                UNION ALL
+                SELECT '60-69', 60, 69
+                UNION ALL
+                SELECT '70-80', 70, 80
+            )
+            SELECT
+                ar.age_range,
+                COALESCE(COUNT(u.id), 0) AS count
+            FROM age_ranges ar
+                LEFT JOIN users u
+                ON EXTRACT(YEAR FROM AGE(NOW(), u.birthdate)) BETWEEN ar.min_age AND ar.max_age
+                AND u.role = 'Client' -- Assuming you want to count clients, otherwise remove this line
+            GROUP BY ar.age_range, ar.min_age
+            ORDER BY ar.min_age;
+        `)
+
+        res.status(200).json({
+            total: total.rows[0],
+            verified: verified.rows[0],
+            newC: newClients.rows[0],
+            population: population.rows,
+            genders: genders.rows[0],
+            ages: ages.rows
+        });
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
+const getVerClients = async (req, res) => {
+    try {
+        const {limit = 5, offset = 0, order = "created_at" } = req.query
+
+        const clients = await pool.query(`
+            SELECT
+                u.fname, u.lname, DATE_PART('year', AGE(CURRENT_DATE, u.birthdate)) AS age,
+                u.image, u.username, u.sexe, u.wilaya, u.city, u.address, u.email, u.phone,
+                u.created_at, u.id
+            FROM 
+                users u 
+            WHERE u.role = 'Client' AND u.account_status = TRUE
+            ORDER BY $3
+            LIMIT $1
+            OFFSET $2
+        `, [limit, offset, order])
+
+        const total = await pool.query(`
+            SELECT count(u.id) FROM users u WHERE u.role = 'Client' AND u.account_status = TRUE
+        `)
+
+        res.status(200).json({
+            data: clients.rows,
+            total: total.rows[0]
+        });
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
 module.exports = { 
     getUsers,
     confirmPhone, 
@@ -354,5 +545,9 @@ module.exports = {
     getClients,
     getAdmins,
     getEmployees,
-    newbie
+    newbie,
+    verifications,
+    getStatics,
+    updateStat,
+    getVerClients
 };
