@@ -34,12 +34,23 @@
 }
 
 @font-face {
+    font-family: money;
+    src: url(../fonts/money.ttf);
+}
+
+@font-face {
     font-family: poppins;
     src: url(../fonts/poppins.ttf);
 }
+
 @font-face {
     font-family: poppinsB;
     src: url(../fonts/Poppins-Black.ttf);
+}
+
+.money{
+    font-family: poppins !important;
+    font-weight: 400 !important;
 }
 
 * {
@@ -187,7 +198,7 @@ span.disabled i{
     font-size: var(--font-med);
     color: var(--text);
     background-color: var(--bg);
-    border-radius: 50%;
+    border-radius: 15px;
     width: 30px;
     height: 30px;
     display: flex;
@@ -202,7 +213,7 @@ span.disabled i{
 .profile-image{
     width: 35px;
     height: 35px;
-    border-radius: 50%;
+    border-radius: 17.5px;
     overflow: hidden;
 }
 
@@ -225,7 +236,7 @@ span.disabled i{
 }
 
 .color-box-circle{
-    border-radius: 50%;
+    border-radius: 5px;
 }
 .color-box-circle,
 .color-box{
@@ -545,6 +556,20 @@ span.disabled i{
 .mhd{
     display: none;
 }
+
+.popup-container{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    z-index: 99;
+    visibility: hidden;
+}
+
 /*-------------------------*/
 
 .hover-scale:hover{
@@ -713,6 +738,22 @@ option{
     padding-bottom: 0.5em
 }
 
+.pdv{
+    padding: 0 1em;
+}
+
+.pdh{
+    padding: 1em 0;
+}
+
+.mrgt5{
+    margin-top: 5px;
+}
+
+.mrgt10{
+    margin-top: 10px;
+}
+
 .sexe{
     font-size: var(--font-sml);
     padding: 0.2em 0.5rem;
@@ -721,13 +762,13 @@ option{
 }
 
 .female{
-    color: rgb(255, 29, 142);
-    background-color: rgba(255, 93, 228, 0.099);
+    color: rgb(255, 29, 142) !important;
+    background-color: rgba(255, 93, 228, 0.099) !important;
 }
 
 .male{
-    color: rgb(90, 153, 230);
-    background-color: rgba(93, 174, 255, 0.099);
+    color: rgb(90, 153, 230) !important;
+    background-color: rgba(93, 174, 255, 0.099) !important;
 }
 
 /*--------------------*/
@@ -795,7 +836,7 @@ option{
     position: fixed;
     color: var(--txt-black);
     background-color: var(--border-low);
-    border-radius: 50%;
+    border-radius: 12.5px;
     bottom: 15px;
     right: 15px;
     width: 25px;
@@ -803,6 +844,18 @@ option{
     font-weight: bolder;
     font-size: var(--font-med);
     z-index: 10;
+}
+
+.edtbt{
+    color:rgb(72, 106, 159);
+    margin: 0 0.325em;
+    font-size: var(--font-sml);
+}
+
+.dltbt{
+    color: rgb(221, 79, 79);
+    margin: 0 0.325em;
+    font-size: var(--font-sml);
 }
 
 /*----------------------------*/
@@ -950,14 +1003,45 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     font-size: var(--font-sml);
     max-height: 2em;
 }
+
+.search-input input{
+    border: none;
+    background-color: transparent;
+    padding: 0 0.625em;
+    color: var(--text);
+    font-size: var(--font-sml); 
+    width: 100%;
+}
+
+.search-input i{
+    margin: 0 0.625em;
+    font-size: var(--font-sml);
+    color: var(--text);
+    opacity: 0.8;
+}
+
+.search-input{
+    border-radius: 5px;
+    padding: 0.325em;
+    background-color: var(--container);
+    height: 2.2em;
+}
    
 /*---------------------------------*/
 
+.color-box{
+    width: 15px;
+    height: 15px;
+    content: "";
+    border-radius: 5px;
+    border: 2px solid var(--border-low);
+}
 
 /*-------------Loader---------------*/
 
 .loader {
 	height: 100vh;
+    width: 100vw;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -1035,7 +1119,7 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 .sloader {
     border: 3px solid var(--text);
     border-left-color: transparent;
-    border-radius: 50%;
+    border-radius: 10px;
     align-self: center;
     margin: 0 0.325em;
 }

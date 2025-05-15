@@ -224,51 +224,82 @@ const deleteuser = async (req, res) => {
 
 const getClients = async (req, res) => {
     try {
-      const { limit = 5, offset = 0, order = "id", dire = "DESC" } = req.query;
-  
-      const allowedOrders = ['id', 'created_at']; 
-      const allowedDirections = ['ASC', 'DESC'];
-  
-      const safeOrder = allowedOrders.includes(order) ? order : 'id';
-      const safeDire = allowedDirections.includes(dire.toUpperCase()) ? dire.toUpperCase() : 'DESC';
-  
-      const countResult = await pool.query(`
-        SELECT 
-            count(u.id) 
-        FROM users u 
-        WHERE role = 'Client'
-      `);
-  
-      const total = parseInt(countResult.rows[0].count, 10);
-  
-      const result = await pool.query(
-        `
-            SELECT * 
-            FROM users u
-            WHERE role = 'Client' 
-            ORDER BY u.${safeOrder} ${safeDire}
-            LIMIT $1 OFFSET $2
-        `,
-        [limit, offset]
-      );
-  
-      res.status(200).json({
-        total,
-        clients: result.rows
-      });
-  
-    } catch (error) {
-      console.error("Error fetching clients:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-};
+        const { 
+            limit = 5, 
+            offset = 0, 
+            order = "id", 
+            dire = "DESC", 
+            search = "", 
+            sexe = "any", 
+            wilaya = "any" 
+        } = req.query;
 
-const getAdmins = async (req, res) => {
-    try {
-        const result = await pool.query("SELECT * FROM users WHERE role = 'Admin'");
-        res.status(200).json(result.rows);
+        const sanitizedSearch = search.replace(/\s/g, '%');
+
+        const allowedOrders = ['id', 'created_at']; 
+        const allowedDirections = ['ASC', 'DESC'];
+
+        const safeOrder = allowedOrders.includes(order) ? order : 'id';
+        const safeDire = allowedDirections.includes(dire.toUpperCase()) ? dire.toUpperCase() : 'DESC';
+
+        // Base WHERE clause and parameters
+        let whereClauses = [`u.role = 'Client'`];
+        let params = [];
+        let paramIndex = 1;
+
+        if (sanitizedSearch.trim() !== '') {
+            whereClauses.push(`(u.fname ILIKE $${paramIndex} OR u.lname ILIKE $${paramIndex} OR u.username ILIKE $${paramIndex} OR u.email ILIKE $${paramIndex})`);
+            params.push(`%${sanitizedSearch}%`);
+            paramIndex++;
+        }
+
+        if (sexe !== "any") {
+            whereClauses.push(`lower(u.sexe) = $${paramIndex}`);
+            params.push(sexe.toLowerCase());
+            paramIndex++;
+        }
+
+        if (wilaya !== "any") {
+            whereClauses.push(`lower(u.wilaya) = $${paramIndex}`);
+            params.push(wilaya.toLowerCase());
+            paramIndex++;
+        }
+
+        const whereSQL = whereClauses.length ? `WHERE ${whereClauses.join(" AND ")}` : '';
+
+        // Get total count with same filters
+        const countQuery = `SELECT COUNT(u.id) FROM users u ${whereSQL}`;
+        const countResult = await pool.query(countQuery, params);
+        const total = parseInt(countResult.rows[0].count, 10);
+
+        // Add LIMIT and OFFSET to params
+        params.push(limit);
+        params.push(offset);
+
+        const query = `
+            SELECT 
+                u.*, 
+                DATE_PART('year', AGE(CURRENT_DATE, u.birthdate)) AS age,
+                CASE 
+                    WHEN b.id IS NOT NULL AND b.is_active = true THEN true 
+                    ELSE false 
+                END AS is_banned
+            FROM users u
+            LEFT JOIN banned_users b ON b.user_id = u.id AND b.is_active = true
+            ${whereSQL}
+            ORDER BY u.${safeOrder} ${safeDire}
+            LIMIT $${paramIndex} OFFSET $${paramIndex + 1}
+        `;
+
+        const result = await pool.query(query, params);
+
+        res.status(200).json({
+            total,
+            clients: result.rows
+        });
+
     } catch (error) {
-        console.error("Error fetching admins:", error);
+        console.error("Error fetching clients:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
@@ -533,8 +564,54 @@ const getVerClients = async (req, res) => {
     }
 }
 
+const banUser = async (req, res) => {
+    try {
+1
+        const {uid} = req.params
+        const {period = 30, reason = ""} = req.query
+
+        const today = new Date();
+        const expd = new Date(today);
+        expd.setDate(today.getDate() + parseInt(period));
+
+        if (!uid) return res.status(400).json({error: "ID Required!"})
+
+        await pool.query(`
+            INSERT INTO 
+                banned_users (user_id, reason, expires_at) 
+            VALUES ($1, $2, $3)
+        `,[uid, reason, expd])
+
+        res.status(200).json({message: "User Banned!"})
+        
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
+const unbanUser = async (req, res) => {
+    try {
+1
+        const {uid} = req.params
+        if (!uid) return res.status(400).json({error: "ID Required!"})
+
+        await pool.query(`
+            DELETE FROM banned_users WHERE user_id = $1
+        `,[uid])
+
+        res.status(200).json({message: "User unbanned"})
+        
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
 module.exports = { 
     getUsers,
+    banUser,
+    unbanUser,
     confirmPhone, 
     checkPhone,
     checkAccountStat,
@@ -543,7 +620,6 @@ module.exports = {
     addFav,
     deleteuser,
     getClients,
-    getAdmins,
     getEmployees,
     newbie,
     verifications,

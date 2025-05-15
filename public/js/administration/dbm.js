@@ -253,7 +253,7 @@ const refrechClientsTable = (limit = parseInt(clientsLimit.value), offset = pars
                         <p>${client.lname}</p>
                     </div>
                     <div class="dbm-table-col">
-                        <p>${client.sexe==="M"?"Male":"Female"}</p>
+                        <p class="sexe ${client.sexe==="M"?"male":"female"}">${client.sexe==="M"?"Male":"Female"}</p>
                     </div>
                     <div class="dbm-table-col">
                         <p>${formatDate(client.birthdate)}</p>

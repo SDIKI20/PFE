@@ -637,7 +637,46 @@ app.get("/docs",checkNotAuth, async (req, res) => {
     }
 })
 
-app.get("/help",checkNotAuth, (req, res) => {
+app.post('/updocs', upload.fields([
+    { name: "image_front", maxCount: 1 },
+    { name: "image_back", maxCount: 1 },
+]), async (req, res) => {
+    try {
+        if (!req.user) {
+            req.flash('error_msg', 'Unauthorized');
+            return res.redirect('/login');
+        }
+
+        const image_front = req.files?.["image_front"]
+            ? await uploadImage(req.files["image_front"][0])
+            : "/assets/images/idfront.png";
+
+        const image_back = req.files?.["image_back"]
+            ? await uploadImage(req.files["image_back"][0])
+            : "/assets/images/idback.png";
+
+        const docResult = await pool.query(`
+            INSERT INTO users_documents (user_id, image_front, image_back)
+            VALUES ($1, $2, $3)
+            RETURNING id
+        `, [req.user.id, image_front, image_back]);
+
+        await pool.query(`
+            INSERT INTO users_verification (user_id, user_doc, status)
+            VALUES ($1, $2, $3)
+        `, [req.user.id, docResult.rows[0].id, "pending"]);
+
+        req.flash('success_msg', 'Documents uploaded successfully!');
+        req.flash('info_msg', 'A verification request has been sent');
+        res.redirect('/docs');
+    } catch (error) {
+        console.error("Upload Error:", error);
+        req.flash('error_msg', 'Failed to upload documents. Please try again.');
+        res.redirect('/docs');
+    }
+});
+
+app.get("/help", (req, res) => {
     try{
         res.render("home", { user: req.user, section : "help" });
     }catch(error){
@@ -675,16 +714,7 @@ app.get('/rental/return', (req, res) => {
     }
 })
 
-app.get('/account',checkNotAuth,(req, res) => {
-    try{
-    res.render("dashboard",{user: req.user, section:"account"})
-    }catch(error){
-        console.error(error);
-        res.status(500).render("p404");
-    }
-})
-
-app.get('/report',checkNotAuth,(req, res) => {
+app.get('/report',(req, res) => {
     try{
     res.render("dashboard",{user: req.user, section:"report", subsection:"report"})
     }catch(error){
@@ -707,11 +737,11 @@ app.get('/dbm', checkNotAuth, async (req, res) => {
 })
 
 app.get("/dashboard", async (req, res) => {
-    res.render("dashboard", {section:"dashboard", subsection:"overview", user:req.user})
+    res.render("dashboard", {section:"dashboard", subsection:"dashoverview", user:req.user})
 })
 
 app.get("/dashboard/overview", async (req, res) => {
-    res.render("dashboard", {section:"dashboard", subsection:"rentals", user:req.user})
+    res.render("dashboard", {section:"dashboard", subsection:"dashoverview", user:req.user})
 })
 
 app.get("/dashboard/rentals", async (req, res) => {
@@ -792,7 +822,6 @@ app.post("/addvehicle",
             capacity,
             fuel,
             transmission,
-            availability,
             body,
             price,
             location,
@@ -811,7 +840,6 @@ app.post("/addvehicle",
         const vehicleEngineType = engine_type || 'unknown';
         const vehicleRentalType = rental_type || 'h';
         const vehicleTransmission = transmission || 'Manual';
-        const isAvailable = availability !== undefined ? availability : true;
 
         // Upload images (assuming uploadImage is a working function)
         const mainImage = req.files?.["image"] ? await uploadImage(req.files["image"][0]) : "/assets/cars/default.png";
@@ -821,11 +849,11 @@ app.post("/addvehicle",
 
         const query = `
             INSERT INTO vehicles (
-                brand_id, model, color, capacity, fuel, transmission, availability, body, price,
+                brand_id, model, color, capacity, fuel, transmission, body, price,
                 image, prevImage1, prevImage2, prevImage3, speed, horsepower, engine_type, rental_type, description
             )
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 
-                    $11, $12, $13, $14, $15, $16, $17, $18)
+                    $11, $12, $13, $14, $15, $16, $17)
             RETURNING *;
         `;
 
@@ -836,7 +864,6 @@ app.post("/addvehicle",
             capacity,
             fuel,
             vehicleTransmission,
-            isAvailable,
             body,
             price,
             mainImage,
@@ -868,10 +895,22 @@ app.post("/addvehicle",
 
 app.get('/vehicles/list', async (req, res) => {
     try{
+        const fuelResult = await pool.query(`SELECT unnest(enum_range(NULL::fuel_type))`);
+        const fuelTypes = fuelResult.rows.length > 0 ? fuelResult.rows : null;
+
+        const bodyResult = await pool.query(`SELECT unnest(enum_range(NULL::body_type))`);
+        const bodyTypes = bodyResult.rows.length > 0 ? bodyResult.rows : null;
+
+        const transResult = await pool.query(`SELECT unnest(enum_range(NULL::transmission_type))`);
+        const transTypes = transResult.rows.length > 0 ? transResult.rows : null;
+
         res.render("dashboard",{
             user: req.user, 
             section:"vehicles",
-            subsection:"listvehicles"
+            subsection:"listvehicles",
+            fuelTypes:fuelTypes, 
+            bodyTypes:bodyTypes, 
+            transTypes:transTypes
         })
     }catch(error){
         console.error(error);
@@ -912,9 +951,10 @@ app.get('/clients',(req, res) => {
     }
 })
 
-app.get('/clients/list',(req, res) => {
+app.get('/clients/list', async (req, res) => {
     try{
-      res.render("dashboard",{user: req.user, section:"clients", subsection:"listclients"})
+        const wilayas = await pool.query("SELECT * FROM wilaya WHERE 1=1")
+        res.render("dashboard",{user: req.user, section:"clients", subsection:"listclients", wilayas: wilayas.rows})
     }catch(error){
         console.error(error);
         res.status(500).render("p404");
@@ -929,46 +969,6 @@ app.get('/clients/verification',(req, res) => {
         res.status(500).render("p404");
     }
 })
-
-app.post('/updocs', upload.fields([
-    { name: "image_front", maxCount: 1 },
-    { name: "image_back", maxCount: 1 },
-]), async (req, res) => {
-    try {
-        if (!req.user) {
-            req.flash('error_msg', 'Unauthorized');
-            return res.redirect('/login');
-        }
-
-        const image_front = req.files?.["image_front"]
-            ? await uploadImage(req.files["image_front"][0])
-            : "/assets/images/idfront.png";
-
-        const image_back = req.files?.["image_back"]
-            ? await uploadImage(req.files["image_back"][0])
-            : "/assets/images/idback.png";
-
-        const docResult = await pool.query(`
-            INSERT INTO users_documents (user_id, image_front, image_back)
-            VALUES ($1, $2, $3)
-            RETURNING id
-        `, [req.user.id, image_front, image_back]);
-
-        await pool.query(`
-            INSERT INTO users_verification (user_id, user_doc, status)
-            VALUES ($1, $2, $3)
-        `, [req.user.id, docResult.rows[0].id, "pending"]);
-
-        req.flash('success_msg', 'Documents uploaded successfully!');
-        req.flash('info_msg', 'A verification request has been sent');
-        res.redirect('/docs');
-    } catch (error) {
-        console.error("Upload Error:", error);
-        req.flash('error_msg', 'Failed to upload documents. Please try again.');
-        res.redirect('/docs');
-    }
-});
-
 
 /*-------------------------------------------------------------*/ 
 

@@ -24,12 +24,12 @@ const sendEmail = async ({ to, subject = "", html = "Empty" }) => {
 exports.sendEmail = sendEmail;
 
 exports.sendMessage = async (req, res) => {
-    const { email, subject = "", message = "Empty" } = req.body;
+    const { to, subject = "DZRentCars", msg = "Empty" } = req.body;
 
-    if (!email) return res.status(400).json({ error: "Email is required" });
+    if (!to) return res.status(400).json({ error: "Email is required" });
 
     try {
-        await sendEmail({ to: email, subject, html: message });
+        await sendEmail({ to: to, subject, html: msg });
         res.json({ message: "Email sent successfully" });
     } catch (error) {
         console.error("Error sending email:", error.message);

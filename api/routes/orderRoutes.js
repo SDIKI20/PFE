@@ -7,6 +7,8 @@ const {
     getCounts,
     getStatsDaily,
     getStatsMonthly,
+    getOrder,
+    getProfit,
     changeStat,
     removeOrder
 } = require("../controllers/orderesController");
@@ -16,6 +18,8 @@ router.get("/counts", getCounts);
 router.get("/stats/daily", getStatsDaily);
 router.get("/stats/monthly", getStatsMonthly);
 router.get("/getOrders", getOrders);
+router.get("/getOrder", getOrder);
+router.get("/getProfit", getProfit);
 router.get("/getOrders/:office", getOrdersbyOffice);
 router.post("/status", changeStat);
 router.post("/delete", removeOrder);

@@ -159,6 +159,7 @@
                         </div>
                     </label>
                 </a>
+                <% } %>
                 <a id="navHelp" href="/help" data-section="help" class="plat-nav-element <%= section==="help"?"plat-nav-selected":"" %>" title="Help">
                     <label for="sectHelp">
                         <div class="flex-col">
@@ -167,7 +168,6 @@
                         </div>
                     </label>
                 </a>
-            <% } %>
         </ul>
         <% if (user) { %>
             <a href="/logout" class="plat-nav-element plat-logout" title="Logout">

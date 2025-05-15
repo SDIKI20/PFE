@@ -173,6 +173,28 @@ CREATE TABLE office (
 );
 
 -- Users table
+CREATE TABLE users (
+	id SERIAL PRIMARY KEY,
+	email VARCHAR(100) UNIQUE NOT NULL,
+	username VARCHAR(255) NOT NULL,
+	password VARCHAR(255) NOT NULL,
+	fname VARCHAR(20) NOT NULL,
+	lname VARCHAR(20) NOT NULL,
+  sexe CHAR(1) NOT NULL,
+	address VARCHAR(30) NOT NULL,
+	country VARCHAR(30) NOT NULL DEFAULT 'Algeria',
+	wilaya VARCHAR(30) NOT NULL,
+	city VARCHAR(30) NOT NULL,
+	zipcode VARCHAR(10) NOT NULL,
+	image VARCHAR(255) NOT NULL DEFAULT '/assets/images/user.jpg',
+	phone VARCHAR(20) UNIQUE NOT NULL,
+	account_status BOOLEAN NOT NULL DEFAULT FALSE,
+	phone_status BOOLEAN NOT NULL DEFAULT FALSE,
+	birthdate DATE NOT NULL,
+	role user_roles NOT NULL DEFAULT 'Client',
+  	office_id INT REFERENCES office(id) ON DELETE SET NULL DEFAULT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 -- Users documents
 CREATE TABLE users_documents (
@@ -298,6 +320,7 @@ CREATE TABLE vehicle_stock (
   stock_id SERIAL PRIMARY KEY,
   vehicle_id INT NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE,
   office_id INT NOT NULL REFERENCES office(id) ON DELETE CASCADE,
+  disabled SMALLINT NOT NULL DEFAULT 0,
   units SMALLINT NOT NULL CHECK (units >= 0)
 );
 
@@ -317,6 +340,15 @@ CREATE TABLE log_login (
   status BOOLEAN NOT NULL,  
   platform VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE banned_users (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    reason TEXT,
+    banned_at TIMESTAMP DEFAULT NOW(),
+    expires_at TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE
 );
 
 -- Indexes--------------------------------------------------------------

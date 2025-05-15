@@ -242,9 +242,14 @@ const confirm = (isDanger, title, description) => {
 /*
 confirm(false, "Confirm Action", "Are you sure you want to proceed?").then((result) => {
     console.log(result);
-});*/
+});
+*/
 
-
+function removeImageChildren(parent) {
+    const images = parent.querySelectorAll('img');
+    images.forEach(img => img.remove());
+}
+  
 function formatNumber(num) {
     if (num >= 1e9) {
       return (num / 1e9).toFixed(1).replace(/\.0$/, '') + 'b';
@@ -506,7 +511,7 @@ function validInput(inputId, type) {
 function capitalizeFirstChar(str) {
     if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1);
-  }
+}
   
 
 function animateNumber(targetElement, start, end, duration) {

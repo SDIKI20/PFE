@@ -9,7 +9,8 @@ const {
     addFav,
     deleteuser,
     getClients,
-    getAdmins,
+    banUser,
+    unbanUser,
     getEmployees,
     newbie,
     verifications,
@@ -32,7 +33,8 @@ router.get("/rentals", getRentals);
 router.get("/checkaccountstat", checkAccountStat);
 router.delete("/deleteuser/:id", deleteuser);
 router.get("/getClients", getClients);
-router.get("/getAdmins", getAdmins);
+router.get("/:uid/ban", banUser);
+router.get("/:uid/unban", unbanUser);
 router.get("/getEmployees", getEmployees);
 router.post("/newbie", newbie);
 router.get("/verfications", verifications);

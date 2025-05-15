@@ -161,8 +161,8 @@ const refrechRentals = async (limit = parseInt(document.getElementById('ordersLi
                     ordersTableBody.appendChild(tRow);
                 });
     
-                gsap.set(".rt-row-el", { x: -100, opacity: 0 });
-                gsap.to(".rt-row-el", { x: 0, stagger: 0.1, opacity: 1 });
+                gsap.set(".rt-row-el", { x: 100, opacity: 0, rotate:-3 });
+                gsap.to(".rt-row-el", { x: 0, stagger: 0.1, opacity: 1,rotate:0 });
     
                 const totalPages = Math.ceil(total / limit);
                 const currentPage = Math.floor(offset / limit) + 1;

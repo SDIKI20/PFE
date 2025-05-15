@@ -111,7 +111,7 @@ const refrechContent = async () => {
                                     refrechStats()
                                     closeLoader()
                                     closeInspection()
-                                    pushNotif("i", "Request has been rejected!")
+                                    pushNotif("s", "Request has been Approved!")
                                 } else {
                                     closeLoader()
                                     throw new Error(data.error || "Failed!");
@@ -174,11 +174,6 @@ const refrechStats = async () => {
         closeLoader();
     }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    refrechContent();
-    refrechStats()
-});
 
 tableLimit.addEventListener('change', () => {
     currentPage = 0; 
@@ -421,3 +416,8 @@ const closeInspection = ()=> {
         }, 500)
     }catch (error){}
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    refrechContent();
+    refrechStats()
+});

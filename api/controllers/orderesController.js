@@ -127,6 +127,46 @@ const getOrders = async (req, res) => {
   }
 };
 
+const getOrder = async (req, res) => {
+  try {
+    const { rid } = req.query;
+
+    if(!rid) return res.status(400).json({message: "Rental ID required"})
+
+    const result = await pool.query(`
+        SELECT  
+            r.id,
+            r.status,
+            r.start_date,
+            r.end_date,
+            r.total_price,
+            u.username,
+            u.fname,
+            u.lname,
+            u.image AS user_image,
+            v.model, v.fab_year, v.image AS car_image,
+            b.name AS brand_name, b.logo AS brand_logo
+          FROM
+            rentals r
+            JOIN users u ON u.id = r.user_id
+            JOIN vehicles v ON v.id = r.vehicle_id
+            JOIN brands b ON b.id = v.brand_id
+            JOIN vehicle_stock vs ON vs.vehicle_id = v.id
+          WHERE r.id = $1
+      `,
+      [rid]
+    );
+
+    res.status(200).json({
+      order: result.rows
+    });
+
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const getOrdersbyOffice = async (req, res) => {
   try {
     const { limit = 5, offset = 0, order = "id", dire = "DESC" } = req.query;
@@ -427,11 +467,49 @@ const getStatsMonthly = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
+
+const getProfit = async (req, res) => {
+  try {
+    const result = await pool.query(`
+        SELECT 
+          o.wilaya AS office_wilaya,
+          SUM(CASE 
+              WHEN EXTRACT(YEAR FROM r.created_at) = EXTRACT(YEAR FROM CURRENT_DATE)
+              THEN r.total_price + r.insurance + r.fees
+              ELSE 0 
+          END) AS this_year_profit,
+          SUM(CASE 
+              WHEN EXTRACT(YEAR FROM r.created_at) = EXTRACT(YEAR FROM CURRENT_DATE) - 1
+              THEN r.total_price + r.insurance + r.fees
+              ELSE 0 
+          END) AS last_year_profit
+
+        FROM rentals r
+        JOIN vehicles v ON r.vehicle_id = v.id
+        JOIN vehicle_stock vs ON v.id = vs.vehicle_id
+        JOIN office o ON vs.office_id = o.id
+
+        GROUP BY o.wilaya
+        ORDER BY o.wilaya;
+      `
+    );
+
+    res.status(200).json({
+      data: result.rows
+    });
+
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
   
 module.exports = {
   getOrders,
+  getOrder,
   getOrdersbyOffice,
   getStats,
+  getProfit,
   getCounts,
   getStatsDaily,
   getStatsMonthly,

@@ -11,6 +11,7 @@
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
         <link rel="manifest" href="/favicon/site.webmanifest" />
         <link rel="stylesheet" href="/style/lib/fontawesome/all.min.css" />
+        <link rel="stylesheet" href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css" />
         <link rel="stylesheet" href="/style/main.css">
         <link rel="stylesheet" href="/style/checkbox.css">
         <link rel="stylesheet" href="/style/Dashboard1.css">
@@ -71,21 +72,6 @@
                         <a href="/dashboard/vehicles" class="nav-body-element bt-hover">Vehicles</a>
                     </ul>
                 </li>
-                <li class="nav-element flex-col center-start w100" id="navElV">
-                    <div class="nav-element-head <%= section === "vehicles"?"nes":"" %> flex-row center-spacebet w100 h100">
-                        <div class="flex-row center-start h100">
-                            <i class="fa-solid fa-car-rear" style="color: rgb(203, 114, 236);"></i>
-                            <p>Vehicles</p>
-                        </div>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </div>
-                    <ul class="nav-element-body flex-col w100" <% if (section === "vehicles") { %> style="height: 8em; display: flex;" <% } %>>
-                        <a href="/vehicles/list" class="nav-body-element bt-hover">List</a>
-                        <a href="/vehicles/add" class="nav-body-element bt-hover">Add Vehicles</a>
-                        <a href="/vehicles/brands/add" class="nav-body-element bt-hover">Add Brand</a>
-                        <a href="/vehicles/types/add" class="nav-body-element bt-hover">Add Type</a>
-                    </ul>
-                </li>
                 <li class="nav-element flex-col center-start w100" id="navElC">
                     <div class="nav-element-head <%= section == "clients"?"nes":"" %> flex-row center-spacebet w100 h100">
                         <div class="flex-row center-start h100">
@@ -113,13 +99,16 @@
                         <a href="/rental/return" class="nav-body-element bt-hover">Return management</a>
                     </ul>
                 </li>
+                <a href="/vehicles/list" class="nav-element-head <%= section=="vehicles"?"nes":"" %> flex-row center-start w100" id="navElV">
+                    <i class="fa-solid fa-car-rear" style="color:rgb(203, 114, 236); opacity: 0.8;" ></i>
+                    <span>Vehicles</span>
+                </a>
                 <li class="nav-break"></li>
                 <li class="nav-break-title flex-row center-start w100">Report & Feedback</li>
                 <a href="/report" class="nav-element-head <%= section=="report"?"nes":"" %> flex-row center-start w100">
                     <i class="fa-regular fa-flag" style="color:rgb(243, 98, 98); opacity: 0.8;" ></i>
                     <span>Reports</span>
                 </a>
-
                 <li class="nav-break"></li>
                 <li class="nav-break-title flex-row center-start w100">Database</li>
                 <a href="/dbm" class="nav-element-head <%= section=="dbm"?"nes":"" %> flex-row center-start w100">
@@ -135,7 +124,148 @@
         </nav>
         <% if (section==='vehicles' ){ %>
             <% if (subsection === 'listvehicles') {%>
-                <section class="content-section flex-col">
+                <section class="content-section flex-col" id="listvehicles">
+                    <div id="editVehicleContainer" class="flex-row flex-center">
+                        <form class="form-container add-vehicle-form" id="updateVF">
+                            <input type="text" id="uvid" value="0" hidden>
+                            <div class="flex-row">
+                                <div class="flex-col" style="width: 50%;">
+                                    <div class="form-group">
+                                        <label class="form-label" for="edLocation">location</label>
+                                        <select id="edLocation" name="location" disabled>
+                                            <option value="">Location</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex-row" style="gap: 5px;">
+                                        <div class="form-group" style="width: calc(30% - 5px);">
+                                            <label class="form-label" for="edBrand">Brand</label>
+                                            <select id="edBrand" name="brand_id" disabled>
+                                                <option value="">Brand</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" style="width: 50%;">
+                                            <label class="form-label" for="edModel">Model</label>
+                                            <input type="text" id="edModel" name="model" placeholder="Ex: Yaris" required>
+                                        </div>
+                                        <div class="form-group" style="width: calc(20% - 5px);">
+                                            <label class="form-label" for="edYear">Year</label>
+                                            <input type="text" id="edYear" name="fab_year" placeholder="Ex: 2023" required>
+                                        </div>
+                                    </div>
+                                    <div class="flex-row" style="gap: 5px;">
+                                        <div class="form-group" style="width: 20%;">
+                                            <label class="form-label" for="edUnits">Units</label>
+                                            <input type="number" id="edUnits" name="Units" min="1" placeholder="Ex: 3" required>
+                                        </div>
+                                        <div class="form-group" style="width: calc(50% - 5px);">
+                                            <label class="form-label" for="edPrice">Price <span class="currence">(DZD)</span></label>
+                                            <input type="number" id="edPrice" name="price" min="0" step="0.01" placeholder="Ex: 25000.00" required>
+                                        </div>
+                                        <div class="form-group" style="width: calc(30% - 5px);">
+                                            <label class="form-label" for="edType">Rental type</label>
+                                            <select id="edType" name="rental_type" required>
+                                                <option value="d">Days</option>
+                                                <option value="h">Hours</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="flex-row" style="gap: 5px;">
+                                        <div class="form-group" style="width: calc(60% - 5px);">
+                                            <label class="form-label" for="edBody">body</label>
+                                            <select id="edBody" name="body" required>
+                                                <% if(bodyTypes) %> <% bodyTypes.forEach(f => { %>
+                                                    <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                                                <% }) %>
+                                            </select>
+                                        </div> 
+                                        <div class="form-group" style="width: 40%;">
+                                            <label class="form-label" for="edColor">Color</label>
+                                            <input type="text" id="edColor" name="color" placeholder="Ex: White" required>
+                                        </div> 
+                                    </div>
+            
+                                    <div class="flex-row" style="gap: 5px;">
+                                        <div class="form-group" style="width: 70%;">
+                                            <label class="form-label" for="edEngin">Engine type</label>
+                                            <input type="text" id="edEngin" name="engine_type" placeholder="Ex: V6" required>
+                                        </div>
+                                        <div class="form-group" style="width: calc(15%-5px);">
+                                            <label class="form-label" for="edPower">Horspower <span class="currence">(HP)</span></label>
+                                            <input type="number" id="edPower" name="horspower" placeholder="Ex: 200" required>
+                                        </div>
+                                        <div class="form-group" style="width: calc(15%-5px);">
+                                            <label class="form-label" for="edSpeed">Speed <span class="currence">(KM/H)</span></label>
+                                            <input type="number" id="edSpeed" name="Speed" placeholder="Ex: 180" required>
+                                        </div>
+                                    </div>
+            
+                                    <div class="flex-row" style="gap: 5px;">
+                                        <div class="form-group" style="width: calc(50% - 5px);">
+                                            <label class="form-label" for="edCap">Capacity</label>
+                                            <input type="number" id="edCap" name="capacity" min="1" placeholder="Ex: 4" required>
+                                        </div>
+                                        <div class="form-group" style="width: 50%;">
+                                            <label class="form-label" for="edDoors">Doors</label>
+                                            <input type="number" id="edDoors" name="doors" placeholder="Ex: 4" required>
+                                        </div>
+                                    </div>
+            
+                                    <div class="flex-row" style="gap: 5px;">
+                                        <div class="form-group" style="width: calc(50% - 5px);">
+                                            <label class="form-label" for="edFuel">Fuel Type</label>
+                                            <select id="edFuel" name="fuel" required>
+                                            <% if(fuelTypes) %> <% fuelTypes.forEach(f => { %>
+                                                <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                                            <% }) %>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" style="width: 50%;">
+                                            <label class="form-label" for="edTrans">Transmission</label>
+                                            <select id="edTrans" name="transmission" required>
+                                                <% if(transTypes) %> <% transTypes.forEach(f => { %>
+                                                    <option value="<%= f.unnest %>"><%= f.unnest %></option>
+                                                <% }) %>
+                                            </select>
+                                        </div>                                                           
+                                    </div>
+                                </div>
+                                <div class="flex-col" style="width: 50%; padding-left: 1rem;">
+                                    <div class="form-group" style="width: 100%; height: 50%;">
+                                        <div class="flex-row" style="width: 100%; height:100%; gap:10px;">
+                                            <div class="flex-col" style="width: calc(70% - 10px);">
+                                                <label for="image" class="image-block flex-row flex-center">
+                                                    <input type="file" id="image" name="image" accept="image/*" hidden>
+                                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                                </label>
+                                            </div>
+                                            <div class="flex-col" style="width: 30%; height: 100%; gap: 10px;">
+                                                <label for="prevImage1Inp" class="image-block-prev flex-row flex-center">
+                                                    <input type="file" id="prevImage1Inp" name="prevImage1" accept="image/*" hidden>
+                                                    <i class="fa-regular fa-images"></i>
+                                                </label>
+                                                <label for="prevImage2Inp" class="image-block-prev flex-row flex-center">
+                                                    <i class="fa-regular fa-images"></i>
+                                                    <input type="file" id="prevImage2Inp" name="prevImage2" accept="image/*" hidden>
+                                                </label>
+                                                <label for="prevImage3Inp" class="image-block-prev flex-row flex-center">
+                                                    <i class="fa-regular fa-images"></i>
+                                                    <input type="file" id="prevImage3Inp" name="prevImage3" accept="image/*" hidden>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="height: 50%;">
+                                        <label class="form-label" for="edDesc">Description</label>
+                                        <textarea id="edDesc" name="description" placeholder="Description..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-row center-spacebet">
+                                <button type="button" class="bt bt-hover bt-solid frmbt" id="cancelUpdateVehicle" >Cancel</button>
+                                <button type="submit" class="bt bt-hover bt-primary frmbt" id="updateVehicle" >Update</button>
+                            </div>
+                        </form>   
+                    </div>
                     <div class="flex-row center-start dash-path gap-min">
                         <i class="path-text fa-solid fa-house"></i>
                         <span class="currence">	&gt;</span>
@@ -145,33 +275,92 @@
                         <span class="currence">	&gt;</span>
                         <p class="path-text">List</p>
                     </div>
-                    <h1>Vehicles List</h1>
-                    <div class="button">
-                        <a href="/Addvehicle"><button class="bn632-hover bn26">AddVehicle</button></a>
-                        </button>
-                    
-                    </div>                
-                    <table>
-                        <thead>
-                            <tr>
-                            <th>ID</th>
-                            <th>fab_year</th>
-                            <th>Model</th>
-                            <th>color</th>
-                            <th>fuel</th>
-                            <th>price</th>
-                            <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="vehiclesTableBody">
-                            <!-- سيتم إدخال البيانات هنا ديناميكيًا -->
-                        </tbody>
-                    </table>     
-                        
+                    <div class="lst-rentals-head flex-row center-spacebet">
+                        <div class="flex-row center-start h100 gap-min">
+                            <h3>All Vehicles <span class="list-stat" id="statTot">0</span></h3>
+                            <div class="sloader" id="vehiclesLoader"></div>
+                        </div>
+                        <div class="flex-row center-start h100 gap-min">
+                            <button class="bt bt-hover bt-reg bgc gap-lrg"><i class="fa-solid fa-filter"></i> Filter</button>
+                            <button class="bt bt-hover bt-reg bgc gap-lrg"><i class="fa-solid fa-arrow-up-z-a"></i> Order</button>
+                            <div class="nah-break"></div>
+                            <a href="/vehicles/add" class="bt bt-hover bt-solid gap-lrg flex-row center-start"><i class="fa-solid fa-plus"></i> Add Vehicle</a>
+                        </div>
+                    </div>
+                    <div class="flex-row center-spacebet lst-vehicles-optb">
+                        <div class="flex-row center-start search-input" style="width: 18em;">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="search" placeholder="Search...">
+                        </div>
+                        <div class="flex-row center-start gap-lrg lstvcs">
+                            <div class="flex-row center-start gap-min">
+                                <p>Office </p>
+                                <select class="select-reg">
+                                    <option value="All">All</option>
+                                </select>
+                            </div>
+                            <div class="flex-row center-start gap-min">
+                                <p>Brand </p>
+                                <select class="select-reg">
+                                    <option value="All">Any</option>
+                                </select>
+                            </div>
+                            <div class="flex-row center-start gap-min">
+                                <p>Body </p>
+                                <select class="select-reg">
+                                    <option value="All">Any</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lst-rentals-body flex-col">
+                        <div class="lst-rentals-table h100 w100">
+                            <div class="rt-body">
+                                <div class="rt-row-v rt-head">
+                                    <p>ID</p>
+                                    <p>Vehicle</p>
+                                    <p>Units</p>
+                                    <p>Body</p>
+                                    <p>Capacity</p>
+                                    <p>Color</p>
+                                    <p>Trans</p>
+                                    <p>Fuel type</p>
+                                    <p>Speed</p>
+                                    <p>Power</p>
+                                    <p>Pricing</p>
+                                    <p>Added on</p>
+                                    <p></p>
+                                </div>
+                                <div class="rt-bod" id="rtBod">
+                                </div>
+                            </div>
+                            <div class="rt-foot">
+                                <div class="flex-row center-spacebet w100 h100" id="rtPagination">
+                                    <div class="flex-row center-start gap-lrg">
+                                        <p class="para-sml">Page: </p>
+                                        <select class="select-reg" id="vehiclesCurrentPage">
+                                            <option value="1">1</option>
+                                        </select>
+                                        <p class="para-sml">Show per page: </p>
+                                        <input class="select-reg" type="number" min="0" max="50" value="10" id="vehiclesLimit" style="width: 4em; padding-right: 0; height: 2.5em; text-align: center;">
+                                        <p class="para-sml">Offset: </p>
+                                        <input class="select-reg" type="number" value="0" id="vehiclesOffset" style="width: 4em; padding-right: 0; height: 2.5em; text-align: center;">
+                                    </div>
+                                    <div class="flex-row center-start gap-lrg" id="vehicleTableFoot">
+                                        <p class="para-sml" id="tpageInfo">1-5 of 99</p>
+                                        <div class="flex-row center-start gap-lrg">
+                                            <button class="bt bt-hover bt-pagin" id="oPrevB">&lt;</button>
+                                            <button class="bt bt-hover bt-pagin" id="oNextB">&gt;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
                 </section>
             <% } %>
             <% if (subsection === 'addvehicle') {%>
-                <section class="content-section flex-col">
+                <section class="content-section flex-col" id="addvehicle">
                     <div class="flex-row center-start dash-path gap-min">
                         <i class="path-text fa-solid fa-house"></i>
                         <span class="currence">	&gt;</span>
@@ -238,7 +427,7 @@
                                     </div> 
                                     <div class="form-group" style="width: 40%;">
                                         <label class="form-label" for="color">Color</label>
-                                        <input type="text" id="color" name="color" placeholder="Ex: Noir" list="css-colors" required>
+                                        <input type="text" id="color" name="color" placeholder="Ex: White" list="css-colors" required>
                                         <datalist id="css-colors">
                                             <% if (colors) %> <% colors.forEach(color => { %>
                                                 <option value="<%= color.unnest %>"></option>
@@ -332,38 +521,165 @@
                     </form>           
                 </section>
             <% } %>
-            <% if (subsection === 'addbrand') {%>
-                <section class="content-section flex-col">
-                    <div class="flex-row center-start dash-path gap-min">
-                        <i class="path-text fa-solid fa-house"></i>
-                        <span class="currence">	&gt;</span>
-                        <p class="path-text">Management</p>
-                        <span class="currence">	&gt;</span>
-                        <p class="path-text">Vehicles</p>
-                        <span class="currence">	&gt;</span>
-                        <p class="path-text">Brands</p>
-                        <span class="currence">	&gt;</span>
-                        <p class="path-text">Add</p>
-                    </div>
-                </section>
-            <% } %>
-            <% if (subsection === 'addtype') {%>
-                <section class="content-section flex-col">
-                    <div class="flex-row center-start dash-path gap-min">
-                        <i class="path-text fa-solid fa-house"></i>
-                        <span class="currence">	&gt;</span>
-                        <p class="path-text">Management</p>
-                        <span class="currence">	&gt;</span>
-                        <p class="path-text">Vehicles</p>
-                        <span class="currence">	&gt;</span>
-                        <p class="path-text">Types</p>
-                        <span class="currence">	&gt;</span>
-                        <p class="path-text">Add</p>
-                    </div>
-                </section>
-            <% } %>
         <% } %>
         <% if (section==='dashboard' ) { %>
+            <% if (subsection == 'dashoverview') { %>
+                <section class="content-section" id="dashoverview">   
+                    <div class="popup-container flex-row flex-center" id="eventContainer">
+                        <div class="event-container flex-col flex-center">
+                            <i class="fa-solid fa-xmark eventClose bt-hover"></i>
+                            <h2>Rental details</h2>
+                            <div class="e-user-profile flex-row center-start gap-min">
+                                <div class="e-user-image">
+                                    <img id="eUserImg" src="/assets/images/user.jpg" alt="User Profile">
+                                </div>
+                                <div class="flex-col">
+                                    <h6 id="eUserFLN">firstname lastname</h6>
+                                    <p id="eUserUN" class="username">@username</p>
+                                </div>
+                            </div>
+                            <div class="e-car-container flex-col">
+                                <div class="e-car-image">
+                                    <img id="eCarImg" src="/assets/car/Q5.png" width="200" alt="Car">
+                                </div>
+                                <div class="flex-row center-start gap-min">
+                                    <img id="eBLogo" src="/assets/cars/audi.png" width="25" height="25" alt="Brand">
+                                    <h5 id="eBName">Car model</h5>
+                                </div>
+                            <div class="e-pickup flex-row center-start gap-lrg">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <div class="flex-col">
+                                    <p>Pick-up date</p>
+                                    <h4 id="ePD">Thu 05 May 25</h4>
+                                </div>
+                            </div>
+                            <div class="e-pickup flex-row center-start gap-lrg">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <div class="flex-col">
+                                    <p>Return date</p>
+                                    <h4 id="eRD">Thu 05 May 25</h4>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="flex-row center-start gap-min">
+                                <p class="title-sml">Status: </p>
+                                <div id="eStatus" class="e-status e-active">
+                                    <p>Active</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="flex-row center-start dash-path gap-min">
+                        <i class="path-text fa-solid fa-house"></i>
+                        <span class="currence">	&gt;</span>
+                        <p class="path-text">Management</p>
+                        <span class="currence">	&gt;</span>
+                        <p class="path-text">Dashboard</p>
+                        <span class="currence">	&gt;</span>
+                        <p class="path-text">Overview</p>
+                    </div>
+
+                    <div class="flex-row center-start flex-wrap do-statics">
+
+                        <div class="flex-row flex-wrap flex-center do-statics-container">
+                            <div class="do-static flex-col center-start">
+                                <div class="do-static-head w100 flex-row center-spacebet">
+                                    <div class="flex-row center-start gap-lrg">
+                                        <i class="fa-solid fa-money-bill-trend-up do-icn icn-g"></i>
+                                        <p>Total profits</p>
+                                    </div>
+                                    <i class="fa-solid fa-ellipsis bt-hover"></i>
+                                </div>
+                                <div class="do-static-body flex-col flex-center w100">
+                                    <p class="money"> <span id="doProfit">0</span> <span class="currence">DZD</span></p>
+                                    <div class="flex-row center-start gap-min">
+                                        <span id="doProfitProg" class="do-stat-prog">0%</span>
+                                        <h6 class="money"><span id="doProfitToday">0</span> today</h6>
+                                    </div>
+                                </div>
+                                <div class="break-line" style="width: 90%;"></div>
+                                <a href="/dashboard/rentals" target="_blank">View details →</a>
+                            </div>
+                            <div class="do-static flex-col center-start">
+                                <div class="do-static-head w100 flex-row center-spacebet">
+                                    <div class="flex-row center-start gap-lrg">
+                                        <i class="fa-solid fa-user do-icn icn-b"></i>
+                                        <p>Clients</p>
+                                    </div>
+                                    <i class="fa-solid fa-ellipsis bt-hover"></i>
+                                </div>
+                                <div class="do-static-body flex-col flex-center w100">
+                                    <p id="doClients">0</p>
+                                    <div class="flex-row center-start gap-min">
+                                        <span id="doClientsProg" class="do-stat-prog">0%</span>
+                                        <h6><span id="doClientsNew">0</span> new clients</h6>
+                                    </div>
+                                </div>
+                                <div class="break-line" style="width: 90%;"></div>
+                                <a href="/dashboard/clients" target="_blank">View details →</a>
+                            </div>
+                            <div class="do-static flex-col center-start">
+                                <div class="do-static-head w100 flex-row center-spacebet">
+                                    <div class="flex-row center-start gap-lrg">
+                                        <i class="fa-solid fa-bookmark do-icn icn-o"></i>
+                                        <p>Active Rentals</p>
+                                    </div>
+                                    <i class="fa-solid fa-ellipsis bt-hover"></i>
+                                </div>
+                                <div class="do-static-body flex-col flex-center w100">
+                                    <p id="doActiveRentals">0</p>
+                                    <div class="flex-row center-start gap-min">
+                                        <span id="doRentalsProg" class="do-stat-prog">0%</span>
+                                        <h6 class="money"><span id="doRentalsToday">0</span> starts today</h6>
+                                    </div>
+                                </div>
+                                <div class="break-line" style="width: 90%;"></div>
+                                <a href="/dashboard/rentals" target="_blank">View details →</a>
+                            </div>
+                            <div class="do-static flex-col center-start">
+                                <div class="do-static-head w100 flex-row center-spacebet">
+                                    <div class="flex-row center-start gap-lrg">
+                                        <i class="fa-solid fa-car do-icn icn-v"></i>
+                                        <p>Cars</p>
+                                    </div>
+                                    <i class="fa-solid fa-ellipsis bt-hover"></i>
+                                </div>
+                                <div class="do-static-body flex-col flex-center w100">
+                                    <p id="doCars">0</p>
+                                    <div class="flex-row center-start gap-min">
+                                        <span id="doCarsProg" class="do-stat-prog">0%</span>
+                                        <h6><span id="doCarsDisabled">0</span> disabled</h6>
+                                    </div>
+                                </div>
+                                <div class="break-line" style="width: 90%;"></div>
+                                <a href="/dashboard/vehicles" target="_blank">View details →</a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-row flex-center do-graph">
+                            <canvas id="myChart" width="450" height="400"></canvas>
+                        </div>
+
+                    </div>
+
+                    <div class="do-calendar">
+                        <div class="flex-row center-spacebet w100">
+                            <div class="flex-row center-start gap-min">
+                                <h2>Rentals Schedule</h2>
+                                <h2>-</h2>
+                                <h2 id="calTitle"></h2>
+                            </div>
+                            <div class="flex-row center-start gap-min">
+                                <button class="bt bt-hover bt-reg cldctr" id="prevBtn">← Prev</button>
+                                <button class="bt bt-hover bt-solid cldctr" id="todayBtn">Today</button>
+                                <button class="bt bt-hover bt-reg cldctr" id="nextBtn">Next →</button>
+                            </div>
+                          </div>
+                        <div id="calendar"></div>
+                    </div>
+
+                </section>
+            <% } %>
             <% if (subsection == 'rentals') { %>
                 <section class="content-section">    
                     <div class="flex-row center-start dash-path gap-min">
@@ -439,8 +755,8 @@
                         <div class="dash-graph flex-col flex-center">
                             <div class="graph-head flex-row center-spacebet w100">
                                 <div class="flex-col">
-                                    <p class="para-sml plat-text">Overview</p>
-                                    <p class="para-med">Rentals value</p>
+                                    <p class="para-sml plat-text">Daily profit chart</p>
+                                    <p class="para-med">Rentals profit</p>
                                 </div>
                                 <div class="flex-row center-start gap-lrg">
                                     <button class="bt bt-hover bt-reg" style="padding: 0 1em;" id="revLM">Month</button>
@@ -455,7 +771,7 @@
                             <div class="graph-head flex-row center-spacebet w100">
                                 <div class="flex-col">
                                     <p class="para-sml plat-text">Performance</p>
-                                    <p class="para-med">Total rentals</p>
+                                    <p class="para-med">Monthly rentals</p>
                                 </div>
                             </div>
                             <div class="graph-body flex-col flex-center">
@@ -619,7 +935,7 @@
                     </div>  
                     <div class="c-dash-container flex-row flex-wrap center-start w100 gap-lrg">
                         <div class="c-dash-graph graph1 flex-col">
-                            <p class="stat-title pdb05">Distribution population by wilaya</p>
+                            <p class="stat-title pdb05">Clients distribution by wilaya</p>
                             <div id="algeriaMap" class="graph-population h100 w100"></div>
                         </div>
                         <div class="flex-col graph2 gap-lrg">
@@ -714,7 +1030,7 @@
                 </section>
             <% } %>
             <% if (subsection == 'dashboardvehicles') { %>
-                <section class="content-section">
+                <section class="content-section" id="dashboardvehicles">
                     <div class="flex-row center-start dash-path gap-min">
                         <i class="path-text fa-solid fa-house"></i>
                         <span class="currence">	&gt;</span>
@@ -723,6 +1039,169 @@
                         <p class="path-text">Dashboard</p>
                         <span class="currence">	&gt;</span>
                         <p class="path-text">Vehicles</p>
+                    </div>
+                    <div class="flex-row">
+                        <div class="flex-col">
+                            <div class="flex-col v-statics" style="height: fit-content;">
+                                <h3 style="padding-bottom: 0.5em;">Cars Statics</h3>
+                                <div class="v-stats flex-row flex-center flex-wrap" style="height: fit-content;">
+                                    <div class="v-stat-container flex-row center-start">
+                                        <i class="fa-solid fa-warehouse" style="background-color: rgba(131, 92, 178, 0.2); color: rgb(131, 92, 178);"></i>
+                                        <div class="flex-row center-start w100">
+                                            <div class="flex-col">
+                                                <p class="v-stat-title">Total Vehicles</p>
+                                                <p class="v-stat-val" id="sTotal">999K</p>
+                                            </div>
+                                            <div class="flex-col ll">
+                                                <p class="v-stat-prog avg-positive">↑+2.5%</p>
+                                                <p class="v-stat-pt">From last week</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="v-stat-container flex-row center-start">
+                                        <i class="fa-solid fa-car" style="background-color: rgba(92, 129, 178, 0.2); color: rgb(92, 129, 178);"></i>
+                                        <div class="flex-row center-start w100">
+                                            <div class="flex-col">
+                                                <p class="v-stat-title">Brands</p>
+                                                <p class="v-stat-val" id="sBrands">10</p>
+                                            </div>
+                                            <div class="flex-col ll">
+                                                <p class="v-stat-prog avg-normal">0%</p>
+                                                <p class="v-stat-pt">From last week</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="v-stat-container flex-row center-start">
+                                        <i class="fa-solid fa-bookmark" style="background-color: rgba(92, 178, 106, 0.2); color: rgb(92, 178, 106);"></i>
+                                        <div class="flex-row center-start w100">
+                                            <div class="flex-col">
+                                                <p class="v-stat-title">Rented vehivles</p>
+                                                <p class="v-stat-val" id="sRented">6k</p>
+                                            </div> 
+                                            <div class="flex-col ll">
+                                                <p class="v-stat-prog avg-negative">↓-10%</p>
+                                                <p class="v-stat-pt">From last week</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="v-stat-container flex-row center-start">
+                                        <i class="fa-solid fa-screwdriver-wrench" style="background-color: rgba(184, 78, 78, 0.2); color: rgb(184, 78, 78);"></i>
+                                        <div class="flex-row center-start w100">
+                                            <div class="flex-col">
+                                                <p class="v-stat-title">Disabled vehicles</p>
+                                                <p class="v-stat-val" id="sDisabled">5</p>
+                                            </div>
+                                            <div class="flex-col ll">
+                                                <p class="v-stat-prog">0%</p>
+                                                <p class="v-stat-pt">From last week</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-row flex-center v-rentals-graph">
+                                <canvas id="rentalLineChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="v-car-types flex-col">
+                            <h3>Car Types</h3>
+                            <div class="v-car-type flex-row center-start">
+                                <img src="/assets/cartypes/hatchback.png" alt="">
+                                <div class="flex-col center-start w100">
+                                    <div class="flex-row center-spacebet w100">
+                                        <p>Hatchback (<span class="span-val" id="chatchback">0</span>)</p>
+                                        <p><span id="hatchbackPer">0</span>%</p>
+                                    </div>
+                                    <div class="v-progbar">
+                                        <div class="v-bar" id="hatchbackPG" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="v-car-type flex-row center-start">
+                                <img src="/assets/cartypes/sedan.png" alt="">
+                                <div class="flex-col center-start w100">
+                                    <div class="flex-row center-spacebet w100">
+                                        <p>Sedan (<span class="span-val" id="csedan">0</span>)</p>
+                                        <p><span id="sedanPer">0</span>%</p>
+                                    </div>
+                                    <div class="v-progbar">
+                                        <div class="v-bar" id="sedanPG" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="v-car-type flex-row center-start">
+                                <img src="/assets/cartypes/suv.png" alt="">
+                                <div class="flex-col center-start w100">
+                                    <div class="flex-row center-spacebet w100">
+                                        <p>Suv (<span class="span-val" id="csuv">0</span>)</p>
+                                        <p><span id="suvPer">0</span>%</p>
+                                    </div>
+                                    <div class="v-progbar">
+                                        <div class="v-bar" id="suvPG" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="v-car-type flex-row center-start">
+                                <img src="/assets/cartypes/sport.png" alt="">
+                                <div class="flex-col center-start w100">
+                                    <div class="flex-row center-spacebet w100">
+                                        <p>Sport (<span class="span-val" id="csport">0</span>)</p>
+                                        <p><span id="sportPer">0</span>%</p>
+                                    </div>
+                                    <div class="v-progbar">
+                                        <div class="v-bar" id="sportPG" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="v-car-type flex-row center-start">
+                                <img src="/assets/cartypes/offroad.png" alt="">
+                                <div class="flex-col center-start w100">
+                                    <div class="flex-row center-spacebet w100">
+                                        <p>Offroad (<span class="span-val" id="coffroad">0</span>)</p>
+                                        <p><span id="offroadPer">0</span>%</p>
+                                    </div>
+                                    <div class="v-progbar">
+                                        <div class="v-bar" id="offroadPG" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="v-car-type flex-row center-start">
+                                <img src="/assets/cartypes/van.png" alt="">
+                                <div class="flex-col center-start w100">
+                                    <div class="flex-row center-spacebet w100">
+                                        <p>Van (<span class="span-val" id="cvan">0</span>)</p>
+                                        <p><span id="vanPer">0</span>%</p>
+                                    </div>
+                                    <div class="v-progbar">
+                                        <div class="v-bar" id="vanPG" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="v-car-type flex-row center-start">
+                                <img src="/assets/cartypes/coupe.png" alt="">
+                                <div class="flex-col center-start w100">
+                                    <div class="flex-row center-spacebet w100">
+                                        <p>Coupe (<span class="span-val" id="ccoupe">0</span>)</p>
+                                        <p><span id="coupePer">0</span>%</p>
+                                    </div>
+                                    <div class="v-progbar">
+                                        <div class="v-bar" id="coupePG" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="v-car-type flex-row center-start">
+                                <img src="/assets/cartypes/truck.png" alt="">
+                                <div class="flex-col center-start w100">
+                                    <div class="flex-row center-spacebet w100">
+                                        <p>Truck (<span class="span-val" id="ctruck">0</span>)</p>
+                                        <p><span id="truckPer">0</span>%</p>
+                                    </div>
+                                    <div class="v-progbar">
+                                        <div class="v-bar" id="truckPG" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
             <% } %>
@@ -809,9 +1288,9 @@
                                             <option value="1">1</option>
                                         </select>
                                         <p class="para-sml">Show per page: </p>
-                                        <input class="select-reg" type="number" min="0" max="50" value="10" id="ordersLimit" style="width: 4em; padding-right: 0; height: 2.5em; text-align: center;">
+                                        <input class="select-reg" type="number" min="0" max="50" value="50" id="ordersLimit" style="width: 4em; padding-right: 0; height: 2.5em; text-align: center;">
                                         <p class="para-sml">Offset: </p>
-                                        <input type="number" value="0" id="ordersOffset" style="width: 4em; padding-right: 0; height: 2.5em; text-align: center;">
+                                        <input class="select-reg" type="number" value="0" id="ordersOffset" style="width: 4em; padding-right: 0; height: 2.5em; text-align: center;">
                                     </div>
                                     <div class="flex-row center-start gap-lrg" id="orderTableFoot">
                                         <p class="para-sml" id="tpageInfo">1-5 of 99</p>
@@ -823,9 +1302,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    
+                    </div>   
                 </section>
             <% } %>
             <% if (subsection === 'ordersrentals') {%>
@@ -857,7 +1334,44 @@
           <% } %>
         <% if (section==='clients' ) { %>
             <% if (subsection == "listclients") { %>
-                <section class="content-section" id="customers-content">
+                <section class="content-section" id="listclients">
+                    <div id="userBan" class="flex-row flex-center popup-container">
+                        <div class="ban-container flex-col">
+                            <i class="fa-solid fa-xmark banCloseBut bt bt-hover"></i>
+                            <label for="banReason">Reason</label>
+                            <textarea id="banReason" placeholder="Provide reason for ban..."></textarea>
+                            <div class="flex-row center-start gap-min">
+                                <label for="banPeriod">Perdiod</label>
+                                <input type="number" value="30" id="banPeriod">
+                                <p>Days</p>
+                            </div>
+                            <div class="flex-row center-spacebet w100" style="margin-top: 1em;">
+                                <button class="bt bt-hover bt-reg bancnlbt">Cancel</button>
+                                <button class="bt bt-hover banlbt gap-lrg">Ban <i class="fa-solid fa-ban"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="userMailer" class="flex-row flex-center popup-container">
+                        <div class="mailer flex-col">
+                            <i class="fa-solid fa-xmark mailerCloseBut bt-hover"></i>
+                            <div class="flex-row w100 gap-lrg mrgt5">
+                                <p>To: </p>
+                                <input type="text" id="toEmail" disabled style="opacity: 0.5;">
+                            </div>
+                            <div class="flex-row w100 gap-lrg mrgt5">
+                                <p>Subject: </p>
+                                <input type="text" id="mailSubject" placeholder="Title">
+                            </div>
+                            <div class="flex-row w100 h100 gap-lrg mrgt5">
+                                <p>Message: </p>
+                                <textarea id="mailMessage" placeholder="Type anything..."></textarea>
+                            </div>
+                            <div class="flex-row center-spacebet w100 mrgt10" style="height: 3em;">
+                                <button class="bt bt-hover bt-reg cancelMail">Cancel</button>
+                                <button class="bt bt-hover bt-solid sendMail gap-lrg"><i class="fa-regular fa-envelope"></i> Send</button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="flex-row center-start dash-path gap-min">
                         <i class="path-text fa-solid fa-house"></i>
                         <span class="currence">	&gt;</span>
@@ -867,32 +1381,91 @@
                         <span class="currence">	&gt;</span>
                         <p class="path-text">List</p>
                     </div>
-                    <h2>Customers List</h2>
-                    <div class=".button_customer">
-                        <button class="button_cust active" data-role="all">AllCustomers</button>
-                        <button class="button_cust" data-role="Client">client</button>
-                        <button class="button_cust" data-role="Admin">Admin</button>
-                        <button class="button_cust" data-role="Employe">Employe</button>
+                    <div class="lst-rentals-head flex-row center-spacebet">
+                        <div class="flex-row center-start h100 gap-min">
+                            <h3>All Clients <span class="list-stat" id="statTot">0</span></h3>
+                            <div class="sloader" id="clientsLoader"></div>
+                        </div>
+                        <div class="flex-row center-start h100 gap-min">
+                            <button class="bt bt-hover bt-reg bgc gap-lrg"><i class="fa-solid fa-filter"></i> Filter</button>
+                            <button class="bt bt-hover bt-reg bgc gap-lrg"><i class="fa-solid fa-arrow-up-z-a"></i> Order</button>
+                            <div class="nah-break"></div>
+                            <button class="bt bt-hover bt-solid gap-lrg flex-row center-start" id="exportBut"><i class="fa-solid fa-cloud-arrow-down"></i> Export</button>
+                        </div>
                     </div>
-                    <br>
-                    <table class="customer-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>country</th>
-                                <th>Role</th>
-                                <th></th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody id="customersTableBody">
-                            <!-- سيتم إدخال البيانات هنا ديناميكيًا -->
-                        </tbody>
-                    </table>
+                    <div class="flex-row center-spacebet lst-vehicles-optb">
+                        <div class="flex-row center-start search-input" style="width: 18em;">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input id="searchClient" type="search" placeholder="Search...">
+                        </div>
+                        <div class="flex-row center-start gap-lrg lstvcs">
+                            <div class="flex-row center-start gap-min">
+                                <p>Wilaya </p>
+                                <select class="select-reg" id="filterWilaya">
+                                    <option value="any">All</option>
+                                    <% wilayas.forEach(wilaya => { %>
+                                        <option value="<%= wilaya.name %>"><%= wilaya.id %> - <%= wilaya.name %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            <div class="flex-row center-start gap-min">
+                                <p>Sexe </p>
+                                <select class="select-reg" id="filterSexe">
+                                    <option value="any">Any</option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                            </div>
+                            <div class="flex-row center-start gap-min">
+                                <p>Status</p>
+                                <select class="select-reg">
+                                    <option value="any">Any</option>
+                                    <option value="1">Verified</option>
+                                    <option value="0">Not Verified</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lst-rentals-body flex-col">
+                        <div class="lst-rentals-table h100 w100">
+                            <div class="rt-body">
+                                <div class="rt-row-c rt-head">
+                                    <p>ID</p>
+                                    <p>User</p>
+                                    <p>Age</p>
+                                    <p>Sexe</p>
+                                    <p>Address</p>
+                                    <p>Email</p>
+                                    <p>Phone</p>
+                                    <p>Joined On</p>
+                                    <p></p>
+                                </div>
+                                <div class="rt-bod" id="rtBod">
+                                </div>
+                            </div>
+                            <div class="rt-foot">
+                                <div class="flex-row center-spacebet w100 h100" id="rtPagination">
+                                    <div class="flex-row center-start gap-lrg">
+                                        <p class="para-sml">Page: </p>
+                                        <select class="select-reg" id="clientsCurrentPage">
+                                            <option value="1">1</option>
+                                        </select>
+                                        <p class="para-sml">Show per page: </p>
+                                        <input class="select-reg" type="number" min="0" max="50" value="50" id="clientsLimit" style="width: 4em; padding-right: 0; height: 2.5em; text-align: center;">
+                                        <p class="para-sml">Offset: </p>
+                                        <input class="select-reg" type="number" value="0" id="clientsOffset" style="width: 4em; padding-right: 0; height: 2.5em; text-align: center;">
+                                    </div>
+                                    <div class="flex-row center-start gap-lrg" id="clientTableFoot">
+                                        <p class="para-sml" id="tpageInfo">1-5 of 99</p>
+                                        <div class="flex-row center-start gap-lrg">
+                                            <button class="bt bt-hover bt-pagin" id="oPrevB">&lt;</button>
+                                            <button class="bt bt-hover bt-pagin" id="oNextB">&gt;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
                 </section>
             <% } %>
             <% if (subsection == "listverification") { %>
@@ -924,20 +1497,6 @@
                         <div class="dash-stat-container flex-col center-start">
                             <div class="dash-stat-top flex-row start-spacebet w100">
                                 <div class="flex-col start-center">
-                                    <p class="stat-title">Verified</p>
-                                    <p class="stat-val"><span id="dashverified">0</span></p>
-                                </div>
-                                <i class="fa-solid fa-user-check" style=" background-color: rgba(77, 144, 94, 0.7);"></i>
-                            </div>
-                            <div class="dash-stat-bottom">
-                                <div class="flex-col end-center cell-body-avg">
-                                    <p class="dbm-avg avg-positive">+50.0%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="dash-stat-container flex-col center-start">
-                            <div class="dash-stat-top flex-row start-spacebet w100">
-                                <div class="flex-col start-center">
                                     <p class="stat-title">Pending</p>
                                     <p class="stat-val"><span id="dashPending">0</span></p>
                                 </div>
@@ -946,6 +1505,20 @@
                             <div class="dash-stat-bottom">
                                 <div class="flex-col end-center cell-body-avg">
                                     <p class="dbm-avg avg-normal">0.0%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dash-stat-container flex-col center-start">
+                            <div class="dash-stat-top flex-row start-spacebet w100">
+                                <div class="flex-col start-center">
+                                    <p class="stat-title">Approved</p>
+                                    <p class="stat-val"><span id="dashverified">0</span></p>
+                                </div>
+                                <i class="fa-solid fa-user-check" style=" background-color: rgba(77, 144, 94, 0.7);"></i>
+                            </div>
+                            <div class="dash-stat-bottom">
+                                <div class="flex-col end-center cell-body-avg">
+                                    <p class="dbm-avg avg-positive">+50.0%</p>
                                 </div>
                             </div>
                         </div>
@@ -1026,55 +1599,6 @@
         <% } %>
         <% if (section==='dbm' ) { %>
             <section class="content-section" id="dbm-content">
-                <div class="dbm-head flex-row center-spacebet">
-                    <div class="flex-row center-start" style="height: 100%; gap: 0.5rem;">
-                        <label for="table-filter-date" class="dbm-input-holder bt-reg flex-row center-start">
-                            <i class="fa-regular fa-calendar"></i>
-                            <select class="dbm-filter-date" id="table-filter-date">
-                                <option value="all">All Time</option>
-                                <option value="m1">Last month</option>
-                                <option value="m2">Last 3 months</option>
-                                <option value="y">Last Year</option>
-                            </select>
-                        </label>
-                        <div class="bt-line-h"></div>
-                        <label for="table-filter-dire" class="dbm-input-holder bt-reg flex-row center-start">
-                            <i class="fa-solid fa-arrow-down-1-9"></i>
-                            <select class="dbm-filter-date" id="table-filter-dire">
-                                <option value="ASC">Sort</option>
-                                <option value="ASC">Ascending</option>
-                                <option value="DESC">Descending</option>
-                            </select>
-                        </label>
-                        <label for="table-filter-date" class="dbm-input-holder bt-reg flex-row center-start">
-                            <i class="fa-solid fa-arrow-up-wide-short"></i>
-                            <select class="dbm-filter-sort" id="table-filter-sort">
-                                <option value="id">Order by</option>
-                                <option value="created_at">Date</option>
-                                <option value="id">ID</option>
-                            </select>
-                        </label>
-                    </div>
-                    <div class="flex-row center-start" style="height: 100%; gap: 0.625rem;">
-                        <button class="bt bt-hover bt-solid dbm-inpu-holder flex-row flex-center gap-min" id="refreshContent">
-                            <i class="fa-solid fa-arrows-rotate"></i>
-                            <span class="only-pc">Refresh</span>
-                        </button>
-                        <button class="bt bt-hover bt-reg dbm-inpu-holder flex-row flex-center">
-                            <i class="fa-solid fa-gear"></i>
-                            <span class="only-pc">View</span>
-                        </button>
-                        <div class="bt-line-h"></div>
-                        <div class="dbm-profile bt-hover">
-                            <img src="<%= user?user.image:"/assets/images/user.jpg" %>" alt="Profile">
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-row center-start dash-path gap-min" style="padding-bottom: 0;">
-                    <i class="path-text fa-solid fa-house"></i>
-                    <span class="currence">	&gt;</span>
-                    <p class="path-text">Database</p>
-                </div>
                 <div class="dbm-body flex-col" style="gap: 1em;">
                     <div class="flex-row flex-wrap flex-center dbm-data">
                         <div class="flex-col center-spacebet dbm-data-cell">
@@ -1136,6 +1660,42 @@
                                     <p class="dbm-avg avg-normal">0.0%</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="dbm-option-bar flex-row center-spacebet">
+                        <div class="flex-row center-start" style="height: 100%; gap: 0.5rem;">
+                            <label for="table-filter-date" class="dbm-input-holder bt-reg flex-row center-start">
+                                <i class="fa-regular fa-calendar"></i>
+                                <select class="dbm-filter-date" id="table-filter-date">
+                                    <option value="all">All Time</option>
+                                    <option value="m1">Last month</option>
+                                    <option value="m2">Last 3 months</option>
+                                    <option value="y">Last Year</option>
+                                </select>
+                            </label>
+                            <div class="bt-line-h"></div>
+                            <label for="table-filter-dire" class="dbm-input-holder bt-reg flex-row center-start">
+                                <i class="fa-solid fa-arrow-down-1-9"></i>
+                                <select class="dbm-filter-date" id="table-filter-dire">
+                                    <option value="ASC">Sort</option>
+                                    <option value="ASC">Ascending</option>
+                                    <option value="DESC">Descending</option>
+                                </select>
+                            </label>
+                            <label for="table-filter-date" class="dbm-input-holder bt-reg flex-row center-start">
+                                <i class="fa-solid fa-arrow-up-wide-short"></i>
+                                <select class="dbm-filter-sort" id="table-filter-sort">
+                                    <option value="id">Order by</option>
+                                    <option value="created_at">Date</option>
+                                    <option value="id">ID</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="flex-row center-start" style="height: 100%; gap: 0.625rem;">
+                            <button class="bt bt-hover bt-solid dbm-inpu-holder flex-row flex-center gap-min" id="refreshContent">
+                                <i class="fa-solid fa-arrows-rotate"></i>
+                                <span class="only-pc">Refresh</span>
+                            </button>
                         </div>
                     </div>
                     <div class="dbm-table-container">
@@ -1528,10 +2088,11 @@
         <% } %>
         <script src="/js/main.js"></script>
         <script src="/js/darkmode.js"></script>
-        <script src="/lib/node_modules/gsap/dist/gsap.min.js"></script>
+        <script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
         <script src="/lib/node_modules/jspdf/dist/jspdf.umd.min.js"></script>
         <script src="/lib/node_modules/chart.js/dist/chart.umd.js"></script>
         <script src="/lib/node_modules/plotly.js/dist/plotly.min.js"></script>
+        <script src="/lib/node_modules/gsap/dist/gsap.min.js"></script>
         <script src="/lib/node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.min.js"></script>
         <script src="/js/dashboard.js"></script>
         <% const scripts = { 
@@ -1553,7 +2114,12 @@
             <% const subscripts = { 
                 rentals: "rentals.js", 
                 listrental: "listrental.js", 
+                listclients: "listclients.js", 
+                listvehicles: "listvehicles.js", 
+                addvehicle: "addvehicle.js", 
                 listverification: "listverification.js", 
+                dashoverview: "dashoverview.js",
+                dashboardvehicles: "dashboardvehicles.js",
                 dashboardclients: "dashboardclients.js"
             }; %>
             <% if (subscripts[subsection]) { %>

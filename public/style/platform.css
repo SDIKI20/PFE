@@ -112,7 +112,7 @@ a *{
 .plat-user-profile{
     min-width: 2.2em;
     height: 2.2em;
-    border-radius: 50%;
+    border-radius: 1.1em;
     margin: 0 .625rem;
     position: relative;
 }
@@ -125,7 +125,7 @@ a *{
     content: "";
     width: 2.4em;
     height: 2.4em;
-    border-radius: 50%;
+    border-radius: 1.2em;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -339,7 +339,7 @@ input[type='radio']:checked + .rnt{
 .range-input input::-webkit-slider-thumb {
     height: 20px;
     width: 20px;
-    border-radius: 50%;
+    border-radius: 10px;
     border: 3px solid var(--color-second);
     background-color: var(--container);
     pointer-events: auto;
@@ -348,7 +348,7 @@ input[type='radio']:checked + .rnt{
 .range-input input::-moz-range-thumb {
     height: 15px;
     width: 15px;
-    border-radius: 50%;
+    border-radius: 7.5px;
     border: 3px solid var(--color-second);
     background-color: var(--container);
     pointer-events: auto;
@@ -441,7 +441,7 @@ input[type='radio']:checked + .rnt{
     appearance: none;
     width: 17px;
     height: 17px;
-    border-radius: 50%;
+    border-radius: 8.5px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -459,7 +459,7 @@ input[type='radio']:checked + .rnt{
     content: "";
     width: 6px;
     height: 6px;
-    border-radius: 50%;
+    border-radius: 3px;
     transition: all 0.1s cubic-bezier(0.165, 0.84, 0.44, 1);
     background-color: white;
     transform: scale(0);
@@ -2090,7 +2090,7 @@ time{
     position: absolute;
     width: 30px;
     height: 30px;
-    border-radius: 50%;
+    border-radius: 15px;
     overflow: hidden;
     border: 2px solid var(--border-low);
     top: -15px;
@@ -2236,7 +2236,7 @@ time{
     top: 5px;
     right: 5px;
     background-color: transparent;
-    border-radius: 50%;
+    border-radius: 12.5px;
     width: 25px;
     height: 25px;
     border: none;

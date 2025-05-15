@@ -201,7 +201,7 @@ async function openCarDetail(id, uid){
                                 </div>
                                 <div class="flex-col" style="width: 33%;">
                                     <h5 class="spec-tit">Color</h5>
-                                    <div class="flex-row center-start">
+                                    <div class="flex-row flex-center">
                                         <div class="color-box-circle" style="background-color: ${result.color};"></div>
                                         <p class="spec-para">${result.color.toString().toUpperCase()}</p>
                                     </div>
@@ -217,7 +217,7 @@ async function openCarDetail(id, uid){
                                     <p class="spec-para">${result.horsepower} <span class="currence">HP</span></p>
                                 </div>
                                 <div class="flex-col" style="width: 33%;">
-                                    <h5 class="spec-tit">Seating Capacity</h5>
+                                    <h5 class="spec-tit">Capacity</h5>
                                     <p class="spec-para">${result.capacity} seats</p>
                                 </div>
                             </div>
@@ -236,7 +236,7 @@ async function openCarDetail(id, uid){
                                 </div>
                             </div>
                         </div>
-                        <div class="specs-more flex-row flex-center">
+                        <div class="specs-more only-pc flex-row flex-center">
                             <a href="/car/${result.id}" class="exploare-but bt bt-hover" title="See more about this vehicle"><i class="fa-solid fa-circle-info"></i> More About Vehicle</a>
                         </div>                  
                     </div>

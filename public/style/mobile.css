@@ -272,7 +272,6 @@
         padding: 10px 0;
         margin: 5px 0;
         width: 100%;
-        background-color: var(--border-low);
         border-radius: 0;
         display: flex;
         align-items: center;
@@ -301,6 +300,10 @@
     .pop-car-name .title{
         font-size: 0.8rem;
     }    
+
+    .graph-body{
+        height: fit-content;
+    }
 
     .cars-logo{
         width: 100%;
@@ -500,6 +503,7 @@
     #carDetail,
     #homeDoc{
         height: calc(100svh - 3.5em);
+        padding-top: 0;
     }
 
     .plat-main-doc{
@@ -566,10 +570,10 @@
         left: 50%;
         transform: translate(-50%, -50%);
         content:"";
-        border-radius: 50%;
-        width: 70%;
+        border-radius: 25px;
+        width: 50px;
         aspect-ratio: 1;
-        height: auto;
+        height: 50px;
         background-color: var(--color-main);
         opacity: 0.1;
         border: 5px solid var(--border);
@@ -667,7 +671,16 @@
         background-color: var(--bg);
         display: none;
         padding: 0;
+        margin: 0;
         z-index: 999;
+    }
+
+    .car-rate-stars{
+        padding: 0 1em;
+    }
+
+    #carDetail{
+        padding: 0;
     }
 
     .carsec-head > h1{
@@ -817,8 +830,9 @@
         background-color: var(--color-second);
         color: white;
         height: 75%;
+        margin-top: auto;
         width: 90%;
-        border-radius: .9375rem;
+        border-radius: 5px;
     }
 
     .r-car-inf .currence{
@@ -827,7 +841,7 @@
     
     .car-inf-name,
     .car-inf-price{
-        font-size: var(--font-lrg);
+        font-size: var(--font-med);
         font-weight: bolder;
         color: var(--txt-black);
     }
@@ -1032,6 +1046,15 @@
         padding: 1em 0;
     }
 
+    .car-det-sec{
+        padding: 0;
+    }
+
+    .car-specs-det h5,
+    .car-specs-det p{
+        text-align: center;
+    }
+
     /*-------------------------------------------------------*/
 
     /*--------------------Help Section------------------*/
@@ -1118,13 +1141,10 @@
         position: fixed;
         top: 0;
         left: 0;
-        height: 100vh;
-        width: 250px;
-        background-color: #fff;
+        height: 100svh;
         transform: translateX(-100%);
         transition: transform 0.3s ease;
-        z-index: 1000;
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+        z-index: 98;
     }
 
     #sidebar.active {
