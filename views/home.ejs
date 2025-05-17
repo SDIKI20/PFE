@@ -889,6 +889,42 @@
     <% } %>
     <% if (section === 'detail') { %>
         <section class="plat-main-doc flex-col center-start" id="carDetails">
+            <input type="number" hidden id="vidInp" value = "<% if(car) %><%= car.id %>">
+            <input type="number" hidden id="uidInp" value = "<% if(user) try{ %><%= user.id %><% }catch(error){} %>">
+            <div class="popup-container flex-col flex-center" id="reportContainer">
+                <div class="report-container flex-col">
+                    <i class="fa-solid fa-xmark bt-hover" id="reportClose"></i>
+                    <h3> <i class="fa-solid fa-ticket" style="color: var(--color-second); padding-right: 0.625em; font-size: var(--font-med);"></i> Report an issue</h3>
+                    <h4>Help us improve 👷‍♂️ by reporting any bugs or issues you've encountered.</h4>
+                    <div class="flex-row center-start gap-lrg">
+                        <div class="flex-col">
+                            <label for="repType">Select issue type</label>
+                            <select id="repType" class="repOpt">
+                                <option value="Car">Car</option>
+                            </select>
+                        </div>
+                        <div class="flex-col">
+                            <label for="repPrio">Severity level</label>
+                            <div class="flex-row center-start repOpt">
+                                <div id="repColorBox"></div>
+                                <select id="repPrio">
+                                    <option value="hight">Hight</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="low">Low</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <textarea id="repDesc" placeholder="Description..."></textarea>
+                    <div class="flex-row center-spacebet" style="margin-top: auto;">
+                        <span> </span>
+                        <div class="flex-row center-start gap-min">
+                            <button class="bt bt-hover bt-reg" style="height: 2.8em; padding:0 1.3em;" id="reportCancel">Cancel</button>
+                            <button class="bt bt-hover bt-solid" style="height: 2.8em; padding:0 1.3em; background-color: var(--color-second) !important;" id="reportBut">Send Report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="prev-images flex-row flex-center">
                 <label class="flex-row flex-center prev-img">
                     <input type="radio" name="same-check" hidden>
@@ -1103,7 +1139,7 @@
                     <div class="break-line" style="height: 3px;margin: 1em 0;"></div>
                     <div class="foot flex-col center-start">
                         <button id="rentProcessBut" class="bt bt-hover">Continue</button>
-                        <a class="report-car bt-hover"><i class="fa-solid fa-flag" style="color: rgb(211, 69, 69); margin-right: 5px;"></i> Report this car</a>
+                        <a class="report-car bt-hover" id="reportCar"><i class="fa-solid fa-flag" style="color: rgb(211, 69, 69); margin-right: 5px;"></i> Report this car</a>
                     </div>
                 </div>
             </div>

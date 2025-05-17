@@ -1284,6 +1284,12 @@ tr:hover {
   opacity: 0.4;
 }
 
+.name{
+  font-size: var(--font-sml);
+  color: var(--text);
+  font-weight: 500;
+}
+
 .table-user-profile{
   position: relative;
   overflow: hidden;
@@ -2523,6 +2529,114 @@ tr:hover {
   font-weight: bold;
   color: var(--text);
   width: fit-content;
+}
+
+/*-----------------------------------------------------*/
+
+#report-content .graph-body{
+  border: none;
+}
+
+#report-content .dash-graph-m{
+  width: 30vw;
+  min-width: 400px;
+}
+
+#chart{
+  transition: ease-in-out 0.1s !important;
+}
+
+.custom-table{
+  height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+  align-items: flex-start;
+  justify-content: flex-start;
+  border-top: 2px solid var(--border-low);
+  border-bottom: 2px solid var(--border-low);
+}
+
+.custom-table::-webkit-scrollbar:vertical {
+  width: 3px;
+  background-color: var(--border-low);
+  border-radius: 5px;
+}
+.custom-table::-webkit-scrollbar-thumb:vertical {
+  background: linear-gradient(172deg,var(--color-main) 0%, var(--color-second) 100%);
+  border-radius: 5px;
+  width: 3px;
+}
+
+.ct-el{
+  padding: 0.325em;
+  height: fit-content;
+  margin-top: 1em;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+
+.ct-prf{
+  min-height: 40px;
+  min-width: 40px;
+  height: 40px;
+  width: 40px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.dbm-table-col .ct-prf{
+  min-height: 30px;
+  min-width: 30px;
+  height: 30px;
+  width: 30px;
+}
+
+.ct-prf img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ct-el h5{
+  font-size: var(--font-sml);
+  color: var(--text);
+}
+
+.ct-el p{
+  font-size: 0.7rem;
+  color: var(--text);
+  opacity: 0.6;
+}
+
+.rep-prio{
+  padding: 0.325em 1em;
+  border-radius: 5px;
+  font-size: 0.5rem;
+  margin: 0 0.625em;
+}
+
+.prio-hight{
+  color: rgb(219, 71, 71);
+  background-color: rgba(219, 71, 71, 0.103);
+}
+
+.prio-normal{
+  color: rgb(227, 124, 46);
+  background-color: rgba(219, 140, 71, 0.16);
+}
+
+.prio-low{
+  color: grey;
+  background-color: rgba(128, 128, 128, 0.14);
+}
+
+.row-reviews{
+  grid-template-columns: 6em repeat(2, 11em) 8em 34em 8em;
+}
+
+.row-reviews:nth-child(2n){
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
 /*-----------------------------------------------------*/

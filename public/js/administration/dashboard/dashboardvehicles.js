@@ -16,7 +16,6 @@ const sRented = document.getElementById('sRented')
 
 
 const getCarsStatics = async () => {
-    openLoader()
     try {
         const u = new URL(`${window.location.origin}/api/vehicles/getCarStatics`);
 
@@ -24,7 +23,6 @@ const getCarsStatics = async () => {
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const { data, chartData } = await response.json();
-        closeLoader()
         return {data: data, chartData: chartData};
     } catch (error) {
         closeLoader()
@@ -182,7 +180,9 @@ const updateStatics = async () => {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+    openLoader()
     drawChart()
     updateTypes()
     updateStatics()
+    closeLoader()
 })

@@ -1595,6 +1595,146 @@
                     <span class="currence">	&gt;</span>
                     <p class="path-text">Reports</p>
                 </div>
+                <div class="dash-graphs-container flex-row center-start flex-wrap gap-lrg">
+                    <div class="dash-graph flex-col flex-center">
+                        <div class="graph-head flex-row center-spacebet w100">
+                            <div class="flex-col">
+                                <p class="para-sml plat-text">Feedbacks chart</p>
+                                <p class="para-med">Reports vs Reviews</p>
+                            </div>
+                            <div class="flex-row center-start gap-lrg">
+                                <button class="bt bt-hover bt-reg" style="padding: 0 1em;" id="revLW">Past year</button>
+                                <button class="bt bt-hover bt-reg" style="padding: 0 1em;" id="revLM">This year</button>
+                            </div>
+                        </div>
+                        <div class="graph-body flex-col flex-center" style="width: 100%;">
+                            <canvas id="chart" style="transition: ease-in-out 0.6s;"></canvas>
+                        </div>
+                    </div>
+                    <div class="dash-graph-m flex-col flex-center">
+                        <div class="graph-head flex-row center-spacebet w100">
+                            <div class="flex-col">
+                                <p class="para-med">Cars reports</p>
+                                <p class="para-sml plat-text"><span id="reportsTotal"></span> report</p>
+                            </div>
+                            <div class="sloader" id="reportsLoader"></div>
+                        </div>
+                        <div class="graph-body w100 flex-col flex-center">
+                            <ul class="custom-table flex-col w100" id="reportsBody">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="dbm-table-container">
+                    <div class="dbm-table-head flex-row center-spacebet">
+                        <div class="flex-col">
+                            <p class="title">Reviews</p>
+                            <p class="para-sml plat-text text-eclip">Car rentals reviews</p>
+                        </div>
+                        <div class="flex-row" style="gap: 0.625rem;">
+                            <div class="sloader" id="clientsLoader"></div>
+                            <div class="flex-row center-start gap-min only-pc h100">
+                                <label for="clientsOffset" class="para-sml">Offset</label>
+                                <input class="input-reg" type="number" min="0" max="50" value="0" id="clientsOffset" style="width: fit-content; padding-right: 0;">
+                            </div>
+                            <div class="flex-row center-start gap-min only-pc h100">
+                                <label for="clientsLimit" class="para-sml">Limit</label>
+                                <input class="input-reg" type="number" min="0" max="50" value="10" id="clientsLimit" style="width: fit-content; padding-right: 0;">
+                            </div>
+                            <button class="bt bt-hover bt-reg flex-row flex-center" id="cPrint">
+                                <i class="fa-solid fa-print"></i>
+                                <span class="only-pc">Print</span>
+                            </button>
+                            <button class="bt bt-hover bt-reg flex-row flex-center" id="cDownload">
+                                <i class="fa-solid fa-file-csv"></i>
+                                <span class="only-pc">Download</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="dbm-table">
+                        <div class="dbm-table-thead dbm-table-row row-reviews">
+                            <div class="dbm-table-col table-id">
+                                <p>ID</p>
+                            </div>
+                            <div class="dbm-table-col">
+                                <p>Client</p>
+                            </div>
+                            <div class="dbm-table-col">
+                                <p>Vehicle</p>
+                            </div>
+                            <div class="dbm-table-col">
+                                <p>Rate</p>
+                            </div>
+                            <div class="dbm-table-col">
+                                <p>Comment</p>
+                            </div>
+                            <div class="dbm-table-col">
+                                <p>Created at</p>
+                            </div>
+                        </div>
+                        <div class="dbm-table-tbody" id="clientsTableBody">
+                            <div class="dbm-table-row row-reviews">
+                                <div class="dbm-table-col table-id">
+                                    <p>1</p>
+                                </div>
+                                <div class="dbm-table-col flex-row center-start gap-min">
+                                    <div class="ct-prf">
+                                        <img src="/assets/images/user.jpg" alt="Profile">
+                                    </div>
+                                    <div class="flex-col">
+                                        <p class="name">Oudai Oulhadj</p>
+                                        <p class="username">@odaydid002</p>
+                                    </div>
+                                </div>
+                                <div class="dbm-table-col flex-row center-start gap-min">
+                                    <div class="ct-prf">
+                                        <img src="/assets/car/1 Series.png" alt="Profile">
+                                    </div>
+                                    <p>Audi Q5 2020</p>
+                                </div>
+                                <div class="dbm-table-col">
+                                    <h6 class="clp" 
+                                            style="
+                                                font-size: 0.9rem;
+                                                background: linear-gradient(90deg, yellow 50%,var(--text) 0%);
+                                                -webkit-background-clip: text;
+                                                -webkit-text-fill-color: transparent;
+                                                background-clip: text;
+                                            "
+                                        >
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </h6>
+                                </div>
+                                <div class="dbm-table-col">
+                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique ipsum recusandae magnam consectetur reprehenderit dolorem exercitationem libero ipsa perspiciatis fugit, aspernatur quasi, quis veniam? Nisi, at error? Dolorum, rem magnam?</p>
+                                </div>
+                                <div class="dbm-table-col">
+                                    <p>16 May 25</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dbm-table-foot flex-row center-spacebet" id="clientsTableFoot">
+                        <div class="flex-row center-start only-pc">
+                            <p class="para-sml">1-5 of 99 Reviews</p>
+                        </div>
+                        <div class="flex-row center-start" style="gap: 0.625em;">
+                            <select class="dbm-select" id="clientsCurrentPage">
+                                <option value="1">1</option>
+                            </select>
+                            <button class="bt bt-hover bt-reg" id="cPrevB">
+                                Previous
+                            </button>
+                            <button class="bt bt-hover bt-reg" id="cNextB">
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </section>
         <% } %>
         <% if (section==='dbm' ) { %>

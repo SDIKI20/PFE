@@ -254,7 +254,7 @@ CREATE TABLE vehicles (
   prevImage1 VARCHAR(255) NOT NULL DEFAULT '/assets/cars/default_prev.png',
   prevImage2 VARCHAR(255) NOT NULL DEFAULT '/assets/cars/default_prev.png',
   prevImage3 VARCHAR(255) NOT NULL DEFAULT '/assets/cars/default_prev.png',
-  description VARCHAR(100) NOT NULL DEFAULT 'There is no description for this car.',
+  description VARCHAR(255) NOT NULL DEFAULT 'There is no description for this car.',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -351,6 +351,16 @@ CREATE TABLE banned_users (
     is_active BOOLEAN DEFAULT TRUE
 );
 
+CREATE TABLE reports (
+  id SERIAL PRIMARY KEY,
+  user_id INT NULL REFERENCES users(id) ON DELETE SET NULL DEFAULT NULL,
+  type VARCHAR NOT NULL DEFAULT 'general',
+  priority VARCHAR(50) NOT NULL DEFAULT 'normal',
+  vehicle_id INT NULL REFERENCES vehicles(id) ON DELETE SET NULL DEFAULT NULL,
+  description VARCHAR(255) NOT NULL DEFAULT 'No description',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Indexes--------------------------------------------------------------
 CREATE INDEX idx_reviews_vehicle ON reviews(vehicle_id);
 CREATE INDEX idx_reviews_user ON reviews(user_id);
@@ -400,7 +410,7 @@ EXECUTE FUNCTION update_updated_at_column();
 INSERT INTO wilaya (name) VALUES 
 ('Adrar'), ('Chlef'), ('Laghouat'), ('Oum El Bouaghi'), ('Batna'), ('Béjaïa'), ('Biskra'), ('Béchar'), ('Blida'), ('Bouira'),
 ('Tamanrasset'), ('Tébessa'), ('Tlemcen'), ('Tiaret'), ('Tizi Ouzou'), ('Algiers'), ('Djelfa'), ('Jijel'), ('Sétif'), ('Saïda'),
-('Skikda'), ('Sidi Bel Abbès'), ('Annaba'), ('Guelma'), ('Constantine'), ('Médéa'), ('Mostaganem'), ('M''Sila'), ('Mascara'), ('Ouargla'),
+('Skikda'), ('Sidi Bel Abbès'), ('Annaba'), ('Guelma'), ('Constantine'), ('Médéa'), ('Mostaganem'), ('MSila'), ('Mascara'), ('Ouargla'),
 ('Oran'), ('El Bayadh'), ('Illizi'), ('Bordj Bou Arréridj'), ('Boumerdès'), ('El Tarf'), ('Tindouf'), ('Tissemsilt'), ('El Oued'), ('Khenchela'),
 ('Souk Ahras'), ('Tipaza'), ('Mila'), ('Aïn Defla'), ('Naâma'), ('Aïn Témouchent'), ('Ghardaïa'), ('Relizane'), ('Timimoun'), ('Bordj Badji Mokhtar'),
 ('Ouled Djellal'), ('Béni Abbès'), ('In Salah'), ('In Guezzam'), ('Touggourt'), ('Djanet'), ('El MGhair'), ('El Meniaa');
@@ -460,7 +470,7 @@ INSERT INTO city (name, wilaya_id, zip_code) VALUES
 INSERT INTO city (name, wilaya_id, zip_code) VALUES 
 ('Mostaganem', 27, '27000'), ('Ain Boudinar', 27, '27001'), ('Ain Nouissy', 27, '27002'), ('Ain Sidi Cherif', 27, '27003'), ('Ain Tadles', 27, '27004'), ('Benabdelmalek Ramdane', 27, '27005'), ('Bouguirat', 27, '27006'), ('El Hassaine', 27, '27007'), ('Fornaka', 27, '27008'), ('Hadjadj', 27, '27009'), ('Hassi Mameche', 27, '27010'), ('Kheir Eddine', 27, '27011'), ('Mansourah', 27, '27012'), ('Mesra', 27, '27013'), ('Mazagran', 27, '27014'), ('Nekmaria', 27, '27015'), ('Oued El Kheir', 27, '27016'), ('Ouled Boughalem', 27, '27017'), ('Ouled Maallah', 27, '27018'), ('Safsaf', 27, '27019'), ('Sayada', 27, '27020'), ('Sidi Ali', 27, '27021'), ('Sidi Belattar', 27, '27022'), ('Sidi Lakhdar', 27, '27023'), ('Sidi Mohamed', 27, '27024'), ('Souaflia', 27, '27025'), ('Sour', 27, '27026'), ('Stidia', 27, '27027'), ('Tazgait', 27, '27028'), ('Touahria', 27, '27029'), ('Abdelmalek Ramdane', 27, '27030');
 INSERT INTO city (name, wilaya_id, zip_code) VALUES 
-('M''Sila', 28, '28000'), ('Ain El Hadjel', 28, '28001'), ('Ain El Melh', 28, '28002'), ('Ain Fares', 28, '28003'), ('Ain Khadra', 28, '28004'), ('Ain Rich', 28, '28005'), ('Ain Timguenai', 28, '28006'), ('Belaiba', 28, '28007'), ('Ben Srour', 28, '28008'), ('Beni Ilmane', 28, '28009'), ('Benzouh', 28, '28010'), ('Berhoum', 28, '28011'), ('Bir Foda', 28, '28012'), ('Bou Saada', 28, '28013'), ('Bouti Sayah', 28, '28014'), ('Chellal', 28, '28015'), ('Dehahna', 28, '28016'), ('Djebel Messaad', 28, '28017'), ('El Hamel', 28, '28018'), ('El Houamed', 28, '28019'), ('Hammam Dhalaa', 28, '28020'), ('Khettouti Sed El Djir', 28, '28021'), ('Khoubana', 28, '28022'), ('Maadid', 28, '28023'), ('Maarif', 28, '28024'), ('Magra', 28, '28025'), ('Medjedel', 28, '28026'), ('M''Sila', 28, '28027'), ('M''Tarfa', 28, '28028'), ('Ouanougha', 28, '28029'), ('Ouled Addi Guebala', 28, '28030'), ('Ouled Atia', 28, '28031'), ('Ouled Derradj', 28, '28032'), ('Ouled Madhi', 28, '28033'), ('Ouled Mansour', 28, '28034'), ('Ouled Sidi Brahim', 28, '28035'), ('Ouled Slimane', 28, '28036'), ('Oultene', 28, '28037'), ('Sidi Aissa', 28, '28038'), ('Sidi Ameur', 28, '28039'), ('Sidi Hadjeres', 28, '28040'), ('Sidi M''Hamed', 28, '28041'), ('Slim', 28, '28042'), ('Souamaa', 28, '28043'), ('Tamsa', 28, '28044'), ('Tarmount', 28, '28045'), ('Zarzour', 28, '28046');
+('MSila', 28, '28000'), ('Ain El Hadjel', 28, '28001'), ('Ain El Melh', 28, '28002'), ('Ain Fares', 28, '28003'), ('Ain Khadra', 28, '28004'), ('Ain Rich', 28, '28005'), ('Ain Timguenai', 28, '28006'), ('Belaiba', 28, '28007'), ('Ben Srour', 28, '28008'), ('Beni Ilmane', 28, '28009'), ('Benzouh', 28, '28010'), ('Berhoum', 28, '28011'), ('Bir Foda', 28, '28012'), ('Bou Saada', 28, '28013'), ('Bouti Sayah', 28, '28014'), ('Chellal', 28, '28015'), ('Dehahna', 28, '28016'), ('Djebel Messaad', 28, '28017'), ('El Hamel', 28, '28018'), ('El Houamed', 28, '28019'), ('Hammam Dhalaa', 28, '28020'), ('Khettouti Sed El Djir', 28, '28021'), ('Khoubana', 28, '28022'), ('Maadid', 28, '28023'), ('Maarif', 28, '28024'), ('Magra', 28, '28025'), ('Medjedel', 28, '28026'), ('MSila', 28, '28027'), ('M''Tarfa', 28, '28028'), ('Ouanougha', 28, '28029'), ('Ouled Addi Guebala', 28, '28030'), ('Ouled Atia', 28, '28031'), ('Ouled Derradj', 28, '28032'), ('Ouled Madhi', 28, '28033'), ('Ouled Mansour', 28, '28034'), ('Ouled Sidi Brahim', 28, '28035'), ('Ouled Slimane', 28, '28036'), ('Oultene', 28, '28037'), ('Sidi Aissa', 28, '28038'), ('Sidi Ameur', 28, '28039'), ('Sidi Hadjeres', 28, '28040'), ('Sidi M''Hamed', 28, '28041'), ('Slim', 28, '28042'), ('Souamaa', 28, '28043'), ('Tamsa', 28, '28044'), ('Tarmount', 28, '28045'), ('Zarzour', 28, '28046');
 INSERT INTO city (name, wilaya_id, zip_code) VALUES 
 ('Mascara', 29, '29000'), ('Ain Fares', 29, '29001'), ('Ain Fekan', 29, '29002'), ('Ain Ferah', 29, '29003'), ('Ain Fras', 29, '29004'), ('Alaimia', 29, '29005'), ('Aouf', 29, '29006'), ('Beniane', 29, '29007'), ('Bou Hanifia', 29, '29008'), ('Bou Henni', 29, '29009'), ('Chorfa', 29, '29010'), ('El Bordj', 29, '29011'), ('El Gaada', 29, '29012'), ('El Ghomri', 29, '29013'), ('El Guettana', 29, '29014'), ('El Keurt', 29, '29015'), ('El Menaouer', 29, '29016'), ('Ferraguig', 29, '29017'), ('Froha', 29, '29018'), ('Gharrous', 29, '29019'), ('Guerdjoum', 29, '29020'), ('Hachem', 29, '29021'), ('Hacine', 29, '29022'), ('Khalouia', 29, '29023'), ('Makdha', 29, '29024'), ('Maoussa', 29, '29025'), ('Mascara', 29, '29026'), ('Matemore', 29, '29027'), ('Mocta Douz', 29, '29028'), ('Nesmoth', 29, '29029'), ('Oggaz', 29, '29030'), ('Oued El Abtal', 29, '29031'), ('Oued Taria', 29, '29032'), ('Ras Ain Amirouche', 29, '29033'), ('Sedjerara', 29, '29034'), ('Sehailia', 29, '29035'), ('Sidi Abdeldjebar', 29, '29036'), ('Sidi Abdelmoumen', 29, '29037'), ('Sidi Boussaid', 29, '29038'), ('Sidi Kada', 29, '29039'), ('Sig', 29, '29040'), ('Tighennif', 29, '29041'), ('Tizi', 29, '29042'), ('Zahana', 29, '29043'), ('Zelameta', 29, '29044');
 INSERT INTO city (name, wilaya_id, zip_code) VALUES 

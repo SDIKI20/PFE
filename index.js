@@ -21,6 +21,7 @@ const verificationRoutes = require("./api/routes/verificationRoutes");
 const emailRoutes = require('./api/routes/emailRoutes');
 const docRoutes = require('./api/routes/documentsRoutes.js');
 const orders = require("./api/routes/orderRoutes");
+const reviews = require("./api/routes/reviewRoutes");
 const vehicles = require("./api/routes/vehiclesRoutes");
 const { sendEmail } = require('./api/controllers/emailController');
 
@@ -107,6 +108,7 @@ app.use("/api/users", userRoutes);
 app.use('/api/email', emailRoutes);
 app.use("/api/sms", verificationRoutes);
 app.use('/api/orders', orders);
+app.use('/api/feedback', reviews);
 app.use('/api/vehicles', vehicles);
 app.use('/api/docs', docRoutes);
 
