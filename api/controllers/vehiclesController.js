@@ -97,7 +97,6 @@ const getVehicle = async (req, res) => {
         v.capacity,
         v.fuel,
         v.body,
-        v.availability,
         v.image,
         v.prevImage1,
         v.prevImage2,
@@ -139,7 +138,7 @@ const getVehicle = async (req, res) => {
       GROUP BY 
         v.id, v.model, v.price, v.rental_type, v.transmission, 
         vs.stock_id,
-        v.capacity, v.fuel, v.body, v.availability, 
+        v.capacity, v.fuel, v.body,
         v.image, v.prevImage1, v.prevImage2, v.prevImage3, 
         v.description, v.color, v.fab_year, v.doors, v.speed, 
         v.horsepower, v.engine_type, v.created_at,
@@ -273,30 +272,41 @@ const updateVehicle = async (req, res) => {
 }
 
 const checkAvailability = async (req, res) => {
-  const { id, office } = req.params;
+  const { vid, start_date, end_date } = req.query;
+
+  if (!start_date || !end_date) {
+    return res.status(400).json({ message: "Start date and end date are required." });
+  }
+
   try {
-    const result = await pool.query(`
+    const query = `
+      WITH stock AS (
+        SELECT units
+        FROM vehicle_stock
+        WHERE vehicle_id = $1
+        LIMIT 1
+      ),
+      conflicting_rentals AS (
+        SELECT COUNT(*) AS conflict_count
+        FROM rentals
+        WHERE vehicle_id = $1
+          AND status IN ('active', 'pending')
+          AND NOT (
+            $3 < start_date OR $2 > end_date
+          )
+      )
       SELECT 
         CASE 
-          WHEN vs.units > 0 AND (
-            SELECT COUNT(*) 
-            FROM rentals r 
-            WHERE r.vehicle_id = v.id AND r.status IN ('active', 'pending')
-          ) < vs.units 
-          THEN TRUE 
+          WHEN stock.units > conflicting_rentals.conflict_count THEN TRUE 
           ELSE FALSE 
         END AS is_available
-      FROM 
-        vehicles v
-      JOIN 
-        vehicle_stock vs ON vs.vehicle_id = v.id
-      WHERE 
-        v.id = $1 AND vs.office_id = $2
-      LIMIT 1;
-    `, [id, office]);
+      FROM stock, conflicting_rentals;
+    `;
+
+    const result = await pool.query(query, [vid, start_date, end_date]);
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: "No results found" });
+      return res.status(404).json({ message: "No availability data found." });
     }
 
     res.status(200).json({ availability: result.rows[0].is_available });
@@ -305,6 +315,7 @@ const checkAvailability = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 const uploadImage = async (req, res) => {
   try {

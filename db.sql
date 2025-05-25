@@ -243,7 +243,6 @@ CREATE TABLE vehicles (
   doors SMALLINT NOT NULL DEFAULT 4,
   fuel fuel_type NOT NULL,
   transmission transmission_type NOT NULL,
-  availability BOOLEAN NOT NULL DEFAULT TRUE,
   body body_type NOT NULL,
   price NUMERIC(10,2) NOT NULL CHECK (price >= 0),
   speed SMALLINT NOT NULL DEFAULT 0,
@@ -359,6 +358,22 @@ CREATE TABLE reports (
   vehicle_id INT NULL REFERENCES vehicles(id) ON DELETE SET NULL DEFAULT NULL,
   description VARCHAR(255) NOT NULL DEFAULT 'No description',
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE coupons (
+  id SERIAL PRIMARY KEY,
+  code VARCHAR(30) UNIQUE NOT NULL,
+  value INTEGER NOT NULL,
+  usage_limit INT DEFAULT 1,
+  expires_at TIMESTAMP,
+  created_at TIMESTAMP
+);
+
+CREATE TABLE promo (
+  id SERIAL PRIMARY KEY,
+  value INTEGER NOT NULL,
+  expires_at TIMESTAMP,
+  created_at TIMESTAMP
 );
 
 -- Indexes--------------------------------------------------------------
@@ -551,22 +566,8 @@ INSERT INTO office (country, wilaya, city, address, open_time, close_time, latit
 ('Algeria', 'Tizi Ouzou', 'Tizi Ouzou', '202 Rue Abane Ramdane', '08:00:00', '20:00:00', 36.7167, 4.0500),
 ('Algeria', 'Ghardaia', 'El Atteuf', 'El Atteuf', '08:00:00', '20:00:00', 32.3984, 3.7561);
 
-INSERT INTO users (email, username, password, fname, lname, sexe, address, wilaya, city, zipcode, phone, account_status, phone_status, birthdate, role) VALUES
-('admin@rental.com', 'admin', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Admin', 'User', 'M', '123 Main St', 'Algiers', 'Algiers', '16000', '+213550123456', TRUE, TRUE, '1980-01-15', 'Client'),
-('employee1@rental.com', 'emp1', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Karim', 'Benzema', 'M', '456 Oak Ave', 'Oran', 'Oran', '31000', '+213551123456', TRUE, TRUE, '1985-05-20', 'Client'),
-('client1@example.com', 'client1', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Mohamed', 'Zidane', 'M', '789 Pine Rd', 'Constantine', 'Constantine', '25000', '+213552123456', TRUE, TRUE, '1990-08-10', 'Client'),
-('client2@example.com', 'client2', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Ali', 'Messi', 'M', '321 Elm St', 'Annaba', 'Annaba', '23000', '+213553123456', TRUE, FALSE, '1992-11-25', 'Client'),
-('client3@example.com', 'client3', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Fatima', 'Ronaldo', 'M', '654 Maple Ave', 'Tizi Ouzou', 'Tizi Ouzou', '15000', '+213554123456', FALSE, FALSE, '1995-03-30', 'Client');
-
 INSERT INTO users (email, username, password, fname, lname, sexe, address, wilaya, city, zipcode, phone, account_status, phone_status, birthdate, role, image, office_id) VALUES
 ('odaydid002@gmail.com', 'odaydid002', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Oudai', 'Oulhadj', 'M', '110 Logement', 'El Menia', 'El Menia', '58001', '+213553728440', FALSE, FALSE, '2002-04-29', 'Admin', 'https://res.cloudinary.com/dnzuqdajo/image/upload/v1743722872/profile_images/image-1743722869237.png', 1);
-
-INSERT INTO users (email, username, password, fname, lname, sexe, address, wilaya, city, zipcode, phone, account_status, phone_status, birthdate, office_id, role) VALUES
-('emp1@rental.com', 'emp1', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Admin', 'User', 'M', '123 Main St', 'Algiers', 'Algiers', '16000', '+213123456789', TRUE, TRUE, '1980-01-15', 1, 'Employe'),
-('emp2@rental.com', 'emp2', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Karim', 'Benzema', 'M', '456 Oak Ave', 'Oran', 'Oran', '31000', '+213123456788', TRUE, TRUE, '1985-05-20', 2, 'Employe'),
-('emp3@rental.com', 'emp3', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Mohamed', 'Zidane', 'M', '789 Pine Rd', 'Constantine', 'Constantine', '25000', '+213123456787', TRUE, TRUE, '1990-08-10',3, 'Employe'),
-('emp4@rental.com', 'emp4', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Ali', 'Messi', 'M', '321 Elm St', 'Annaba', 'Annaba', '23000', '+213123456786', TRUE, FALSE, '1992-11-25', 4, 'Employe'),
-('emp5@rental.com', 'emp5', '$2b$10$YhK7bKZ3X9XPihdMHA07h.7Tin4kXIfG1sfa2Bcd4jElyy6HdIYHS', 'Fatima', 'Ronaldo', 'F', '654 Maple Ave', 'Tizi Ouzou', 'Tizi Ouzou', '15000', '+213123456785', FALSE, FALSE, '1995-03-30', 5, 'Employe');
 
 -- Insert car brands
 INSERT INTO brands (name, logo) VALUES
@@ -676,144 +677,3 @@ INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (37, 1, 2
 INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (38, 2, 1);
 INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (39, 3, 4);
 INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (40, 4, 3);
-
--- Insert rentals
-
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 18, '2024-03-10', '2024-03-15', 1000, 1500, 18750.00, 'completed', TRUE, '2024-03-05 11:34:22');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 33, '2024-03-12', '2024-03-18', 400, 500, 9250.00, 'completed', FALSE, '2024-03-07 08:45:11');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 5, '2024-03-15', '2024-03-20', 5000, 2000, 31250.00, 'active', TRUE, '2024-03-10 14:23:45');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 22, '2024-03-18', '2024-03-25', 1000, 1500, 24375.00, 'pending', FALSE, '2024-03-12 09:12:33');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 39, '2024-03-20', '2024-03-27', 400, 500, 15625.00, 'completed', TRUE, '2024-03-15 16:45:21');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 11, '2024-03-22', '2024-03-29', 5000, 2000, 41875.00, 'completed', FALSE, '2024-03-18 10:34:56');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 27, '2024-03-25', '2024-04-01', 1000, 1500, 28125.00, 'active', TRUE, '2024-03-20 13:21:43');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 8, '2024-03-27', '2024-04-03', 400, 500, 19375.00, 'pending', FALSE, '2024-03-22 17:54:32');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 16, '2024-03-30', '2024-04-06', 5000, 2000, 35625.00, 'completed', TRUE, '2024-03-25 12:43:21');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 35, '2024-04-02', '2024-04-09', 1000, 1500, 26875.00, 'completed', FALSE, '2024-03-28 15:32:19');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 14, '2024-04-05', '2024-04-12', 400, 500, 17500.00, 'active', TRUE, '2024-03-31 09:21:48');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 29, '2024-04-08', '2024-04-15', 5000, 2000, 39375.00, 'pending', FALSE, '2024-04-02 14:12:37');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 3, '2024-04-10', '2024-04-17', 1000, 1500, 23125.00, 'completed', TRUE, '2024-04-05 11:23:26');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 21, '2024-04-12', '2024-04-19', 400, 500, 14375.00, 'completed', FALSE, '2024-04-07 08:34:15');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 37, '2024-04-15', '2024-04-22', 5000, 2000, 33125.00, 'active', TRUE, '2024-04-10 16:45:04');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 9, '2024-04-18', '2024-04-25', 1000, 1500, 25625.00, 'pending', FALSE, '2024-04-12 09:56:53');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 26, '2024-04-20', '2024-04-27', 400, 500, 16875.00, 'completed', TRUE, '2024-04-15 17:43:42');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 40, '2024-04-22', '2024-04-29', 5000, 2000, 40625.00, 'completed', FALSE, '2024-04-18 10:32:31');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 15, '2024-04-25', '2024-05-02', 1000, 1500, 29375.00, 'active', TRUE, '2024-04-20 13:21:20');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 32, '2024-04-27', '2024-05-04', 400, 500, 18125.00, 'pending', FALSE, '2024-04-22 18:54:19');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 7, '2024-04-30', '2024-05-07', 5000, 2000, 34375.00, 'completed', TRUE, '2024-04-25 12:43:08');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 24, '2024-05-02', '2024-05-09', 1000, 1500, 26250.00, 'completed', FALSE, '2024-04-28 15:32:57');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 13, '2024-05-05', '2024-05-12', 400, 500, 16250.00, 'active', TRUE, '2024-05-01 09:21:46');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 38, '2024-05-08', '2024-05-15', 5000, 2000, 38750.00, 'pending', FALSE, '2024-05-03 14:12:35');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 2, '2024-05-10', '2024-05-17', 1000, 1500, 22500.00, 'completed', TRUE, '2024-05-06 11:23:24');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 19, '2024-05-12', '2024-05-19', 400, 500, 13750.00, 'completed', FALSE, '2024-05-08 08:34:13');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 36, '2024-05-15', '2024-05-22', 5000, 2000, 32500.00, 'active', TRUE, '2024-05-11 16:45:02');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 10, '2024-05-18', '2024-05-25', 1000, 1500, 25000.00, 'pending', FALSE, '2024-05-13 09:56:51');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 25, '2024-05-20', '2024-05-27', 400, 500, 16250.00, 'completed', TRUE, '2024-05-16 17:43:40');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 1, '2024-05-22', '2024-05-29', 5000, 2000, 40000.00, 'completed', FALSE, '2024-05-19 10:32:29');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 17, '2024-05-25', '2024-06-01', 1000, 1500, 28750.00, 'active', TRUE, '2024-05-21 13:21:18');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 34, '2024-05-27', '2024-06-03', 400, 500, 17500.00, 'pending', FALSE, '2024-05-23 18:54:17');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 6, '2024-05-30', '2024-06-06', 5000, 2000, 33750.00, 'completed', TRUE, '2024-05-26 12:43:06');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 23, '2024-06-02', '2024-06-09', 1000, 1500, 25625.00, 'completed', FALSE, '2024-05-29 15:32:55');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 12, '2024-06-05', '2024-06-12', 400, 500, 15625.00, 'active', TRUE, '2024-06-01 09:21:44');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 39, '2024-06-08', '2024-06-15', 5000, 2000, 38125.00, 'pending', FALSE, '2024-06-04 14:12:33');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 4, '2024-06-10', '2024-06-17', 1000, 1500, 21875.00, 'completed', TRUE, '2024-06-07 11:23:22');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 20, '2024-06-12', '2024-06-19', 400, 500, 13125.00, 'completed', FALSE, '2024-06-09 08:34:11');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 35, '2024-06-15', '2024-06-22', 5000, 2000, 31875.00, 'active', TRUE, '2024-06-12 16:45:00');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 11, '2024-06-18', '2024-06-25', 1000, 1500, 24375.00, 'pending', FALSE, '2024-06-14 09:56:49');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 26, '2024-06-20', '2024-06-27', 400, 500, 15625.00, 'completed', TRUE, '2024-06-17 17:43:38');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 2, '2024-06-22', '2024-06-29', 5000, 2000, 39375.00, 'completed', FALSE, '2024-06-20 10:32:27');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 18, '2024-06-25', '2024-07-02', 1000, 1500, 27500.00, 'active', TRUE, '2024-06-22 13:21:16');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 31, '2024-06-27', '2024-07-04', 400, 500, 16875.00, 'pending', FALSE, '2024-06-24 18:54:15');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 8, '2024-06-30', '2024-07-07', 5000, 2000, 33125.00, 'completed', TRUE, '2024-06-27 12:43:04');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 27, '2024-07-02', '2024-07-09', 1000, 1500, 25000.00, 'completed', FALSE, '2024-06-30 15:32:53');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 14, '2024-07-05', '2024-07-12', 400, 500, 15000.00, 'active', TRUE, '2024-07-03 09:21:42');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 37, '2024-07-08', '2024-07-15', 5000, 2000, 37500.00, 'pending', FALSE, '2024-07-06 14:12:31');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 5, '2024-07-10', '2024-07-17', 1000, 1500, 21250.00, 'completed', TRUE, '2024-07-09 11:23:20');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 22, '2024-07-12', '2024-07-19', 400, 500, 12500.00, 'completed', FALSE, '2024-07-11 08:34:09');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 34, '2024-07-15', '2024-07-22', 5000, 2000, 31250.00, 'active', TRUE, '2024-07-14 16:45:58');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 13, '2024-07-18', '2024-07-25', 1000, 1500, 23750.00, 'pending', FALSE, '2024-07-16 09:56:47');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 28, '2024-07-20', '2024-07-27', 400, 500, 15000.00, 'completed', TRUE, '2024-07-19 17:43:36');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 3, '2024-07-22', '2024-07-29', 5000, 2000, 38750.00, 'completed', FALSE, '2024-07-21 10:32:25');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 19, '2024-07-25', '2024-08-01', 1000, 1500, 26250.00, 'active', TRUE, '2024-07-23 13:21:14');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 30, '2024-07-27', '2024-08-03', 400, 500, 16250.00, 'pending', FALSE, '2024-07-25 18:54:13');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 9, '2024-07-30', '2024-08-06', 5000, 2000, 32500.00, 'completed', TRUE, '2024-07-28 12:43:02');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 24, '2024-08-02', '2024-08-09', 1000, 1500, 24375.00, 'completed', FALSE, '2024-08-01 15:32:51');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 15, '2024-08-05', '2024-08-12', 400, 500, 14375.00, 'active', TRUE, '2024-08-04 09:21:40');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 36, '2024-08-08', '2024-08-15', 5000, 2000, 36875.00, 'pending', FALSE, '2024-08-07 14:12:29');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 6, '2024-08-10', '2024-08-17', 1000, 1500, 20625.00, 'completed', TRUE, '2024-08-09 11:23:18');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 23, '2024-08-12', '2024-08-19', 400, 500, 11875.00, 'completed', FALSE, '2024-08-11 08:34:07');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 33, '2024-08-15', '2024-08-22', 5000, 2000, 30625.00, 'active', TRUE, '2024-08-14 16:45:56');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 14, '2024-08-18', '2024-08-25', 1000, 1500, 23125.00, 'pending', FALSE, '2024-08-16 09:56:45');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 27, '2024-08-20', '2024-08-27', 400, 500, 14375.00, 'completed', TRUE, '2024-08-19 17:43:34');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 4, '2024-08-22', '2024-08-29', 5000, 2000, 38125.00, 'completed', FALSE, '2024-08-21 10:32:23');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 20, '2024-08-25', '2024-09-01', 1000, 1500, 25625.00, 'active', TRUE, '2024-08-23 13:21:12');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 29, '2024-08-27', '2024-09-03', 400, 500, 15625.00, 'pending', FALSE, '2024-08-25 18:54:11');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 10, '2024-08-30', '2024-09-06', 5000, 2000, 31875.00, 'completed', TRUE, '2024-08-28 12:43:00');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 25, '2024-09-02', '2024-09-09', 1000, 1500, 23750.00, 'completed', FALSE, '2024-09-01 15:32:49');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 16, '2024-09-05', '2024-09-12', 400, 500, 13750.00, 'active', TRUE, '2024-09-04 09:21:38');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 35, '2024-09-08', '2024-09-15', 5000, 2000, 36250.00, 'pending', FALSE, '2024-09-07 14:12:27');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 7, '2024-09-10', '2024-09-17', 1000, 1500, 20000.00, 'completed', TRUE, '2024-09-09 11:23:16');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 24, '2024-09-12', '2024-09-19', 400, 500, 11250.00, 'completed', FALSE, '2024-09-11 08:34:05');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 32, '2024-09-15', '2024-09-22', 5000, 2000, 30000.00, 'active', TRUE, '2024-09-14 16:45:54');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 15, '2024-09-18', '2024-09-25', 1000, 1500, 22500.00, 'pending', FALSE, '2024-09-16 09:56:43');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 26, '2024-09-20', '2024-09-27', 400, 500, 13750.00, 'completed', TRUE, '2024-09-19 17:43:32');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 5, '2024-09-22', '2024-09-29', 5000, 2000, 37500.00, 'completed', FALSE, '2024-09-21 10:32:21');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 21, '2024-09-25', '2024-10-02', 1000, 1500, 25000.00, 'active', TRUE, '2024-09-23 13:21:10');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 28, '2024-09-27', '2024-10-04', 400, 500, 15000.00, 'pending', FALSE, '2024-09-25 18:54:09');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 11, '2024-09-30', '2024-10-07', 5000, 2000, 31250.00, 'completed', TRUE, '2024-09-28 12:42:58');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 16, '2024-10-02', '2024-10-09', 1000, 1500, 23125.00, 'completed', FALSE, '2024-10-01 15:32:47');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 17, '2024-10-05', '2024-10-12', 400, 500, 13125.00, 'active', TRUE, '2024-10-04 09:21:36');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 34, '2024-10-08', '2024-10-15', 5000, 2000, 35625.00, 'pending', FALSE, '2024-10-07 14:12:25');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 8, '2024-10-10', '2024-10-17', 1000, 1500, 19375.00, 'completed', TRUE, '2024-10-09 11:23:14');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 25, '2024-10-12', '2024-10-19', 400, 500, 10625.00, 'completed', FALSE, '2024-10-11 08:34:03');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 31, '2024-10-15', '2024-10-22', 5000, 2000, 29375.00, 'active', TRUE, '2024-10-14 16:45:52');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 17, '2024-10-18', '2024-10-25', 1000, 1500, 21875.00, 'pending', FALSE, '2024-10-16 09:56:41');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 24, '2024-10-20', '2024-10-27', 400, 500, 13125.00, 'completed', TRUE, '2024-10-19 17:43:30');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 6, '2024-10-22', '2024-10-29', 5000, 2000, 36875.00, 'completed', FALSE, '2024-10-21 10:32:19');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 22, '2024-10-25', '2024-11-01', 1000, 1500, 24375.00, 'active', TRUE, '2024-10-23 13:21:08');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 27, '2024-10-27', '2024-11-03', 400, 500, 14375.00, 'pending', FALSE, '2024-10-25 18:54:07');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 12, '2024-10-30', '2024-11-06', 5000, 2000, 30625.00, 'completed', TRUE, '2024-10-28 12:42:56');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 18, '2024-11-02', '2024-11-09', 1000, 1500, 22500.00, 'completed', FALSE, '2024-11-01 15:32:45');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 19, '2024-11-05', '2024-11-12', 400, 500, 12500.00, 'active', TRUE, '2024-11-04 09:21:34');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 33, '2024-11-08', '2024-11-15', 5000, 2000, 35000.00, 'pending', FALSE, '2024-11-07 14:12:23');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 9, '2024-11-10', '2024-11-17', 1000, 1500, 18750.00, 'completed', TRUE, '2024-11-09 11:23:12');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 26, '2024-11-12', '2024-11-19', 400, 500, 10000.00, 'completed', FALSE, '2024-11-11 08:34:01');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 30, '2024-11-15', '2024-11-22', 5000, 2000, 28750.00, 'active', TRUE, '2024-11-14 16:45:50');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 19, '2024-11-18', '2024-11-25', 1000, 1500, 21250.00, 'pending', FALSE, '2024-11-16 09:56:39');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 23, '2024-11-20', '2024-11-27', 400, 500, 12500.00, 'completed', TRUE, '2024-11-19 17:43:28');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 7, '2024-11-22', '2024-11-29', 5000, 2000, 36250.00, 'completed', FALSE, '2024-11-21 10:32:17');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 23, '2024-11-25', '2024-12-02', 1000, 1500, 23750.00, 'active', TRUE, '2024-11-23 13:21:06');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 26, '2024-11-27', '2024-12-04', 400, 500, 13750.00, 'pending', FALSE, '2024-11-25 18:54:05');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 13, '2024-11-30', '2024-12-07', 5000, 2000, 30000.00, 'completed', TRUE, '2024-11-28 12:42:54');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 12, '2025-04-02', '2025-04-05', 400, 500, 8750.00, 'completed', TRUE, '2025-04-01 08:12:34');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 25, '2025-04-03', '2025-04-10', 1000, 1500, 22500.00, 'completed', TRUE, '2025-04-01 11:45:22');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 7, '2025-04-05', '2025-04-12', 5000, 2000, 31875.00, 'active', FALSE, '2025-04-03 14:23:56');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 33, '2025-04-06', '2025-04-13', 400, 500, 14375.00, 'pending', FALSE, '2025-04-04 09:34:12');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 19, '2025-04-08', '2025-04-15', 1000, 1500, 19375.00, 'completed', TRUE, '2025-04-05 16:45:33');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 40, '2025-04-10', '2025-04-17', 5000, 2000, 40625.00, 'completed', FALSE, '2025-04-07 10:56:44');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 8, '2025-04-11', '2025-04-18', 400, 500, 15625.00, 'active', TRUE, '2025-04-08 13:12:55');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 21, '2025-04-12', '2025-04-19', 1000, 1500, 23750.00, 'pending', FALSE, '2025-04-09 17:23:11');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 14, '2025-04-14', '2025-04-21', 5000, 2000, 34375.00, 'completed', TRUE, '2025-04-11 08:34:22');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 29, '2025-04-15', '2025-04-22', 400, 500, 16875.00, 'completed', FALSE, '2025-04-12 11:45:33');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 5, '2025-04-17', '2025-04-24', 1000, 1500, 20625.00, 'active', TRUE, '2025-04-14 14:56:44');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 37, '2025-04-18', '2025-04-25', 5000, 2000, 38750.00, 'pending', FALSE, '2025-04-15 18:12:55');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 11, '2025-04-20', '2025-04-27', 400, 500, 13125.00, 'completed', TRUE, '2025-04-17 09:23:11');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 24, '2025-04-21', '2025-04-28', 1000, 1500, 24375.00, 'completed', FALSE, '2025-04-18 12:34:22');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (1, 9, '2025-04-23', '2025-04-30', 5000, 2000, 33125.00, 'active', TRUE, '2025-04-20 15:45:33');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (6, 31, '2025-04-24', '2025-05-01', 400, 500, 15625.00, 'pending', FALSE, '2025-04-21 19:56:44');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (3, 16, '2025-04-26', '2025-05-03', 1000, 1500, 21875.00, 'completed', TRUE, '2025-04-23 08:12:55');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (5, 38, '2025-04-27', '2025-05-04', 5000, 2000, 39375.00, 'completed', FALSE, '2025-04-24 11:23:11');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (2, 13, '2025-04-29', '2025-05-06', 400, 500, 14375.00, 'active', TRUE, '2025-04-26 14:34:22');
-INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, insurance, fees, total_price, status, paid, created_at) VALUES (4, 22, '2025-04-30', '2025-05-07', 1000, 1500, 23125.00, 'pending', FALSE, '2025-04-27 17:45:33');
-
--- Insert reviews
-INSERT INTO reviews (user_id, vehicle_id, rental_id, stars, review) VALUES
-(6, 1, 1, 1, 'Excellent car, very comfortable and fuel efficient. Would definitely rent again!'),
-(3, 2, 2, 2, 'Great SUV with lots of power. Only complaint is the fuel consumption in city driving.'),
-(4, 3, 3, 3, 'Luxury at its best. The Mercedes was perfect for our business trip.'),
-(6, 4, 4, 5, 'Good basic car for city driving, but lacks power on highways.'),
-(4, 5, 4, 5, 'Good basic car for city driving, but lacks power on highways.'),
-(4, 4, 4, 4, 'Good basic car for city driving, but lacks power on highways.'),
-(6, 3, 4, 3, 'Good basic car for city driving, but lacks power on highways.'),
-(4, 2, 4, 2, 'Good basic car for city driving, but lacks power on highways.'),
-(4, 1, 4, 1, 'Good basic car for city driving, but lacks power on highways.');
-

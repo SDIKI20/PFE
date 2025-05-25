@@ -570,6 +570,25 @@ function animateMoney(targetElement, start, end, period) {
     requestAnimationFrame(updateCounter);
 }
 
+function appendItem(list, value) {
+    if (!list.includes(value)) {
+        list.push(value);
+    } else {
+        console.log(`"${value}" is already in the list.`);
+    }
+    return list;
+}
+
+function removeItem(list, value) {
+    const index = list.indexOf(value);
+    if (index !== -1) {
+        list.splice(index, 1);
+    } else {
+        console.log(`"${value}" not found in the list.`);
+    }
+    return list;
+}
+
 try {
     document.querySelectorAll('.dbm-table-minimize').forEach(bt=>{
         bt.addEventListener('click', ()=>{

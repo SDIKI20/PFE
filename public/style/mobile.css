@@ -826,7 +826,7 @@
     }
 
     #rentBut{
-        display: inline-block;
+        display: flex;
         background-color: var(--color-second);
         color: white;
         height: 75%;

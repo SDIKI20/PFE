@@ -50,8 +50,13 @@
         const date = new Date(dateString)
         const day = String(date.getDate()).padStart(2, '0');
         const month = months[date.getMonth()];
-        return `${day} ${month}`;
-    }%>
+        const year = date.getFullYear();
+        return `${day} ${month} ${year}`;
+    }
+    let pickupDate = new Date();
+    let returnDate = new Date();
+    returnDate.setDate(returnDate.getDate() + 30);
+    %>
     <% if (section === 'docs') { %>
         <div class="overtop-conf flex-row flex-center" id="upDocsContainer">
             <form class="nid-upload-container flex-col" id="upDocForm" method="post" action="/updocs" autocomplete="off" enctype="multipart/form-data">
@@ -245,8 +250,69 @@
                         <p class="title-med">Filter</p>
                         <i class="fa-solid fa-xmark" id="platCloseFilter"></i>
                     </div>
+                    <details class="rental-date" open>
+                        <summary class="bt-hover">Pickup & Return</summary>
+                        <div class="input-holder flex-row" style="width: 100% !important; margin-top: 0.625em;">
+                            <i class="fa-regular fa-calendar"></i>
+                            <input type="text" id="dateRange" class="bt">
+                        </div>
+                        <input type="date" id="fPickupdate" hidden>
+                        <input type="date" id="fReturndate" hidden>                   
+                        <script>
+                             function formateDate(date) {
+                                if (!date) return "";
+                                const d = new Date(date);
+                                const year = d.getFullYear();
+                                const month = String(d.getMonth() + 1).padStart(2, '0');
+                                const day = String(d.getDate()).padStart(2, '0');
+                                return `${year}-${month}-${day}`;
+                            }
+
+                            document.getElementById('fReturndate').value = formateDate("<%= filters.returndate?filters.returndate:returnDate %>")
+                            document.getElementById('fPickupdate').value = formateDate("<%= filters.pickupdate?filters.pickupdate:pickupDate %>")
+                            let pickupDate = document.getElementById('fPickupdate').value;
+                            let returnDate = document.getElementById('fReturndate').value;
+                        </script>
+                    </details>
+                    <div class="break-line"></div>
+                    <details class="locations" open>
+                        <summary class="bt-hover">Location</summary>
+                        <div class="flex-row center-start gap-min">
+                            <div class="input-holder flex-row center-start">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                                <input type="text" list="wilayas" placeholder="Enter wilaya..." id="locInp">
+                                <datalist id="wilayas">
+                                    <% if (wilayas) { %>
+                                        <% wilayas.forEach(wilaya => { %>
+                                            <option value="<%= wilaya.name  %>"><%= wilaya.id  %> - <%= wilaya.name  %></option>
+                                        <% }) %>
+                                     <% } %>
+                                </datalist>
+                            </div>
+                            <button class="bt bt-hover bt-solid" style="height: 2.5em;" id="locAdd">Add</button>
+                        </div>
+                        <ul class="flex-row flex-center flex-wrap w100 gap-lrg pdn" id="locWilList">
+                            <% if (filters.location) {
+                                filters.location.split(" ").forEach(loc=>{%>
+                                   <li class="f-location flex-row flex-center gap-min">
+                                        <p><%= loc %></p>
+                                        <i class="f-loc-close bt-hover fa-solid fa-xmark"></i>
+                                   </li> 
+                                <%})
+                            } %>
+                        </ul>
+                    </details>
+                    <div class="break-line"></div>
+                    <div class="flex-row center-spacebet available">
+                        <label for="stch" class="bt-hover">Available Only</label>
+                        <label class="switch">
+                            <input id="stch" type="checkbox" hidden <% if(filters.availability) %> <%= filters.availability=="true"?"checked":"" %>>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="break-line"></div>
                     <details class="rental-type" open>
-                        <summary class="bt-hover">RENTAL TYPE</summary>
+                        <summary class="bt-hover">Rental Type</summary>
                         <div class="flex-row rental-types">
                             <input type="radio" name="rnt" id="rentalA" class="r-type" hidden <%= filters.rtype=="d"?"":filters.rtype=="h"?"":"checked"%> >
                             <label for="rentalA" class="rnt bt-hover">Any</label>
@@ -257,16 +323,8 @@
                         </div>
                     </details>
                     <div class="break-line"></div>
-                    <div class="flex-row center-spacebet available">
-                        <label for="stch" class="bt-hover">AVAILABLE ONLY</label>
-                        <label class="switch">
-                            <input id="stch" type="checkbox" hidden <% if(filters.availability) %> <%= filters.availability=="1"?"checked":"" %>>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="break-line"></div>
                     <details class="filter-price" open>
-                        <summary class="bt-hover"><span>PRICE RANGE <span id="priceBy">/HOUR</span></span></summary>
+                        <summary class="bt-hover"><span>Price Range <span id="priceBy">DZD</span></span></summary>
                         <div class="range flex-col">
                             <div class="range-slider">
                                 <span class="range-selected" <% if(filters.pricem && filters.priceM ) %> style="left:<%= (parseInt(filters.pricem) / 50000) * 100 %>%; right:<%= 100 - (parseInt(filters.priceM )/ 50000) * 100 %>%;"></span>
@@ -289,7 +347,7 @@
                     </details>
                     <div class="break-line"></div>
                     <details class="filter-brand" open>
-                        <summary class="bt-hover">CAR BRAND</summary>
+                        <summary class="bt-hover">Brand</summary>
                         <div class="flex-row flex-wrap">
                             <% if (brands) brands.forEach(brand=>{%>
                                 <div class="flex-row check-holder checkbox-wrapper-13">
@@ -301,7 +359,7 @@
                     </details>
                     <div class="break-line"></div>
                     <details class="filter-modal" open>
-                        <summary class="bt-hover">CAPACITY</summary>
+                        <summary class="bt-hover">Capacity</summary>
                         <div class="flex-col transms">
                             <label class="radio-holder bt-hover">
                                 <input type="radio" id="personeA" name="cap" value="personeA" <%= filters.capacity?"":"checked"%>/>
@@ -323,7 +381,7 @@
                     </details>
                     <div class="break-line"></div>
                     <details class="filter-style" open>
-                        <summary class="bt-hover">BODY STYLE</summary>
+                        <summary class="bt-hover">Body Style</summary>
                         <div class="flex-row flex-wrap">
                             <% if (bodyTypes) bodyTypes.forEach(body=>{%>
                                 <div class="flex-row check-holder checkbox-wrapper-13">
@@ -335,7 +393,7 @@
                     </details>
                     <div class="break-line"></div>
                     <details class="filter-transmission" open>
-                        <summary class="bt-hover">TRANSMISSION</summary>
+                        <summary class="bt-hover">Transmission</summary>
                         <div class="flex-col transms">
                             <label class="radio-holder bt-hover">
                                 <input type="radio" id="transAny" name="transm" value="transAny" <%= filters.trans=="Automatic"?"":filters.trans=="Manual"?"":"checked"%>/>
@@ -353,7 +411,7 @@
                     </details>
                     <div class="break-line"></div>
                     <details class="filter-fuel" open>
-                        <summary class="bt-hover">FUEL TYPE</summary>
+                        <summary class="bt-hover">Fuel Type</summary>
                         <div class="flex-row flex-wrap">
                             <% if (fuelTypes) fuelTypes.forEach(fuel=>{%>
                                 <div class="flex-row check-holder checkbox-wrapper-13">
@@ -386,8 +444,8 @@
                                         <i class="fa-solid fa-location-dot tm-icn"></i>
                                         <p class="text-eclip"><%= car.wilaya %></p>
                                     </div>
-                                    <div class="car-available flex-row center-start <%= car.availability?'av':'nav' %>">
-                                        <%= car.availability?'Available':'Booked' %>
+                                    <div class="car-available flex-row center-start <%= car.is_available?'av':'nav' %>">
+                                        <%= car.is_available?'Available':'Booked' %>
                                     </div>
                                     <div class="car-rate flex-row center-start">
                                         <i class="fa-solid fa-star"></i>
@@ -865,13 +923,6 @@
                                         <p class="plat-text text-eclip mini4p"><%= car.model %> - <%= car.fab_year %></p>
                                     </div>
                                 </div>
-                                <div class="pop-avilability text-eclip mini4pL <%= car.units>0?"":"reserved" %> flex-row flex-center">
-                                    <% if (car.availability) { %>
-                                        <p><%= car.units>1?`${car.units} Units available`:"Available" %></p>
-                                    <% }else{%>
-                                        <p>Reserved</p>
-                                    <% } %>
-                                </div>
                             </div>
                             <div class="pop-car-img flex-col flex-center" style="position: relative;">
                                 <a href="/car/<%= car.id %>" style="width: 100%;height: 100%;position:absolute;"></a>
@@ -1089,6 +1140,15 @@
                             
                               
                         </script>
+                        <style>
+                            .logo-map-mark {
+                                background-image: url('<%= car.image %>') !important;
+                                background-size: contain;
+                                background-repeat: no-repeat;
+                                width: 8em;
+                                height: 8em;
+                            }
+                        </style>
                     </div>
                 </div>
                 <button id="showContSec" class="only-mobile bt bt-hover">Book Now</button>
@@ -1106,7 +1166,6 @@
                             </select>
                         </div>
                     </div>
-                    <!-- Pickup Date -->
                     <div class="pickinfo flex-col">
                     <h3>Pickup Date</h3>
                     <div class="flex-row center-start holder">
@@ -1506,8 +1565,8 @@
     <script src="/lib/node_modules/gsap/dist/ScrollTrigger.min.js"></script>
     <script src="/lib/node_modules/svelte-range-slider-pips/dist/range-slider-pips.js"></script>
     <script src="/lib/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
-    <script src="/lib/node_modules/flatpickr/dist/flatpickr.js"></script>
     <script src="/lib/node_modules/driver.js/dist/driver.js.iife.js"></script>
+    <script src="/lib/node_modules/flatpickr/dist/flatpickr.js"></script>
     <script src="/js/platform.js"></script>
     <% const scripts = { 
         cars: "cars.js", 

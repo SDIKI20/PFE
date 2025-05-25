@@ -370,8 +370,8 @@
                         <span class="currence">	&gt;</span>
                         <p class="path-text">List</p>
                     </div>
-                    <form class="form-container add-vehicle-form content-section" action="/addvehicle" method="post" autocomplete="off" enctype="multipart/form-data" style="height: 100vh; width: 100%;">
-                        <div class="flex-row">
+                    <form class="form-container flex-col add-vehicle-form" action="/addvehicle" method="post" autocomplete="off" enctype="multipart/form-data">
+                        <div class="flex-row" style="flex-grow: 1;">
                             <div class="flex-col" style="width: 50%;">
                                 <div class="form-group">
                                     <label class="form-label" for="location">location</label>
@@ -512,8 +512,6 @@
                                 </div>
                             </div>
                         </div>
-                        
-        
                         <div class="form-group">
                             <button type="submit" class="btn bt-primary" id="addVehicleBut">Add</button>
                         </div>

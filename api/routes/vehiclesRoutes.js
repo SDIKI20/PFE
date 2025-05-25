@@ -20,7 +20,7 @@ router.get("/getStatics", vehiclesController.getStatics);
 router.get("/getCarStatics", vehiclesController.getCarsStatics);
 router.get("/brands", vehiclesController.getBrands);
 router.get("/brands/all/:brand_id", vehiclesController.getBrandVehicles);
-router.get("/av/:office/:id", vehiclesController.checkAvailability);
+router.get("/check/available", vehiclesController.checkAvailability);
 router.get("/get/:id/:uid", vehiclesController.getVehicle);
 router.get("/update/:id", vehiclesController.updateVehicle);
 router.post("/upload", upload.single("image"), vehiclesController.uploadImage);

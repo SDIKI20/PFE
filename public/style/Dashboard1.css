@@ -318,6 +318,7 @@
 }
 
 .form-group {
+  height: fit-content;
   margin-bottom: 15px;
 }
 
@@ -1276,18 +1277,6 @@ tr:hover {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-}
-
-.username{
-  font-size: 0.6em;
-  color: var(--text);
-  opacity: 0.4;
-}
-
-.name{
-  font-size: var(--font-sml);
-  color: var(--text);
-  font-weight: 500;
 }
 
 .table-user-profile{

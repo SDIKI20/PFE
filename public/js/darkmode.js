@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         root.style.setProperty('--bg-darker', '#d3d0d0');
         root.style.setProperty('--input-4dark', 'transparent');
         root.style.setProperty('--select-4dark', 'white');
+        root.style.setProperty('--border-low', 'rgba(128, 128, 128, 0.15)');
     }
 });
 

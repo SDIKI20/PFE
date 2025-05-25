@@ -38,6 +38,36 @@ rangePrice.forEach((input) => {
     });
 });
 
+ function formatDate(date) {
+    if (!date) return "";
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+flatpickr("#dateRange", {
+    mode: "range",
+    dateFormat: "Y-m-d",
+    altInput: true,
+    altFormat: "d M Y",
+    defaultDate: [formatDate(pickupDate), formatDate(returnDate)],
+    minDate: formatDate(pickupDate),
+    onChange: function(selectedDates) {
+        if (selectedDates[0]) {
+            document.getElementById('fPickupdate').value = formatDate(selectedDates[0]);
+        }
+        if (selectedDates[1]) {
+            document.getElementById('fReturndate').value = formatDate(selectedDates[1]);
+        }
+    }
+});
+
+const locInp = document.getElementById("locInp")
+const locAdd = document.getElementById("locAdd")
+const locWilList = document.getElementById("locWilList")
+
 const filterSec = document.getElementById('filterSec')
 
 document.getElementById('filterBut4p').addEventListener('click', openFilter)
@@ -242,8 +272,8 @@ async function openCarDetail(id, uid){
                     </div>
                 </div>
             </div>
-            <a href="/payment" class="plat-rdetail-foot flex-row flex-center">
-                <button class="bt bt-hover rent-but" id="rentBut">Rent Now</button>
+            <div class="plat-rdetail-foot flex-row flex-center">
+                <a href="/rent/${result.id}" class="bt bt-hover rent-but flex-row flex-center" id="rentBut">Rent Now</a>
                 <div class="bookbuts flex-row center-spacebet">
                     <div class="flex-col">
                         <p style="font-size: var(--font-sml);color:var(--txt-black);">BOOK VEHICLE</p>
@@ -253,11 +283,11 @@ async function openCarDetail(id, uid){
                         <p style="font-size: var(--font-sml);color:var(--txt-black);">FREE BOOKING</p>
                         <p style="font-size: var(--font-tag);color:var(--txt-black);">10 minutes</p>
                     </div>
-                    <div class="bt bt-hover rent-but4p flex-row flex-center" id="rentBut4pc">
+                    <a href="/rent/${result.id}" class="bt bt-hover rent-but4p flex-row flex-center" id="rentBut4pc">
                         <i class="fa-solid fa-chevron-right"></i>
-                    </div>
+                    </a>
                 </div>
-            </a>
+            </div>
         `
         carDetailSec.style.display = "flex"
         if(screen.width > 820){
@@ -289,15 +319,22 @@ try {
         let search = document.getElementById('filterSearch').value.trim();
         let search4p = document.getElementById('search4p').value.trim();
         let rentalType = "";
-        let availableOnly = document.getElementById('stch').checked ? '1' : "";
+        let availableOnly = document.getElementById('stch').checked ? 'true' : "";
         let Pricem = document.getElementById("pricem").value.trim();
         let PriceM = document.getElementById("priceM").value.trim();
+        let pickupDate = document.getElementById('fPickupdate').value;
+        let returnDate = document.getElementById('fReturndate').value;
         let transm = "";
         let cap = "";
         let brands = [];
         let fuelTypes = [];
         let bodyStyles = [];
-
+        let wilayaList = []
+        document.querySelectorAll('.f-location').forEach(fl=>{
+            wil = fl.children[0].textContent
+            appendItem(wilayaList, wil)
+        })
+        
         // Capacity
         document.querySelectorAll('input[name="cap"]').forEach(radioButton => {
             if (radioButton.checked && radioButton.id !== "personeA") {
@@ -344,9 +381,12 @@ try {
         if (PriceM) params.append("priceM", PriceM);
         if (transm) params.append("trans", transm);
         if (cap) params.append("capacity", cap);
+        if (pickupDate) params.append("pickupdate", pickupDate);
+        if (returnDate) params.append("returndate", returnDate);
         if (brands.length) params.append("brand", brands.join(","));
         if (fuelTypes.length) params.append("fuel", fuelTypes.join(","));
         if (bodyStyles.length) params.append("body", bodyStyles.join(","));
+        if (wilayaList.length) params.append("location", wilayaList.join(" "));
 
         // params.append("limit", 15);
         // params.append("offset", 0);
@@ -378,4 +418,32 @@ try {
         }
     })
 } catch (error) {}
-  
+
+locAdd.addEventListener('click', ()=>{
+    if(locInp.value != ""){
+        const newLoc = document.createElement('div')
+        newLoc.classList.add("f-location", "flex-row", "flex-center", "gap-min")
+
+        newLoc.innerHTML = `
+            <p class="f-loc">${locInp.value}</p>
+        `
+        const closeBut = document.createElement("i")
+        closeBut.classList.add("f-loc-close", "bt-hover", "fa-solid", "fa-xmark")
+
+        closeBut.addEventListener('click', ()=> {
+            newLoc.remove()
+        })
+
+        newLoc.appendChild(closeBut)
+        locWilList.appendChild(newLoc)
+        locInp.value = ""
+    }
+})
+
+try {
+    document.querySelectorAll('.f-loc-close').forEach(li=>{
+        li.addEventListener('click', ()=>{
+            li.parentElement.remove()
+        })
+    })
+} catch (error) {}

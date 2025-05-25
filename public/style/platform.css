@@ -371,6 +371,15 @@ input[type='radio']:checked + .rnt{
     cursor: pointer;
 }
 
+.f-location{
+    padding: 0.325em 0.625em;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    font-size: var(--font-sml);
+    color: var(--text);
+}
+
+
 #priceBy{
     font-size: var(--font-sml);
     color: var(--text-low);
@@ -2461,6 +2470,7 @@ time{
 #upDocsContainer{
     display: none;
 }
+
 /*----------------------------------------------------*/
 
 /*--------------------Profile Section------------------*/

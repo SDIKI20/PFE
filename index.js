@@ -24,6 +24,8 @@ const orders = require("./api/routes/orderRoutes");
 const reviews = require("./api/routes/reviewRoutes");
 const vehicles = require("./api/routes/vehiclesRoutes");
 const { sendEmail } = require('./api/controllers/emailController');
+const { v4: uuidv4 } = require('uuid');
+
 
 /*---------------------------------------------------------*/
 
@@ -219,225 +221,266 @@ app.get("/home", async (req, res) => {
 });
 
 app.get("/cars", async (req, res) => {
-    try {
-        const {
-            search,
-            brand,
-            rtype,
-            trans,
-            capacity,
-            body,
-            fuel,
-            availability,
-            pricem,
-            priceM,
-            limit = 15,
-            offset = 0
-        } = req.query;
+  try {
+    const {
+      search,
+      brand,
+      rtype,
+      trans,
+      capacity,
+      body,
+      fuel,
+      availability,
+      pricem,
+      priceM,
+      pickupdate,
+      returndate,
+      location,
+      limit = 15,
+      offset = 0
+    } = req.query;
 
-        const userId = req.user ? req.user.id : null;
-        const userNewbie = await pool.query("SELECT * FROM newbie WHERE user_id = $1", [userId]);
-        const newbie = userNewbie.rows[0];
+    const userId = req.user ? req.user.id : null;
+    const newbie = userId
+      ? (await pool.query("SELECT * FROM newbie WHERE user_id = $1", [userId])).rows[0]
+      : null;
 
-        let query = `
-            SELECT
-                vs.*, 
-                v.*, 
-                b.name AS brand_name, 
-                b.logo AS brand_logo,
-                o.wilaya, 
-                COALESCE(r.stars, 0) AS stars,
-                COALESCE(r.reviews, 0) AS reviews,
-                COALESCE(rn.orders, 0) AS orders,
-                CASE WHEN f.vehicle_id IS NOT NULL THEN true ELSE false END AS is_favorite
-            FROM vehicle_stock vs
-            JOIN vehicles v ON v.id = vs.vehicle_id
-            JOIN brands b ON v.brand_id = b.id
-            JOIN office o ON vs.office_id = o.id
-            LEFT JOIN (
-                SELECT vehicle_id, 
-                        ROUND(AVG(stars), 1) AS stars, 
-                        COUNT(*) AS reviews
-                FROM reviews
-                GROUP BY vehicle_id
-            ) r ON v.id = r.vehicle_id
-            LEFT JOIN (
-                SELECT vehicle_id, 
-                        COUNT(*) AS orders
-                FROM rentals
-                GROUP BY vehicle_id
-            ) rn ON v.id = rn.vehicle_id
-            LEFT JOIN favorites f ON f.user_id = $1 AND f.vehicle_id = v.id
-            WHERE 1=1
-        `;
+    const pickupDate = pickupdate ? new Date(pickupdate) : null;
+    const returnDate = returndate ? new Date(returndate) : null;
 
-        let countQuery = `
-            SELECT COUNT(*) FROM vehicle_stock vs
-            JOIN vehicles v ON v.id = vs.vehicle_id
-            JOIN brands b ON v.brand_id = b.id
-            JOIN office o ON vs.office_id = o.id
-            WHERE 1=1
-        `;
+    // Main and count parameter arrays
+    let values = [pickupDate, returnDate];
+    let countValues = [pickupDate, returnDate];
 
-        const values = [userId];
-        const countValues = [];
-        let index = 2;
-        let countIndex = 1;
+    // Next placeholder indexes
+    let index = 3;
+    let countIndex = 3;
 
-        if (search) {
-            query += ` AND (LOWER(b.name) LIKE $${index} OR LOWER(v.model) LIKE $${index})`;
-            countQuery += ` AND (LOWER(b.name) LIKE $${countIndex} OR LOWER(v.model) LIKE $${countIndex})`;
-            const value = `%${search.toLowerCase()}%`;
-            values.push(value);
-            countValues.push(value);
-            index++;
-            countIndex++;
-        }
+    // Base queries
+    let query = `
+      SELECT
+        vs.*,
+        v.*,
+        b.name AS brand_name,
+        b.logo AS brand_logo,
+        o.wilaya,
+        COALESCE(r.stars,0) AS stars,
+        COALESCE(r.reviews,0) AS reviews,
+        COALESCE(rn.orders,0) AS orders,
+        CASE WHEN f.vehicle_id IS NOT NULL THEN true ELSE false END AS is_favorite,
+        CASE
+          WHEN vs.units - COALESCE((
+            SELECT COUNT(*) FROM rentals r
+            WHERE r.vehicle_id = vs.vehicle_id
+              AND (r.status='active' OR r.status='pending')
+              AND (r.start_date < $2::timestamp AND r.end_date > $1::timestamp)
+          ),0) > 0 THEN true ELSE false
+        END AS is_available
+      FROM vehicle_stock vs
+      JOIN vehicles v ON v.id=vs.vehicle_id
+      JOIN brands b ON v.brand_id=b.id
+      JOIN office o ON vs.office_id=o.id
+      LEFT JOIN (
+        SELECT vehicle_id, ROUND(AVG(stars),1) AS stars, COUNT(*) AS reviews
+        FROM reviews GROUP BY vehicle_id
+      ) r ON v.id=r.vehicle_id
+      LEFT JOIN (
+        SELECT vehicle_id, COUNT(*) AS orders
+        FROM rentals GROUP BY vehicle_id
+      ) rn ON v.id=rn.vehicle_id
+    `;
 
-        if (brand) {
-            const brands = Array.isArray(brand) ? brand : brand.split(',');
-            const placeholders = brands.map(() => `$${index++}`);
-            const countPlaceholders = brands.map(() => `$${countIndex++}`);
-            query += ` AND LOWER(b.name) IN (${placeholders.join(", ")})`;
-            countQuery += ` AND LOWER(b.name) IN (${countPlaceholders.join(", ")})`;
-            values.push(...brands.map(b => b.toLowerCase()));
-            countValues.push(...brands.map(b => b.toLowerCase()));
-        }
-
-        if (rtype) {
-            query += ` AND v.rental_type = $${index}`;
-            countQuery += ` AND v.rental_type = $${countIndex}`;
-            values.push(rtype.toLowerCase());
-            countValues.push(rtype.toLowerCase());
-            index++;
-            countIndex++;
-        }
-
-        if (trans) {
-            query += ` AND LOWER(v.transmission::TEXT) = $${index}`;
-            countQuery += ` AND LOWER(v.transmission::TEXT) = $${countIndex}`;
-            values.push(trans.toLowerCase());
-            countValues.push(trans.toLowerCase());
-            index++;
-            countIndex++;
-        }
-
-        if (capacity) {
-            if (capacity > 4) {
-                query += ` AND v.capacity > $${index}`;
-                countQuery += ` AND v.capacity > $${countIndex}`;
-            } else {
-                query += ` AND v.capacity = $${index}`;
-                countQuery += ` AND v.capacity = $${countIndex}`;
-            }
-            values.push(parseInt(capacity));
-            countValues.push(parseInt(capacity));
-            index++;
-            countIndex++;
-        }
-
-        if (body) {
-            const bodies = Array.isArray(body) ? body : body.split(',');
-            const placeholders = bodies.map(() => `$${index++}`);
-            const countPlaceholders = bodies.map(() => `$${countIndex++}`);
-            query += ` AND LOWER(v.body::TEXT) IN (${placeholders.join(", ")})`;
-            countQuery += ` AND LOWER(v.body::TEXT) IN (${countPlaceholders.join(", ")})`;
-            values.push(...bodies.map(b => b.toLowerCase()));
-            countValues.push(...bodies.map(b => b.toLowerCase()));
-        }
-
-        if (fuel) {
-            const fuels = Array.isArray(fuel) ? fuel : fuel.split(',');
-            const placeholders = fuels.map(() => `$${index++}`);
-            const countPlaceholders = fuels.map(() => `$${countIndex++}`);
-            query += ` AND LOWER(v.fuel::TEXT) IN (${placeholders.join(", ")})`;
-            countQuery += ` AND LOWER(v.fuel::TEXT) IN (${countPlaceholders.join(", ")})`;
-            values.push(...fuels.map(f => f.toLowerCase()));
-            countValues.push(...fuels.map(f => f.toLowerCase()));
-        }
-
-        if (availability !== undefined) {
-            query += ` AND v.availability = $${index}`;
-            countQuery += ` AND v.availability = $${countIndex}`;
-            values.push(parseInt(availability));
-            countValues.push(parseInt(availability));
-            index++;
-            countIndex++;
-        }
-
-        if (pricem) {
-            query += ` AND v.price >= $${index}`;
-            countQuery += ` AND v.price >= $${countIndex}`;
-            values.push(parseFloat(pricem));
-            countValues.push(parseFloat(pricem));
-            index++;
-            countIndex++;
-        }
-
-        if (priceM) {
-            query += ` AND v.price <= $${index}`;
-            countQuery += ` AND v.price <= $${countIndex}`;
-            values.push(parseFloat(priceM));
-            countValues.push(parseFloat(priceM));
-            index++;
-            countIndex++;
-        }
-
-        query += ` ORDER BY stars DESC LIMIT $${index}`;
-        values.push(parseInt(limit));
-        index++;
-
-        query += ` OFFSET $${index}`;
-        values.push(parseInt(offset));
-
-        const countHasPlaceholders = countQuery.includes('$');
-        const countQueryResult = countHasPlaceholders
-            ? pool.query(countQuery, countValues)
-            : pool.query(countQuery);
-
-        const [carsResult, countResult] = await Promise.all([
-            pool.query(query, values),
-            countQueryResult
-        ]);
-
-        const cars = carsResult.rows.length > 0 ? carsResult.rows : null;
-        const totalCars = parseInt(countResult.rows[0].count || 0);
-
-        const brandsResult = await pool.query(`SELECT * FROM brands`);
-        const brandsList = brandsResult.rows.length > 0 ? brandsResult.rows : null;
-
-        const fuelResult = await pool.query(`SELECT unnest(enum_range(NULL::fuel_type))`);
-        const fuelTypes = fuelResult.rows.length > 0 ? fuelResult.rows : null;
-
-        const bodyResult = await pool.query(`SELECT unnest(enum_range(NULL::body_type))`);
-        const bodyTypes = bodyResult.rows.length > 0 ? bodyResult.rows : null;
-
-        const transResult = await pool.query(`SELECT unnest(enum_range(NULL::transmission_type))`);
-        const transTypes = transResult.rows.length > 0 ? transResult.rows : null;
-
-        res.render("home", {
-            user: req.user,
-            cars: cars,
-            newbie: newbie,
-            brands: brandsList,
-            fuelTypes: fuelTypes,
-            bodyTypes: bodyTypes,
-            transTypes: transTypes,
-            filters: req.query,
-            section: "cars",
-            pagination: {
-                total: totalCars,
-                limit: parseInt(limit),
-                offset: parseInt(offset),
-                currentPage: Math.floor(offset / limit) + 1,
-                totalPages: Math.ceil(totalCars / limit)
-            }
-        });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).render("p404");
+    // Favorites join
+    if (userId) {
+      query += ` LEFT JOIN favorites f ON f.user_id=$${index} AND f.vehicle_id=v.id`;
+      values.push(userId);
+      index++;
+    } else {
+      query += ` LEFT JOIN (SELECT NULL::int AS user_id, NULL::int AS vehicle_id) f ON false`;
     }
+
+    query += ` WHERE 1=1`;
+
+    let countQuery = `
+      SELECT COUNT(*) FROM vehicle_stock vs
+      JOIN vehicles v ON v.id=vs.vehicle_id
+      JOIN brands b ON v.brand_id=b.id
+      JOIN office o ON vs.office_id=o.id
+      WHERE 1=1
+      AND vs.units - COALESCE((
+        SELECT COUNT(*) FROM rentals r
+        WHERE r.vehicle_id = vs.vehicle_id
+          AND (r.status='active' OR r.status='pending')
+          AND (r.start_date < $2::timestamp AND r.end_date > $1::timestamp)
+      ), 0) >= 0
+    `;
+
+    // ——————————————————————————————————
+    // ——— Dynamic Filters Section ———
+    // ——————————————————————————————————
+
+    // Text search
+    if (search) {
+      const v = `%${search.toLowerCase()}%`;
+      query += ` AND (LOWER(b.name) LIKE $${index} OR LOWER(v.model) LIKE $${index})`;
+      countQuery += ` AND (LOWER(b.name) LIKE $${countIndex} OR LOWER(v.model) LIKE $${countIndex})`;
+      values.push(v);
+      countValues.push(v);
+      index++;
+      countIndex++;
+    }
+
+    // Location (wilaya)
+    if (location) {
+      const locs = location.toLowerCase().split(" ").filter(Boolean);
+      if (locs.length) {
+        const ph = locs.map(() => `$${index++}`);
+        const cph = locs.map(() => `$${countIndex++}`);
+        query += ` AND LOWER(o.wilaya) IN (${ph.join(",")})`;
+        countQuery += ` AND LOWER(o.wilaya) IN (${cph.join(",")})`;
+        values.push(...locs);
+        countValues.push(...locs);
+      }
+    }
+
+    // Brand IN (...)
+    if (brand) {
+      const brands = Array.isArray(brand) ? brand : brand.split(",");
+      if (brands.length) {
+        const ph = brands.map(() => `$${index++}`);
+        const cph = brands.map(() => `$${countIndex++}`);
+        query += ` AND LOWER(b.name) IN (${ph.join(",")})`;
+        countQuery += ` AND LOWER(b.name) IN (${cph.join(",")})`;
+        values.push(...brands.map(b => b.toLowerCase()));
+        countValues.push(...brands.map(b => b.toLowerCase()));
+      }
+    }
+
+    // Simple scalar filters
+    const simpleFilters = [
+      [rtype,   "v.rental_type ="],
+      [trans,   "LOWER(v.transmission::TEXT) ="],
+      [pricem,  "v.price >="],
+      [priceM,  "v.price <="]
+    ];
+    simpleFilters.forEach(([val, col]) => {
+      if (val !== undefined) {
+        const fv = isNaN(val) ? val.toLowerCase() : parseFloat(val);
+        query += ` AND ${col} $${index}`;
+        countQuery += ` AND ${col} $${countIndex}`;
+        values.push(fv);
+        countValues.push(fv);
+        index++; countIndex++;
+      }
+    });
+
+    // Availability (uses the same is_available logic)
+    if (availability !== undefined) {
+      const av = availability === "true";
+      query += ` AND (
+        vs.units - COALESCE((
+          SELECT COUNT(*) FROM rentals r
+          WHERE r.vehicle_id=vs.vehicle_id
+            AND (r.status='active' OR r.status='pending')
+            AND (r.start_date < $2::timestamp AND r.end_date > $1::timestamp)
+        ),0) > 0
+      ) = $${index}`;
+      values.push(av);
+      // We DO NOT push to countValues because countQuery does not include this availability equality filter
+      index++;
+    }
+
+    // Capacity filter
+    if (capacity) {
+      const cap = parseInt(capacity);
+      if (!isNaN(cap)) {
+        const op = cap > 4 ? ">" : "=";
+        query += ` AND v.capacity ${op} $${index}`;
+        countQuery += ` AND v.capacity ${op} $${countIndex}`;
+        values.push(cap);
+        countValues.push(cap);
+        index++; countIndex++;
+      }
+    }
+
+    // body_type and fuel_type arrays
+    [[body, "v.body::TEXT"], [fuel, "v.fuel::TEXT"]].forEach(([val, col]) => {
+      if (val) {
+        const list = Array.isArray(val) ? val : val.split(",");
+        const ph = list.map(() => `$${index++}`);
+        const cph = list.map(() => `$${countIndex++}`);
+        query += ` AND LOWER(${col}) IN (${ph.join(",")})`;
+        countQuery += ` AND LOWER(${col}) IN (${cph.join(",")})`;
+        values.push(...list.map(x => x.toLowerCase()));
+        countValues.push(...list.map(x => x.toLowerCase()));
+      }
+    });
+
+    // Pagination placeholders
+    query += ` ORDER BY stars DESC LIMIT $${index} OFFSET $${index + 1}`;
+    values.push(parseInt(limit), parseInt(offset));
+
+    // ——————————————————————————————————
+    // ——— DEBUG LOGGING ———
+    /* ——————————————————————————————————
+    console.log("===== MAIN QUERY =====");
+    console.log(query.trim());
+    console.log("Values:", values);
+    console.log("===== COUNT QUERY =====");
+    console.log(countQuery.trim());
+    console.log("CountValues:", countValues);
+    */
+    // ——————————————————————————————————
+    // ——— Execute Queries ———
+    // ——————————————————————————————————
+    const [carsResult, countResult] = await Promise.all([
+      pool.query(query, values),
+      countValues.length > 0
+        ? pool.query(countQuery, countValues)
+        : pool.query(countQuery)
+    ]);
+
+    const cars = carsResult.rows.length ? carsResult.rows : null;
+    const totalCars = parseInt(countResult.rows[0].count || 0);
+
+    // Fetch filter options
+    const [
+      brandsResult,
+      fuelResult,
+      bodyResult,
+      transResult,
+      wilayasRes
+    ] = await Promise.all([
+      pool.query(`SELECT * FROM brands`),
+      pool.query(`SELECT unnest(enum_range(NULL::fuel_type))`),
+      pool.query(`SELECT unnest(enum_range(NULL::body_type))`),
+      pool.query(`SELECT unnest(enum_range(NULL::transmission_type))`),
+      pool.query(`SELECT * FROM wilaya`)
+    ]);
+
+    res.render("home", {
+      user: req.user,
+      cars,
+      newbie,
+      brands: brandsResult.rows,
+      fuelTypes: fuelResult.rows,
+      bodyTypes: bodyResult.rows,
+      transTypes: transResult.rows,
+      wilayas: wilayasRes.rows,
+      filters: req.query,
+      section: "cars",
+      pagination: {
+        total: totalCars,
+        limit: parseInt(limit),
+        offset: parseInt(offset),
+        currentPage: Math.floor(offset / limit) + 1,
+        totalPages: Math.ceil(totalCars / limit)
+      }
+    });
+  } catch (error) {
+    console.error("Route /cars error:", error);
+    res.status(500).render("p404");
+  }
 });
 
 app.get("/car/:id", async (req, res) => {
@@ -683,6 +726,82 @@ app.get("/help", (req, res) => {
         res.render("home", { user: req.user, section : "help" });
     }catch(error){
         console.error(error);
+        res.status(500).render("p404");
+    }
+})
+
+app.get("/rent/:vid", async (req, res) => {
+    try {
+        const { vid } = req.params;
+        const userId = req.user ? req.user.id : null;
+        
+        const carResult = await pool.query(`
+            SELECT 
+                vehicle_stock.stock_id,
+                vehicle_stock.units,
+                vehicle_stock.office_id,
+                vehicles.*, 
+                brands.name AS brand_name, 
+                brands.logo, 
+                office.country, 
+                office.wilaya,  
+                office.address, 
+                office.city,
+                office.latitude,
+                office.longitude,
+                ROUND(COALESCE(AVG(reviews.stars), 0), 1) AS stars,
+                COUNT(DISTINCT reviews.id) AS reviews,
+                COUNT(DISTINCT rentals.id) AS orders,
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 1) AS s1,
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 2) AS s2,
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 3) AS s3,
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 4) AS s4,
+                COUNT(reviews.id) FILTER (WHERE reviews.stars = 5) AS s5,
+                CASE WHEN COUNT(f.vehicle_id) > 0 THEN true ELSE false END AS is_favorite
+            FROM 
+                vehicle_stock
+            JOIN 
+                vehicles ON vehicles.id = vehicle_stock.vehicle_id
+            JOIN
+                brands ON vehicles.brand_id = brands.id
+            JOIN 
+                office ON vehicle_stock.office_id = office.id
+            LEFT JOIN 
+                reviews ON vehicles.id = reviews.vehicle_id
+            LEFT JOIN 
+                rentals ON vehicles.id = rentals.vehicle_id
+            LEFT JOIN 
+                favorites f ON f.user_id = $1 AND f.vehicle_id = vehicles.id
+            WHERE 
+                vehicle_stock.vehicle_id = $2
+            GROUP BY 
+                vehicle_stock.stock_id, vehicles.id, brands.id, office.id
+            LIMIT 1;
+        `, [userId, vid]);
+
+        const carReviews = await pool.query(`
+            SELECT 
+                reviews.*,
+                users.id AS user_id, users.fname, users.lname, users.username, users.image,
+                rentals.id AS rental_id, rentals.total_price
+            FROM reviews
+            JOIN users ON reviews.user_id = users.id
+            JOIN rentals ON reviews.rental_id = rentals.id
+            WHERE reviews.vehicle_id = $1
+        `, [vid]);
+
+        const rent_id = uuidv4();
+
+        if (carResult.rows.length === 0) {
+            return res.status(404).render("p404");
+        } else {
+            const car = carResult.rows[0];
+            const reviews = carReviews.rows;
+            res.render("rent", { car: car, reviews: reviews, user: req.user, rent_id:rent_id });
+        }
+
+    } catch (error) {
+        console.error("Database error:", error);
         res.status(500).render("p404");
     }
 })

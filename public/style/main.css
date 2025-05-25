@@ -12,7 +12,7 @@
     --txt-white: white;
     --txt-white-low: rgba(172, 172, 172, 0.621);
     --border: rgba(129, 129, 129, 0.418);
-    --border-low: rgba(129, 129, 129, 0.171);
+    --border-low: rgba(128, 128, 128, 0.15);
     --input-4dark: transparent;
     --select-4dark: white;
     --input: rgb(235, 235, 235);
@@ -95,6 +95,18 @@ h3,h4,
 h5,h6,
 p,span{
     cursor: default;
+}
+
+.username{
+  font-size: 0.6em;
+  color: var(--text);
+  opacity: 0.4;
+}
+
+.name{
+  font-size: var(--font-sml);
+  color: var(--text);
+  font-weight: 600;
 }
 
 .pagination{
@@ -245,6 +257,15 @@ span.disabled i{
     height: 10px;
     overflow: hidden;
     margin: 0 5px;
+}
+
+.posabs{
+    position: absolute;
+}
+
+.topright{
+    top: 5px;
+    right: 5px;
 }
 
 /*Confirmation Dialog*/
@@ -533,6 +554,11 @@ span.disabled i{
     justify-content: center;
 }
 
+.end-center{
+    align-items: center;
+    justify-content: flex-end;
+}
+
 .break-line{
     min-height: 1px;
     max-height: 1px;
@@ -667,6 +693,13 @@ option{
     color: var(--text);
 }
 
+.para-smlr,
+.para-smlr span{
+    font-size: 0.6rem;
+    color: var(--text);
+    opacity: 0.7;
+}
+
 .para-lrg,
 .para-lrg span{
     font-size: 1.2rem;
@@ -734,6 +767,10 @@ option{
     padding: 1em;
 }
 
+.pdn{
+    padding: 0.325em;
+}
+
 .pdb05{
     padding-bottom: 0.5em
 }
@@ -782,12 +819,27 @@ option{
     cursor: pointer;
 }
 
+.bt-disable{
+    filter: grayscale(1);
+    opacity: 0.5;
+}
+
 .bt-hover:hover,
 .bt-hover:hover *{
     opacity: 0.8;
     transform: scale(1.015);
     transition: ease-in-out 0.5s;
     cursor: pointer;
+}
+
+.bt-disable:hover,
+.bt-disable:hover *{
+    transform: none;
+    cursor: default;
+}
+
+.bt-disable:hover{
+    opacity: 0.5;
 }
 
 .bt-reg,
@@ -889,8 +941,8 @@ input:-webkit-autofill:active{
     justify-content: flex-start;
     overflow: hidden;
     width: fit-content;
-    border: 1px solid var(--border);
-    border-radius: 8px;
+    border: 2px solid var(--border-low);
+    border-radius: 5px;
     padding-left: 10px;
     margin: 5px 0;
 }
@@ -899,7 +951,7 @@ input:-webkit-autofill:active{
     border: none;
     height: 100%;
     padding: 5px 15px;
-    font-size: var(--font-med);
+    font-size: var(--font-sml);
     width: calc(100% - 15px);
     margin-left: 5px;
     outline: none;
