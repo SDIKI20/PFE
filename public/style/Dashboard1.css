@@ -484,6 +484,7 @@ tr:hover {
   textarea:focus {
     outline: none;
     border-color: var(--color-second);
+    border-width: 1px;
     box-shadow: 0 0 0 1px var(--color-second);
   }
   
@@ -835,7 +836,7 @@ tr:hover {
 
 .dbm-active{
   background-color: rgba(0, 204, 255, 0.1);
-  color: rgb(90, 135, 180);
+  color: rgb(90, 135, 180) !important;
 }
 
 .dbm-cell-editbut{
@@ -2626,6 +2627,98 @@ tr:hover {
 
 .row-reviews:nth-child(2n){
   background-color: rgba(0, 0, 0, 0.03);
+}
+
+/*-----------------------------------------------------*/
+
+#discounts{
+  padding: 0 1em;
+}
+
+.rt-row-cd{
+  display: grid;
+  grid-template-columns: 5em 6em 10em 11em 6em repeat(3, 8em) 10em auto;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  padding:0 1em;
+  align-items: center;
+}
+
+.rt-row-cd p,
+.rt-row-cd .fa-copy{
+  font-size: 0.8em;
+  color: var(--text);
+}
+
+.rt-row-cc{
+  height: 3em;
+}
+
+.coupon-stat{
+  padding: 0.325em 0.625em;
+  width: fit-content;
+  border-radius: 5px;
+}
+
+#couponEditor .bt-reg{
+  height: 2.8em;
+  padding: 0 1.25em;
+}
+
+#couponEditor{
+  visibility: hidden;
+}
+
+.editor-container{
+  background-color: var(--container);
+  min-width: 280px;
+  width: 35vw;
+  height: 450px;
+  border-radius: 8px;
+  position: relative;
+  padding: 1em;
+}
+
+#couponEditorClose{
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  color: var(--text);
+  font-size: var(--font-med);
+}
+
+#editorAdd{
+  background-color: var(--color-second);
+  color: white;
+  border: none;
+}
+
+.editor-container h1{
+  font-size: var(--font-med);
+  color: var(--text);
+  width: fit-content;
+  opacity: 0.8;
+}
+
+.labled{
+  padding: 0.625em;
+}
+
+.labled select,
+.labled input{
+  border: 2px solid var(--border-low);
+  border-radius: 5px;
+  height: 3em;
+  font-size: var(--font-sml);
+  color: var(--text);
+  padding: 0 0.625em;
+  margin: 0.325em 0;
+}
+
+.labled label{
+  font-size: var(--font-sml);
+  color: var(--text);
 }
 
 /*-----------------------------------------------------*/

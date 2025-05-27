@@ -1,8 +1,23 @@
+function formatMoney(amount, decimals = 2) {
+    amount = parseFloat(amount);
+  
+    const fixedAmount = amount.toFixed(decimals);
+  
+    const parts = fixedAmount.split('.');
+    let integerPart = parts[0];
+    const decimalPart = parts[1];
+  
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  
+    return `${integerPart}.${decimalPart}`;
+}
+
 const stepMax = document.querySelectorAll('.rent-step-sect').length;
 const stepPrev = document.getElementById('stepPrev');
 const stepNext = document.getElementById('stepNext');
 
 const updateSteps = (current, target, direction) => {
+  
   const currentEl = document.getElementById(`step${current}`);
   const targetEl = document.getElementById(`step${target}`);
 
@@ -16,8 +31,8 @@ const updateSteps = (current, target, direction) => {
 
   currentEl.style.display = "none";
 
-  document.querySelector(`input[value="${current}"]`).checked = false;
-  document.querySelector(`input[value="${target}"]`).checked = true;
+  document.querySelector(`input[value="s${current}"]`).checked = false;
+  document.querySelector(`input[value="s${target}"]`).checked = true;
   document.getElementById(`rentStep${current}`).checked = false;
   document.getElementById(`rentStep${target}`).checked = true;
 
@@ -26,13 +41,14 @@ const updateSteps = (current, target, direction) => {
 };
 
 const nextStep = () => {
-  const current = parseInt(document.querySelector('input[name="stepsect"]:checked').value);
+  const current = parseInt(document.querySelector('input[name="stepsect"]:checked').value.substring(1));
   const target = current + 1;
   if (target <= stepMax) updateSteps(current, target, 1);
+  updateInvoice()
 };
 
 const prevStep = () => {
-  const current = parseInt(document.querySelector('input[name="stepsect"]:checked').value);
+  const current = parseInt(document.querySelector('input[name="stepsect"]:checked').value.substring(1));
   const target = current - 1;
   if (target > 0) updateSteps(current, target, -1);
 };
@@ -49,36 +65,80 @@ const rentalType = pickupInput.dataset.rentalType;
 
 let pickupDateString = '';
 let returnDateString = '';
+let period = 0;
 
 let now = new Date();
 let fullPickupDate = new Date(now);
 
+function toDatetimeLocalString(date) {
+  const pad = n => n.toString().padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+function formatDateTime(date) {
+  if (!(date instanceof Date) || isNaN(date)) return '';
+  return `${date.toDateString()}, ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+}
+
+function formatToSqlDateTime(date) {
+  if (!(date instanceof Date) || isNaN(date)) return '';
+  const pad = n => n.toString().padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+function updatePeriod() {
+  const pickupDate = new Date(pickupInput.value);
+  const returnDate = new Date(returnInput.value);
+
+  if (isNaN(pickupDate) || isNaN(returnDate)) {
+    period = 0;
+    return;
+  }
+
+  const diffMs = returnDate - pickupDate;
+
+  if (rentalType === 'h') {
+    period = Math.max(1, Math.floor(diffMs / (1000 * 60 * 60))); 
+  } else {
+    period = Math.max(1, Math.floor(diffMs / (1000 * 60 * 60 * 24)));
+  }
+}
+
 if (rentalType === 'h') {
-  // Round to next hour
   fullPickupDate.setMinutes(0, 0, 0);
+  if (fullPickupDate < now) fullPickupDate.setHours(fullPickupDate.getHours() + 1);
+
   const fullReturnDate = new Date(fullPickupDate.getTime() + 60 * 60 * 1000);
 
-  pickupInput.value = formatTime(fullPickupDate);
-  returnInput.value = formatTime(fullReturnDate);
+  pickupInput.type = 'datetime-local';
+  returnInput.type = 'datetime-local';
 
-  pickupInput.min = formatTime(now);
-  returnInput.min = formatTime(fullPickupDate);
+  pickupInput.value = toDatetimeLocalString(fullPickupDate);
+  returnInput.value = toDatetimeLocalString(fullReturnDate);
+
+  pickupInput.min = toDatetimeLocalString(now);
+  returnInput.min = toDatetimeLocalString(fullPickupDate);
+  const endOfDay = new Date();
+  endOfDay.setHours(23, 59, 59, 999);
+  returnInput.max = toDatetimeLocalString(endOfDay);
 
   pickupText.textContent = formatDateTime(fullPickupDate);
   returnText.textContent = formatDateTime(fullReturnDate);
 
   pickupDateString = formatToSqlDateTime(fullPickupDate);
   returnDateString = formatToSqlDateTime(fullReturnDate);
-
 } else {
   const pickupDate = new Date(now.setHours(0, 0, 0, 0));
   const returnDate = new Date(pickupDate.getTime() + 24 * 60 * 60 * 1000);
 
-  pickupInput.value = formatDate(pickupDate);
-  returnInput.value = formatDate(returnDate);
+  pickupInput.type = 'datetime-local';
+  returnInput.type = 'datetime-local';
 
-  pickupInput.min = formatDate(pickupDate);
-  returnInput.min = formatDate(pickupDate);
+  pickupInput.value = toDatetimeLocalString(pickupDate);
+  returnInput.value = toDatetimeLocalString(returnDate);
+
+  pickupInput.min = toDatetimeLocalString(pickupDate);
+  returnInput.min = toDatetimeLocalString(pickupDate);
 
   pickupText.textContent = formatDateTime(pickupDate);
   returnText.textContent = formatDateTime(returnDate);
@@ -86,6 +146,8 @@ if (rentalType === 'h') {
   pickupDateString = formatToSqlDateTime(pickupDate);
   returnDateString = formatToSqlDateTime(returnDate);
 }
+
+updatePeriod();
 
 [pickupText, pickupIcon].forEach(el =>
   el.addEventListener('click', () => pickupInput.showPicker?.() || pickupInput.focus())
@@ -95,64 +157,35 @@ if (rentalType === 'h') {
 );
 
 pickupInput.addEventListener('change', () => {
-  const val = pickupInput.value;
+  const val = new Date(pickupInput.value);
+  if (isNaN(val)) return;
 
-  if (rentalType === 'h') {
-    const [hour, minute] = val.split(':');
-    fullPickupDate.setHours(hour, minute, 0, 0);
-  } else {
-    fullPickupDate = new Date(val);
-  }
+  fullPickupDate = val;
 
   pickupText.textContent = formatDateTime(fullPickupDate);
   pickupDateString = formatToSqlDateTime(fullPickupDate);
 
-  const returnDate = getFullDate(returnInput.value);
-  if (returnDate <= fullPickupDate) {
+  const returnDate = new Date(returnInput.value);
+  if (isNaN(returnDate) || returnDate <= fullPickupDate) {
     const adjusted = new Date(fullPickupDate.getTime() + (rentalType === 'h' ? 3600000 : 86400000));
-    returnInput.value = rentalType === 'h' ? formatTime(adjusted) : formatDate(adjusted);
+    returnInput.value = toDatetimeLocalString(adjusted);
     returnText.textContent = formatDateTime(adjusted);
     returnDateString = formatToSqlDateTime(adjusted);
   }
 
-  returnInput.min = rentalType === 'h' ? formatTime(fullPickupDate) : formatDate(fullPickupDate);
+  returnInput.min = toDatetimeLocalString(fullPickupDate);
+  updatePeriod();
+  updateStat()
 });
 
 returnInput.addEventListener('change', () => {
-  const returnDate = getFullDate(returnInput.value);
+  const returnDate = new Date(returnInput.value);
+  if (isNaN(returnDate)) return;
   returnText.textContent = formatDateTime(returnDate);
   returnDateString = formatToSqlDateTime(returnDate);
+  updatePeriod();
+  updateStat()
 });
-
-function formatDateTime(date) {
-  if (!(date instanceof Date) || isNaN(date)) return '';
-  return `${date.toDateString()}, ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-}
-
-function formatDate(date) {
-  return date.toISOString().split('T')[0];
-}
-
-function formatTime(date) {
-  return date.toTimeString().slice(0, 5);
-}
-
-function formatToSqlDateTime(date) {
-  if (!(date instanceof Date) || isNaN(date)) return '';
-  const pad = n => n.toString().padStart(2, '0');
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
-}
-
-function getFullDate(val) {
-  if (rentalType === 'h') {
-    const [hour, minute] = val.split(':');
-    const base = new Date(fullPickupDate);
-    base.setHours(hour, minute, 0, 0);
-    return base;
-  } else {
-    return new Date(val);
-  }
-}
 
 const vid = document.getElementById('vid')
 
@@ -167,6 +200,7 @@ const checkBut = document.getElementById('checkCarAv')
 const checkCarAv = async (vid, start_date, end_date) => {
   try {
     avLoader.style.visibility = "visible"
+    stepNext.disabled = true
     let u = new URL(`${window.location.origin}/api/vehicles/check/available`);
     let params = u.searchParams;
 
@@ -184,6 +218,7 @@ const checkCarAv = async (vid, start_date, end_date) => {
     } = await response.json();
   
     avLoader.style.visibility = "hidden"
+    stepNext.disabled = !availability
 
     return { 
       availability
@@ -212,9 +247,169 @@ const updateStat = async ()=>{
   })
 }
 
+const rentPriceInp = document.getElementById('rentPrice')
+const pickLoc = document.getElementById('pickLoc')
+const carName = document.getElementById('carName')
+
+const userFLName = document.getElementById('userFLName')
+const userBirth = document.getElementById('userBirth')
+const userEmail = document.getElementById('userEmail')
+const userPhone = document.getElementById('userPhone')
+const userCountry = document.getElementById('userCountry')
+const userWilaya = document.getElementById('userWilaya')
+const userCity = document.getElementById('userCity')
+const userAddress = document.getElementById('userAddress')
+
+const discounts = document.querySelectorAll('.discount-el')
+
+const rentInvoice = document.getElementById('rentInvoice')
+const tentantInfo = document.getElementById('tentantInfo')
+const rentalInfo = document.getElementById('rentalInfo')
+const rentPeriod = document.getElementById('rentPeriod')
+const carRentPrice = document.getElementById('carRentPrice')
+const invoiceBillOpt = document.getElementById('invoiceBillOpt')
+const totalBillAmount = document.getElementById('totalBillAmount')
+const billDiscounts = document.getElementById('billDiscounts')
+
+const updateInvoice = () => {
+
+  const returnD = returnInput.value
+  const pickupD = pickupInput.value
+  
+  let finalPrice = 0
+
+  const pickupText = document.getElementById('pickupText').textContent
+  const returnText = document.getElementById('returnText').textContent
+  
+  const birthdate = userBirth.value
+  const country = userCountry.value
+  const username = userFLName.value
+  const email = userEmail.value
+  const phonenum = userPhone.value
+  const wilaya = userWilaya.value
+  const city = userCity.value
+  const address = userAddress.value
+
+  const car = carName.textContent
+
+  const rentPrice = parseFloat(rentPriceInp.value)
+  finalPrice+= (rentPrice * period)
+
+  const driver = document.querySelector('input[name="driveron"]:checked')
+  const isDriver = driver.value === "driver"
+
+  const driverCoast = isDriver?`
+    <div class="bill-row bill-det">
+          <p>Driver</p>
+          <p>1</p>
+          <p><span>500</span> <span class="currence">DZD</span></p>
+          <p><span>500</span> <span class="currence">DZD</span></p>
+        </div>
+  `:""
+
+  const insur = document.querySelector('input[name="insure"]:checked').parentElement.parentElement.parentElement
+  const insurance = parseFloat(insur.children[0].value)
+  finalPrice += insurance
+  const insurancePlan = insur.children[1].children[0].textContent
+  
+  const features = document.querySelectorAll('input[name="features"]:checked')
+  let featuresBill = ``
+
+  if (features.length > 0){
+    features.forEach(feature=>{
+      const featName = feature.parentElement.parentElement.children[3].children[0].textContent    
+      const featPrice = feature.parentElement.parentElement.children[0].value
+      const featQuantity = 1
+      featuresBill += `
+        <div class="bill-row bill-det">
+          <p>${featName}</p>
+          <p>${featQuantity}</p>
+          <p><span>${formatMoney(featPrice, 2)}</span> <span class="currence">DZD</span></p>
+          <p><span>${formatMoney(featPrice * featQuantity, 2)}</span> <span class="currence">DZD</span></p>
+        </div>
+      `
+      finalPrice += (featPrice * featQuantity)
+    })
+  }
+
+  const discounts = document.querySelectorAll('.discount-el')
+  let discountsBill = ``
+  let discountPer = 0
+
+  if (discounts.length > 0){
+    discounts.forEach(discount=>{
+      const discountName = discount.children[2].children[0].textContent
+      const discountValue = discount.children[0].value
+      discountsBill +=`
+        <div class="flex-row center-spacebet bill-discount">
+            <p></p>
+            <p class="username">-${discountValue}% ${discountName}</p>
+          </div>
+      `
+      discountPer += parseInt(discountValue)
+    })
+  }
+
+  totalBillAmount.textContent = formatMoney(finalPrice, 2)
+
+  finalPrice -= finalPrice * discountPer / 100
+  
+  tentantInfo.innerHTML = `
+    <li id="invUname"> ${username}</li>
+    <li id="invUwilaya" class="address">Wilaya: ${wilaya}</li>
+    <li id="invUcity" class="address">City: ${city}</li>
+    <li id="invUaddress" class="address">Address: ${address}</li>
+    <li id="invUemail" class="address">Email: ${email}</li>
+    <li id="invUphone" class="address">Phone: ${phonenum}</li>
+  `
+
+  rentalInfo.innerHTML = `
+    <li>${car}</li>
+    <li id="invRloca" class="address">Location: ${pickLoc.value}</li>
+    <li id="invRpickup" class="address">Pickup: ${pickupText}</li>
+    <li id="invRreturn" class="address">Return: ${returnText}</li>
+  `
+
+  rentPeriod.textContent = `${period} ${rentalType == "h"?"Hours":"Days"}`
+
+  carRentPrice.textContent = formatMoney(rentPrice, 2)
+
+  invoiceBillOpt.innerHTML = ``
+
+  if (featuresBill != '' || isDriver){
+    invoiceBillOpt.innerHTML = `
+      <div class="bill-sip"></div>
+      <span class="username" style="margin: 1em 0;">Optional Additions</span>
+      <div class="bill-head-row bill-row">
+        <p>Description</p>
+        <p>Quantity</p>
+        <p>Price</p>
+        <p>Amount</p>
+      </div>
+      <div class="bill bod-list flex-col">
+        ${featuresBill}
+        ${driverCoast}
+      </div>
+    `
+  }
+
+  if (discountsBill != ''){
+    totalBillAmount.style.textDecoration = "line-through"
+    billDiscounts.innerHTML = `
+      ${discountsBill}
+      <div class="flex-row center-spacebet">
+        <p></p>
+        <p><span id="totalBillAmountDis">${formatMoney(finalPrice, 2)}</span> <span class="currence">DZD</span></p>
+      </div>
+    `
+  }
+
+}
+
 stepNext.addEventListener('click', nextStep);
 stepPrev.addEventListener('click', prevStep);
 
 checkBut.addEventListener('click', updateStat)
 
 updateStat()
+

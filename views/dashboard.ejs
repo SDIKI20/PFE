@@ -103,6 +103,10 @@
                     <i class="fa-solid fa-car-rear" style="color:rgb(203, 114, 236); opacity: 0.8;" ></i>
                     <span>Vehicles</span>
                 </a>
+                <a href="/discounts" class="nav-element-head <%= section=="discounts"?"nes":"" %> flex-row center-start w100" id="navElCD">
+                    <i class="fa-solid fa-tags" style="color:rgb(114, 211, 236); opacity: 0.9;" ></i>
+                    <span>Coupons & discounts</span>
+                </a>
                 <li class="nav-break"></li>
                 <li class="nav-break-title flex-row center-start w100">Report & Feedback</li>
                 <a href="/report" class="nav-element-head <%= section=="report"?"nes":"" %> flex-row center-start w100">
@@ -122,6 +126,102 @@
                 </a>
             </ul>
         </nav>
+        <% if (section==='discounts' ){ %>
+            <section class="content-section flex-col" id="discounts">
+                <div id="couponEditor" class="popup-container flex-row flex-center">
+                    <div class="editor-container flex-col">
+                        <i class="fa-solid fa-xmark bt-hover" id="couponEditorClose"></i>
+                        <h1> <i class="fa-solid fa-percent"></i> Add Discount</h1>
+                        <div class="flex-col w100 labled" style="margin-top: 1em;">
+                            <label for="">Name: </label>
+                            <input type="text" placeholder="Enter name">
+                        </div>
+                        <div class="flex-row center-start w100 gap-lrg">
+                            <div class="flex-col w50 labled">
+                                <label for="">Type: </label>
+                                <select>
+                                    <option value="discount">Discount</option>
+                                    <option value="coupon">Coupon</option>
+                                </select>
+                            </div>
+                            <div class="flex-col labled">
+                                <label for="">Code: </label>
+                                <div class="flex-row center-start gap-min">
+                                    <input type="text">
+                                    <button class="bt bt-hover bt-reg">Generate</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex-row end-center gap-min w100" style="margin-top: auto;">
+                            <button class="bt bt-hover bt-reg" id="editorCancel">Cancel</button>
+                            <button class="bt bt-hover bt-reg" id="editorAdd">Add</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-row center-start dash-path gap-min">
+                    <i class="path-text fa-solid fa-house"></i>
+                    <span class="currence">	&gt;</span>
+                    <p class="path-text">Management</p>
+                    <span class="currence">	&gt;</span>
+                    <p class="path-text">Discounts</p>
+                </div>
+                <div class="lst-rentals-head flex-row center-spacebet">
+                    <div class="flex-row center-start h100 gap-min">
+                        <h3>All Coupouns <span class="list-stat" id="statTot">0</span></h3>
+                        <div class="sloader" id="vehiclesLoader"></div>
+                    </div>
+                    <div class="flex-row center-start h100 gap-min">
+                        <button class="bt bt-hover bt-reg bgc gap-lrg"><i class="fa-solid fa-filter"></i> Filter</button>
+                        <button class="bt bt-hover bt-reg bgc gap-lrg"><i class="fa-solid fa-arrow-up-z-a"></i> Order</button>
+                        <div class="nah-break"></div>
+                        <button id="addDiscount" class="bt bt-hover bt-solid gap-lrg flex-row center-start"><i class="fa-solid fa-plus"></i> Add Discount</button>
+                    </div>
+                </div>
+                <div class="lst-rentals-body flex-col" style="margin-top: 1em;">
+                    <div class="lst-rentals-table h100 w100">
+                        <div class="rt-body">
+                            <div class="rt-row-cd rt-head">
+                                <p>ID</p>
+                                <p>Type</p>
+                                <p>Name</p>
+                                <p>Expire on</p>
+                                <p>Status</p>
+                                <p>Code</p>
+                                <p>Discount</p>
+                                <p>Usage limit</p>
+                                <p>Created at</p>
+                                <p></p>
+                            </div>
+                            <div class="rt-bod" id="rtBod">
+                                
+                            </div>
+                        </div>
+                        <div class="rt-foot">
+                            <div class="flex-row center-spacebet w100 h100" id="rtPagination">
+                                <div class="flex-row center-start gap-lrg">
+                                    <p class="para-sml">Page: </p>
+                                    <select class="select-reg" id="vehiclesCurrentPage">
+                                        <option value="1">1</option>
+                                    </select>
+                                    <p class="para-sml">Show per page: </p>
+                                    <input class="select-reg" type="number" min="0" max="50" value="10" id="vehiclesLimit" style="width: 4em; padding-right: 0; height: 2.5em; text-align: center;">
+                                    <p class="para-sml">Offset: </p>
+                                    <input class="select-reg" type="number" value="0" id="vehiclesOffset" style="width: 4em; padding-right: 0; height: 2.5em; text-align: center;">
+                                </div>
+                                <div class="flex-row center-start gap-lrg" id="vehicleTableFoot">
+                                    <p class="para-sml" id="tpageInfo">1-5 of 99</p>
+                                    <div class="flex-row center-start gap-lrg">
+                                        <button class="bt bt-hover bt-pagin" id="oPrevB">&lt;</button>
+                                        <button class="bt bt-hover bt-pagin" id="oNextB">&gt;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+            </section>
+        <%}%>
         <% if (section==='vehicles' ){ %>
             <% if (subsection === 'listvehicles') {%>
                 <section class="content-section flex-col" id="listvehicles">
@@ -155,7 +255,7 @@
                                     <div class="flex-row" style="gap: 5px;">
                                         <div class="form-group" style="width: 20%;">
                                             <label class="form-label" for="edUnits">Units</label>
-                                            <input type="number" id="edUnits" name="Units" min="1" placeholder="Ex: 3" required>
+                                            <input type="number" id="edUnits" name="Units" min="0" placeholder="Ex: 3" required>
                                         </div>
                                         <div class="form-group" style="width: calc(50% - 5px);">
                                             <label class="form-label" for="edPrice">Price <span class="currence">(DZD)</span></label>
@@ -2236,6 +2336,7 @@
         <% const scripts = { 
             addvehicle: "addvehicle.js", 
             vehicles: "vehicles.js", 
+            discounts: "discounts.js", 
             order: "order.js",
             customers: "customers.js",
             account: "account.js",
