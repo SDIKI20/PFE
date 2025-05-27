@@ -362,6 +362,7 @@ CREATE TABLE reports (
 
 CREATE TABLE coupons (
   id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL DEFAULT 'Coupon',
   code VARCHAR(30) UNIQUE NOT NULL,
   value INTEGER NOT NULL,
   usage_limit INT DEFAULT 1,
@@ -371,9 +372,17 @@ CREATE TABLE coupons (
 
 CREATE TABLE promo (
   id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL DEFAULT 'Discount',
   value INTEGER NOT NULL,
   expires_at TIMESTAMP,
   created_at TIMESTAMP
+);
+
+CREATE TABLE coupons_use (
+  id SERIAL PRIMARY KEY,
+  coupon_id INT REFERENCES coupons(id),
+  user_id INT REFERENCES users(id),
+  used_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Indexes--------------------------------------------------------------
@@ -677,3 +686,17 @@ INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (37, 1, 2
 INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (38, 2, 1);
 INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (39, 3, 4);
 INSERT INTO public.vehicle_stock (vehicle_id, office_id, units) VALUES (40, 4, 3);
+
+INSERT INTO coupons (code, value, usage_limit, expires_at, created_at) VALUES
+('WELCOME10', 10, 1, '2024-12-31 23:59:59', '2023-01-01 00:00:00'),
+('SAVE20', 20, 5, '2024-11-30 23:59:59', '2023-02-15 12:00:00'),
+('HOLIDAY30', 30, 10, '2024-12-25 23:59:59', '2023-05-01 08:30:00'),
+('SPRING15', 15, 3, '2025-06-15 23:59:59', '2025-03-20 09:00:00'),
+('FREESHIP', 0, 100, '2025-08-01 23:59:59', '2025-04-10 10:45:00');
+
+INSERT INTO promo (value, expires_at, created_at) VALUES
+(5, '2025-07-01 23:59:59', '2025-03-01 10:00:00'),
+(10, '2025-09-30 23:59:59', '2025-04-01 11:30:00'),
+(15, '2025-06-30 23:59:59', '2025-05-01 14:00:00'),
+(25, '2025-12-31 23:59:59', '2025-01-10 09:15:00'),
+(50, '2025-11-15 23:59:59', '2025-02-25 13:45:00');

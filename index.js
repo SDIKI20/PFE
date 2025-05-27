@@ -23,6 +23,7 @@ const docRoutes = require('./api/routes/documentsRoutes.js');
 const orders = require("./api/routes/orderRoutes");
 const reviews = require("./api/routes/reviewRoutes");
 const vehicles = require("./api/routes/vehiclesRoutes");
+const discountsRoutes = require("./api/routes/discountsRoutes");
 const { sendEmail } = require('./api/controllers/emailController');
 const { v4: uuidv4 } = require('uuid');
 
@@ -113,6 +114,7 @@ app.use('/api/orders', orders);
 app.use('/api/feedback', reviews);
 app.use('/api/vehicles', vehicles);
 app.use('/api/docs', docRoutes);
+app.use('/api/discounts', discountsRoutes);
 
 /*---------------------------------------------------------*/
 
@@ -1057,6 +1059,15 @@ app.get('/vehicles/types/add', async (req, res) => {
             section:"vehicles", 
             subsection:"addtype"
         })
+    }catch(error){
+        console.error(error);
+        res.status(500).render("p404");
+    }
+})
+
+app.get('/discounts',(req, res) => {
+    try{
+      res.render("dashboard",{user: req.user, section:"discounts", subsection:""})
     }catch(error){
         console.error(error);
         res.status(500).render("p404");

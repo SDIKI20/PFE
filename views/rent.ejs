@@ -47,6 +47,7 @@
   %>
 
   <input type="number" value="<%= car.id %>" id="vid" hidden>
+  <input type="number" value="<%= car.price %>" id="rentPrice" hidden>
 
   <nav class="rent-navigator flex-col">
       <a href="/home" class="nav-head nav-logo bt-hover flex-row center-start gap-lrg w100">
@@ -129,7 +130,7 @@
     </div>
 
     <section class="rent-step-sect flex-row flex-wrap w100 gap-lrg" id="step1">
-      <input type="radio" name="stepsect" value="1" checked hidden>
+      <input type="radio" name="stepsect" value="s1" checked hidden>
       <div class="flex-col flex-center gap-lrg pers-rent-info">
         <h1 class="gap-lrg" style="align-self: flex-start;"><i class="fa-solid fa-clipboard-list"></i> Rental Details</h1>
         <div class="rentInf flex-row w100 center-start gap-lrg">
@@ -138,8 +139,8 @@
                 <h3>Pickup Location</h3>
                   <div class="flex-row holder" style="position: relative;">
                       <i class="fa-solid fa-location-dot float-icon"></i>
-                      <select class="para-sml plat-text">
-                          <option value="loc1"><%= car.wilaya %>, <%= car.city %>, <%= car.address %></option>
+                      <select class="para-sml plat-text" id="pickLoc">
+                          <option value="<%= car.wilaya %>, <%= car.city %>, <%= car.address %>"><%= car.wilaya %>, <%= car.city %>, <%= car.address %></option>
                       </select>
                   </div>
             </div>
@@ -241,14 +242,14 @@
           <div class="flex-row flex-center gap-lrg h100">
             <div class="flex-col">
               <label class="image-button bt-hover">
-                <input type="radio" name="driveron" value="1" class="posabs topright radio-fk" checked>
+                <input type="radio" name="driveron" value="driver" class="posabs topright radio-fk" checked>
                 <img src="/assets/images/driver.png" alt="Image Button" width="100">
               </label>
               <h2 class="para-sml" style="text-align: center;">With Driver</h2>
             </div>
             <div class="flex-col">
               <label class="image-button bt-hover <%=user?user.account_status?"":"bt-disable":"bt-disable" %>" title="<%=user?user.account_status?"":"Your Account is not verified":"Your Account is not verified" %>">
-                <input type="radio" name="driveron" value="0" class="posabs topright radio-fk" <%=user?user.account_status?"":"disabled":"disabled" %>>
+                <input type="radio" name="driveron" value="nodriver" class="posabs topright radio-fk" <%=user?user.account_status?"":"disabled":"disabled" %>>
                 <img src="/assets/images/nodriver.png" alt="Image Button" width="100">
               </label>
               <h2 class="para-sml" style="text-align: center;">Without Driver</h2>
@@ -337,7 +338,7 @@
     </section>
 
     <section class="rent-step-sect flex-row flex-wrap w100 gap-lrg" id="step2">
-      <input type="radio" name="stepsect" value="2" hidden>
+      <input type="radio" name="stepsect" value="s2" hidden>
       <div class="flex-col gap-lrg h100">
         <div class="rent-insur flex-col">
           <div class="gap-min flex-row center-start">
@@ -469,15 +470,15 @@
             <label class="flex-row center-start gap-min feat checkbox-wrapper-13">
               <input type="number" value="600" hidden>
               <p class="feature-price">600 <span class="currence">DZD</span></p>
+              <img src="/assets/features/babyseat.png" alt="Feature" class="feat-icn">
               <div class="flex-row center-start">
-                <img src="/assets/features/babyseat.png" alt="Feature" class="feat-icn">
                 <div class="flex-col">
                   <h6>Baby Seat / Child Booster Seat</h6>
                   <p>For infants or young children</p>
                 </div>
               </div>
               <div class="checkb">
-                <input type="checkbox" id="">
+                <input type="checkbox" name="features">
               </div>
             </label>
             <label class="flex-row center-start gap-min feat checkbox-wrapper-13">
@@ -489,7 +490,7 @@
                 <p>Ideal for trips with lots of baggage</p>
               </div>
               <div class="checkb">
-                <input type="checkbox" id="">
+                <input type="checkbox" name="features">
               </div>
             </label>
             <label class="flex-row center-start gap-min feat checkbox-wrapper-13">
@@ -501,7 +502,7 @@
                 <p>Helps avoid roaming charges on phones</p>
               </div>
               <div class="checkb">
-                <input type="checkbox" id="">
+                <input type="checkbox" name="features">
               </div>
             </label>
             <label class="flex-row center-start gap-min feat checkbox-wrapper-13">
@@ -513,7 +514,7 @@
                 <p>Mobile internet access for passengers</p>
               </div>
               <div class="checkb">
-                <input type="checkbox" id="">
+                <input type="checkbox" name="features">
               </div>
             </label>
             <label class="flex-row center-start gap-min feat checkbox-wrapper-13">
@@ -525,7 +526,7 @@
                 <p>Includes interior vacuum & exterior wash</p>
               </div>
               <div class="checkb">
-                <input type="checkbox" id="">
+                <input type="checkbox" name="features">
               </div>
             </label>
             <label class="flex-row center-start gap-min feat checkbox-wrapper-13">
@@ -537,7 +538,7 @@
                 <p>For carrying extra luggage, bikes, or outdoor gear</p>
               </div>
               <div class="checkb">
-                <input type="checkbox" id="">
+                <input type="checkbox" name="features">
               </div>
             </label>
           </ul>
@@ -546,7 +547,7 @@
     </section>
 
     <section class="rent-step-sect flex-row flex-wrap gap-lrg w100" id="step3">
-      <input type="radio" name="stepsect" value="3" hidden>
+      <input type="radio" name="stepsect" value="s3" hidden>
       <div class="flex-col gap-lrg h100" style="width: calc(70% - 1em);">
         <div class="apply-coup flex-col flex-center">
           <div class="flex-row center-start gap-min" style="align-self: flex-start;">
@@ -588,6 +589,7 @@
         </div>
         <ul class="discounts-list flex-col center-start w100">
           <li class="discount-el flex-row center-start w100 gap-lrg">
+            <input type="number" value="10" hidden>
             <i class="fa-solid fa-gift"></i>
             <div class="flex-col">
               <h6>Summer discounts</h6>
@@ -595,6 +597,7 @@
             </div>
           </li>
           <li class="discount-el flex-row center-start w100 gap-lrg">
+            <input type="number" value="5" hidden>
             <i class="fa-solid fa-gift"></i>
             <div class="flex-col">
               <h6>Loyality</h6>
@@ -606,8 +609,8 @@
     </section>
 
     <section class="rent-step-sect flex-row flex-wrap gap-lrg w100" id="step4">
-      <input type="radio" name="stepsect" value="4" hidden>
-      <div class="rent-invoice">
+      <input type="radio" name="stepsect" value="s4" hidden>
+      <div class="rent-invoice" id="rentInvoice">
         <div class="flex-row center-start gap-min">
           <i class="fa-solid fa-file-invoice"></i>
           <h1>Invoice</h1>
@@ -621,22 +624,22 @@
             <div class="flex-row w100 gap-lrg">
               <div class="flex-col w50">
                 <span class="username">Tenant</span>
-                <ul class="bill-inf">
-                  <li><%= user?user.fname:"Firstname"%> <%= user?user.lname:"Lastname"%></li>
-                  <li class="address">Country: <%= user?user.wilaya:"Wilaya"%></li>
-                  <li class="address">City: <%= user?user.city:"City"%></li>
-                  <li class="address">Address: <%= user?user.address:"Address"%></li>
-                  <li class="address">Email: <%= user?user.email:"Exemple@exemple.exe"%></li>
-                  <li class="address">Phone: <%= user?user.phone:"+213xxxxxxxxx"%></li>
+                <ul class="bill-inf" id="tentantInfo">
+                  <li id="invUname"><%= user?user.fname:"Firstname"%> <%= user?user.lname:"Lastname"%></li>
+                  <li id="invUwilaya" class="address">Wilaya: <%= user?user.wilaya:"Wilaya"%></li>
+                  <li id="invUcity" class="address">City: <%= user?user.city:"City"%></li>
+                  <li id="invUaddress" class="address">Address: <%= user?user.address:"Address"%></li>
+                  <li id="invUemail" class="address">Email: <%= user?user.email:"Exemple@exemple.exe"%></li>
+                  <li id="invUphone" class="address">Phone: <%= user?user.phone:"+213xxxxxxxxx"%></li>
                 </ul>
               </div>
               <div class="flex-col w50">
                 <span class="username">Rental</span>
-                <ul class="bill-inf">
+                <ul class="bill-inf" id="rentalInfo">
                   <li><%= car.brand_name %> <%= car.model %> <%= car.fab_year %></li>
-                  <li class="address">Location: <%= car.wilaya %>, <%= car.city %>, <%= car.address %></li>
-                  <li class="address">Pickup: 24 Mar 2025 08:00 AM</li>
-                  <li class="address">Return: 24 Apr 2025 17:00 PM</li>
+                  <li id="invRloca" class="address">Location: <%= car.wilaya %>, <%= car.city %>, <%= car.address %></li>
+                  <li id="invRpickup" class="address">Pickup: 24 Mar 2025 08:00 AM</li>
+                  <li id="invRreturn" class="address">Return: 24 Apr 2025 17:00 PM</li>
                 </ul>
               </div>
             </div>
@@ -656,30 +659,32 @@
                     <p><%= car.brand_name %> <%= car.model %> <%= car.fab_year %></p>
                   </div>
                   <p>1</p>
-                  <p>15 Days</p>
-                  <p><span>10,000.00</span> <span class="currence">DZD</span></p>
+                  <p id="rentPeriod">1 Days</p>
+                  <p><span id="carRentPrice">10,000.00</span> <span class="currence">DZD/<%= car.rental_type %></span></p>
                 </div>
               </div>
-              <div class="bill-sip"></div>
-              <span class="username" style="margin: 1em 0;">Optional Additions</span>
-              <div class="bill-head-row bill-row">
-                <p>Description</p>
-                <p>Quantity</p>
-                <p>Price</p>
-                <p>Amount</p>
-              </div>
-              <div class="bill bod-list flex-col">
-                <div class="bill-row bill-det">
-                  <p>Baby seat</p>
-                  <p>10</p>
-                  <p><span>1,000.00</span> <span class="currence">DZD</span></p>
-                  <p><span>10,000.00</span> <span class="currence">DZD</span></p>
+              <div class="flex-col" id="invoiceBillOpt">
+                <div class="bill-sip"></div>
+                <span class="username" style="margin: 1em 0;">Optional Additions</span>
+                <div class="bill-head-row bill-row">
+                  <p>Description</p>
+                  <p>Quantity</p>
+                  <p>Price</p>
+                  <p>Amount</p>
                 </div>
-                <div class="bill-row bill-det">
-                  <p>Wifi</p>
-                  <p>1</p>
-                  <p><span>1,000.00</span> <span class="currence">DZD</span></p>
-                  <p><span>1,000.00</span> <span class="currence">DZD</span></p>
+                <div class="bill bod-list flex-col">
+                  <div class="bill-row bill-det">
+                    <p>Baby seat</p>
+                    <p>10</p>
+                    <p><span>1,000.00</span> <span class="currence">DZD</span></p>
+                    <p><span>10,000.00</span> <span class="currence">DZD</span></p>
+                  </div>
+                  <div class="bill-row bill-det">
+                    <p>Wifi</p>
+                    <p>1</p>
+                    <p><span>1,000.00</span> <span class="currence">DZD</span></p>
+                    <p><span>1,000.00</span> <span class="currence">DZD</span></p>
+                  </div>
                 </div>
               </div>
               <div class="bill-sip"></div>
@@ -688,7 +693,23 @@
         </div>
         <div class="flex-row center-spacebet bill-total">
           <p>Total amount</p>
-          <p><span>250,000.00</span> <span class="currence">DZD</span></p>
+          <div class="flex-row center-start gap-min">
+            <p><span id="totalBillAmount">250,000.00</span> <span class="currence">DZD</span></p>
+          </div>
+        </div>
+        <div class="flex-col w100" id="billDiscounts">
+          <div class="flex-row center-spacebet bill-discount">
+            <p></p>
+            <p class="username">-10% Summer discounts</p>
+          </div>
+          <div class="flex-row center-spacebet bill-discount">
+            <p></p>
+            <p class="username">-5% newbie</p>
+          </div>
+          <div class="flex-row center-spacebet">
+            <p></p>
+            <p><span id="totalBillAmountDis">200,000.00</span> <span class="currence">DZD</span></p>
+          </div>
         </div>
       </div>
       <div class="flex-col gap-lrg rent-payment">
@@ -752,8 +773,8 @@
       </div>
     </section>
 
-    <section class="rent-step-sect flex-col w100" id="step5">
-      <input type="radio" name="stepsect" value="5" hidden>
+    <section class="rent-step-sect flex-row flex-wrap gap-lrg w100" id="step5">
+      <input type="radio" name="stepsect" value="s5" hidden>
     </section>
 
   </main>
