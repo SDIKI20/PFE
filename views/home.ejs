@@ -1375,14 +1375,52 @@
     <% if (section === 'docs') { %>
         <section class="plat-main-doc flex-col flex-center" id="docsDoc">
             <input type="radio" class="sectRad" hidden name="sectRad" id="sectDocs" checked>
-            <form class="flex row center-start popup-container" id="userEditor">
-                <div class="flex-col center-start user-editor">
-                    <div class="flex-row center-start">
-                        <div class="flex-col center-start gap-min"></div>
-                        <input type="text" name="fname" id="fname">
+            <div class="flex-row flex-center popup-container" id="userEditor">
+                <form class="flex-col user-editor gap-lrg" >
+                    <i class="fa-solid fa-xmark bt-hover" id="userEditorClose"></i>
+                    <h1>Update Informations</h1>
+                    <div class="flex-row w100 center-start gap-lrg">
+                        <div class="flex-col w50">
+                            <label for="fname">First Name</label>
+                            <input type="text" name="fname" id="fname" value="<%= user.fname %>">
+                        </div>
+                        <div class="flex-col w50">
+                            <label for="fname">Last Name</label>
+                            <input type="text" name="fname" id="fname" value="<%= user.lname %>">
+                        </div>
                     </div>
-                </div>
-            </form>
+                    <div class="flex-row w100 center-start gap-lrg">
+                        <div class="flex-col w50">
+                            <label for="wilaya">Wilaya</label>
+                            <input type="text" name="wilaya" id="wilaya" value="<%= user.wilaya %>">
+                        </div>
+                        <div class="flex-col w50">
+                            <label for="city">City</label>
+                            <input type="text" name="city" id="city" value="<%= user.city %>">
+                        </div>
+                    </div>
+                    <div class="flex-col w100">
+                        <label for="address">Address</label>
+                        <input type="text" name="address" id="address" value="<%= user.address %>">
+                    </div>
+                    <div class="flex-col w100">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" id="username" value="<%= user.username %>">
+                    </div>
+                    <div class="flex-col w100">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" id="email" value="<%= user.email %>">
+                    </div>
+                    <div class="flex-col w100">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" name="phone" id="phone" value="<%= user.phone %>">
+                    </div>
+                    <div class="flex-row end-center w100 gap-min">
+                        <button type="button" class="bt bt-hover" id="userUpCancel">Cancel</button>
+                        <button type="button" class="bt bt-hover" id="userUpUpdate">Update</button>
+                    </div>
+                </form>
+            </div>
             <div class="flex-row flex-center docsDocBody" id="accountInfos">
                 <div class="flex-col flex-center myProf">
                     <h1 class="title-med" style="color: var(--txt-black);">My Documents</h1>
