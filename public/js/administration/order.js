@@ -1,27 +1,21 @@
 document.addEventListener("DOMContentLoaded", function () {
-    fetchOrders(); // أول تحميل يعرض جميع الطلبات
+    fetchOrders(); 
   });
   
-  // مستمع لزر "Orders"
 document.getElementById("orders-menu-item").addEventListener("click", function () {
-    // منع الانتقال الافتراضي
-    // إزالة active من كل الأزرار
+  
     document.querySelectorAll(".button_ord").forEach(btn => btn.classList.remove("active"));
   
-    // تفعيل زر AllOrders (الافتراضي)
     const allOrdersButton = document.querySelector('.button_ord[data-role="all"]');
     if (allOrdersButton) {
       allOrdersButton.classList.add("active");
     }
   
-    // جلب كل الطلبات
     fetchOrders();
   });
   
-  // مستمع للأزرار الأخرى حسب role
   document.querySelectorAll(".button_ord").forEach(button => {
     button.addEventListener("click", function () {
-      // تفعيل الزر المحدد فقط
       document.querySelectorAll(".button_ord").forEach(btn => btn.classList.remove("active"));
       this.classList.add("active");
   
@@ -66,7 +60,6 @@ document.getElementById("orders-menu-item").addEventListener("click", function (
     });
   });
   
-  // جلب كل الطلبات
   function fetchOrders() {
     openLoader()
     fetch("http://localhost:4000/api/orders/getOrders")
@@ -80,7 +73,6 @@ document.getElementById("orders-menu-item").addEventListener("click", function (
   }
 
   
-  // عرض الطلبات في الجدول
   function displayOrders(rentals) {
     const tableBody = document.getElementById("rentalsTableBody");
     tableBody.innerHTML = "";
