@@ -93,10 +93,8 @@
                         </div>
                         <i class="fa-solid fa-chevron-right"></i>
                     </div>
-                    <ul class="nav-element-body flex-col w100" <% if (section == "rental") { %> style="height: 6em; display: flex;" <% } %>>
+                    <ul class="nav-element-body flex-col w100" <% if (section == "rental") { %> style="height: 2em; display: flex;" <% } %>>
                         <a href="/rental/list" class="nav-body-element bt-hover">List</a>
-                        <a href="/rental/orders" class="nav-body-element bt-hover">Pending orders</a>
-                        <a href="/rental/return" class="nav-body-element bt-hover">Return management</a>
                     </ul>
                 </li>
                 <a href="/vehicles/list" class="nav-element-head <%= section=="vehicles"?"nes":"" %> flex-row center-start w100" id="navElV">
@@ -1362,7 +1360,7 @@
                         </div>
                     </div>
 
-                    <div class="lst-rental-progressbar flex-row center-start gap-min">
+                    <div class="lst-rental-progressbar w100 flex-row center-start gap-min">
                         <div class="rent-progress-container flex-col start-center" id="rntPgsC" style="width: 25%;">
                             <div class="prog-stat cld"></div>
                             <div class="flex-row center-start gap-lrg">
@@ -1370,21 +1368,35 @@
                                 <h4>Completed: <span id="statCld">0</span></h4>
                             </div>
                         </div>
-                        <div class="rent-progress-container flex-col start-center" id="rntPgsA" style="width: 25%;">
+                        <div class="rent-progress-container flex-col start-center" id="rntPgsA" style="width: 16.5%;">
                             <div class="prog-stat atv"></div>
                             <div class="flex-row center-start gap-lrg">
                                 <div class="prog-stat-c atv"></div>
                                 <h4>Active: <span id="statAtv">0</span></h4>
                             </div>
                         </div>
-                        <div class="rent-progress-container flex-col start-center" id="rntPgsP" style="width: 25%;">
+                        <div class="rent-progress-container flex-col start-center" id="rntPgsP" style="width: 16.5%;">
                             <div class="prog-stat pdg"></div>
                             <div class="flex-row center-start gap-lrg">
                                 <div class="prog-stat-c pdg"></div>
                                 <h4>Pending: <span id="statPdg">0</span></h4>
                             </div>
                         </div>
-                        <div class="rent-progress-container flex-col start-center" id="rntPgsCc" style="width: 25%;">
+                        <div class="rent-progress-container flex-col start-center" id="rntPgsAp" style="width: 16.5%;">
+                            <div class="prog-stat app"></div>
+                            <div class="flex-row center-start gap-lrg">
+                                <div class="prog-stat-c app"></div>
+                                <h4>Approved: <span id="statApv">0</span></h4>
+                            </div>
+                        </div>
+                        <div class="rent-progress-container flex-col start-center" id="rntPgsRe" style="width: 16.5%;">
+                            <div class="prog-stat ret"></div>
+                            <div class="flex-row center-start gap-lrg">
+                                <div class="prog-stat-c ret"></div>
+                                <h4>Returning: <span id="statRtg">0</span></h4>
+                            </div>
+                        </div>
+                        <div class="rent-progress-container flex-col start-center" id="rntPgsCc" style="width: 16.5%;">
                             <div class="prog-stat ccd"></div>
                             <div class="flex-row center-start gap-lrg">
                                 <div class="prog-stat-c ccd"></div>
@@ -1405,6 +1417,7 @@
                                     <p>Period</p>
                                     <p>Total price</p>
                                     <p>Status</p>
+                                    <p></p>
                                 </div>
                                 <div class="rt-bod" id="rtBod">
                                 </div>
@@ -1432,19 +1445,6 @@
                             </div>
                         </div>
                     </div>   
-                </section>
-            <% } %>
-            <% if (subsection === 'ordersrentals') {%>
-                <section class="content-section flex-col">
-                    <div class="flex-row center-start dash-path gap-min">
-                        <i class="path-text fa-solid fa-house"></i>
-                        <span class="currence">	&gt;</span>
-                        <p class="path-text">Management</p>
-                        <span class="currence">	&gt;</span>
-                        <p class="path-text">Rentals</p>
-                        <span class="currence">	&gt;</span>
-                        <p class="path-text">Orders</p>
-                    </div>
                 </section>
             <% } %>
             <% if (subsection === 'returnrentals') {%>
@@ -2358,10 +2358,10 @@
         <script src="/js/main.js"></script>
         <script src="/js/darkmode.js"></script>
         <script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
-        <script src="/lib/node_modules/jspdf/dist/jspdf.umd.min.js"></script>
         <script src="/lib/node_modules/chart.js/dist/chart.umd.js"></script>
         <script src="/lib/node_modules/plotly.js/dist/plotly.min.js"></script>
         <script src="/lib/node_modules/gsap/dist/gsap.min.js"></script>
+        <script src="/lib/node_modules/jspdf/dist/jspdf.umd.min.js"></script>
         <script src="/lib/node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.min.js"></script>
         <script src="/js/dashboard.js"></script>
         <% const scripts = { 

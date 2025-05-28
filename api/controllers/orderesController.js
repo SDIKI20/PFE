@@ -34,12 +34,26 @@ const getCounts = async (req, res) => {
         rentals r
       WHERE status = 'canceled'
     `)
+    const approvedCount = await pool.query(`
+      SELECT  count(r.id)
+      FROM
+        rentals r
+      WHERE status = 'approved'
+    `)
+    const returningCount = await pool.query(`
+      SELECT  count(r.id)
+      FROM
+        rentals r
+      WHERE status = 'returning'
+    `)
 
     res.status(200).json({
       total: parseInt(countResult.rows[0].count),
       pending: parseInt(pendingCount.rows[0].count),
       active: parseInt(activeCount.rows[0].count),
       completed: parseInt(completedCount.rows[0].count),
+      approved: parseInt(approvedCount.rows[0].count),
+      returning: parseInt(returningCount.rows[0].count),
       canceled: parseInt(canceledCount.rows[0].count)
     });
 
@@ -124,6 +138,65 @@ const getOrders = async (req, res) => {
 
   } catch (error) {
     console.error("Error fetching orders:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const getInvoice = async (req, res) => {
+  try {
+
+    const { rid } = req.params
+
+    if(!rid) return res.status(400).json({error: "ID REQUIRED"})
+
+    const result = await pool.query(`
+      SELECT
+        rentals.id AS rental_id,
+        rentals.start_date,
+        rentals.end_date,
+        rentals.total_price,
+        rentals.insurance,
+        rentals.fees,
+        rentals.paid,
+        rentals.status,
+        rentals.created_at AS rental_created_at,
+
+        users.id AS user_id,
+        users.fname,
+        users.lname,
+        users.email,
+        users.phone,
+
+        vehicles.id AS vehicle_id,
+        vehicles.model,
+        vehicles.color,
+        vehicles.fab_year,
+        vehicles.price AS vehicle_price,
+
+        brands.name AS brand_name,
+
+        invoice.bill_id,
+        invoice.payment_methode,
+        invoice.discounts,
+        invoice.additions,
+        invoice.created_at AS invoice_created_at
+
+      FROM rentals
+        JOIN users ON rentals.user_id = users.id
+        JOIN vehicles ON rentals.vehicle_id = vehicles.id
+        JOIN brands ON vehicles.brand_id = brands.id
+        LEFT JOIN invoice ON invoice.rental_id = rentals.id
+      WHERE rentals.id = $1
+      ORDER BY rentals.created_at DESC;
+
+    `, [rid]);
+
+    res.status(200).json({
+      result: result.rows[0]
+    });
+
+  } catch (error) {
+    console.error("Error fetching order:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -229,11 +302,11 @@ const getOrdersbyOffice = async (req, res) => {
 
 const changeStat = async (req, res) => {
   try {
-    const { uid, rid, status } = req.body;
+    const { rid, status } = req.body;
 
-    if (!uid || !rid) return res.status(400).json({ error: "ID's required" });
+    if (!rid) return res.status(400).json({ error: "ID required" });
 
-    await pool.query(`UPDATE rentals SET status = $3 WHERE user_id = $1 AND id = $2;`, [uid, rid, status]);
+    await pool.query(`UPDATE rentals SET status = $2 WHERE id = $1;`, [ rid, status]);
 
     res.json({ message: "Record status updated" });
 } catch (err) {
@@ -508,7 +581,6 @@ const getProfit = async (req, res) => {
 const rent = async (req, res) => {
   try {
       const { uid, vid, pd, rd, amount, isure, fees, bid, discounts, additions, paycard = null, paymeth } = req.body;
-      console.log(req.body);
       const rental = await pool.query(
           `INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, total_price, insurance, fees)
             VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
@@ -528,6 +600,45 @@ const rent = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
+
+const deleteOrder = async (req, res) => {
+
+  const oid = req.params.oid;
+
+  try {
+    const result = await pool.query("DELETE FROM rentals WHERE id = $1", [oid]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "Rental not found" });
+    }
+
+    res.status(200).json({ message: "Rental deleted successfully" });
+
+  } catch (error) {
+    console.error("Error deleting order:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+  
+const returnOrder = async (req, res) => {
+
+  const oid = req.params.oid;
+
+  try {
+    
+    if (!oid) return res.status(400).json({error: "ID REQUIRED"})
+    
+    await pool.query("INSERT INTO returns (rental_id) VALUES ($1)", [oid]);
+    await pool.query(`UPDATE rentals SET status = 'completed' WHERE id = $1`, [oid])
+
+    res.status(200).json({ message: "Rental completed!" });
+
+
+  } catch (error) {
+    console.error("Error returning order:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
   
 module.exports = {
   getOrders,
@@ -535,11 +646,14 @@ module.exports = {
   getOrdersbyOffice,
   getStats,
   getProfit,
+  deleteOrder,
   getCounts,
   getStatsDaily,
   rent,
   getStatsMonthly,
   changeStat,
-  removeOrder
+  removeOrder,
+  returnOrder,
+  getInvoice
 };
   

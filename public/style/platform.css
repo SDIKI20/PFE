@@ -1881,6 +1881,16 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     background-color: rgba(216, 98, 83, 0.116);
 }
 
+.returning{
+  background-color: rgba(255, 111, 0, 0.104);
+  color: rgb(255, 111, 0) !important;
+}
+
+.approved{
+  background-color: rgba(26, 142, 95, 0.104);
+  color: rgb(41, 153, 114) !important;
+}
+
 .rental-price{
     color: var(--text);
     font-weight: bold;
@@ -2486,4 +2496,70 @@ time{
 /*----------------------------------------------------*/
 
 /*--------------------Profile Section------------------*/
+
+#userEditor{
+    visibility: visible;
+}
+
+.user-editor{
+    background-color: var(--container);
+    width: 600px;
+    height: fit-content;
+    border-radius: 8px;
+    padding: 1em;
+    position: relative;
+}
+
+.user-editor h1{
+    font-size: var(--font-med);
+    color: var(--text);
+    opacity: 0.8;
+    margin-bottom: 0.625em;
+}
+
+.user-editor label{
+    font-size: var(--font-sml);
+    color: var(--text);
+    margin-bottom: 0.325em;
+}
+
+.user-editor input{
+    border: 1px solid var(--border-low);
+    border-radius: 5px;
+    padding-left: 1em;
+    height: 2.8em;
+    background-color: var(--input-4dark);
+    color: var(--text);
+}
+
+#userUpCancel,
+#userUpUpdate{
+    height: 2.5em;
+    width: fit-content;
+    padding: 0 1em;
+    border: none;
+    color: var(text);
+    font-size: var(--font-sml);
+    border-radius: 5px;
+}
+
+#userUpCancel{
+    border: 2px solid var(--border-low);
+    color: var(--text);
+}
+
+#userUpUpdate{
+    background-color: var(--color-second);
+    color: white;
+}
+
+#userEditorClose{
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    z-index: 10;
+    color: re;
+}
+
+
 /*----------------------------------------------------*/

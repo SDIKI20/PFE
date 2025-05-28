@@ -152,7 +152,7 @@ function refreshRentals( id, name, created, payment, status, price, start_date, 
               headers: {
                 'Content-Type': 'application/json'
               },
-              body: JSON.stringify({ rid: id, uid: uid, status: "canceled" }),
+              body: JSON.stringify({ rid: id, status: "canceled" }),
             })
             .then(response => response.json())
             .then(data => {

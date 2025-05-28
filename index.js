@@ -105,6 +105,50 @@ function checkNotAuth(req, res, next){
     res.redirect("/login")
 }
 
+async function updateRentalStatuses() {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+
+    // Set status to 'active' if approved and start date is now or past
+    await client.query(`
+      UPDATE rentals
+      SET status = 'active'
+      WHERE status = 'approved'
+        AND start_date <= NOW();
+    `);
+
+    // Set status to 'returning' if currently active but past the end date
+    await client.query(`
+      UPDATE rentals
+      SET status = 'returning'
+      WHERE status = 'active'
+        AND end_date < NOW();
+    `);
+
+    // Set status to 'canceled' if still pending and past the end date
+    await client.query(`
+      UPDATE rentals
+      SET status = 'canceled'
+      WHERE status = 'pending'
+        AND end_date < NOW();
+    `);
+
+    await client.query('COMMIT');
+    console.log(`[${new Date().toISOString()}] Rental statuses updated.`);
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error('Error updating rental statuses:', err);
+  } finally {
+    client.release();
+  }
+}
+
+
+setInterval(updateRentalStatuses, 60 * 60 * 1000);
+
+updateRentalStatuses();
+
 /*---------------------------------------------------------*/
 
 app.use("/api/users", userRoutes);
