@@ -1,3 +1,4 @@
+const { json } = require("express");
 const { pool } = require("../config/dbConfig")
 
 const getCounts = async (req, res) => {
@@ -503,6 +504,30 @@ const getProfit = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
+
+const rent = async (req, res) => {
+  try {
+      const { uid, vid, pd, rd, amount, isure, fees, bid, discounts, additions, paycard = null, paymeth } = req.body;
+      console.log(req.body);
+      const rental = await pool.query(
+          `INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, total_price, insurance, fees)
+            VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+          [uid, vid, pd, rd, amount, isure, fees]
+      );
+
+      const rid = rental.rows[0].id
+
+      await pool.query(`
+        INSERT INTO invoice (bill_id, rental_id, discounts, additions, paycard_id, payment_methode) 
+          VALUES ($1, $2, $3, $4, $5, $6)
+      `,[bid, rid, discounts, additions, paycard, paymeth])
+
+      res.status(200).json({ message: "Rental Added!" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
   
 module.exports = {
   getOrders,
@@ -512,6 +537,7 @@ module.exports = {
   getProfit,
   getCounts,
   getStatsDaily,
+  rent,
   getStatsMonthly,
   changeStat,
   removeOrder

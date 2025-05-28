@@ -22,7 +22,7 @@ const getBrandVehicles = async (req, res) => {
 
   try {
     const result = await pool.query(
-      "SELECT * FROM vehicles WHERE brand_id = $1 ORDER BY id DESC",
+      "SELECT model FROM vehicles WHERE brand_id = $1",
       [parseInt(brand_id)]
     );
 

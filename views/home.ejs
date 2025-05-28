@@ -552,8 +552,8 @@
                     <div class="flex-row center-spacearound options" id="homeOptions">
                         <label for="carBrand" class="flex-col start-center">
                             CAR BRAND
-                            <select name="select-opt-brand" class="select-opt plat-text">
-                                <option value="any">Any</option>
+                            <select id="carBrand" name="select-opt-brand" class="select-opt plat-text">
+                                <option value="any">any</option>
                                 <% brands.forEach(brand => { %>
                                     <option value="<%= brand.id %>"><%= brand.name %></li>
                                 <% }); %>
@@ -562,8 +562,8 @@
                         <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
                         <label for="carModel" class="flex-col start-center">
                             CAR MODEL
-                            <select name="select-opt-model" class="select-opt plat-text">
-                                <option value="any">Any</option>
+                            <select id="carModel" name="select-opt-model" class="select-opt plat-text">
+                                <option value="any">any</option>
                             </select>
                         </label>
                         <div class="h-break-line" style="height: 3.5em; margin: auto 0;"></div>
@@ -571,11 +571,13 @@
                             PICKUP LOCATION  
                             <div class="flex-row center-start">
                                 <i class="fa-solid fa-location-crosshairs" style="margin-right: 5px;"></i>
-                                <select name="select-opt-brand" class="select-opt plat-text">
-                                    <option value="any">Any</option>
-                                    <option value="any">My Location</option>
+                                <select id="pickLocation" name="select-opt-brand" class="select-opt plat-text">
+                                    <option value="any">any</option>
+                                    <% if(user){%>
+                                        <option value="<%= user.wilaya %>">My Location</option>
+                                    <% } %>
                                     <% offices.forEach(office => { %>
-                                        <option value="<%= office.id %>"><%= office.wilaya %>, <%=office.city%></li>
+                                        <option value="<%= office.wilaya %>"><%= office.wilaya %>, <%=office.city%></li>
                                     <% }); %>
                                 </select>
                             </div>
@@ -586,6 +588,8 @@
                             <div class="flex-row center-start">
                                 <i class="fa-regular fa-calendar" style="margin-right: 5px;"></i>
                                 <input class="plat-text" type="text" id="dateRange">
+                                <input type="date" id="pickupDate" hidden>
+                                <input type="date" id="returnDate" hidden>
                             </div>
                         </label>
                     </div>
@@ -598,75 +602,31 @@
                     <a href="/cars" class="link">See All Collection <i class="fa-solid fa-chevron-right"></i></a>
                 </div>
                 <div class="flex-row pop-cars-container">
-                    <div class="pop-car-container flex-col start-center" style="background-color: rgba(255, 147, 147, 0.08);">
+                    <% popCars.forEach(car => { %>
+                     <a href="/car/<%= car.id %>" target="_blank" class="pop-car-container flex-col start-center hover-opacity">
                         <div class="pop-car-head flex-row start-spacebet">
                             <div class="flex-row center-start car-info">
                                 <div class="brand-icon">
-                                    <img loading="lazy" src="./assets/cars/nissan.png" width="35" alt="ICON">
+                                    <img loading="lazy" src="<%= car.logo %>" width="35" alt="ICON">
                                 </div>
                                 <div class="flex-col pop-car-name">
-                                    <p class="title">911</p>
-                                    <p class="plat-text">Turbo S - 2021</p>
+                                    <p class="title"><%= car.model %> <%= car.fab_year %></p>
+                                    <p class="plat-text"><%= car.engine_type %></p>
                                 </div>
                             </div>
                             <div class="pop-avilability flex-row flex-center">
-                                <p>2 Unit available</p>
+                                <p><%= formatNumber(car.total_rentals) %> Rentals</p>
                             </div>
                         </div>
                         <div class="pop-car-img flex-col flex-center">
-                            <img loading="lazy" src="./assets/cars/ford_.png" alt="CAR">
+                            <img loading="lazy" src="<%= car.image %>" alt="CAR">
                         </div>
                         <div class="foot flex-row center-spacebet">
-                            <div class="pop-car-brand">Porshe</div>
-                            <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
+                            <div class="pop-car-brand"><%= car.brand %></div>
+                            <p class="plat-car-price"><%= car.price %><span class="currence">DZD</span> <span class="price-tag">/<%= car.rental_type=="h"?"Hour":"Day" %></span></p>
                         </div>
-                    </div>
-                    <div class="pop-car-container flex-col start-center" style="background-color: rgba(147, 230, 255, 0.08);">
-                        <div class="pop-car-head flex-row start-spacebet">
-                            <div class="flex-row center-start car-info">
-                                <div class="brand-icon">
-                                    <img loading="lazy" src="./assets/cars/bmw.png" width="35" alt="ICON">
-                                </div>
-                                <div class="flex-col pop-car-name">
-                                    <p class="title">C8</p>
-                                    <p class="plat-text">Corvette Stingray</p>
-                                </div>
-                            </div>
-                            <div class="pop-avilability flex-row flex-center">
-                                <p class="reserved">Reserved</p>
-                            </div>
-                        </div>
-                        <div class="pop-car-img flex-col flex-center">
-                            <img loading="lazy" src="./assets/cars/hyundai_.png" alt="CAR">
-                        </div>
-                        <div class="foot flex-row center-spacebet">
-                            <div class="pop-car-brand">Chevrolet</div>
-                            <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                        </div>
-                    </div>
-                    <div class="pop-car-container flex-col start-center" style="background-color: rgba(233, 147, 255, 0.08);">
-                        <div class="pop-car-head flex-row start-spacebet">
-                            <div class="flex-row center-start car-info">
-                                <div class="brand-icon">
-                                    <img loading="lazy" src="./assets/cars/volkswagen.png" width="35" alt="ICON">
-                                </div>
-                                <div class="flex-col pop-car-name">
-                                    <p class="title">GT-R 2023</p>
-                                    <p class="plat-text">Nismo 3.8 V6</p>
-                                </div>
-                            </div>
-                            <div class="pop-avilability flex-row flex-center">
-                                <p>Arriving Soon</p>
-                            </div>
-                        </div>
-                        <div class="pop-car-img flex-col flex-center">
-                            <img loading="lazy" src="./assets/cars/seat_.png" alt="CAR">
-                        </div>
-                        <div class="foot flex-row center-spacebet">
-                            <div class="pop-car-brand">Nissan</div>
-                            <p class="plat-car-price">550<span class="currence">DZD</span> <span class="price-tag">/hour</span></p>
-                        </div>
-                    </div>
+                    </a>
+                    <% }) %>
                 </div>
             </div>
             <div class="collection-cars flex-col start-center" id="collectionCars">
@@ -1022,7 +982,7 @@
                                     <label for="toggle-heart<%= car.id %>" aria-label="like" class="animated-heart" id="v<%= car.id %>u<%= user.id %>"><i class="fa-solid fa-heart"></i></label>
                                 </button>
                             <% } %>
-                            <button class="bt bt-hover bt-regular flex-row center-start"><i class="fa-solid fa-share" style="margin-right: 5px;"></i> <span class="only-pc"> Share this car</span></button>
+                            <button class="bt bt-hover bt-regular flex-row center-start" id="shareBut"><i class="fa-solid fa-share" style="margin-right: 5px;"></i> <span class="only-pc"> Share this car</span></button>
                         </div>
                     </div>
                 </div>       
@@ -1167,21 +1127,20 @@
                         </div>
                     </div>
                     <div class="pickinfo flex-col">
-                    <h3>Pickup Date</h3>
-                    <div class="flex-row center-start holder">
-                        <input id="pickupInput" type="<%= car.rental_type === 'h' ? 'time' : 'date' %>" style="position: absolute; left:0;z-index:-1;">
-                        <p class="para-mid" id="pickupText">Sat 4 Apr 2025, 21:00</p>
-                        <i class="fa-regular fa-calendar bt-hover" id="pickupIcon"></i>
+                        <h3>Pickup Date</h3>
+                        <div class="flex-row center-start holder">
+                            <input id="pickupInput" type="<%= car.rental_type === 'h' ? 'time' : 'date' %>" data-rental-type="<%= car.rental_type %>" style="position: absolute; left:0;z-index:-1;">
+                            <p class="para-mid" id="pickupText">Sat 4 Apr 2025, 21:00</p>
+                            <i class="fa-regular fa-calendar bt-hover" id="pickupIcon"></i>
+                        </div>
                     </div>
-                    </div>
-                    
                     <div class="pickinfo flex-col">
-                    <h3>Return Date</h3>
-                    <div class="flex-row center-start holder">
-                        <input id="returnInput" type="<%= car.rental_type === 'h' ? 'time' : 'date' %>" style="position: absolute; left:0;z-index:-1;">
-                        <p class="para-mid" id="returnText">Sat 4 Apr 2025, 21:00</p>
-                        <i class="fa-regular fa-calendar bt-hover" id="returnIcon"></i>
-                    </div>
+                        <h3>Return Date</h3>
+                        <div class="flex-row center-start holder">
+                            <input id="returnInput" type="<%= car.rental_type === 'h' ? 'time' : 'date' %>" style="position: absolute; left:0;z-index:-1;">
+                            <p class="para-mid" id="returnText">Sat 4 Apr 2025, 21:00</p>
+                            <i class="fa-regular fa-calendar bt-hover" id="returnIcon"></i>
+                        </div>
                     </div>
                     
                     <div class="break-line" style="height: 3px;margin: 1em 0;"></div>

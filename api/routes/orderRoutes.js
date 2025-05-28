@@ -1,4 +1,6 @@
 const express = require("express");
+const multer = require('multer');
+const upload = multer()
 const router = express.Router();
 const {
     getOrders,
@@ -10,6 +12,7 @@ const {
     getOrder,
     getProfit,
     changeStat,
+    rent,
     removeOrder
 } = require("../controllers/orderesController");
 
@@ -23,5 +26,6 @@ router.get("/getProfit", getProfit);
 router.get("/getOrders/:office", getOrdersbyOffice);
 router.post("/status", changeStat);
 router.post("/delete", removeOrder);
+router.post("/add", upload.none(), rent);
 
 module.exports = router;

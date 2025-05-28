@@ -38,7 +38,7 @@ const getData = async (limit, offset) => {
     }
 };
 
-const refrechVehicles = async (limit = parseInt(document.getElementById('vehiclesLimit').value), offset = parseInt(document.getElementById('vehiclesOffset').value)) => {
+const refrechDiscounts = async (limit = parseInt(document.getElementById('vehiclesLimit').value), offset = parseInt(document.getElementById('vehiclesOffset').value)) => {
     try {
         vehiclesLoader.style.opacity = "1";
         Array.from(vehiclesTableBody.children).forEach(child => child.remove());
@@ -66,7 +66,6 @@ const refrechVehicles = async (limit = parseInt(document.getElementById('vehicle
                         <p>${parseInt(discount.usage_limit)>0?limits:"_"}</p>
                         <p>${formatDate(discount.expire_on)}</p>
                         <div class="flex-row center-spacebet w100 pdv">
-                            <i class="cid-${discount.id} ctype-${discount.type} fa-solid fa-pen-to-square edtbt bt-hover"></i>
                             <i class="cid-${discount.id} ctype-${discount.type} fa-solid fa-trash dltbt bt-hover"></i>
                         </div>
                     `
@@ -83,13 +82,13 @@ const refrechVehicles = async (limit = parseInt(document.getElementById('vehicle
                                 if(ctype == "Discount"){
                                     deleteDiscount(cid).then(data=>{
                                         pushNotif('i', data.message)
-                                        refrechVehicles()
+                                        refrechDiscounts()
                                     })
                                 }
                                 if(ctype == "Coupon"){
                                     deleteCoupon(cid).then(data=>{
                                         pushNotif('i', data.message)
-                                        refrechVehicles()
+                                        refrechDiscounts()
                                     })
                                 }
                             }
@@ -107,13 +106,6 @@ const refrechVehicles = async (limit = parseInt(document.getElementById('vehicle
                         .catch(err => {
                             pushNotif("e",`Failed to copy: ${err}`);
                         });
-                    })
-                })
-
-                document.querySelectorAll('.edtbt').forEach(bt=>{
-                    bt.addEventListener('click', async ()=>{
-                        const ctype = bt.classList[1].substring(5)
-                        const cid = bt.classList[0].substring(3)
                     })
                 })
     
@@ -148,8 +140,8 @@ const refrechVehicles = async (limit = parseInt(document.getElementById('vehicle
                     </div>
                 `;
 
-                document.getElementById('vehiclesLimit').addEventListener('change', ()=> {refrechVehicles()})
-                document.getElementById('vehiclesOffset').addEventListener('change', ()=> {refrechVehicles()})
+                document.getElementById('vehiclesLimit').addEventListener('change', ()=> {refrechDiscounts()})
+                document.getElementById('vehiclesOffset').addEventListener('change', ()=> {refrechDiscounts()})
     
                 const newVehiclesCurrentPage = document.getElementById('vehiclesCurrentPage');
     
@@ -157,7 +149,7 @@ const refrechVehicles = async (limit = parseInt(document.getElementById('vehicle
                     const selectedPage = parseInt(newVehiclesCurrentPage.value);
                     const newOffset = (selectedPage - 1) * limit;
                     vehiclesOffset.value = newOffset; 
-                    refrechVehicles(limit, newOffset);
+                    refrechDiscounts(limit, newOffset);
                 });
     
                 document.getElementById('oPrevB').addEventListener('click', () => {
@@ -165,7 +157,7 @@ const refrechVehicles = async (limit = parseInt(document.getElementById('vehicle
                     if (prevPage >= 1) {
                         const newOffset = (prevPage - 1) * limit;
                         vehiclesOffset.value = newOffset;
-                        refrechVehicles(limit, newOffset);
+                        refrechDiscounts(limit, newOffset);
                     }
                 });
     
@@ -174,7 +166,7 @@ const refrechVehicles = async (limit = parseInt(document.getElementById('vehicle
                     if (nextPage <= totalPages) {
                         const newOffset = (nextPage - 1) * limit;
                         vehiclesOffset.value = newOffset;
-                        refrechVehicles(limit, newOffset);
+                        refrechDiscounts(limit, newOffset);
                     }
                 });
             }
@@ -235,6 +227,25 @@ const deleteDiscount = async (did) => {
     }
 }
 
+const coupEditor = document.getElementById('couponEditor')
+
+const openEditor = () => {
+    try {
+        const coupEditor = document.getElementById('couponEditor').style.visibility = "visible"   
+        gsap.set(".editor-container", { y: 100, opacity: 0});
+        gsap.to(".editor-container", { y: 0, opacity: 1});
+    } catch (error) {}
+}
+
+const closeEditor = () => {
+    try {
+        gsap.to(".editor-container", { y: -100, opacity: 0});
+        setTimeout(() => {
+            coupEditor.style.visibility = "hidden"   
+        }, 400);
+    } catch (error) {}
+}
+
 const vehiclesLoader = document.getElementById('vehiclesLoader')
 const vehiclesTableBody = document.getElementById('rtBod')
 const vehiclesLimit = document.getElementById('vehiclesLimit')
@@ -243,5 +254,84 @@ const vehiclesCurrentPage = document.getElementById('vehiclesCurrentPage')
 const statTot = document.getElementById('statTot')
 
 document.addEventListener("DOMContentLoaded", ()=>{
-    refrechVehicles()
+    refrechDiscounts()
 })
+
+const disNameInp = document.getElementById('disName')
+const discountVal = document.getElementById('discountVal')
+const expireDate = document.getElementById("expireDate")
+const discountType = document.getElementById('discountType')
+const coupCoder = document.getElementById('coupCoder')
+const coupLimiter = document.getElementById('coupLimiter')
+const disdesc = document.getElementById('disdesc')
+
+discountType.addEventListener('change', ()=>{
+    coupCoder.classList.remove("disabled")
+    coupLimiter.classList.remove("disabled")
+    coupLimiter.children[1].children[0].disabled = discountType.value === "discount"
+    coupCoder.children[1].children[0].disabled = discountType.value === "discount"
+    coupCoder.children[1].children[1].disabled = discountType.value === "discount"
+    if(discountType.value == "discount"){
+        coupLimiter.classList.add("disabled")
+        coupCoder.classList.add("disabled")
+        coupLimiter.children[1].children[0].value = ""
+        coupCoder.children[1].children[0].value = ""
+    }
+})
+
+const generatorBut = document.getElementById('generateCouponCode')
+generatorBut.addEventListener('click', ()=>{
+    coupCoder.children[1].children[0].value = generateCouponCode()
+})
+
+const addCoupForm = document.getElementById('addCoupForm')
+addCoupForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    openLoader()
+    try {
+        const formData = new FormData();
+
+        const disName = disNameInp.value.trim();
+        const disType = discountType.value;
+        const disVal = discountVal.value;
+        const disExp = expireDate.value;
+        const desc = disdesc.value;
+        const disLimit = coupLimiter.querySelector('input').value;
+        const disCode = coupCoder.querySelector('input').value;
+
+        formData.append("name", disName);
+        formData.append("val", parseInt(disVal));
+        formData.append("expire", disExp);
+        formData.append("desc", desc);
+
+        if (disType === "coupon") {
+            formData.append("code", disCode);
+            formData.append("limit", parseInt(disLimit));
+        }
+
+        const res = await fetch(`${window.location.origin}/api/discounts/add/${disType}`, {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            closeLoader()
+            pushNotif("s", data.message);
+            refrechDiscounts()
+            closeEditor()
+        } else {
+            closeLoader()
+            pushNotif("e", data.error);
+            console.error(`Error: ${data.error}`);
+        }
+    } catch (err) {
+        closeLoader()
+        pushNotif("e", "Something went wrong!");
+        console.error(err);
+    }
+});
+
+document.getElementById('couponEditorClose').addEventListener('click', closeEditor)
+document.getElementById('editorCancel').addEventListener('click', closeEditor)
+document.getElementById('addDiscount').addEventListener('click', openEditor)

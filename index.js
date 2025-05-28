@@ -204,6 +204,22 @@ app.get("/home", async (req, res) => {
             return vehiclesResult.rows.length > 0 ? [vehiclesResult.rows, b] : null;
         });
 
+        const popular = await pool.query(`
+            SELECT 
+                v.*, 
+                b.name AS brand, 
+                b.logo AS logo, 
+                COUNT(r.id) AS total_rentals
+            FROM vehicles v
+                JOIN rentals r ON v.id = r.vehicle_id
+                JOIN brands b ON v.brand_id = b.id
+            GROUP BY v.id, b.name, b.logo, v.model, v.color, v.price
+            ORDER BY total_rentals DESC
+            LIMIT 3;
+
+        `)
+        popCars = popular.rows
+
         const vehicles = (await Promise.all(vehiclePromises)).filter(v => v !== null);
 
         res.render("home", { 
@@ -213,6 +229,7 @@ app.get("/home", async (req, res) => {
             vehicles: vehicles,
             offices: offices,
             newbie: newbie,
+            popCars: popCars,
             section: "home"
         });
 
@@ -792,6 +809,10 @@ app.get("/rent/:vid", async (req, res) => {
             WHERE reviews.vehicle_id = $1
         `, [vid]);
 
+        const discounts = await pool.query(`
+            SELECT * FROM promo WHERE expires_at > CURRENT_TIMESTAMP
+        `,);
+
         const rent_id = uuidv4();
 
         if (carResult.rows.length === 0) {
@@ -799,7 +820,8 @@ app.get("/rent/:vid", async (req, res) => {
         } else {
             const car = carResult.rows[0];
             const reviews = carReviews.rows;
-            res.render("rent", { car: car, reviews: reviews, user: req.user, rent_id:rent_id });
+            const dis = discounts.rows
+            res.render("rent", { car: car, reviews: reviews, discounts:dis, user: req.user, rent_id:rent_id });
         }
 
     } catch (error) {

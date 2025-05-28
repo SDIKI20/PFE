@@ -367,15 +367,16 @@ CREATE TABLE coupons (
   value INTEGER NOT NULL,
   usage_limit INT DEFAULT 1,
   expires_at TIMESTAMP,
-  created_at TIMESTAMP
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE promo (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL DEFAULT 'Discount',
+  description VARCHAR(255) NOT NULL DEFAULT 'Discount',
   value INTEGER NOT NULL,
   expires_at TIMESTAMP,
-  created_at TIMESTAMP
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE coupons_use (
@@ -383,6 +384,30 @@ CREATE TABLE coupons_use (
   coupon_id INT REFERENCES coupons(id),
   user_id INT REFERENCES users(id),
   used_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE paycard (
+    id SERIAL PRIMARY KEY,         
+    user_id INT REFERENCES users(id) NOT NULL,                           
+    type VARCHAR(20) NOT NULL,      
+    card_number VARCHAR(20) NOT NULL UNIQUE,      
+    holder VARCHAR(255) NOT NULL,          
+    exp_date DATE NOT NULL,                  
+    cvv VARCHAR(4) NOT NULL,                  
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+CREATE TABLE invoice (
+  id SERIAL PRIMARY KEY,
+  bill_id UUID NOT NULL DEFAULT gen_random_uuid() UNIQUE,
+  rental_id INTEGER REFERENCES rentals(id) ON DELETE SET NULL,
+  payment_methode SMALLINT DEFAULT 2,
+  paycard_id INT REFERENCES paycard(id) ON DELETE SET NULL,
+  discounts JSONB,
+  additions JSONB,
+  created_at TIMESTAMP DEFAULT NOW()
 );
 
 -- Indexes--------------------------------------------------------------

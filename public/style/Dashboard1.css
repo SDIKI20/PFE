@@ -2666,15 +2666,10 @@ tr:hover {
   padding: 0 1.25em;
 }
 
-#couponEditor{
-  visibility: hidden;
-}
-
 .editor-container{
   background-color: var(--container);
-  min-width: 280px;
-  width: 35vw;
-  height: 450px;
+  width: 500px;
+  height: auto;
   border-radius: 8px;
   position: relative;
   padding: 1em;
@@ -2719,6 +2714,22 @@ tr:hover {
 .labled label{
   font-size: var(--font-sml);
   color: var(--text);
+}
+
+.disabled *{
+  cursor: default;
+  opacity: 0.5;
+}
+
+#disdesc{
+  border: 2px solid var(--border-low);
+  padding: 0.625em;
+  resize: none;
+  height: 8em;
+  border-radius: 5px;
+  margin-top: 0.325em;
+  color: var(--text);
+  font-size: var(--font-sml);
 }
 
 /*-----------------------------------------------------*/

@@ -19,7 +19,7 @@ router.get("/all", vehiclesController.getVehicles);
 router.get("/getStatics", vehiclesController.getStatics);
 router.get("/getCarStatics", vehiclesController.getCarsStatics);
 router.get("/brands", vehiclesController.getBrands);
-router.get("/brands/all/:brand_id", vehiclesController.getBrandVehicles);
+router.get("/brands/models/:brand_id", vehiclesController.getBrandVehicles);
 router.get("/check/available", vehiclesController.checkAvailability);
 router.get("/get/:id/:uid", vehiclesController.getVehicle);
 router.get("/update/:id", vehiclesController.updateVehicle);

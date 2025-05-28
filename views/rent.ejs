@@ -46,6 +46,7 @@
     }
   %>
 
+  <input type="number" value="<%= user?user.id:6 %>" id="uid" hidden>
   <input type="number" value="<%= car.id %>" id="vid" hidden>
   <input type="number" value="<%= car.price %>" id="rentPrice" hidden>
 
@@ -60,8 +61,7 @@
           <li class="rent-step flex-row center-start">1 - Rental Details <input id="rentStep1" type="radio" name="step" checked hidden></li>
           <li class="rent-step flex-row center-start">2 - Optional additions <input id="rentStep2" type="radio" name="step" hidden></li>
           <li class="rent-step flex-row center-start">3 - Coupons and discounts <input id="rentStep3" type="radio" name="step" hidden></li>
-          <li class="rent-step flex-row center-start">4 - Payment methode <input id="rentStep4" type="radio" name="step" hidden></li>
-          <li class="rent-step flex-row center-start">5 - Review & Confirm <input id="rentStep5" type="radio" name="step" hidden></li>
+          <li class="rent-step flex-row center-start">4 - Payment & Confirm <input id="rentStep4" type="radio" name="step" hidden></li>
         </ol>
         <div class="steppination gap-lrg w100 flex-row flex-center">
           <button class="bt bt-hover gap-min" id="stepPrev" disabled><i class="fa-solid fa-chevron-left"></i> Previous </button>
@@ -473,7 +473,7 @@
               <img src="/assets/features/babyseat.png" alt="Feature" class="feat-icn">
               <div class="flex-row center-start">
                 <div class="flex-col">
-                  <h6>Baby Seat / Child Booster Seat</h6>
+                  <h6>Baby Seat</h6>
                   <p>For infants or young children</p>
                 </div>
               </div>
@@ -566,19 +566,10 @@
         <div class="my-coups flex-col">
           <div class="flex-row center-start gap-min">
             <i class="fa-solid fa-clipboard-list para-sml" style="opacity: 0.8;"></i>
-            <h1>My coupons</h1>
+            <h1>Coupons</h1>
           </div>
-          <div class="coupon-container h100 flex-row flex-center flex-wrap w100">
-            <div class="coupon">
-              <div class="flex-col flex-center">
-                <button class="bt bt-hover bt-use">Use</button>
-              </div>
-              <div class="flex-col flex-center">
-                <p>Newbie</p>
-                <h6>50%</h6>
-                <p>Expired on 21-05-2025</p>
-              </div>
-            </div>
+          <div class="coupon-container h100 flex-row flex-center flex-wrap w100" id="couponsContainer">
+            
           </div>
         </div>
       </div>
@@ -588,29 +579,23 @@
           <h1>Discounts</h1>
         </div>
         <ul class="discounts-list flex-col center-start w100">
-          <li class="discount-el flex-row center-start w100 gap-lrg">
-            <input type="number" value="10" hidden>
+          <% if (discounts) discounts.forEach(discount => {%>
+            <li class="discount-el flex-row center-start w100 gap-lrg">
+            <input type="number" value="<%= discount.value %>" hidden>
             <i class="fa-solid fa-gift"></i>
             <div class="flex-col">
-              <h6>Summer discounts</h6>
-              <p>10% discount for sedan cars</p>
+              <h6><%= discount.name %></h6>
+              <p><%= discount.description %></p>
             </div>
           </li>
-          <li class="discount-el flex-row center-start w100 gap-lrg">
-            <input type="number" value="5" hidden>
-            <i class="fa-solid fa-gift"></i>
-            <div class="flex-col">
-              <h6>Loyality</h6>
-              <p>5% discount for returning customers</p>
-            </div>
-          </li>
+          <% }) %>
         </ul>
       </div>
     </section>
 
     <section class="rent-step-sect flex-row flex-wrap gap-lrg w100" id="step4">
       <input type="radio" name="stepsect" value="s4" hidden>
-      <div class="rent-invoice" id="rentInvoice">
+      <div class="rent-invoice flex-col" id="rentInvoice">
         <div class="flex-row center-start gap-min">
           <i class="fa-solid fa-file-invoice"></i>
           <h1>Invoice</h1>
@@ -619,18 +604,17 @@
           <div class="flex-col bill-head w100">
             <h2>Bill Informations</h2>
             <p class="currence plat-text">#<%= rent_id %></p>
+            <input id="billUUID" type="text" value="<%= rent_id %>" hidden>
           </div>
           <div class="flex-col w100 bill-body">
             <div class="flex-row w100 gap-lrg">
               <div class="flex-col w50">
                 <span class="username">Tenant</span>
                 <ul class="bill-inf" id="tentantInfo">
-                  <li id="invUname"><%= user?user.fname:"Firstname"%> <%= user?user.lname:"Lastname"%></li>
-                  <li id="invUwilaya" class="address">Wilaya: <%= user?user.wilaya:"Wilaya"%></li>
-                  <li id="invUcity" class="address">City: <%= user?user.city:"City"%></li>
-                  <li id="invUaddress" class="address">Address: <%= user?user.address:"Address"%></li>
-                  <li id="invUemail" class="address">Email: <%= user?user.email:"Exemple@exemple.exe"%></li>
-                  <li id="invUphone" class="address">Phone: <%= user?user.phone:"+213xxxxxxxxx"%></li>
+                  <li><span id="invUfname"><%= user?user.fname:"Firstname"%></span> <span id="invUlname"><%= user?user.lname:"Lastname"%></span></li>
+                  <li class="address">Address:  <span id="invUwilaya"><%= user?user.wilaya:"Wilaya"%></span>, <span id="invUcity"><%= user?user.city:"City"%></span>, <span id="invUaddress"><%= user?user.address:"Address"%></span></li>
+                  <li class="address">Email: <span id="invUemail"><%= user?user.email:"Exemple@exemple.exe"%></span></li>
+                  <li class="address">Phone: <span id="invUphone"><%= user?user.phone:"+213xxxxxxxxx"%></span></li>
                 </ul>
               </div>
               <div class="flex-col w50">
@@ -711,6 +695,9 @@
             <p><span id="totalBillAmountDis">200,000.00</span> <span class="currence">DZD</span></p>
           </div>
         </div>
+        <div class="flex-row end-center w100" style="margin-top: auto;">
+          <button class="bt-hover" id="confirmBut">Confirm</button>
+        </div>
       </div>
       <div class="flex-col gap-lrg rent-payment">
         <div class="rent-pay-meth">
@@ -773,12 +760,9 @@
       </div>
     </section>
 
-    <section class="rent-step-sect flex-row flex-wrap gap-lrg w100" id="step5">
-      <input type="radio" name="stepsect" value="s5" hidden>
-    </section>
-
   </main>
 
+  <script src="/js/main.js"></script>
   <script src="/js/darkmode.js"></script>
   <script src="/lib/node_modules/gsap/dist/gsap.min.js"></script>
   <script src="/lib/node_modules/gsap/dist/ScrollTrigger.min.js"></script>

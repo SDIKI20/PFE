@@ -1,3 +1,9 @@
+const queryString = window.location.search;
+const params = new URLSearchParams(queryString);
+
+const forPick = params.get('pickupdate')
+const forRetu = params.get('returndate')
+
 function formatMoney(amount, decimals = 2) {
     amount = parseFloat(amount);
   
@@ -11,6 +17,12 @@ function formatMoney(amount, decimals = 2) {
   
     return `${integerPart}.${decimalPart}`;
 }
+
+const billUUID =  document.getElementById('billUUID')
+
+let fees = 0
+let discountsJSON = {}
+let additionsJSON = {}
 
 const stepMax = document.querySelectorAll('.rent-step-sect').length;
 const stepPrev = document.getElementById('stepPrev');
@@ -113,8 +125,8 @@ if (rentalType === 'h') {
   pickupInput.type = 'datetime-local';
   returnInput.type = 'datetime-local';
 
-  pickupInput.value = toDatetimeLocalString(fullPickupDate);
-  returnInput.value = toDatetimeLocalString(fullReturnDate);
+  pickupInput.value = forPick?toDatetimeLocalString(new Date(forPick)):toDatetimeLocalString(fullPickupDate);
+  returnInput.value = forRetu?toDatetimeLocalString(new Date(forRetu)):toDatetimeLocalString(fullReturnDate);
 
   pickupInput.min = toDatetimeLocalString(now);
   returnInput.min = toDatetimeLocalString(fullPickupDate);
@@ -122,8 +134,8 @@ if (rentalType === 'h') {
   endOfDay.setHours(23, 59, 59, 999);
   returnInput.max = toDatetimeLocalString(endOfDay);
 
-  pickupText.textContent = formatDateTime(fullPickupDate);
-  returnText.textContent = formatDateTime(fullReturnDate);
+  pickupText.textContent = forPick?formatDateTime(new Date(forPick)):formatDateTime(fullPickupDate);
+  returnText.textContent = forRetu?formatDateTime(new Date(forRetu)):formatDateTime(fullReturnDate);
 
   pickupDateString = formatToSqlDateTime(fullPickupDate);
   returnDateString = formatToSqlDateTime(fullReturnDate);
@@ -134,14 +146,14 @@ if (rentalType === 'h') {
   pickupInput.type = 'datetime-local';
   returnInput.type = 'datetime-local';
 
-  pickupInput.value = toDatetimeLocalString(pickupDate);
-  returnInput.value = toDatetimeLocalString(returnDate);
+  pickupInput.value = forPick?toDatetimeLocalString(new Date(forPick)):toDatetimeLocalString(pickupDate);
+  returnInput.value = forRetu?toDatetimeLocalString(new Date(forRetu)):toDatetimeLocalString(returnDate);
 
   pickupInput.min = toDatetimeLocalString(pickupDate);
   returnInput.min = toDatetimeLocalString(pickupDate);
 
-  pickupText.textContent = formatDateTime(pickupDate);
-  returnText.textContent = formatDateTime(returnDate);
+  pickupText.textContent = forPick?formatDateTime(new Date(forPick)):formatDateTime(pickupDate);
+  returnText.textContent = forRetu?formatDateTime(new Date(forRetu)):formatDateTime(returnDate);
 
   pickupDateString = formatToSqlDateTime(pickupDate);
   returnDateString = formatToSqlDateTime(returnDate);
@@ -188,6 +200,7 @@ returnInput.addEventListener('change', () => {
 });
 
 const vid = document.getElementById('vid')
+const uid = document.getElementById('uid')
 
 const avLoader = document.getElementById('avLoader')
 
@@ -272,7 +285,9 @@ const totalBillAmount = document.getElementById('totalBillAmount')
 const billDiscounts = document.getElementById('billDiscounts')
 
 const updateInvoice = () => {
-
+  fees = 0
+  let featureAR = []
+  let discountsAR = []
   const returnD = returnInput.value
   const pickupD = pickupInput.value
   
@@ -297,6 +312,7 @@ const updateInvoice = () => {
 
   const driver = document.querySelector('input[name="driveron"]:checked')
   const isDriver = driver.value === "driver"
+  fees+= isDriver?500:0
 
   const driverCoast = isDriver?`
     <div class="bill-row bill-det">
@@ -307,6 +323,10 @@ const updateInvoice = () => {
         </div>
   `:""
 
+  if(isDriver){
+    appendItem(featureAR, {name: "Driver", quantity: 1, price: 500.00})
+  }
+
   const insur = document.querySelector('input[name="insure"]:checked').parentElement.parentElement.parentElement
   const insurance = parseFloat(insur.children[0].value)
   finalPrice += insurance
@@ -316,10 +336,13 @@ const updateInvoice = () => {
   let featuresBill = ``
 
   if (features.length > 0){
+    let featureJS = {}
     features.forEach(feature=>{
       const featName = feature.parentElement.parentElement.children[3].children[0].textContent    
       const featPrice = feature.parentElement.parentElement.children[0].value
+      fees+= parseFloat(featPrice)
       const featQuantity = 1
+      appendItem(featureAR, {name: featName.trim(), quantity: 1, price: parseFloat(featPrice)})
       featuresBill += `
         <div class="bill-row bill-det">
           <p>${featName}</p>
@@ -340,6 +363,7 @@ const updateInvoice = () => {
     discounts.forEach(discount=>{
       const discountName = discount.children[2].children[0].textContent
       const discountValue = discount.children[0].value
+      appendItem(discountsAR, {name: discountName.trim(), value: discountValue})
       discountsBill +=`
         <div class="flex-row center-spacebet bill-discount">
             <p></p>
@@ -355,12 +379,10 @@ const updateInvoice = () => {
   finalPrice -= finalPrice * discountPer / 100
   
   tentantInfo.innerHTML = `
-    <li id="invUname"> ${username}</li>
-    <li id="invUwilaya" class="address">Wilaya: ${wilaya}</li>
-    <li id="invUcity" class="address">City: ${city}</li>
-    <li id="invUaddress" class="address">Address: ${address}</li>
-    <li id="invUemail" class="address">Email: ${email}</li>
-    <li id="invUphone" class="address">Phone: ${phonenum}</li>
+    <li><span id="invUfname">${username.split(' ')[0]}</span> <span id="invUlname">${username.split(' ')[1]}</span></li>
+    <li class="address">Address:  <span id="invUwilaya">${wilaya}</span>, <span id="invUcity">${city}</span>, <span id="invUaddress">${address}</span></li>
+    <li class="address">Email: <span id="invUemail">${email}</span></li>
+    <li class="address">Phone: <span id="invUphone">${phonenum}</span></li>
   `
 
   rentalInfo.innerHTML = `
@@ -399,11 +421,14 @@ const updateInvoice = () => {
       ${discountsBill}
       <div class="flex-row center-spacebet">
         <p></p>
-        <p><span id="totalBillAmountDis">${formatMoney(finalPrice, 2)}</span> <span class="currence">DZD</span></p>
-      </div>
+        <p><span id="totalBillAmountDis">${finalPrice>0?formatMoney(finalPrice, 2):0}</span> <span class="currence">DZD</span></p>
+        <input id="invAmnt" type="number" hidden value="${finalPrice>0?finalPrice:0}"/>
+       </div>
     `
   }
 
+  additionsJSON.additions = featureAR
+  discountsJSON.discounts = discountsAR
 }
 
 stepNext.addEventListener('click', nextStep);
@@ -413,3 +438,172 @@ checkBut.addEventListener('click', updateStat)
 
 updateStat()
 
+const checkCoupon = async (code) => {
+  try {
+    const u = new URL(`${window.location.origin}/api/discounts/coupon/check`);
+    u.searchParams.set("code", code);
+
+    const response = await fetch(u);
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      const message = errorData.message || errorData.error || "Unknown error occurred";
+      throw new Error(message);
+    }
+
+    const { result } = await response.json();
+    return { result };
+    
+  } catch (error) {
+    console.error("Failed to fetch coupon:", error);
+    pushNotif("e", error.message);
+    return null;
+  }
+};
+
+const getCouponInfo = async (code) => {
+    try {
+    const u = new URL(`${window.location.origin}/api/discounts/coupon/info`);
+    u.searchParams.set("code", code);
+
+    const response = await fetch(u);
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      const message = errorData.message || errorData.error || "Unknown error occurred";
+      throw new Error(message);
+    }
+
+    const { result } = await response.json();
+    return { result };
+    
+  } catch (error) {
+    console.error("Failed to fetch coupon:", error);
+    pushNotif("e", error.message);
+    return null;
+  }
+}
+
+const applyPromo = document.getElementById('applyPromo')
+const couponCode = document.getElementById('promoCode')
+const couponsContainer = document.getElementById('couponsContainer')
+const discountsList = document.querySelector('.discounts-list')
+applyPromo.addEventListener('click', ()=>{
+  const cCode = couponCode.value
+  checkCoupon(cCode).then(data=>{
+    if(data){
+      if(data.result){
+        getCouponInfo(cCode).then(data=>{
+          if (data.result){
+            const info = data.result
+            const couponEl = document.createElement('div')
+            couponEl.classList.add('coupon')
+            couponEl.id = cCode
+            couponEl.innerHTML = `
+              <div class="flex-col flex-center">
+              </div>
+              <div class="flex-col flex-center">
+                <p>${info.name}</p>
+                <h6>${info.value}%</h6>
+                <p>Expired on ${formatDate(info.expires_at)}</p>
+              </div>
+            `
+            const promoEl = document.createElement('li')
+            promoEl.classList.add("discount-el", "flex-row", "center-start", "w100", "gap-lrg")
+            promoEl.innerHTML = `
+              <input type="number" value="${info.value}" hidden>
+              <i class="fa-solid fa-gift"></i>
+              <div class="flex-col">
+                <h6>${info.name}</h6>
+                <p>${info.description}</p>
+              </div>
+            `
+
+            if(couponsContainer.children.length <= 0){
+              couponsContainer.appendChild(couponEl)
+              discountsList.appendChild(promoEl)
+              pushNotif("s", "Coupon added!")
+              couponCode.value = ""
+              gsap.set(couponEl, { opacity: 0, x: 100 });
+              gsap.to(couponEl, { opacity: 1, x: 0, stagger: 0.1 });
+              gsap.set(promoEl, { opacity: 0, y: 100 });
+              gsap.to(promoEl, { opacity: 1, y: 0, stagger: 0.1 });
+            }else{
+              test = true
+              Array.from(couponsContainer.children).forEach(co=>{
+                if(co.id == cCode){
+                  pushNotif("e", "Coupon already used")
+                  test = false
+                }
+              })
+              if(test){
+                couponsContainer.appendChild(couponEl)
+                discountsList.appendChild(promoEl)
+                pushNotif("s", "Coupon added!")
+                couponCode.value = ""
+                gsap.set(couponEl, { opacity: 0, x: 100 });
+                gsap.to(couponEl, { opacity: 1, x: 0, stagger: 0.1 });
+                gsap.set(promoEl, { opacity: 0, y: 100 });
+                gsap.to(promoEl, { opacity: 1, y: 0, stagger: 0.1 });
+              }
+            }
+          }
+        })
+      }else{
+        pushNotif('w', "Coupon has expired or usage limit has been reached")
+      }
+    }
+  })
+})
+
+document.getElementById('confirmBut').addEventListener('click', async () => {
+  const vehicle_id = parseInt(vid.value);
+  const user_id = parseInt(uid.value);
+  const pd = pickupInput.value;
+  const rd = returnInput.value;
+  const amount = parseFloat(invAmnt.value);
+  const isure = parseFloat(document.querySelector('input[name="insure"]:checked').parentElement.parentElement.parentElement.children[0].value);
+  const paymeth = document.querySelector('input[name="methode"]:checked').value;
+
+  const payload = {
+    vid: vehicle_id,
+    uid: user_id,
+    pd: pd,
+    rd: rd,
+    amount: amount,
+    isure: isure,
+    fees: fees,
+    bid: billUUID.value,
+    discounts: discountsJSON,
+    additions: additionsJSON,
+    paymeth: parseInt(paymeth)
+  };
+
+  const result = await confirm(false, "Confirm Action", "Are you sure you want to proceed?");
+  if (result) {
+    openLoader();
+    try {
+      const res = await fetch(`${window.location.origin}/api/orders/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        closeLoader();
+        window.location.href = "/rentals";
+      } else {
+        closeLoader();
+        pushNotif("e", data.error);
+        console.error(`Error: ${data.error}`);
+      }
+    } catch (err) {
+      closeLoader();
+      pushNotif("e", "Something went wrong!");
+      console.error(err);
+    }
+  }
+});

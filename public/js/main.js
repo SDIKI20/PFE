@@ -513,7 +513,6 @@ function capitalizeFirstChar(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-
 function animateNumber(targetElement, start, end, duration) {
     const element = document.getElementById(targetElement);
     const startTime = performance.now();

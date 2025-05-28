@@ -877,7 +877,6 @@ body{
 }
 
 .bill-total{
-    margin-top: auto;
     padding: 0 0.625em;
 }
 
@@ -895,6 +894,12 @@ body{
     font-size: var(--font-sml);
 }
 
-#step5{
-    background-color: black;
+#confirmBut{
+    color: white;
+    background-color: var(--color-second);
+    height: 2.5em;
+    padding: 0 1em;
+    font-size: var(--font-sml);
+    border-radius: 5px;
+    border: none;
 }

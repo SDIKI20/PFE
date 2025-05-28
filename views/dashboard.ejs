@@ -129,35 +129,66 @@
         <% if (section==='discounts' ){ %>
             <section class="content-section flex-col" id="discounts">
                 <div id="couponEditor" class="popup-container flex-row flex-center">
-                    <div class="editor-container flex-col">
+                    <form class="editor-container flex-col" enctype="multipart/form-data" id="addCoupForm">
                         <i class="fa-solid fa-xmark bt-hover" id="couponEditorClose"></i>
                         <h1> <i class="fa-solid fa-percent"></i> Add Discount</h1>
                         <div class="flex-col w100 labled" style="margin-top: 1em;">
                             <label for="">Name: </label>
-                            <input type="text" placeholder="Enter name">
+                            <input type="text" placeholder="Enter name" id="disName" required>
                         </div>
                         <div class="flex-row center-start w100 gap-lrg">
                             <div class="flex-col w50 labled">
                                 <label for="">Type: </label>
-                                <select>
+                                <select id="discountType" required>
                                     <option value="discount">Discount</option>
                                     <option value="coupon">Coupon</option>
                                 </select>
                             </div>
-                            <div class="flex-col labled">
+                            <div class="flex-col labled disabled" id="coupCoder">
                                 <label for="">Code: </label>
                                 <div class="flex-row center-start gap-min">
-                                    <input type="text">
-                                    <button class="bt bt-hover bt-reg">Generate</button>
+                                    <input disabled type="text">
+                                    <button type="button" disabled class="bt bt-hover bt-reg" id="generateCouponCode">Generate</button>
                                 </div>
                             </div>
                         </div>
+                        <div class="flex-row center-start w100 gap-lrg">
+                            <div class="flex-col w50 labled">
+                                <label for="">Discount Type: </label>
+                                <select>
+                                    <option value="percent">Percentage <span class="currence">(%)</span></option>
+                                    <option value="currence">Currence <span class="currence">(DZD)</span></option>
+                                </select>
+                            </div>
+                            <div class="flex-col labled">
+                                <label for="">Value: </label>
+                                <div class="flex-row center-start gap-min" required>
+                                    <input type="number" min="0" id="discountVal">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-row center-start w100 gap-lrg">
+                            <div class="flex-col w50 labled">
+                                <label for="">Expiration Date: </label>
+                                <input type="datetime-local" id="expireDate" required>
+                            </div>
+                            <div class="flex-col labled disabled" id="coupLimiter">
+                                <label for="">Limit Usage: </label>
+                                <div class="flex-row center-start gap-min">
+                                    <input type="number" min="0" id="discountLimit" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-col labled">
+                            <label for="">Description: </label>
+                            <textarea id="disdesc"></textarea>
+                        </div>
 
                         <div class="flex-row end-center gap-min w100" style="margin-top: auto;">
-                            <button class="bt bt-hover bt-reg" id="editorCancel">Cancel</button>
-                            <button class="bt bt-hover bt-reg" id="editorAdd">Add</button>
+                            <button type="button" class="bt bt-hover bt-reg" id="editorCancel">Cancel</button>
+                            <button type="submit" class="bt bt-hover bt-reg" id="editorAdd">Add</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="flex-row center-start dash-path gap-min">
                     <i class="path-text fa-solid fa-house"></i>
