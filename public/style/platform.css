@@ -1881,6 +1881,16 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     background-color: rgba(216, 98, 83, 0.116);
 }
 
+.returning{
+  background-color: rgba(255, 111, 0, 0.104);
+  color: rgb(255, 111, 0) !important;
+}
+
+.approved{
+  background-color: rgba(26, 142, 95, 0.104);
+  color: rgb(41, 153, 114) !important;
+}
+
 .rental-price{
     color: var(--text);
     font-weight: bold;
@@ -2486,4 +2496,15 @@ time{
 /*----------------------------------------------------*/
 
 /*--------------------Profile Section------------------*/
+
+#userEditor{
+    visibility: visible;
+}
+
+.user-editor{
+    background-color: var(--container);
+    width: 600px;
+    height: fit-content;
+}
+
 /*----------------------------------------------------*/

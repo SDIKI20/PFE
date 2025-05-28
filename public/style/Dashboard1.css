@@ -1712,6 +1712,14 @@ tr:hover {
   background-color: rgba(72, 139, 76, 0.9);
 }
 
+.ret{
+  background-color: rgba(255, 111, 0, 0.9);
+}
+
+.app{
+  background-color: rgba(41, 153, 114, 0.9);
+}
+
 .atv{
   background-color: rgba(94, 126, 202, 0.9);
 }
@@ -1754,7 +1762,7 @@ tr:hover {
 
 .rt-row{
   display: grid;
-  grid-template-columns: 4em repeat(2, 13em) repeat(4, 10em) 1fr;
+  grid-template-columns: 4em repeat(2, 13em) repeat(4, 10em) 8em 1fr;
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
@@ -1798,9 +1806,19 @@ tr:hover {
   border-radius: 5px;
 }
 
+.rt-returning{
+  background-color: rgba(255, 111, 0, 0.104);
+  color: rgb(255, 111, 0) !important;
+}
+
 .rt-pending{
   background-color: rgba(128, 128, 128, 0.104);
   color: grey !important;
+}
+
+.rt-approved{
+  background-color: rgba(26, 142, 95, 0.104);
+  color: rgb(41, 153, 114) !important;
 }
 
 .rt-active,
@@ -2730,6 +2748,33 @@ tr:hover {
   margin-top: 0.325em;
   color: var(--text);
   font-size: var(--font-sml);
+}
+
+.bt-invoice,
+.bt-confirm,
+.bt-delete,
+.bt-return{
+  font-size: var(--font-med);
+}
+
+.bt-hidden{
+  display: none;
+}
+
+.bt-invoice{
+  color: var(--text);
+}
+
+.bt-confirm{
+  color: #2d659a;
+}
+
+.bt-delete{
+  color: #e53935;
+}
+
+.bt-return{
+  color: #35955b;
 }
 
 /*-----------------------------------------------------*/
