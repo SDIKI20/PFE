@@ -363,6 +363,7 @@ CREATE TABLE reports (
 CREATE TABLE coupons (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL DEFAULT 'Coupon',
+  description VARCHAR(255) NOT NULL DEFAULT 'coupon',
   code VARCHAR(30) UNIQUE NOT NULL,
   value INTEGER NOT NULL,
   usage_limit INT DEFAULT 1,
