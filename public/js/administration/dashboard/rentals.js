@@ -344,7 +344,7 @@ const refrechStats = async (period) => {
 
 const refrechContent =  ()=>{
     refrechOrdersTable()
-    drawGraph1(30)
+    drawGraph1(60)
     drawGraph2(5)
     refrechStats(365)
 }

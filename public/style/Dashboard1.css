@@ -1806,7 +1806,8 @@ tr:hover {
   border-radius: 5px;
 }
 
-.rt-returning{
+.rt-returning,
+.dbm-returning{
   background-color: rgba(255, 111, 0, 0.104);
   color: rgb(255, 111, 0) !important;
 }
@@ -1816,7 +1817,8 @@ tr:hover {
   color: grey !important;
 }
 
-.rt-approved{
+.rt-approved
+.dbm-approved{
   background-color: rgba(26, 142, 95, 0.104);
   color: rgb(41, 153, 114) !important;
 }

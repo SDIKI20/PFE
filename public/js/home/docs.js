@@ -169,14 +169,16 @@ async function verifyCode() {
   }
 }
 
-document.getElementById('uploadDocsClose').addEventListener('click', ()=>{
-  try{
+try {
+    
+    document.getElementById('uploadDocsClose').addEventListener('click', ()=>{
+        try{
     document.querySelector('.overtop-conf').style.display = "none"
-  }catch(error){}
+}catch(error){}
 })
 
 document.querySelector('.custum-file-upload').addEventListener('click', ()=>{
-  document.getElementById('upDocsContainer').style.display = "flex"
+    document.getElementById('upDocsContainer').style.display = "flex"
 })
 
 var upfilefront
@@ -206,3 +208,126 @@ document.getElementById("upback").addEventListener('change', function() {
 document.getElementById('upDocForm').addEventListener('submit', ()=> {
   openLoader()
 })
+} catch (error) {}
+
+userEditor = document.getElementById('userEditor')
+
+const openEditor = () => {
+    try {
+        userEditor.style.visibility = "visible"   
+        gsap.set(".user-editor", { y: 100, opacity: 0});
+        gsap.to(".user-editor", { y: 0, opacity: 1});
+    } catch (error) {}
+}
+
+const closeEditor = () => {
+    try {
+        gsap.to(".user-editor", { y: -100, opacity: 0});
+        setTimeout(() => {
+            userEditor.style.visibility = "hidden"   
+        }, 400);
+    } catch (error) {}
+}
+document.querySelectorAll(".editButInp").forEach(edb=>{
+    edb.addEventListener('click', openEditor)
+})
+document.getElementById('userUpCancel').addEventListener('click', closeEditor)
+document.getElementById('userEditorClose').addEventListener('click', closeEditor)
+
+const fnameInp = document.getElementById('fname')
+const lnameInp = document.getElementById('lname')
+const wilayaInp = document.getElementById('wilaya')
+const cityInp = document.getElementById('city')
+const addressInp = document.getElementById('address')
+const usernameInp = document.getElementById('username')
+const emailInp = document.getElementById('email')
+const phoneInp = document.getElementById('phone')
+const UID = document.getElementById('UID')
+
+validInput("phone", "ph")
+validInput("username", "u")
+validInput("fname", "n")
+validInput("lname", "n")
+
+
+document.getElementById('userUpUpdate').addEventListener('click', async (e)=>{
+    e.preventDefault()
+    try {
+        openLoader()
+        let u = new URL(`${window.location.origin}/api/users/update`);
+
+        let params = u.searchParams;
+
+        params.set("uid", UID.value);
+        params.set("fname", fnameInp.value);
+        params.set("lname", lnameInp.value);
+        params.set("phone", phoneInp.value);
+        params.set("wilaya", wilayaInp.value);
+        params.set("city", cityInp.value);
+        params.set("address", addressInp.value);
+        params.set("username", usernameInp.value);
+
+        u.search = params.toString();
+        const response = await fetch(u);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const { 
+            message
+        } = await response.json();
+        closeLoader()
+        pushNotif("s", message)
+        closeEditor()
+    } catch (error) {
+        closeLoader()
+        console.error("Failed to update infos:", error);
+        pushNotif("e", "Something went wrong!");
+        return null;
+    }
+})
+
+
+fnameInp.addEventListener('change', ()=>{
+    if (!isName(fnameInp.value)) {
+        inputErrors("Invalid First name", checkName(fnameInp.value));
+    }    
+})
+
+lnameInp.addEventListener('change', ()=>{
+    if (!isName(lnameInp.value)) {
+        inputErrors("Invalid Last name", checkName(lnameInp.value));
+    }    
+})
+
+phone.addEventListener('change', ()=>{
+    if (!isValidPhone(phone.value)) {
+        inputErrors("Invalid Phone number", checkPhone(phone.value));
+    }    
+})
+
+const wilayas = document.getElementById('wilayaList');
+const cityDatalist = document.getElementById('cities');
+
+wilayaInp.addEventListener('change', async () => {
+    const userValue = wilayaInp.value;
+    const options = Array.from(wilayas.options).map(option => option.value);
+
+    if (options.includes(userValue)) {
+        try {
+            const response = await fetch(`${window.location.origin}/city/${userValue}`);
+            const cities = await response.json(); 
+
+            cityDatalist.innerHTML = '';
+
+            cities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city.name;
+                cityDatalist.appendChild(option);
+            });
+
+        } catch (error) {
+            pushNotif("e", "Something went wrong");
+        }
+    } else {
+        console.log('User entered a custom value:', userValue);
+    }
+});

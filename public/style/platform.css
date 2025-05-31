@@ -2496,11 +2496,6 @@ time{
 /*----------------------------------------------------*/
 
 /*--------------------Profile Section------------------*/
-
-#userEditor{
-    visibility: visible;
-}
-
 .user-editor{
     background-color: var(--container);
     width: 600px;
@@ -2558,7 +2553,7 @@ time{
     top: 1em;
     right: 1em;
     z-index: 10;
-    color: re;
+    color: var(--text);
 }
 
 

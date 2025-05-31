@@ -738,7 +738,9 @@ app.get("/docs",checkNotAuth, async (req, res) => {
         const userId = req.user ? req.user.id : null;
         const userNewbie = await pool.query("SELECT * FROM newbie WHERE user_id = $1", [userId]);
         const newbie = userNewbie.rows[0];
-        res.render("home", { user: req.user, newbie:newbie, section : "docs" });
+        const wilayas = await pool.query("SELECT * FROM wilaya WHERE 1=1");
+        const wilaya = wilayas.rows;
+        res.render("home", { user: req.user, newbie:newbie, wilaya:wilaya, section : "docs" });
     }catch(error){
         console.error(error);
         res.status(500).render("p404");
@@ -793,7 +795,7 @@ app.get("/help", (req, res) => {
     }
 })
 
-app.get("/rent/:vid", async (req, res) => {
+app.get("/rent/:vid", checkNotAuth, async (req, res) => {
     try {
         const { vid } = req.params;
         const userId = req.user ? req.user.id : null;
@@ -876,7 +878,7 @@ app.get("/rent/:vid", async (req, res) => {
 
 /*---------------------------------------------------------*/
 
-app.get('/rental/list', (req, res) => {
+app.get('/rental/list', checkNotAuth, (req, res) => {
     try{
     res.render("dashboard",{user: req.user, section:"rental", subsection:"listrental"})
     }catch(error){
@@ -885,7 +887,7 @@ app.get('/rental/list', (req, res) => {
     }
 })
 
-app.get('/rental/orders', (req, res) => {
+app.get('/rental/orders', checkNotAuth, (req, res) => {
     try{
     res.render("dashboard",{user: req.user, section:"rental", subsection:"ordersrentals"})
     }catch(error){
@@ -894,7 +896,7 @@ app.get('/rental/orders', (req, res) => {
     }
 })
 
-app.get('/rental/return', (req, res) => {
+app.get('/rental/return', checkNotAuth, (req, res) => {
     try{
     res.render("dashboard",{user: req.user, section:"rental", subsection:"returnrentals"})
     }catch(error){
@@ -903,7 +905,7 @@ app.get('/rental/return', (req, res) => {
     }
 })
 
-app.get('/report',(req, res) => {
+app.get('/report', checkNotAuth, (req, res) => {
     try{
     res.render("dashboard",{user: req.user, section:"report", subsection:"report"})
     }catch(error){
@@ -912,7 +914,7 @@ app.get('/report',(req, res) => {
     }
 })
 
-app.get("/settings", async (req, res) => {
+app.get("/settings", checkNotAuth, async (req, res) => {
     res.render("dashboard", {section:"settings"})
 })
 
@@ -925,27 +927,27 @@ app.get('/dbm', checkNotAuth, async (req, res) => {
     }
 })
 
-app.get("/dashboard", async (req, res) => {
+app.get("/dashboard", checkNotAuth, async (req, res) => {
     res.render("dashboard", {section:"dashboard", subsection:"dashoverview", user:req.user})
 })
 
-app.get("/dashboard/overview", async (req, res) => {
+app.get("/dashboard/overview", checkNotAuth, async (req, res) => {
     res.render("dashboard", {section:"dashboard", subsection:"dashoverview", user:req.user})
 })
 
-app.get("/dashboard/rentals", async (req, res) => {
+app.get("/dashboard/rentals", checkNotAuth, async (req, res) => {
     res.render("dashboard", {section:"dashboard", subsection:"rentals", user:req.user})
 })
 
-app.get("/dashboard/clients", async (req, res) => {
+app.get("/dashboard/clients", checkNotAuth, async (req, res) => {
     res.render("dashboard", {section:"dashboard", subsection:"dashboardclients", user:req.user})
 })
 
-app.get("/dashboard/vehicles", async (req, res) => {
+app.get("/dashboard/vehicles", checkNotAuth, async (req, res) => {
     res.render("dashboard", {section:"dashboard", subsection:"dashboardvehicles", user:req.user})
 })
 
-app.get('/vehicles', async (req, res) => {
+app.get('/vehicles', checkNotAuth, async (req, res) => {
     try{
         res.render("dashboard",{user: req.user, 
             section:"vehicles", 
@@ -957,7 +959,7 @@ app.get('/vehicles', async (req, res) => {
     }
 })
 
-app.get('/vehicles/add', async (req, res) => {
+app.get('/vehicles/add', checkNotAuth, async (req, res) => {
     try{
         const fuelResult = await pool.query(`SELECT unnest(enum_range(NULL::fuel_type))`);
         const fuelTypes = fuelResult.rows.length > 0 ? fuelResult.rows : null;
@@ -1082,7 +1084,7 @@ app.post("/addvehicle",
     }
 });
 
-app.get('/vehicles/list', async (req, res) => {
+app.get('/vehicles/list', checkNotAuth, async (req, res) => {
     try{
         const fuelResult = await pool.query(`SELECT unnest(enum_range(NULL::fuel_type))`);
         const fuelTypes = fuelResult.rows.length > 0 ? fuelResult.rows : null;
@@ -1107,7 +1109,7 @@ app.get('/vehicles/list', async (req, res) => {
     }
 })
 
-app.get('/vehicles/brands/add', async (req, res) => {
+app.get('/vehicles/brands/add', checkNotAuth, async (req, res) => {
     try{
         res.render("dashboard",{user: req.user, 
             section:"vehicles", 
@@ -1119,7 +1121,7 @@ app.get('/vehicles/brands/add', async (req, res) => {
     }
 })
 
-app.get('/vehicles/types/add', async (req, res) => {
+app.get('/vehicles/types/add', checkNotAuth, async (req, res) => {
     try{
         res.render("dashboard",{user: req.user, 
             section:"vehicles", 
@@ -1131,7 +1133,7 @@ app.get('/vehicles/types/add', async (req, res) => {
     }
 })
 
-app.get('/discounts',(req, res) => {
+app.get('/discounts', checkNotAuth, (req, res) => {
     try{
       res.render("dashboard",{user: req.user, section:"discounts", subsection:""})
     }catch(error){
@@ -1140,7 +1142,7 @@ app.get('/discounts',(req, res) => {
     }
 })
 
-app.get('/clients',(req, res) => {
+app.get('/clients', checkNotAuth, (req, res) => {
     try{
       res.render("dashboard",{user: req.user, section:"clients", subsection:""})
     }catch(error){
@@ -1149,7 +1151,7 @@ app.get('/clients',(req, res) => {
     }
 })
 
-app.get('/clients/list', async (req, res) => {
+app.get('/clients/list', checkNotAuth, async (req, res) => {
     try{
         const wilayas = await pool.query("SELECT * FROM wilaya WHERE 1=1")
         res.render("dashboard",{user: req.user, section:"clients", subsection:"listclients", wilayas: wilayas.rows})
@@ -1159,7 +1161,7 @@ app.get('/clients/list', async (req, res) => {
     }
 })
 
-app.get('/clients/verification',(req, res) => {
+app.get('/clients/verification', checkNotAuth, (req, res) => {
     try{
       res.render("dashboard",{user: req.user, section:"clients", subsection:"listverification"})
     }catch(error){

@@ -116,6 +116,52 @@ const addFav = async (req, res) => {
     }
 };
 
+const updateUser = async (req, res) => {
+  const {
+    uid,
+    fname,
+    lname,
+    phone,
+    wilaya,
+    city,
+    address,
+    username
+  } = req.query
+  try {
+    
+    await pool.query(`
+      UPDATE 
+        users 
+      SET
+        fname = $2,
+        lname = $3,
+        phone = $4,
+        wilaya = $5,
+        city = $6,
+        address = $7,
+        username = $8
+      WHERE 
+        id = $1
+    `
+    ,[
+        uid,
+        fname,
+        lname,
+        phone,
+        wilaya,
+        city,
+        address,
+        username
+    ])
+
+    res.status(200).json({ message: "Updated successfully" });
+
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+ 
 const getRentals = async (req, res) => {
     try {
         const {
@@ -625,5 +671,6 @@ module.exports = {
     verifications,
     getStatics,
     updateStat,
-    getVerClients
+    getVerClients,
+    updateUser
 };

@@ -16,7 +16,8 @@ const {
     verifications,
     updateStat,
     getStatics,
-    getVerClients
+    getVerClients,
+    updateUser
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -35,6 +36,7 @@ router.delete("/deleteuser/:id", deleteuser);
 router.get("/getClients", getClients);
 router.get("/:uid/ban", banUser);
 router.get("/:uid/unban", unbanUser);
+router.get("/update", updateUser);
 router.get("/getEmployees", getEmployees);
 router.post("/newbie", newbie);
 router.get("/verfications", verifications);

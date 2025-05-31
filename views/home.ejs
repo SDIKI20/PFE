@@ -1375,6 +1375,7 @@
     <% if (section === 'docs') { %>
         <section class="plat-main-doc flex-col flex-center" id="docsDoc">
             <input type="radio" class="sectRad" hidden name="sectRad" id="sectDocs" checked>
+            <input type="number" id="UID" value="<%= user.id %>" hidden>
             <div class="flex-row flex-center popup-container" id="userEditor">
                 <form class="flex-col user-editor gap-lrg" >
                     <i class="fa-solid fa-xmark bt-hover" id="userEditorClose"></i>
@@ -1385,18 +1386,24 @@
                             <input type="text" name="fname" id="fname" value="<%= user.fname %>">
                         </div>
                         <div class="flex-col w50">
-                            <label for="fname">Last Name</label>
-                            <input type="text" name="fname" id="fname" value="<%= user.lname %>">
+                            <label for="lname">Last Name</label>
+                            <input type="text" name="lname" id="lname" value="<%= user.lname %>">
                         </div>
                     </div>
                     <div class="flex-row w100 center-start gap-lrg">
                         <div class="flex-col w50">
                             <label for="wilaya">Wilaya</label>
-                            <input type="text" name="wilaya" id="wilaya" value="<%= user.wilaya %>">
+                            <input type="text" name="wilaya" id="wilaya" value="<%= user.wilaya %>" list="wilayaList">
+                            <datalist id="wilayaList">
+                                <% if (wilaya) { wilaya.forEach(w => { %>
+                                    <option value="<%= w.name %>"><%= w.name %></option>
+                                <% })} %>
+                            </datalist>
                         </div>
                         <div class="flex-col w50">
                             <label for="city">City</label>
-                            <input type="text" name="city" id="city" value="<%= user.city %>">
+                            <input type="text" name="city" id="city" value="<%= user.city %>" list="cities">
+                            <datalist id="cities"></datalist>
                         </div>
                     </div>
                     <div class="flex-col w100">
@@ -1408,12 +1415,8 @@
                         <input type="text" name="username" id="username" value="<%= user.username %>">
                     </div>
                     <div class="flex-col w100">
-                        <label for="email">Email</label>
-                        <input type="text" name="email" id="email" value="<%= user.email %>">
-                    </div>
-                    <div class="flex-col w100">
                         <label for="phone">Phone Number</label>
-                        <input type="text" name="phone" id="phone" value="<%= user.phone %>">
+                        <input type="text" name="phone" id="phone" value="<%= user.phone%>">
                     </div>
                     <div class="flex-row end-center w100 gap-min">
                         <button type="button" class="bt bt-hover" id="userUpCancel">Cancel</button>
@@ -1433,7 +1436,7 @@
                             <div class="flex-col">
                                 <p id="accountStatus" class="account-stat-p <%= user.account_status?"Ver":"notVer" %>"><i class="fa-solid <%= user.account_status?"fa-circle-check":"fa-circle-exclamation" %>" style="margin: 0 5px;" title="<%= user.account_status?"Verified":"Not verified" %>"></i> <%= user.account_status?"Verified":"Not verified" %></p>
                                 <p class="account-stat-t"><%= user.fname %> <%= user.lname %><time>#<span id="userId"><%= user.id %></span></time></p>
-                                <time><%= new Date(user.birthdate).toLocaleDateString("en-US") %></time>
+                                <time><%= formatDate(user.birthdate) %></time>
                                 <time><%= user.role %></time>
                             </div>
                         </div>
@@ -1445,6 +1448,7 @@
                                 <div class="flex-row input-holder" style="height: 2.625rem;">
                                     <i class="fa-solid fa-globe"></i>
                                     <input type="text" disabled value="<%= user.country %>">
+                                    <i class="fa-solid fa-pen-to-square editButInp bt-hover" style="margin: 0 5px;"></i>
                                 </div>
                             </div>
                             <div class="flex-col" style="margin-left: 20px;">
@@ -1452,6 +1456,7 @@
                                 <div class="flex-row input-holder" style="height: 2.625rem;">
                                     <i class="fa-solid fa-map-location-dot"></i>
                                     <input type="text" disabled value="<%= user.wilaya %>">
+                                    <i class="fa-solid fa-pen-to-square editButInp bt-hover" style="margin: 0 5px;"></i>
                                 </div>
                             </div>
                         </div>
@@ -1461,6 +1466,7 @@
                                 <div class="flex-row input-holder" style="height: 2.625rem;">
                                     <i class="fa-solid fa-location-dot"></i>
                                     <input type="text" disabled value="<%= user.city %>">
+                                    <i class="fa-solid fa-pen-to-square editButInp bt-hover" style="margin: 0 5px;"></i>
                                 </div>
                             </div>
                             <div class="flex-col" style="margin-left: 20px;">
@@ -1468,6 +1474,7 @@
                                 <div class="flex-row input-holder" style="height: 2.625rem;">
                                     <i class="fa-solid fa-at"></i>
                                     <input type="text" disabled value="<%= user.address %>">
+                                    <i class="fa-solid fa-pen-to-square editButInp bt-hover" style="margin: 0 5px;"></i>
                                 </div>
                             </div>
                         </div>
