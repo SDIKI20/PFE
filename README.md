@@ -1,66 +1,66 @@
-# 🚗 Car Rental Management System (2025)
+🚗 Car Rental Management System (2025)
 
-![Car Rental Banner](banner.png)
 
-## 📖 Overview
-The **Car Rental Management System** is a full-stack web application designed to optimize vehicle rental operations in Algeria.  
-It provides a modern interface for both **clients** and **administrators**, ensuring a smooth experience for booking, managing, and monitoring car rentals.
 
-Built with **Node.js**, **Express**, **PostgreSQL**, **EJS**, and **Cloudinary**, this system ensures reliability, scalability, and secure access control.
 
----
 
-## 🖥️ Application Preview
 
-### 🏠 Home Page
-![Car Rental Banner](banner.png)
 
-### 🚘 User Dashboard
-![Dashboard Preview](dashboard_preview.png)
 
----
 
-## ⚙️ Tech Stack
-| Layer | Technology |
-|--------|-------------|
-| **Frontend** | EJS, HTML5, CSS3, JavaScript |
-| **Backend** | Node.js, Express.js |
-| **Database** | PostgreSQL |
-| **Authentication** | Passport.js, JWT |
-| **Cloud Storage** | Cloudinary |
-| **Notifications** | Twilio (SMS) & Nodemailer (Email) |
-| **Deployment** | Vercel / Render |
 
----
 
-## 🧩 Features
-✅ User registration and login with secure sessions  
-✅ Email and SMS verification (2FA)  
-✅ Vehicle browsing and filtering (brand, model, type, price, etc.)  
-✅ Rental booking and management  
-✅ Admin dashboard for managing cars, users, and rentals  
-✅ Automatic rental status updates  
-✅ Document upload and verification system  
-✅ Review and rating system  
-✅ Cloud-based image hosting (Cloudinary)  
 
----
+📖 Overview
 
-## 🧠 Installation & Setup
+The Car Rental Management System is a full-stack web application designed to optimize vehicle rental operations in Algeria.
+It provides a modern interface for both clients and administrators, ensuring a smooth experience for booking, managing, and monitoring car rentals.
 
-### 1️⃣ Clone the Repository
-```bash
+Built with Node.js, Express, PostgreSQL, EJS, and Cloudinary, this system ensures reliability, scalability, and secure access control.
+
+🖥️ Application Overview
+
+This platform offers an intuitive user interface for clients to browse vehicles, make reservations, and manage rental history.
+Administrators can manage vehicles, customers, pricing, and rental operations in real time.
+
+⚙️ Tech Stack
+Layer	Technology
+Frontend	EJS, HTML5, CSS3, JavaScript
+Backend	Node.js, Express.js
+Database	PostgreSQL
+Authentication	Passport.js, JWT
+Cloud Storage	Cloudinary
+Notifications	Twilio (SMS) & Nodemailer (Email)
+Deployment	Vercel / Render
+🧩 Features
+
+User registration and login with secure sessions
+
+Email and SMS verification (2FA)
+
+Vehicle browsing and filtering (brand, model, type, price, etc.)
+
+Rental booking and management
+
+Admin dashboard for managing cars, users, and rentals
+
+Automatic rental status updates
+
+Document upload and verification system
+
+Review and rating system
+
+Cloud-based image hosting (Cloudinary)
+
+🧠 Installation & Setup
+1️⃣ Clone the Repository
 git clone https://github.com/yourusername/car-rental-system.git
 cd car-rental-system
-```
 
-### 2️⃣ Install Dependencies
-```bash
+2️⃣ Install Dependencies
 npm install
-```
 
-### 3️⃣ Create `.env` File
-```env
+3️⃣ Create .env File
 DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/pfe12
 JWT_SECRET=your_jwt_secret
 EMAIL_USER=your_email@gmail.com
@@ -73,37 +73,26 @@ CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 PORT=4000
-```
 
-### 4️⃣ Run the Server
-```bash
+4️⃣ Run the Server
 npm start
-```
-Then open: `http://localhost:4000`
 
----
 
-## 📸 Screenshots
+Then open: http://localhost:4000
 
-| Section | Image |
-|----------|--------|
-| Home Page | ![banner](banner.png) |
-| User Dashboard | ![inscription](home_page.png) |
+🧑‍💻 Authors
 
----
+Developed by:
 
-## 🧑‍💻 Authors
-**Developed by:**  
-- **Ismail Sdiki** – Full Stack Developer  
-- **Oulhadj Oday** – Backend Engineer  
+Ismail Sdiki – Full Stack Developer
 
-📧 Contact: ismailsdiki5@gmail.com | oulhadjoday@gmail.com  
+Oulhadj Oday – Backend Engineer
 
----
+📧 Contact: ismailsdiki5@gmail.com
+ | oulhadjoday@gmail.com
 
-## 📜 License
-Licensed under the **MIT License** — free to use, modify, and distribute with attribution.
+📜 License
 
----
+Licensed under the MIT License — free to use, modify, and distribute with attribution.
 
-⭐ *If you found this project helpful, please give it a star on GitHub!* ⭐
+⭐ If you found this project helpful, please give it a star on GitHub! ⭐
