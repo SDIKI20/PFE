@@ -1,6 +1,6 @@
 # 🚗 Car Rental Management System (2025)
 
-![Car Rental Banner](./images/banner.png)
+![Car Rental Banner](banner.png)
 
 ## 📖 Overview
 The **Car Rental Management System** is a full-stack web application designed to optimize vehicle rental operations in Algeria.  
@@ -13,10 +13,10 @@ Built with **Node.js**, **Express**, **PostgreSQL**, **EJS**, and **Cloudinary**
 ## 🖥️ Application Preview
 
 ### 🏠 Home Page
-![Car Rental Banner](./images/banner.png)
+![Car Rental Banner](banner.png)
 
 ### 🚘 User Dashboard
-![Dashboard Preview](./images/dashboard_preview.png)
+![Dashboard Preview](dashboard_preview.png)
 
 ---
 
