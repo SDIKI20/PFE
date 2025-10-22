@@ -1,155 +1,126 @@
-# 🚗 Car Rental Management System (2025)
+# 🚗 Car Rental Management System - 2025
 
-![Car Rental Banner](https://cdn.dribbble.com/users/181428/screenshots/16895386/media/99c4bfc6cfb29fa62b9f2da9e515ad4d.png)
-
-## 📖 Overview
-The **Car Rental Management System** is a full-stack web application designed to streamline vehicle rental operations for both clients and administrators.  
-Built with **Node.js**, **Express**, **PostgreSQL**, and **EJS**, this platform provides a modern, responsive, and secure interface for managing vehicles, customers, rentals, payments, and user authentication.
+This project is a full‑stack **Car Rental Management System** built using **Node.js (Express)** and **PostgreSQL**. It enables administrators and clients to manage vehicles, rentals, user authentication, and document verification within a modern, secure web environment.
 
 ---
 
-## 🌐 Live Demo & Preview
-🎥 **Demo Video (Coming Soon)**  
-🖥️ Mockup Example:
-![Dashboard Preview](https://cdn.dribbble.com/users/1541795/screenshots/16548014/media/b72db295c1f22bfb728fb7e8f47135ea.png)
+## 🔹 Main Features
+
+- Secure user registration & authentication (Passport.js + sessions)
+- Role-based access control: **Admin**, **Employee**, **Client**
+- Vehicle management (create, read, update, delete)
+- Rental lifecycle: request, approve, active, returning, completed, canceled
+- Dynamic filtering and search (brand, model, price, transmission, capacity, etc.)
+- File uploads (Multer) + Cloud storage (Cloudinary)
+- Email notifications (Nodemailer) and SMS (Twilio)
+- Automatic status updates for rentals (scheduled job)
+- Reviews, ratings, favorites, and promo codes
+- JWT-based recovery links and token management
 
 ---
 
-## ⚙️ Tech Stack
-| Category | Technology |
-|-----------|-------------|
-| **Frontend** | EJS Templates, HTML5, CSS3, JavaScript |
-| **Backend** | Node.js, Express.js |
-| **Database** | PostgreSQL |
-| **Authentication** | Passport.js, JWT |
-| **Storage** | Cloudinary (Image Hosting) |
-| **SMS & Email** | Twilio, Nodemailer |
-| **Version Control** | Git & GitHub |
-| **Deployment** | Vercel / Render |
+## 🧰 Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Frontend | EJS, HTML5, CSS3, JavaScript |
+| Backend | Node.js, Express.js |
+| Database | PostgreSQL |
+| Authentication | Passport.js (local), JWT |
+| Storage | Cloudinary |
+| Messaging | Twilio, Nodemailer |
+| File Uploads | Multer |
+| Deployment | Vercel / Render / Heroku |
 
 ---
 
-## 🧩 Main Features
-✅ User authentication (Login, Signup, Logout)  
-✅ Email verification & 2FA via Twilio SMS  
-✅ Vehicle management (CRUD)  
-✅ Dynamic filters: brand, price, transmission, capacity, etc.  
-✅ Rental requests & approvals system  
-✅ Admin dashboard with analytics  
-✅ Automatic rental status update (Active / Returning / Canceled)  
-✅ File uploads using Multer + Cloudinary  
-✅ Flash messages & session handling  
-✅ Secure password hashing (bcrypt)  
+## ⚙️ Installation & Setup
 
----
-
-## 🏗️ System Architecture
-The following diagram illustrates the overall system architecture:
-
-![Architecture Diagram](https://cdn.dribbble.com/users/938590/screenshots/17336752/media/1880b6fd784c6b12b81b44e36db4df44.png)
-
----
-
-## 💾 Database Schema Overview
-Simplified view of main tables:
-
-| Table | Description |
-|--------|--------------|
-| `users` | Registered users and roles (Admin, Client) |
-| `vehicles` | Vehicle catalog with brand, color, specs |
-| `rentals` | Rental contracts linking users and vehicles |
-| `reviews` | Feedback and star ratings |
-| `favorites` | User favorite vehicles |
-| `promo` | Discounts and promo codes |
-| `office` | Company branch locations |
-
----
-
-## 🔐 Authentication Flow
-1. User registers and uploads ID documents.  
-2. Verification email + optional SMS via Twilio.  
-3. Upon success, user gains access to rental dashboard.  
-4. Login attempts are logged with timestamps & platform info.  
-5. Failed attempts trigger email notifications.
-
-![Login Flow](https://cdn.dribbble.com/users/799181/screenshots/17197167/media/27649d164fd8b6c19b1afbb1a8cd4b16.png)
-
----
-
-## 🧠 Installation & Setup
-
-### 1️⃣ Clone the Repository
+1. Clone repository
 ```bash
 git clone https://github.com/yourusername/car-rental-system.git
 cd car-rental-system
 ```
 
-### 2️⃣ Install Dependencies
+2. Install dependencies
 ```bash
 npm install
 ```
 
-### 3️⃣ Create `.env` File
-Create a `.env` file in the root directory with the following content:
-
+3. Environment variables
+Create a `.env` file in the project root with the following (example):
 ```env
 DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/pfe12
 JWT_SECRET=your_jwt_secret
 EMAIL_USER=your_email@gmail.com
 EMAIL_PASS=your_email_password
 TWILIO_SID=your_twilio_sid
-TWILIO_AUTH_TOKEN=your_twilio_token
+TWILIO_AUTH_TOKEN=your_twilio_auth_token
 TWILIO_PHONE=+1234567890
 SESSION_SECRET=your_session_secret
 CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 PORT=4000
 ```
 
-### 4️⃣ Run the Server
+4. Run the server
 ```bash
-npm start
+npm run dev    # for development (requires nodemon)
+npm start      # for production
 ```
-Server will start at: `http://localhost:4000`
+Open: `http://localhost:4000`
 
 ---
 
-## 📦 Scripts
+## 🛣️ API Routes Overview
 
-| Command | Description |
-|----------|--------------|
-| `npm start` | Run the production server |
-| `npm run dev` | Run server with nodemon for development |
-| `npm test` | Run Jest or Pytest (for API testing) |
+| Route | Purpose |
+|-------|---------|
+| `/api/users` | User registration, login, profile, verification |
+| `/api/email` | Email sending (verification, notifications) |
+| `/api/sms` | SMS verification (Twilio) |
+| `/api/orders` | Rentals: create, update, list, status changes |
+| `/api/feedback` | Reviews and ratings |
+| `/api/vehicles` | Vehicle CRUD and listings |
+| `/api/docs` | User document uploads & verification |
+| `/api/discounts` | Promo management |
 
 ---
 
-## 📸 Screenshots
+## 🔐 Security & Best Practices
 
-### 🏠 Home Page
-![Home Page](https://cdn.dribbble.com/userupload/6201143/file/original-97a5df9cf1c3c82e8f4e7e6e57d5e40b.png)
+- Use HTTPS in production
+- Hash passwords with **bcrypt**
+- Use sessions and secure cookies for authentication
+- Validate and sanitize all inputs before DB queries
+- Use parameterized queries (pg) to prevent SQL injection
+- Limit file upload types and sizes; validate on server
+- Rotate secrets and avoid committing `.env` to Git
 
-### 🚘 Vehicle List
-![Vehicle List](https://cdn.dribbble.com/userupload/6996145/file/original-51e2f303b90925b9f2f9330b93a5de0d.png)
+---
 
-### 📊 Admin Dashboard
-![Dashboard](https://cdn.dribbble.com/userupload/5805988/file/original-1929f3a9b4f8f3c2c03a3d4a6cf4cdb2.png)
+## 📦 Useful Scripts
+
+- `npm run dev` — start dev server with nodemon  
+- `npm start` — start production server  
+- `npm test` — run tests (if configured)
 
 ---
 
 ## 🧑‍💻 Authors
-**Developed by:**  
-- **Ismail Sdiki** – Frontend developer  
-- **Oulhadj Oday** – Fullstack developer  
 
-📧 Contact: ismailsdiki5@gmail.com | oulhadjoday@gmail.com  
+- **Ismail Sdiki** — Full Stack Developer  
+- **Oulhadj Oday** — Backend Engineer
+
+Contact: ismailsdiki5@gmail.com | oulhadjoday@gmail.com
 
 ---
 
 ## 📜 License
-This project is licensed under the **MIT License** – you’re free to use and modify it with proper attribution.
+
+This project is licensed under the **MIT License** — see `LICENSE` for details.
 
 ---
 
-⭐ *If you found this project helpful, please consider giving it a star on GitHub!* ⭐
+*Generated for 2025 — Prepared for GitHub & academic submission.*
