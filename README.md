@@ -110,7 +110,7 @@ Open: `http://localhost:4000`
 
 ## 🧑‍💻 Authors
 
-- **Ismail Sdiki** — [Frontend developer  
+- **Ismail Sdiki** — Frontend developer  
 - **Oulhadj Oday** — Full Stack Developer
 
 Contact: ismailsdiki5@gmail.com | oulhadjoday@gmail.com
