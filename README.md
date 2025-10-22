@@ -110,8 +110,8 @@ Open: `http://localhost:4000`
 
 ## 🧑‍💻 Authors
 
-- **Ismail Sdiki** — Full Stack Developer  
-- **Oulhadj Oday** — Backend Engineer
+- **Ismail Sdiki** — [Frontend developer  
+- **Oulhadj Oday** — Full Stack Developer
 
 Contact: ismailsdiki5@gmail.com | oulhadjoday@gmail.com
 
